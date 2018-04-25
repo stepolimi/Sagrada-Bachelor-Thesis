@@ -1,7 +1,10 @@
 package it.polimi.ingsw;
 
+import sun.font.TrueTypeFont;
+
 public class classe_prova {
-    public void chiamata() {
-        System.out.println("funziona anche con altre classi");
+    public boolean chiamata() {
+        boolean c = true;
+        return c;
     }
 }
