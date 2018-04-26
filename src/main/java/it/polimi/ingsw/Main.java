@@ -1,9 +1,10 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args)         throws IOException {
 
         Gson g = new Gson();
 
@@ -78,7 +79,13 @@ public class Main {
 
 
         Schema s = new Schema(4,t,"Kaleidoscopic Dream");
-        System.out.println(g.toJson(s));
+        System.out.println(g.toJson(s)+"\n");
+
+        int i;
+        i= 18;
+        Schema sch= new Schema();
+        sch.schemaInit(sch,i);
+
 
 
     }

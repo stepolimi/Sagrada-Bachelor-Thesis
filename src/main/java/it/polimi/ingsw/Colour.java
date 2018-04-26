@@ -9,9 +9,11 @@ public enum Colour {
     static final String RESET = "\u001B[0m";
 
     private String escape;
+
     Colour(String escape) {
         this.escape = escape;
     }
+
     public String escape() {
         return escape;
     }

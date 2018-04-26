@@ -11,6 +11,4 @@ public class TestUnit{
         classe_prova i= new classe_prova();
         assertTrue(i.chiamata());
     }
-
-
 }
