@@ -54,7 +54,6 @@ public class Dice {
     public void rollDice()                  //function used to "to launch " a dice
     {
         int numero =(int) ((Math.random()*6)+1);
-        System.out.println(numero);
         this.setValue(numero);
     }
     public void dump(){System.out.println(this); }
