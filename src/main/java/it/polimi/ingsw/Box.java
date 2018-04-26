@@ -24,6 +24,7 @@ public class Box {
 
     public void setDice(Dice dice) {
         this.dice = dice;
+        this.setFull(true);
     }
 
     public Dice getDice() {
@@ -49,12 +50,17 @@ public class Box {
 
     @Override
     public String toString(){
-       /* String string = "Box: " + "number restriction= " + this.number + ", colour restriction= " +this.c + "\n" + "Dice: ";
+       // String string = "Box: " + "number restriction= " + this.number + ", colour restriction= " +this.c + "\n" + "Dice: ";
         if(this.full == true)
-            return string + this.dice.toString();
-        else
-            return string + "empty";*/
-       return "";
+            return "[ "+this.dice.toString()+" ]";
+        else if(this.getNumber()!=0)
+        {
+            return "[ "+this.getNumber()+" ]";
+        }else if(this.getC()!=null){
+            return this.getC().escape()+"[   ]"+Colour.RESET;
+        }else
+            return "[   ]";
+
     }
     public void dump(){System.out.println(this); }
 }
