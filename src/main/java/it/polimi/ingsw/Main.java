@@ -38,15 +38,16 @@ public class Main {
         s.removeDice(0,0);
         System.out.println(s);
 
-        List<Player> players= new ArrayList();
-        players.add(new Player("giocatore 1 ",new Schema()));
-        players.add(new Player("giocatore 2 ",new Schema()));
-        players.add(new Player("giocatore 3 ",new Schema()));
-        players.add(new Player("giocatore 4 ",new Schema()));
-        Board board = new Board(players);
-        Round round = new Round(players.get(2),board);
-        round.roundInit();
-        round.executeRound();
+
+        Bag b = new Bag();
+
+        for(int i=0;i<11;i++)
+            b.extract(4);
+
+
+        int index= 0;
+        GameMultiplayer game = new GameMultiplayer();
+        game.execute();
     }
 }
 
