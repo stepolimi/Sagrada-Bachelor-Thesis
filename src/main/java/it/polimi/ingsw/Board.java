@@ -12,4 +12,20 @@ public class Board {
     //private DeckToolCard decktool;
     private List<Schema> schemaList;
 
+    public Board (List <Player> p){
+        this.playerList = p;
+    }
+
+    public Player getPlayer(int index){
+        return this.playerList.get(index);
+    }
+
+    public int getIndex(Player player){
+        return this.playerList.indexOf(player);
+    }
+
+    public int numPlayers(){
+        return playerList.size();
+    }
+
 }

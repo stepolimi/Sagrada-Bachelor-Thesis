@@ -1,9 +1,12 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.states.Round;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args){
@@ -35,11 +38,16 @@ public class Main {
         s.removeDice(0,0);
         System.out.println(s);
 
+
         Bag b = new Bag();
 
         for(int i=0;i<11;i++)
-           b.extract(4);
+            b.extract(4);
 
+
+        int index= 0;
+        GameMultiplayer game = new GameMultiplayer();
+        game.execute();
     }
 }
 
