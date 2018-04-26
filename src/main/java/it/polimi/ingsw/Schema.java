@@ -69,9 +69,8 @@ public class Schema {
     //if it's empty returns null
     public boolean insertDice(int rows , int columns,Dice d)
     {
-        if(this.table[rows][columns].isOccupied()==false)
+        if(this.table[rows][columns].getDice()==null)
         {
-            this.table[rows][columns].setFull(true);
             this.table[rows][columns].setDice(d);
             return true;
         }
@@ -82,11 +81,10 @@ public class Schema {
     public Dice removeDice(int rows,int columns)
     {
         Dice d;
-        if(this.table[rows][columns].isOccupied()==true)
+        if(this.table[rows][columns].getDice()!=null)
         {
             d = this.table[rows][columns].getDice();
             this.table[rows][columns].setDice(null);
-            this.table[rows][columns].setFull(false);
             return d;
         }
         return null;
