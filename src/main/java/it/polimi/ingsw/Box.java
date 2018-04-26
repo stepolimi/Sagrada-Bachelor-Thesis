@@ -58,4 +58,8 @@ public class Box {
 
     }
     public void dump(){System.out.println(this); }
+
+    public boolean boxformat(Box b){
+        return !((b.getNumber() != 0) && (b.getC() != null));
+    }
 }
