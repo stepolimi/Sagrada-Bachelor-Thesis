@@ -1,3 +1,5 @@
+//it's the set of dice given at the beginning of every game. there only the constructor with 18 dices for each colour
+
 package it.polimi.ingsw;
 
 import java.util.List;
