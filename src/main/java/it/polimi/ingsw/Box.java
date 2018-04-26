@@ -11,14 +11,12 @@ public class Box {
     private Colour c;   //colour of box. null if box is white
     private int number;  //nuber of box. 0 if there's no number
     private Dice dice;   //dice placed on box. null if it's empty
-    private boolean full;   //return if there's / not a dice
 
     public Box(Colour c,int number)
     {
         this.c = c;
         this.number = number;
         this.dice = null;
-        this.full = false;
     }
 
     public int getNumber() {
@@ -31,21 +29,11 @@ public class Box {
 
     public void setDice(Dice dice) {
         this.dice = dice;
-        this.setFull(true);
     }
 
     public Dice getDice() {
         return dice;
     }
-
-    public void setFull(boolean full) {
-        this.full = full;
-    }
-
-    public boolean isOccupied() {
-        return full;
-    }
-
 
     public Colour getC() {
         return c;
@@ -58,8 +46,7 @@ public class Box {
     @Override
     public String toString(){     //method used to print every scema. now this is situated in a class of Model part
                                     //to MOVE in the view part
-       // String string = "Box: " + "number restriction= " + this.number + ", colour restriction= " +this.c + "\n" + "Dice: ";
-        if(this.full == true)
+        if(this.dice != null)
             return "[ "+this.dice.toString()+" ]";
         else if(this.getNumber()!=0)
         {
@@ -71,4 +58,8 @@ public class Box {
 
     }
     public void dump(){System.out.println(this); }
+
+    public boolean boxformat(Box b){
+        return !((b.getNumber() != 0) && (b.getC() != null));
+    }
 }
