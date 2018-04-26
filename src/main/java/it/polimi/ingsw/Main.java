@@ -35,6 +35,11 @@ public class Main {
         s.removeDice(0,0);
         System.out.println(s);
 
+        Bag b = new Bag();
+
+        for(int i=0;i<11;i++)
+           b.extract(4);
+
     }
 }
 
