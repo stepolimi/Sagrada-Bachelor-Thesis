@@ -18,7 +18,7 @@ public class Dice {
     };
 
     public Dice(Colour colour, int value) //constructor of a single dice wit a colour and the value 0 if the dice is
-                                            //not launched yet
+                                            //not launched yet. every dice has ALWAYS a colour
     {
         this.colour = colour;
         this.value = value;

@@ -60,6 +60,8 @@ public class Schema {
         return difficult;
     }
 
+    // it returns the dice added in the schema in the position indicated with rows e columns arguments,
+    //if it's empty returns null
     public boolean insertDice(int rows , int columns,Dice d)
     {
         if(this.table[rows][columns].isOccupied()==false)
@@ -70,7 +72,8 @@ public class Schema {
         }
         return false;
     }
-    // ritorna il dado inserito nello schema in posizione rows e columns, se è vuota ritorna null
+
+    //it removed dice from rows-colomuns position. it returns null if is already empty
     public Dice removeDice(int rows,int columns)
     {
         Dice d;
