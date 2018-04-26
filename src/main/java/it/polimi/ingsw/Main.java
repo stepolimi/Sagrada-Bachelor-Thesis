@@ -1,9 +1,12 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.states.Round;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args){
@@ -35,6 +38,15 @@ public class Main {
         s.removeDice(0,0);
         System.out.println(s);
 
+        List<Player> players= new ArrayList();
+        players.add(new Player("giocatore 1 ",new Schema()));
+        players.add(new Player("giocatore 2 ",new Schema()));
+        players.add(new Player("giocatore 3 ",new Schema()));
+        players.add(new Player("giocatore 4 ",new Schema()));
+        Board board = new Board(players);
+        Round round = new Round(players.get(2),board);
+        round.roundInit();
+        round.executeRound();
     }
 }
 
