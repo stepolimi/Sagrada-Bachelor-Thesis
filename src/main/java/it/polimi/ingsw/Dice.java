@@ -33,7 +33,9 @@ public class Dice {
     @Override
     public String toString() {
         String escape = this.colour.escape();
-        return escape+"["+value+"]" + Colour.RESET;
+        return escape + "[" + value + "]" + Colour.RESET;
+
     }
+    public void dump(){System.out.println(this); }
 }
 

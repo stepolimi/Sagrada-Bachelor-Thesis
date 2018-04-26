@@ -46,4 +46,15 @@ public class Box {
     public void setC(Colour c) {
         this.c = c;
     }
+
+    @Override
+    public String toString(){
+       /* String string = "Box: " + "number restriction= " + this.number + ", colour restriction= " +this.c + "\n" + "Dice: ";
+        if(this.full == true)
+            return string + this.dice.toString();
+        else
+            return string + "empty";*/
+       return "";
+    }
+    public void dump(){System.out.println(this); }
 }
