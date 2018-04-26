@@ -1,3 +1,5 @@
+//colour assumed by dices or box in a schema
+
 package it.polimi.ingsw;
 
 public enum Colour {

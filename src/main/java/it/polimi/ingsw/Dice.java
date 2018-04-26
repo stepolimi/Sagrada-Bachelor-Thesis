@@ -1,4 +1,8 @@
+
+
 package it.polimi.ingsw;
+
+
 
 public class Dice {
     private Colour colour;
@@ -13,7 +17,8 @@ public class Dice {
             "\u2685"
     };
 
-    public Dice(Colour colour, int value)
+    public Dice(Colour colour, int value) //constructor of a single dice wit a colour and the value 0 if the dice is
+                                            //not launched yet
     {
         this.colour = colour;
         this.value = value;
@@ -23,7 +28,7 @@ public class Dice {
     public void setValue(int value)
     {
         this.value = value;
-    }
+    }           //used to set value after a dice launch
     // restituisce il valore del dado
     public int getValue()
     {
@@ -46,7 +51,7 @@ public class Dice {
         return escape +  faces[value-1]  + Colour.RESET;
 
     }
-    public void rollDice()
+    public void rollDice()                  //function used to "to launch " a dice
     {
         int numero =(int) ((Math.random()*6)+1);
         System.out.println(numero);

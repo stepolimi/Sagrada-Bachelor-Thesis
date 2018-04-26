@@ -1,3 +1,20 @@
+/*
+class used to construct and represent the schema of every player.
+
+***to do yet***
+* -----create method that create 4 schema card
+        for each player (for a maximum of 16 schema obj). firstly it exracts 2 card for every player with
+         random function; then, it associates every (front) card with his back card.
+         [for example first extract--> schema2 and schema7
+                (we associated their back card with increment of 12)
+                --> (schema2/schema14 and schema7/schema19)
+
+
+
+ */
+
+
+
 package it.polimi.ingsw;
 
 
@@ -13,15 +30,16 @@ import java.util.List;
 import java.util.Stack;
 
 public class Schema {
-    private String name;
+    private String name;  //nme of schema card
     private int difficult;
     private Box [][] table;
     private static final int rows = 4;
     private static final int columns = 5;
 
-    public void schemaInit (Schema sch, int n) throws IOException {
+    public void schemaInit (Schema sch, int n) throws IOException {   //costructs the Schema obj from file
 
-        final String filePath = new String("src/main/data/Schema/" + n + ".json");
+        final String filePath = new String("src/main/data/Schema/" + n + ".json");  //import every schema from
+                                                                //json file form /src/main/data/Schema/i.jon
         Gson g = new Gson();
 
         FileReader f;

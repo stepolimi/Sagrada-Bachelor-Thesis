@@ -1,10 +1,17 @@
+/*
+it represent in the model a single cell of every schema (every schema has 4*5= 20 boxes)
+ */
+
+
 package it.polimi.ingsw;
 
+
+
 public class Box {
-    private Colour c;
-    private int number;
-    private Dice dice;
-    private boolean full;
+    private Colour c;   //colour of box. null if box is white
+    private int number;  //nuber of box. 0 if there's no number
+    private Dice dice;   //dice placed on box. null if it's empty
+    private boolean full;   //return if there's / not a dice
 
     public Box(Colour c,int number)
     {
@@ -49,7 +56,8 @@ public class Box {
     }
 
     @Override
-    public String toString(){
+    public String toString(){     //method used to print every scema. now this is situated in a class of Model part
+                                    //to MOVE in the view part
        // String string = "Box: " + "number restriction= " + this.number + ", colour restriction= " +this.c + "\n" + "Dice: ";
         if(this.full == true)
             return "[ "+this.dice.toString()+" ]";
