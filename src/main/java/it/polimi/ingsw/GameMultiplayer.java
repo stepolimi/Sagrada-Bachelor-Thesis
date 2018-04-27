@@ -29,13 +29,10 @@ public class GameMultiplayer {
             System.out.println("fine del rurno: " + (rounds.indexOf(r) + 1));
         }
     }
+
     public void startRound(int index){
         rounds.get(index).roundInit();
         rounds.get(index).executeRound();
 
-    }
-
-    public Round getRound(int index){
-        return rounds.get(index);
     }
 }

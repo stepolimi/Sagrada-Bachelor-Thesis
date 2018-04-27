@@ -41,6 +41,13 @@ public class Round {
         currentState.execute(currentRound);
     }
 
+    //al momento changeState viene chiamato in automatico dagli stati ma probabilmente verrà chiamato dal controller su azione dello user eseguita
+
+    /*alcuni stati come InitialState possono condurre a stati successivi diversi(PickDiceState,UseCardState,EndTurnState) in base all'azione
+    selezionata dall'utente, se change state verrà chiamato dal controller ad azione dell'utente eseguita, potrò associare tale azione
+    ad una stringa corrispondente ad una key di states che passerà a changeState che a sua volta passerà a nextState dello stato corrente, il quale
+    condurrà allo stato successivo esatto in base alla stringa passata
+     */
     public void changeState(){
         currentState = states.get(currentState.nextState(currentRound));
         if(turnNumber < board.numPlayers() * 2) {
