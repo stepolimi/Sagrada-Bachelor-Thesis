@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args){
 
@@ -24,6 +26,15 @@ public class Main {
         Box b = new Box(null,5);
         b.setDice(d);
         */
+       Schema s1 = new Schema();
+       try{
+           s1.schemaInit(s1, 23);
+
+       }
+
+       catch(IOException e){
+           System.out.println(e);
+       }
         System.out.println(s);
         s.insertDice(0,0,d);
         System.out.println(s);
@@ -33,7 +44,7 @@ public class Main {
         System.out.println(s);
 
 
-        Bag b = new Bag();
+        DiceBag b = new DiceBag();
 
         for(int i=0;i<11;i++)
             b.extract(4);
