@@ -11,17 +11,15 @@ public class BoxTest {    //in every schema we have only boxes that could have O
     @Test
     void CorrectBoxFormat() {
         Box b = new Box(Colour.ANSI_RED, 0);
-        boolean result = b.boxformat(b);
-        assertTrue(result = true, "correct format");
+        assertTrue(!((b.getNumber() != 0) && (b.getC() != null)), "correct format");
     }
     @Test
     void  WrongBoxFormat(){
         Box b = new Box(Colour.ANSI_RED, 4);
-        boolean result = b.boxformat(b);
-        assertFalse(result = false, "wrong box format. Box could not have " +
+        assertFalse(!((b.getNumber() != 0) && (b.getC() != null)), "wrong box format. Box could not have " +
                 "number and colour restriction at the same time");
     }
 
- 
+
 }
 
