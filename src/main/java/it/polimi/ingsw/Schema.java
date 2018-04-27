@@ -33,28 +33,32 @@ public class Schema {
     private String name;  //nme of schema card
     private int difficult;
     private Box [][] table;
-    private static final int rows = 4;
-    private static final int columns = 5;
+    private static final int ROWS = 4;
+    private static final int COLUMNS = 5;
 
     public void schemaInit (Schema sch, int n) throws IOException {   //costructs the Schema obj from file
 
         final String filePath = new String("src/main/data/Schema/" + n + ".json");  //import every schema from
-                                                                //json file form /src/main/data/Schema/i.jon
+        //json file form /src/main/data/Schema/i.jon
         Gson g = new Gson();
 
         FileReader f;
-        f=new FileReader(filePath);
+        f = new FileReader(filePath);
 
         BufferedReader b;
-        b=new BufferedReader(f);
+        b = new BufferedReader(f);
+        try {
+            String sc;
+            sc = b.readLine();
 
-        String sc;
-        sc=b.readLine();
+            sch = g.fromJson(sc, Schema.class);
+            sch.toString();
 
-        sch= g.fromJson(sc,Schema.class);
-        sch.toString();
+        }
+        catch(IOException e){
+            System.out.println(e);
+        }
     }
-
 
     public int getDifficult() {
         return difficult;
@@ -96,10 +100,10 @@ public class Schema {
         String str="";
         System.out.println(this.getName());
         System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-        for(int i=0; i<this.rows;i++)
+        for(int i=0; i<this.ROWS;i++)
         {
             System.out.print("║  ");
-            for(int j=0;j<this.columns;j++)
+            for(int j=0;j<this.COLUMNS;j++)
             {
                 System.out.print(table[i][j].toString());
 

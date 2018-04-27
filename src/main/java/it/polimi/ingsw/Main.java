@@ -1,12 +1,6 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.states.Round;
-
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args){
