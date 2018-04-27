@@ -18,8 +18,8 @@ public class BoxTest {    //in every schema we have only boxes that could have O
     void  WrongBoxFormat(){
         Box b = new Box(Colour.ANSI_RED, 4);
         boolean result = b.boxformat(b);
-        assertFalse(result = false, "wrong box format. Box could not have number and colour restriction at " +
-                "the same time");
+        assertFalse(result = false, "wrong box format. Box could not have " +
+                "number and colour restriction at the same time");
     }
 
 
