@@ -1,10 +1,7 @@
 package it.polimi.ingsw.states;
 
-
-import it.polimi.ingsw.Player;
-
 public class EndTurnState extends State {
-    private String next = "InitialState";
+    private static String next = "InitialState";
 
     @Override
     public void execute(Round round){

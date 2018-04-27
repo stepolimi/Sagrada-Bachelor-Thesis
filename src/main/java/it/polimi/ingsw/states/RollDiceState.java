@@ -1,7 +1,5 @@
 package it.polimi.ingsw.states;
 
-import it.polimi.ingsw.Player;
-
 public class RollDiceState extends State {
     private static String next = "PlaceDiceState";
 

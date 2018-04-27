@@ -1,9 +1,7 @@
 package it.polimi.ingsw.states;
 
-import it.polimi.ingsw.Player;
-
 public class UseCardState extends State {
-    private static String next = "PickDiceState";
+    private String next;
 
     @Override
     public void execute(Round round) {
@@ -13,6 +11,7 @@ public class UseCardState extends State {
 
     @Override
     public String nextState(Round round){
+        next = "PickDiceState";
         return next;
     }
 }
