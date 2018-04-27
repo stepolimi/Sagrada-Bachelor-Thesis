@@ -62,4 +62,5 @@ public class Box {
     public boolean boxformat(Box b){
         return !((b.getNumber() != 0) && (b.getC() != null));
     }
+
 }

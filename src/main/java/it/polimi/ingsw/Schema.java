@@ -71,7 +71,7 @@ public class Schema {
 
     // it returns the dice added in the schema in the position indicated with rows e columns arguments,
     //if it's empty returns null
-    public boolean insertDice(int rows , int columns,Dice d)
+    public boolean insertDice(int rows , int columns, Dice d)
     {
         if(this.table[rows][columns].getDice()==null)
         {
