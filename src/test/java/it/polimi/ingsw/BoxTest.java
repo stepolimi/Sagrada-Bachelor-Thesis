@@ -14,7 +14,7 @@ public class BoxTest {    //in every schema we have only boxes that could have O
         boolean result = b.boxformat(b);
         assertTrue(result = true, "correct format");
     }
-
+    @Test
     void  WrongBoxFormat(){
         Box b = new Box(Colour.ANSI_RED, 4);
         boolean result = b.boxformat(b);
@@ -22,7 +22,6 @@ public class BoxTest {    //in every schema we have only boxes that could have O
                 "number and colour restriction at the same time");
     }
 
-
-
+ 
 }
 
