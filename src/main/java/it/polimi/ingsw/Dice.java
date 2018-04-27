@@ -40,16 +40,13 @@ public class Dice {
         return this.colour;
     }
 
-    public void setColour(Colour colour)
-    {
-        this.colour = colour;
-    }
-
     @Override
     public String toString() {
-        String escape = this.colour.escape();
-        return escape +  faces[value-1]  + Colour.RESET;
-
+        if(this!=null) {
+            String escape = this.colour.escape();
+            return escape + faces[value - 1] + Colour.RESET;
+        }
+        return "";
     }
     public void rollDice()                  //function used to "to launch " a dice
     {

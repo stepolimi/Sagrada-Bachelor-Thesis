@@ -23,10 +23,6 @@ public class Box {
         return number;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
     public void setDice(Dice dice) {
         this.dice = dice;
     }
@@ -37,10 +33,6 @@ public class Box {
 
     public Colour getC() {
         return c;
-    }
-
-    public void setC(Colour c) {
-        this.c = c;
     }
 
     @Override

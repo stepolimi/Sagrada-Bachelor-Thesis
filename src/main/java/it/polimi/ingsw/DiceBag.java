@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiceBag {
-    private List<Dice> dices = new ArrayList<Dice>();
+    private List<Dice> dices;
     private static int numDices = 90;
 
     public DiceBag() {
+        dices = new ArrayList<Dice>();
+
         for (int i = 0; i < numDices; i++) {
             if (i < 18) {
                 dices.add(new Dice(Colour.ANSI_GREEN, 0));
@@ -41,7 +43,7 @@ public class DiceBag {
             extra.add(dices.get(casual));
             dices.remove(casual);
         }
-        System.out.println(extra);
+
         return extra;
     }
 
@@ -51,14 +53,24 @@ public class DiceBag {
 
     @Override
     public String toString() {
-        System.out.println("dice in the dicebag:" + dices.size() + "\n");
-        for (int i = 0; i < dices.size(); i++) {
-            System.out.println(dices.get(i).toString());
-        }
-
-        return "";
-
-
+        System.out.println("dices in the dicebag:" + dices.size() + "\n");
+        int g,y,b,p,r;
+        g=0;
+        y=0;
+        b=0;
+        p=0;
+        r=0;
+        for(int i=0;i<dices.size();i++)
+            switch(dices.get(i).getcolour())
+            {
+                case ANSI_RED: r++; break;
+                case ANSI_BLUE: b++; break;
+                case ANSI_GREEN: g++; break;
+                case ANSI_PURPLE: p++; break;
+                default: y++;
+            }
+        System.out.println("Rossi:"+r+"Verdi:"+g+"Gialli:"+y+"Blu:"+b+"Viola:"+p);
+         return "";
     }
 
 

@@ -100,23 +100,23 @@ public class Schema {
     @Override
     public String toString() {
         String str="";
-        System.out.println(this.getName());
-        System.out.println("┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
+        str+= this.getName()+"\n";
+        str+= "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         for(int i=0; i<this.ROWS;i++)
         {
-            System.out.print("║  ");
+            str+= "║  ";
             for(int j=0;j<this.COLUMNS;j++)
             {
-                System.out.print(table[i][j].toString());
+                str+=table[i][j].toString();
 
             }
-            System.out.print("  ║");
-            System.out.println("");
+            str+="  ║\n";
+
         }
-        System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-        System.out.print("Difficult:");
+        str+="┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
+        str+="Difficult:";
         for(int i=0;i<this.getDifficult();i++)
-        System.out.print("*");
+        str+="*";
 
         return str;
     }
