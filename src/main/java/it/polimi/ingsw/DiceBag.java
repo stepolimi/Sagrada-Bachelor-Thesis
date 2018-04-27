@@ -5,11 +5,11 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bag {
+public class DiceBag {
     private List<Dice> dices = new ArrayList<Dice>();
     private static int numDices = 90;
 
-    public Bag() {
+    public DiceBag() {
         for (int i = 0; i < numDices; i++) {
             if (i < 18) {
                 dices.add(new Dice(Colour.ANSI_GREEN, 0));
@@ -51,7 +51,7 @@ public class Bag {
 
     @Override
     public String toString() {
-        System.out.println("dice in the bag:" + dices.size() + "\n");
+        System.out.println("dice in the dicebag:" + dices.size() + "\n");
         for (int i = 0; i < dices.size(); i++) {
             System.out.println(dices.get(i).toString());
         }

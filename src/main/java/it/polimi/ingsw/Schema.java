@@ -53,10 +53,12 @@ public class Schema {
 
             sch = g.fromJson(sc, Schema.class);
             sch.toString();
-
         }
         catch(IOException e){
             System.out.println(e);
+        }
+        finally {
+            b.close();
         }
     }
 
