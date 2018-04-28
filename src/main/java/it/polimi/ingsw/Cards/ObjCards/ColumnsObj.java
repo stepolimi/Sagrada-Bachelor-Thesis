@@ -62,9 +62,9 @@ public class ColumnsObj extends ObjectiveCard {
 
     @Override
     public String toString(){
-        String src = "|-------------|\n";
-        src= src + this.name.toString() + "\n" + this.description + "\n" + "points: " + this.points + "\n";
-        src = src + "|-------------|\n";
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }

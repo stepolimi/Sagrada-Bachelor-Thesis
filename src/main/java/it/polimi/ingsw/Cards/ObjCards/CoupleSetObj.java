@@ -41,9 +41,9 @@ public class CoupleSetObj extends ObjectiveCard {
 
     @Override
     public String toString(){
-        String src = "|-------------|\n";
-        src= src + this.name.toString() + "\n" + this.description + "\n" + "points: " + this.a + "\n" +  this.b + "\n";
-        src = src + "|-------------|\n";
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" +  this.description + "\n" +  "|" + "setOf: " + this.a  +  this.b + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }

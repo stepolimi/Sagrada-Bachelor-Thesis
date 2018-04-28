@@ -43,9 +43,9 @@ public class DiagonalObj extends ObjectiveCard {
 
     @Override
     public String toString(){
-        String src = "|-------------|\n";
-        src= src + this.name.toString() + "\n" + this.description + "\n" ;
-        src = src + "|-------------|\n";
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" ;
+        src = src + "|-------------------------------|\n";
         return src;
 
 }

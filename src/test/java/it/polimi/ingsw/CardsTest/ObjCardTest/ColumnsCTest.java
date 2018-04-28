@@ -60,9 +60,10 @@ public class ColumnsCTest {
     public void scoreIs4(){
 
         insertDice();
-
         ColumnsObj card = new ColumnsObj("card", "description", 4);
+        card.dump(card.toString());
         assertEquals(8, card.ScoreCard(s), "score correct");
+
 
     }
     @Test
