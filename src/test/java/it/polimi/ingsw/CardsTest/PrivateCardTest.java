@@ -55,7 +55,7 @@ public class PrivateCardTest {
     public void null_score(){
 
         PrivateObjective card = new PrivateObjective("name", "description", Colour.ANSI_PURPLE );
-        assertEquals(0, card.ScoreCard(s));
+        assertEquals(0, card.ScoreCard(s), "result is 0");
 
     }
 }

@@ -60,7 +60,7 @@ public class DiagonalCTest {
 
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
 
-        assertEquals(0, card.ScoreCard(s));
+        assertEquals(0, card.ScoreCard(s), "result is 0");
     }
 
 

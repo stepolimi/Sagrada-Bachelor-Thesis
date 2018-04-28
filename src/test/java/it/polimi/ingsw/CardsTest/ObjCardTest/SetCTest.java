@@ -74,7 +74,7 @@ public class SetCTest {
 
         SetObj card = new SetObj("name", "description", 5);
 
-        assertEquals(0, card.ScoreCard(s), "correct computation");
+        assertEquals(0, card.ScoreCard(s), "result is 0");
 
 
     }

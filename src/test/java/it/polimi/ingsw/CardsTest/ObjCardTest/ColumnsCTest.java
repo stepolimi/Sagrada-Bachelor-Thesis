@@ -70,6 +70,6 @@ public class ColumnsCTest {
 
 
         ColumnsObj card = new ColumnsObj("card", "description", 4);
-        assertEquals(0, card.ScoreCard(s), "score correct");
+        assertEquals(0, card.ScoreCard(s), "result is 0");
     }
 }

@@ -71,7 +71,7 @@ public class RowsCTest {
     public void score_null(){
 
         RowsObj card1 = new RowsObj("card", "descritption", 5);
-        assertEquals(0, card1.ScoreCard(s), "Correct Score");
+        assertEquals(0, card1.ScoreCard(s), "result is 0");
     }
 
     }

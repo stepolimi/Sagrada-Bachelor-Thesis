@@ -59,7 +59,7 @@ public class CoupleCTest {
 
         CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2 );
 
-        assertEquals(0, card.ScoreCard(s), "correct calculus");
+        assertEquals(0, card.ScoreCard(s), "result is 0");
     }
 
 
