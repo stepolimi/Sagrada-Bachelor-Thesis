@@ -1,11 +1,13 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.rules.RulesManager;
 import it.polimi.ingsw.states.Round;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameMultiplayer {
+    private RulesManager rulesManager= new RulesManager();
     private List<Round> rounds= new ArrayList <Round> (10);
     private List<Player> players= new ArrayList();
     private Board board = new Board(players);
