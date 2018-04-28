@@ -15,7 +15,7 @@ public class DiceSpace {
    {
        this.dices.add(d);
    }
-   public Dice removeDice(int n)
+   public Dice removeDice(int n) // indice umano, non binario bisogna adattare tuto
    {
        if(n<(dices.size()+1) && n>0)
        {

@@ -23,6 +23,7 @@ public class Box {
         return number;
     }
 
+
     public void setDice(Dice dice) {
         this.dice = dice;
     }
@@ -34,6 +35,7 @@ public class Box {
     public Colour getC() {
         return c;
     }
+
 
     @Override
     public String toString(){     //method used to print every scema. now this is situated in a class of Model part

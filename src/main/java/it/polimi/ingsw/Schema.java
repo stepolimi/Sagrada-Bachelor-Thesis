@@ -33,6 +33,7 @@ public class Schema {
     private String name;  //nme of schema card
     private int difficult;
     private Box [][] table;
+    private boolean isEmpty = true;
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;
 
@@ -75,6 +76,7 @@ public class Schema {
     //if it's empty returns null
     public boolean insertDice(int rows , int columns, Dice d)
     {
+        this.isEmpty = false;
         if(this.table[rows][columns].getDice()==null)
         {
             this.table[rows][columns].setDice(d);
@@ -96,6 +98,37 @@ public class Schema {
         return null;
     }
 
+
+
+    public List nearDice(int rows,int columns)
+    {
+
+        // partono da in alto a sx e proseguono in senso di riga
+
+        List<Dice> nearDice = new ArrayList<Dice>(9);
+        for(int i=-1;i<2;i++)
+            for (int j = -1; j < 2; j++)
+                nearDice.add(checkNearDice(rows + i, columns + j));
+
+        // rimuovo il dado stesso ( ho preferito aggiungere la remove che controllare ogni ciclo che non fosse [0][0])
+        nearDice.remove(4);
+            return nearDice;
+
+    }
+
+    // sfrutto il fatto che se si va fuori dai contorni mi viene generata un'eccezione per mettere la casella corrispondente a null
+    // riesco a uniformare il codice senza gestire ogni singolo caso (bordo,spigolo)
+    public Dice checkNearDice(int rows,int columns)
+    {
+        Dice d=null;
+        try {
+            d= this.table[rows][columns].getDice();
+        }catch (ArrayIndexOutOfBoundsException e) {
+            // siamo nel contorno
+            return d;
+        }
+        return d;
+    }
 
     @Override
     public String toString() {
@@ -125,5 +158,9 @@ public class Schema {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
     }
 }
