@@ -1,6 +1,7 @@
 //it's the player class with every attributes to report his status during the game (about his turn,
 //if it's connected ecc) , and the other object (privateCard, favour and his schema)
 package it.polimi.ingsw;
+import it.polimi.ingsw.Cards.PrivateObjective;
 
 public class Player {
     private String nickname;
