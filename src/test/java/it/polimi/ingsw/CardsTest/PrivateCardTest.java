@@ -8,6 +8,8 @@ import it.polimi.ingsw.Cards.PrivateObjective;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+//testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
+//other tests
 
 public class PrivateCardTest {
 
