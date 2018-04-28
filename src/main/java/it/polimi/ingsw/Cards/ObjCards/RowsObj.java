@@ -75,8 +75,8 @@ public class RowsObj extends ObjectiveCard {
 
     }
 
-    public void dump(String s){
-        System.out.println(s);
+    public void dump(){
+        System.out.println(this);
     }
 
 

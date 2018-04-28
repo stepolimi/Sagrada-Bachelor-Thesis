@@ -73,10 +73,15 @@ public class Player {
 
     @Override
     public String toString() {
-        System.out.println("nickname:" + this.getNickname() + "\n");
-        System.out.println("Schema choosen:" + this.getSchema().getName() + "\n");
-        System.out.println("score:" + this.getScore() + "\n");
-        return "";
+        String src = new String();
+        src = src +"nickname:" + this.getNickname() + "\n";
+        src = src +"Schema choosen:" + this.getSchema().getName() + "\n";
+        src = src  +"score:" + this.getScore() + "\n";
+        return src;
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 }
 
