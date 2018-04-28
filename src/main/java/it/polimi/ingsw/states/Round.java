@@ -17,11 +17,11 @@ public class Round {
 
     public Round(Player first, Board board){
         this.firstPlayer = first;
-        this.board= board;
-        this.playerIndex = board.getIndex(firstPlayer);
+        this.board = board;
     }
 
     public void roundInit(){
+        playerIndex = board.getIndex(firstPlayer);
         currentPlayer = firstPlayer;
         states.put("ExtractDiceState",new ExtractDiceState());
         currentState = states.get("ExtractDiceState");
