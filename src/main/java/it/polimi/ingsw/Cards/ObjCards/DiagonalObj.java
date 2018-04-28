@@ -41,4 +41,16 @@ public class DiagonalObj extends ObjectiveCard {
         return score;
     }
 
+    @Override
+    public String toString(){
+        String src = "|-------------|\n";
+        src= src + this.name.toString() + "\n" + this.description + "\n" ;
+        src = src + "|-------------|\n";
+        return src;
+
+}
+
+    public void dump(String s){
+        System.out.println(s);
+    }
 }

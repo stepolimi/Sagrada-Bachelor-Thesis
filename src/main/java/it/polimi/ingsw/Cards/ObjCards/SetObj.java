@@ -80,4 +80,18 @@ public class SetObj extends ObjectiveCard {
         }
         else return 0;
     }
+
+
+    @Override
+    public String toString(){
+        String src = "|-------------|\n";
+        src= src + this.name.toString() + "\n" + this.description + "\n" + "points: " + this.points + "\n";
+        src = src + "|-------------|\n";
+        return src;
+
+    }
+
+    public void dump(String s){
+        System.out.println(s);
+    }
 }
