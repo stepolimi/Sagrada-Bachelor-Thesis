@@ -45,7 +45,7 @@ public class DiagonalObj extends ObjectiveCard {
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         src= src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" ;
-        src = src + "|-------------------------------|\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
 }
