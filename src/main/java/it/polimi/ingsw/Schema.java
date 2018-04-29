@@ -37,8 +37,9 @@ public class Schema {
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;
 
-    public void schemaInit (Schema sch, int n) throws IOException {   //costructs the Schema obj from file
+    public Schema schemaInit (int n) throws IOException {   //costructs the Schema obj from file
 
+        Schema sch = new Schema();
         final String filePath = new String("src/main/data/Schema/" + n + ".json");  //import every schema from
         //json file form /src/main/data/Schema/i.jon
         Gson g = new Gson();
@@ -53,7 +54,6 @@ public class Schema {
             sc = b.readLine();
 
             sch = g.fromJson(sc, Schema.class);
-            sch.toString();
         }
         catch(IOException e){
             System.out.println(e);
@@ -61,6 +61,7 @@ public class Schema {
         finally {
             b.close();
         }
+        return sch;
     }
 
     public int getDifficult() {

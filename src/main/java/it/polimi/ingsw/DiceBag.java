@@ -51,9 +51,14 @@ public class DiceBag {
         this.dices.add(dice);
     }
 
+    public List getDices()
+    {
+        return this.dices;
+    }
     @Override
     public String toString() {
-        System.out.println("dices in the dicebag:" + dices.size() + "\n");
+        String str="";
+        str+= "dices in the dicebag:" + dices.size() + "\n";
         int g,y,b,p,r;
         g=0;
         y=0;
@@ -69,10 +74,23 @@ public class DiceBag {
                 case ANSI_PURPLE: p++; break;
                 default: y++;
             }
-        System.out.println("Rossi:"+r+"Verdi:"+g+"Gialli:"+y+"Blu:"+b+"Viola:"+p);
-         return "";
+        str+= "Red:"+r+"\nGreen:"+g+"\nYellow:"+y+"\nBlue:"+b+"\nPurple:"+p ;
+         return str;
     }
 
+    public Dice takeDice()
+    {
+        Dice d;
+        int random = (int) (Math.random() * this.dices.size());
+        d= dices.get(random);
+        dices.remove(random);
+        d.rollDice();
+       return d;
+    }
+    public void dump()
+    {
+        System.out.println(this);
+    }
 
 
 
