@@ -17,7 +17,7 @@ public class DeckObjectiveCards {
         CoupleSetObj card5=new CoupleSetObj("Sfumature Chiare", "Set di 1 & 2 ovunque", 1, 2 );
         CoupleSetObj card6=new CoupleSetObj("Sfumature Medie", "Set di 3 & 4 ovunque", 3, 4);
         CoupleSetObj card7=new CoupleSetObj("Sfumature Scure", "Set di 5 & 6 ovunque", 5, 6);
-        SetObj card8= new SetObj("Sfumature Diverse", "Set di dadi di ogni valore", 5);
+        SetObj card8= new SetObj("Sfumture Diverse", "Set di dadi di ogni valore", 5);
         SetObj card9= new SetObj("Varietà di Colore", "Set di dadi di ogni colore ovunque", 4);
         DiagonalObj card10= new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore diagonalmente adiacenti");
 
