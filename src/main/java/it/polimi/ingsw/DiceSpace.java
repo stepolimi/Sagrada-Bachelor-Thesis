@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DiceSpace {
@@ -15,6 +14,8 @@ public class DiceSpace {
    {
        this.dices.add(d);
    }
+
+
    public Dice removeDice(int n) // indice umano, non binario bisogna adattare tuto
    {
        if(n<(dices.size()+1) && n>0)

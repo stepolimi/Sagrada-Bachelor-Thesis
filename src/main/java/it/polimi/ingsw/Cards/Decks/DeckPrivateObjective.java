@@ -27,6 +27,10 @@ public class DeckPrivateObjective {
 
     }
 
+    public ArrayList<PrivateObjective> getDeckPriv(){
+        return this.deckPriv;
+    }
+
     public PrivateObjective extract()
     {
         PrivateObjective po;

@@ -36,6 +36,11 @@ public class DeckObjectiveCards {
 
     }
 
+
+    public ArrayList<ObjectiveCard> getDeckPub(){
+        return this.deckPub;
+    }
+
     public ArrayList extract(int nPlayer)
     {
         ArrayList <ObjectiveCard> po = new ArrayList<ObjectiveCard>();
