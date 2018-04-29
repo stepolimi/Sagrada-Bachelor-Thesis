@@ -35,4 +35,23 @@ public class DeckObjectiveCards {
 
 
     }
+
+    public ArrayList extract(int nPlayer)
+    {
+        ArrayList <ObjectiveCard> po = new ArrayList<ObjectiveCard>();
+        int random,nCard;
+
+        if(nPlayer==1)
+            nCard =2;
+        else
+            nCard= 3;
+
+        for(int i=0;i<nCard;i++)
+        {
+            random = (int) (Math.random()*this.deckPub.size());
+            po.add(this.deckPub.get(random));
+            this.deckPub.remove(random);
+        }
+        return po;
+    }
 }

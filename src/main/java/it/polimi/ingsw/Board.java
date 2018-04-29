@@ -10,11 +10,17 @@ public class Board {
     //private DeckPublicObjective deckpubl;
     //private DeckPrivateObjective deckpriv;
     //private DeckToolCard decktool;
+    private setSchemi deckSchemi;
     private List<Schema> schemaList;
 
     public Board (List <Player> p){
+
         this.playerList = p;
+        dicebag = new DiceBag();
+        deckSchemi = new setSchemi(this.playerList.size());
+
     }
+
 
     public Player getPlayer(int index){
         return this.playerList.get(index);
@@ -28,7 +34,6 @@ public class Board {
         return playerList.size();
     }
 
-
-
+    public DiceBag getDicebag() { return dicebag;  }
 
 }

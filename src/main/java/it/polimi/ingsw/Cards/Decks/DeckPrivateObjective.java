@@ -26,4 +26,14 @@ public class DeckPrivateObjective {
         this.deckPriv.add(card5);
 
     }
+
+    public PrivateObjective extract()
+    {
+        PrivateObjective po;
+        int random;
+        random = (int) ( Math.random() * deckPriv.size())  ;
+        po = this.deckPriv.get(random);
+        deckPriv.remove(random);
+        return po;
+    }
 }

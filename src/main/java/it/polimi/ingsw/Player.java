@@ -3,6 +3,8 @@
 package it.polimi.ingsw;
 import it.polimi.ingsw.Cards.PrivateObjective;
 
+import java.util.List;
+
 public class Player {
     private String nickname;
     private Schema schema;
@@ -69,6 +71,15 @@ public class Player {
 
     public void setTurn(boolean myTurn) {
         this.myTurn = myTurn;
+    }
+
+    public void takeSchema(List<Schema> sc, int index)
+    {
+        this.schema = sc.get(index);
+    }
+
+    public void setObjective(PrivateObjective po){
+        this.prCard = po;
     }
 
     @Override
