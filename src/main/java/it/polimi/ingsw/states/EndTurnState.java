@@ -4,13 +4,17 @@ public class EndTurnState extends State {
     private static String next = "InitialState";
 
     @Override
-    public void execute(Round round){
-        System.out.println(round.getCurrentPlayer().getNickname() + "End");
-        round.changeState();
+    public void setActions(Round round){
+        //set up the next turn
     }
 
     @Override
-    public String nextState(Round round){
+    public void execute(Round round, String action){
+
+    }
+
+    @Override
+    public String nextState(Round round, String action){
         round.setTurnNumber(1);
         if(round.getTurnNumber() < round.getBoard().numPlayers())
             round.setPlayerIndex((round.getPlayerIndex() + 1) % (round.getBoard().numPlayers())) ;

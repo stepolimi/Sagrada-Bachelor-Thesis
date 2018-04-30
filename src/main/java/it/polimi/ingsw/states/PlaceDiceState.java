@@ -4,13 +4,17 @@ public class PlaceDiceState extends State{
     private String next;
 
     @Override
-    public void execute(Round round){
-        System.out.println(round.getCurrentPlayer().getNickname() + "Place");
-        round.changeState();
+    public void setActions(Round round){
+        //user can place a dice
     }
 
     @Override
-    public String nextState(Round round){
+    public void execute(Round round, String action){
+
+    }
+
+    @Override
+    public String nextState(Round round, String action){
         next = "EndTurnState";
         return next;
     }

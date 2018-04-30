@@ -1,6 +1,8 @@
 package it.polimi.ingsw.states;
 
 import it.polimi.ingsw.Board;
+import it.polimi.ingsw.Dice;
+import it.polimi.ingsw.DiceSpace;
 import it.polimi.ingsw.Player;
 
 import java.util.HashMap;
@@ -14,6 +16,8 @@ public class Round {
     private HashMap<String,State> states= new HashMap<String, State>();
     private State currentState ;
     private Round currentRound;
+    private DiceSpace dices;
+    private Dice pendingDice;
 
     public Round(Player first, Board board){
         this.firstPlayer = first;
@@ -37,8 +41,8 @@ public class Round {
     public void setReference(Round r){
         this.currentRound= r;
     }
-    public void executeRound(){
-        currentState.execute(currentRound);
+    public void startRound(){
+        currentState.setActions(currentRound);
     }
 
     //al momento changeState viene chiamato in automatico dagli stati ma probabilmente verrà chiamato dal controller su azione dello user eseguita
@@ -48,10 +52,11 @@ public class Round {
     ad una stringa corrispondente ad una key di states che passerà a changeState che a sua volta passerà a nextState dello stato corrente, il quale
     condurrà allo stato successivo esatto in base alla stringa passata
      */
-    public void changeState(){
-        currentState = states.get(currentState.nextState(currentRound));
+    public void changeState(String action){
+        currentState.execute(currentRound, action);
+        currentState = states.get(currentState.nextState(currentRound,action));
         if(turnNumber < board.numPlayers() * 2) {
-            currentState.execute(currentRound);
+            currentState.setActions(currentRound);
         }
     }
 
@@ -82,4 +87,11 @@ public class Round {
         return board;
     }
 
+    public DiceSpace getDices() { return dices; }
+
+    public void setDices(DiceSpace dices) { this.dices = dices; }
+
+    public Dice getPendingDice() { return pendingDice; }
+
+    public void setPendingDice(Dice dice){this.pendingDice = dice;}
 }

@@ -2,8 +2,6 @@ package it.polimi.ingsw;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-
 public class Main {
     public static void main(String[] args){
 
@@ -77,10 +75,7 @@ public class Main {
             b.extract(4);
 
 
-      /*  int index= 0;
-        GameMultiplayer game = new GameMultiplayer();
-        game.execute();
-      */
+
     }
 }
 

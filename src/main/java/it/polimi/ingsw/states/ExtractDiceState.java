@@ -1,17 +1,24 @@
 package it.polimi.ingsw.states;
 
+import it.polimi.ingsw.DiceBag;
+import it.polimi.ingsw.DiceSpace;
+
 public class ExtractDiceState extends State {
-    private String next;
+    private static String next;
 
     @Override
-    public void execute(Round round) {
+    public void setActions(Round round) {
+        //user can extract and roll the dices
 
-        System.out.println(round.getCurrentPlayer().getNickname() + "extract");
-        round.changeState();
     }
 
     @Override
-    public String nextState(Round round){
+    public void execute(Round round, String action){
+        round.setDices(new DiceSpace(round.getBoard().getDicebag().extract(round.getBoard().numPlayers())));
+    }
+
+    @Override
+    public String nextState(Round round, String action){
         next = "InitialState";
         return next;
     }
