@@ -2,14 +2,15 @@
 
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Cards.Decks.*;
 import java.util.List;
 
 public class Board {
     private List<Player>  playerList;
     private DiceBag dicebag;
-    //private DeckPublicObjective deckpubl;
-    //private DeckPrivateObjective deckpriv;
-    //private DeckToolCard decktool;
+    private DeckPublicObjective deckpubl;
+    private DeckPublicObjective deckpriv;
+    // private DeckToolCard decktool;
     private setSchemi deckSchemi;
     private List<Schema> schemaList;
 
