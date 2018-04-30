@@ -1,16 +1,21 @@
 package it.polimi.ingsw.states;
 
 public class ChangeValueState extends State {
-    private static String next = "PlaceDiceState";
+    private String next;
 
     @Override
-    public void execute(Round round) {
-        System.out.println(round.getCurrentPlayer().getNickname() + "change value");
-        round.changeState();
+    public void setActions(Round round) {
+        //can be changed the value of pending dice
     }
 
     @Override
-    public String nextState(Round round){
+    public void execute(Round round, String action){
+
+    }
+
+    @Override
+    public String nextState(Round round, String action){
+         next = "PlaceDiceState";
         return next;
     }
 }

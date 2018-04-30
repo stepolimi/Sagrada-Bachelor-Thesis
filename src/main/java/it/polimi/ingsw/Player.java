@@ -17,9 +17,8 @@ public class Player {
 
 
 
-    public Player(String nickname, Schema schema){
+    public Player(String nickname){
         this.nickname = nickname;
-        this.favour = schema.getDifficult();
         this.connected = false;
         this.score = 0;
         this.myTurn = false;
@@ -34,6 +33,7 @@ public class Player {
 
     public void setSchema(Schema schema) {
         this.schema = schema;
+        this.favour = schema.getDifficult();
     }
 
     public int getFavour() {

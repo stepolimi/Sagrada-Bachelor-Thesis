@@ -4,13 +4,18 @@ public class UseCardState extends State {
     private String next;
 
     @Override
-    public void execute(Round round) {
-        System.out.println(round.getCurrentPlayer().getNickname() + "use card");
-        round.changeState();
+    public void setActions(Round round) {
+        //user can use an utility card
+
     }
 
     @Override
-    public String nextState(Round round){
+    public void execute(Round round, String action){
+
+    }
+
+    @Override
+    public String nextState(Round round, String action){
         next = "PickDiceState";
         return next;
     }

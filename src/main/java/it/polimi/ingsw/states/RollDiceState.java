@@ -4,13 +4,16 @@ public class RollDiceState extends State {
     private static String next = "PlaceDiceState";
 
     @Override
-    public void execute(Round round) {
-        System.out.println(round.getCurrentPlayer().getNickname() + "roll");
-        round.changeState();
+    public void setActions(Round round) {
+        //a dice can be rerolled
+    }
+    @Override
+    public void execute(Round round, String action){
+
     }
 
     @Override
-    public String nextState(Round round){
+    public String nextState(Round round, String action){
         return next;
     }
 }

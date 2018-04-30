@@ -4,11 +4,11 @@ import it.polimi.ingsw.Cards.ObjCards.*;
 
 import java.util.ArrayList;
 
-public class DeckObjectiveCards {
+public class DeckPublicObjective {
     private ArrayList<ObjectiveCard> deckPub;
 
 
-    public DeckObjectiveCards(ArrayList<ObjectiveCard> deckPub) {
+    public DeckPublicObjective(ArrayList<ObjectiveCard> deckPub) {
         this.deckPub = new ArrayList<ObjectiveCard>();
         RowsObj card1 = new RowsObj("Colori diversi Riga", "Righe senza colori ripetuti", 6);
         RowsObj card2 = new RowsObj("Sfumature diverse- Riga", "Righe senza sfumature ripetute", 5);

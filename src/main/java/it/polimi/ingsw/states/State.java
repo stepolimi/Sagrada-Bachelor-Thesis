@@ -7,9 +7,11 @@ public abstract class State {
      saranno disponibili all'utente in quella data situazione, la quale manderà le informazioni alla view (o notificherà
      direttamente alla view)
      */
-    public void execute(Round round){}
+    public void setActions(Round round){}
 
-    public String nextState(Round round){
+    public void execute(Round round, String action){}
+
+    public String nextState(Round round, String action){
         return next;
     }
 

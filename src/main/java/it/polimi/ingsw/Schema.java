@@ -41,7 +41,7 @@ public class Schema {
 
         Schema sch = new Schema();
         final String filePath = new String("src/main/data/Schema/" + n + ".json");  //import every schema from
-        //json file form /src/main/data/Schema/i.jon
+        //json file form /src/main/data/Schema/i.json
         Gson g = new Gson();
 
         FileReader f;
@@ -75,15 +75,11 @@ public class Schema {
 
     // it returns the dice added in the schema in the position indicated with rows e columns arguments,
     //if it's empty returns null
-    public boolean insertDice(int rows , int columns, Dice d)
+    public void insertDice(int rows , int columns, Dice d)
     {
         this.isEmpty = false;
-        if(this.table[rows][columns].getDice()==null)
-        {
-            this.table[rows][columns].setDice(d);
-            return true;
-        }
-        return false;
+        this.table[rows][columns].setDice(d);
+
     }
 
     //it removed dice from rows-colomuns position. it returns null if is already empty
