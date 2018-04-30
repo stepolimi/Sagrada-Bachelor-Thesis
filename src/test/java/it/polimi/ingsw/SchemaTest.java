@@ -25,15 +25,6 @@ public class SchemaTest {
     }
 
 
-    @Test
-    void DiceDoublePlacement()
-    {
-        s = g.fromJson(sch,Schema.class);
-        Dice d = new Dice(Colour.ANSI_YELLOW,6);
-        Dice d2 = new Dice(Colour.ANSI_RED,3);
-        s.insertDice(0,0,d);
-        assertFalse("The box is just occupied by die",s.insertDice(0,0,d2));
-    }
 
     @Test
     void NearDicesAngle()

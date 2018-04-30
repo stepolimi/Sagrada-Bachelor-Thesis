@@ -16,7 +16,7 @@ public class AdjacentRuleTest {
     @Test
     public void correctInsertion() {
         Schema schema = new Schema();
-        Player player = new Player("player 1", schema);
+        Player player = new Player("player 1");
         Dice dice_1 = new Dice(Colour.ANSI_BLUE, 4);
         Dice dice_2 = new Dice(Colour.ANSI_GREEN, 3);
         Dice dice_3 = new Dice(Colour.ANSI_GREEN, 2);
@@ -57,7 +57,7 @@ public class AdjacentRuleTest {
     @Test
     public void wrongInsertion() {
         Schema schema = new Schema();
-        Player player = new Player("player 1", schema);
+        Player player = new Player("player 1");
         Dice dice_1 = new Dice(Colour.ANSI_BLUE, 4);
         Dice dice_2 = new Dice(Colour.ANSI_GREEN, 3);
         Dice dice_3 = new Dice(Colour.ANSI_GREEN, 2);

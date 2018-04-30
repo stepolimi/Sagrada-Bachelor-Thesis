@@ -9,7 +9,7 @@ public class Board {
     private List<Player>  playerList;
     private DiceBag dicebag;
     private DeckPublicObjective deckpubl;
-    private DeckPublicObjective deckpriv;
+    private DeckPrivateObjective deckpriv;
     // private DeckToolCard decktool;
     private setSchemi deckSchemi;
     private List<Schema> schemaList;

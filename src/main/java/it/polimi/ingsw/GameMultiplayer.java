@@ -13,10 +13,10 @@ public class GameMultiplayer {
     private Board board = new Board(players);
 
     public GameMultiplayer(){
-        players.add(new Player("giocatore 1 ",new Schema()));
-        players.add(new Player("giocatore 2 ",new Schema()));
-        players.add(new Player("giocatore 3 ",new Schema()));
-        players.add(new Player("giocatore 4 ",new Schema()));
+        players.add(new Player("giocatore 1 "));
+        players.add(new Player("giocatore 2 "));
+        players.add(new Player("giocatore 3 "));
+        players.add(new Player("giocatore 4 "));
 
         for(int i=0; i < 10 ; i++){
             int firstPlayerIndex = i % players.size();

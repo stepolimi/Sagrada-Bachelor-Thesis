@@ -1,6 +1,6 @@
 package it.polimi.ingsw.CardsTest.DeckTest;
 
-import it.polimi.ingsw.Cards.Decks.DeckObjectiveCards;
+import it.polimi.ingsw.Cards.Decks.DeckPublicObjective;
 import it.polimi.ingsw.Cards.ObjCards.ObjectiveCard;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertEquals;
 public class DeckObjTest {
 
     ArrayList<ObjectiveCard> deckPub = new ArrayList<ObjectiveCard>();
-    DeckObjectiveCards d = new DeckObjectiveCards(deckPub);
+    DeckPublicObjective d = new DeckPublicObjective(deckPub);
 
 
     @Test

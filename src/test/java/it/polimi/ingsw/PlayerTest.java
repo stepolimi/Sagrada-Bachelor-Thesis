@@ -10,14 +10,14 @@ public class PlayerTest {
 
         Player player;
     public void setup1() {
-        player = new Player("giocatore 1 ", new Schema());
+        player = new Player("giocatore 1 ");
         player.setTurn(true);
         player.setConnected(false);
 
     }
 
     public void setup2(){
-        player = new Player("giocatore 1 ", new Schema());
+        player = new Player("giocatore 1 ");
         player.setTurn(true);
         player.setConnected(true);
     }
