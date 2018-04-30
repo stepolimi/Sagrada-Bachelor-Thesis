@@ -5,6 +5,10 @@ import java.util.List;
 public class DiceSpace {
    private  List<Dice> dices;
 
+   public List<Dice> getListDice(){
+       return this.dices;
+   }
+
     public DiceSpace(List<Dice> dices)
     {
         this.dices = dices;
