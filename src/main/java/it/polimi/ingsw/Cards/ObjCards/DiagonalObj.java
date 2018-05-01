@@ -17,23 +17,26 @@ public class DiagonalObj extends ObjectiveCard {
         boolean flag = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
-                if (sch.getTable(i, j).getDice() != null){
-                    if ((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i, j).getDice().getcolour()
-                            == sch.getTable(i + 1, j + 1).getDice().getcolour()) {
-                        score++;
-                        flag = true;
-                    }
-                    if ((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i, j).getDice().getcolour()
-                            == sch.getTable(i - 1, j + 1).getDice().getcolour()) {
-                        score++;
-                        flag = true;
-                    }
-                    if(flag) {
-                        score++;
-                        flag = false;
+                if (sch.getTable(i, j).getDice() != null) {
+                    if((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i + 1, j + 1).getDice() != null) {
+                        if ((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i, j).getDice().getcolour()
+                                == sch.getTable(i + 1, j + 1).getDice().getcolour()) {
+                            score++;
+                            flag = true;
+                        }
+                if((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i - 1, j + 1).getDice() != null){
+                        if ((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i, j).getDice().getcolour()
+                                == sch.getTable(i - 1, j + 1).getDice().getcolour()) {
+                            score++;
+                            flag = true;
+                        }
+                        if (flag) {
+                            score++;
+                            flag = false;
+                        }
                     }
                 }
-
+            }
 
             }
         }
