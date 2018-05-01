@@ -26,6 +26,10 @@ public class RoundTrack {
         return d;
     }
 
+    public List getListRounds(int i) {
+        return this.listRounds[i];
+    }
+
     @Override
     public String toString() {
         String str = "";
