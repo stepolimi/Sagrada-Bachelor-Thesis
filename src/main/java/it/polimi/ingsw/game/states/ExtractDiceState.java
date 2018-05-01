@@ -1,9 +1,9 @@
-package it.polimi.ingsw.states;
+package it.polimi.ingsw.game.states;
 
-import it.polimi.ingsw.DiceBag;
 import it.polimi.ingsw.DiceSpace;
 
 public class ExtractDiceState extends State {
+    private String state = "ExtractDiceState";
     private static String next;
 
     @Override
@@ -18,8 +18,8 @@ public class ExtractDiceState extends State {
     }
 
     @Override
-    public String nextState(Round round, String action){
-        next = "InitialState";
-        return next;
-    }
+    public String nextState(Round round, String action){ return action + "State"; }
+
+    @Override
+    public String toString (){return state; }
 }

@@ -1,7 +1,9 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.game;
 
+import it.polimi.ingsw.Board;
+import it.polimi.ingsw.Player;
 import it.polimi.ingsw.rules.RulesManager;
-import it.polimi.ingsw.states.Round;
+import it.polimi.ingsw.game.states.Round;
 
 import java.util.ArrayList;
 import java.util.List;

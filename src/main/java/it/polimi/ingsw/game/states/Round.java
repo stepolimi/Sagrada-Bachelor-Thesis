@@ -1,4 +1,4 @@
-package it.polimi.ingsw.states;
+package it.polimi.ingsw.game.states;
 
 import it.polimi.ingsw.Board;
 import it.polimi.ingsw.Dice;
@@ -68,9 +68,10 @@ public class Round {
         this.currentPlayer= player;
     }
 
-    public void setTurnNumber(int i){
-        turnNumber = turnNumber +i;
+    public void incrementTurnNumber(int i){
+        this.turnNumber = this.turnNumber +i;
     }
+
     public int getTurnNumber(){
         return turnNumber;
     }
@@ -94,4 +95,6 @@ public class Round {
     public Dice getPendingDice() { return pendingDice; }
 
     public void setPendingDice(Dice dice){this.pendingDice = dice;}
+
+    public String getCurrentState(){ return currentState.toString();}
 }

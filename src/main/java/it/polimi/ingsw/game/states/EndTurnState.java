@@ -1,11 +1,12 @@
-package it.polimi.ingsw.states;
+package it.polimi.ingsw.game.states;
 
 public class EndTurnState extends State {
-    private static String next = "InitialState";
+    private String state = "EndTurnState";
+    private static String next ;
 
     @Override
     public void setActions(Round round){
-        //set up the next turn
+        //confirm end turn
     }
 
     @Override
@@ -15,9 +16,9 @@ public class EndTurnState extends State {
 
     @Override
     public String nextState(Round round, String action){
-        round.setTurnNumber(1);
+        round.incrementTurnNumber(1);
         if(round.getTurnNumber() < round.getBoard().numPlayers())
-            round.setPlayerIndex((round.getPlayerIndex() + 1) % (round.getBoard().numPlayers())) ;
+            round.setPlayerIndex((round.getPlayerIndex() + 1) % (round.getBoard().numPlayers() )) ;
         else if (round.getTurnNumber() > round.getBoard().numPlayers()){
             if (round.getPlayerIndex() == 0)
                 round.setPlayerIndex(round.getBoard().numPlayers() - 1);
@@ -25,6 +26,10 @@ public class EndTurnState extends State {
                 round.setPlayerIndex (round.getPlayerIndex() - 1);
         }
         round.setCurrentPlayer (round.getBoard().getPlayer(round.getPlayerIndex()));
-        return next;
+        return action + "State";
     }
+
+    @Override
+
+    public String toString (){return state; }
 }

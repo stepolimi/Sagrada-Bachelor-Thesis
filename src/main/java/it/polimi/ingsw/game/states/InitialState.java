@@ -1,6 +1,7 @@
-package it.polimi.ingsw.states;
+package it.polimi.ingsw.game.states;
 
 public class InitialState extends State {
+    private String state = "InitialState";
     private String next;
 
     @Override
@@ -15,8 +16,8 @@ public class InitialState extends State {
     }
 
     @Override
-    public String nextState(Round round, String action){
-        next = "PickDiceState";
-        return next;
-    }
+    public String nextState(Round round, String action){ return action + "State"; }
+
+    @Override
+    public String toString (){return state; }
 }

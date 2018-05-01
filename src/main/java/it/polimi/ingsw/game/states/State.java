@@ -1,6 +1,7 @@
-package it.polimi.ingsw.states;
+package it.polimi.ingsw.game.states;
 
 public abstract class State {
+    private String state;
     private String next;
 
     /*idea di funzionamento: la execute dei diversi stati notificherà alla virtual view i pulsanti/movimenti/azioni che
@@ -12,7 +13,10 @@ public abstract class State {
     public void execute(Round round, String action){}
 
     public String nextState(Round round, String action){
-        return next;
+        return action + "State";
     }
+
+    @Override
+    public String toString (){return state; }
 
 }
