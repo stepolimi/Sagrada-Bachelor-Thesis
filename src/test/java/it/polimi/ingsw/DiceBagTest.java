@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Dice;
+import it.polimi.ingsw.Model.DiceBag;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static junit.framework.Assert.assertEquals;

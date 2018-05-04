@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Player;
 import org.junit.jupiter.api.Test;
 
 import static junit.framework.Assert.assertFalse;

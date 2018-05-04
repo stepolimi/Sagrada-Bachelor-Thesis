@@ -1,10 +1,10 @@
 package it.polimi.ingsw.CardsTest.ObjCardTest;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.Cards.ObjCards.RowsObj;
-import it.polimi.ingsw.Colour;
-import it.polimi.ingsw.Dice;
-import it.polimi.ingsw.Schema;
+import it.polimi.ingsw.Model.Cards.ObjCards.RowsObj;
+import it.polimi.ingsw.Model.Colour;
+import it.polimi.ingsw.Model.Dice;
+import it.polimi.ingsw.Model.Schema;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

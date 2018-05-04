@@ -1,7 +1,7 @@
 package it.polimi.ingsw.CardsTest.DeckTest;
 
-import it.polimi.ingsw.Cards.Decks.DeckPublicObjective;
-import it.polimi.ingsw.Cards.ObjCards.ObjectiveCard;
+import it.polimi.ingsw.Model.Cards.Decks.DeckPublicObjective;
+import it.polimi.ingsw.Model.Cards.ObjCards.ObjectiveCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

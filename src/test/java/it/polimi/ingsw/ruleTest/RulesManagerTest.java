@@ -1,11 +1,10 @@
 package it.polimi.ingsw.ruleTest;
 
-import com.google.gson.Gson;
-import it.polimi.ingsw.Colour;
-import it.polimi.ingsw.Dice;
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.Schema;
-import it.polimi.ingsw.rules.RulesManager;
+import it.polimi.ingsw.Model.Colour;
+import it.polimi.ingsw.Model.Dice;
+import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Schema;
+import it.polimi.ingsw.Model.rules.RulesManager;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

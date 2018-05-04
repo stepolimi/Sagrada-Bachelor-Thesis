@@ -1,5 +1,8 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Model.Colour;
+import it.polimi.ingsw.Model.Dice;
+import it.polimi.ingsw.Model.DiceSpace;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

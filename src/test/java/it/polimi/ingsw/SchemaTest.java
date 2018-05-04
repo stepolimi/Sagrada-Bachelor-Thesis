@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Model.Colour;
+import it.polimi.ingsw.Model.Dice;
+import it.polimi.ingsw.Model.Schema;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
