@@ -51,4 +51,22 @@ public class DiceBagTest {
         db.extract(nPlayer);
         assertEquals(db.getDices().size(),90-(nPlayer*2 +1));
     }
+
+    @Test
+    void  initial_quantity(){
+        db = new DiceBag();
+        assertEquals(90, db.getDices().size());
+    }
+
+    @Test
+    void final_quantity(){
+        int nPlayer= 4;
+        db = new DiceBag();
+        for(int i = 0; i<10; i++){
+            db.extract(nPlayer);
+
+        }
+        assertEquals(0, db.getDices().size());
+    }
+
 }
