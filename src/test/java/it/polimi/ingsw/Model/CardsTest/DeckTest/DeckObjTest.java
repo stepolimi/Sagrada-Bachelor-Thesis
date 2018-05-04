@@ -16,7 +16,7 @@ import static junit.framework.Assert.assertEquals;
 public class DeckObjTest {
 
     ArrayList<ObjectiveCard> deckPub = new ArrayList<ObjectiveCard>();
-    DeckPublicObjective d = new DeckPublicObjective(deckPub);
+    DeckPublicObjective d = new DeckPublicObjective();
 
 
     @Test
