@@ -14,13 +14,13 @@ import static junit.framework.Assert.assertEquals;
  */
 public class DeckPrivTest {
 
-    PrivateObjective card1 = new PrivateObjective("", "", null);
-    PrivateObjective card2 = new PrivateObjective("", "", null);
-    PrivateObjective card3 = new PrivateObjective("", "", null);
-    PrivateObjective card4 = new PrivateObjective("", "", null);
+    PrivateObjective card1 = new PrivateObjective();
+    PrivateObjective card2 = new PrivateObjective();
+    PrivateObjective card3 = new PrivateObjective();
+    PrivateObjective card4 = new PrivateObjective();
     ArrayList<PrivateObjective> deckPriv = new ArrayList<PrivateObjective>();
 
-    DeckPrivateObjective d = new DeckPrivateObjective(deckPriv);
+    DeckPrivateObjective d = new DeckPrivateObjective();
 
 
 

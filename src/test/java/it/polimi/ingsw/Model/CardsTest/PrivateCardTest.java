@@ -6,6 +6,8 @@ import it.polimi.ingsw.Model.Schema;
 import org.junit.jupiter.api.Test;
 import it.polimi.ingsw.Model.Cards.PrivateObjective;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
@@ -43,18 +45,18 @@ public class PrivateCardTest {
         s.insertDice(3, 3, d10);
     }
     @Test
-    public void scoreColour(){
+    public void scoreColour() throws IOException {
 
         insertDice();
 
-        PrivateObjective card = new PrivateObjective("name", "description", Colour.ANSI_PURPLE );
+        PrivateObjective card = new PrivateObjective().PrivateInit(4);
         assertEquals(2, card.ScoreCard(s));
     }
 
     @Test
-    public void null_score(){
+    public void null_score() throws IOException {
 
-        PrivateObjective card = new PrivateObjective("name", "description", Colour.ANSI_PURPLE );
+        PrivateObjective card = new PrivateObjective().PrivateInit(4);
         assertEquals(0, card.ScoreCard(s), "result is 0");
 
     }
