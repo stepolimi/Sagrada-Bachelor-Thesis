@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Model;
 
 import it.polimi.ingsw.Model.Dice;
 import it.polimi.ingsw.Model.DiceBag;

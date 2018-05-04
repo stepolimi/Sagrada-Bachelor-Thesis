@@ -1,4 +1,4 @@
-package it.polimi.ingsw.ruleTest;
+package it.polimi.ingsw.Model.ruleTest;
 
 import it.polimi.ingsw.Model.Colour;
 import it.polimi.ingsw.Model.Dice;

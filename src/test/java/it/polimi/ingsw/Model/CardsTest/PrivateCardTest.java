@@ -1,17 +1,17 @@
-package it.polimi.ingsw.CardsTest.ObjCardTest;
-
+package it.polimi.ingsw.Model.CardsTest;
 import com.google.gson.Gson;
-import it.polimi.ingsw.Model.Cards.ObjCards.CoupleSetObj;
 import it.polimi.ingsw.Model.Colour;
 import it.polimi.ingsw.Model.Dice;
 import it.polimi.ingsw.Model.Schema;
 import org.junit.jupiter.api.Test;
+import it.polimi.ingsw.Model.Cards.PrivateObjective;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-//test verify the right calcolus of ScoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
 
+//testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
+//other tests
 
-public class CoupleCTest {
+public class PrivateCardTest {
 
     Gson g = new Gson();
     String stringa = "{\"name\":\"Kaleidoscopic Dream\",\"difficult\":4,\"table\":[[{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":1,\"full\":false}],[{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":5,\"full\":false},{\"number\":0,\"full\":false},{\"number\":4,\"full\":false}],[{\"number\":3,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_RED\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false}],[{\"number\":2,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false}]]}";
@@ -31,36 +31,31 @@ public class CoupleCTest {
 
 
 
-
         s.insertDice(0, 0, d1);
-        s.insertDice(0, 1, d2);
-        s.insertDice(0, 2, d3);
-        s.insertDice(0, 3, d4);
-        s.insertDice(0, 4, d5);
-        s.insertDice(2, 0, d6);
-        s.insertDice(2, 1, d7);
-        s.insertDice(2, 2, d8);
-        s.insertDice(2, 3, d9);
-        s.insertDice(2, 4, d10);
-
+        s.insertDice(1, 0, d2);
+        s.insertDice(2, 0, d3);
+        s.insertDice(3, 0, d4);
+        s.insertDice(0, 2, d5);
+        s.insertDice(1, 2, d6);
+        s.insertDice(2, 2, d7);
+        s.insertDice(3, 2, d8);
+        s.insertDice(3, 4, d9);
+        s.insertDice(3, 3, d10);
     }
-
     @Test
-    void CorrectScore() {
-
+    public void scoreColour(){
 
         insertDice();
-        CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2 );
 
-        assertEquals(4, card.ScoreCard(s), "correct calculus");
+        PrivateObjective card = new PrivateObjective("name", "description", Colour.ANSI_PURPLE );
+        assertEquals(2, card.ScoreCard(s));
     }
+
     @Test
     public void null_score(){
 
-        CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2 );
-
+        PrivateObjective card = new PrivateObjective("name", "description", Colour.ANSI_PURPLE );
         assertEquals(0, card.ScoreCard(s), "result is 0");
+
     }
-
-
 }

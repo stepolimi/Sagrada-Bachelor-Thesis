@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CardsTest.DeckTest;
+package it.polimi.ingsw.Model.CardsTest.DeckTest;
 
 import it.polimi.ingsw.Model.Cards.Decks.DeckPublicObjective;
 import it.polimi.ingsw.Model.Cards.ObjCards.ObjectiveCard;

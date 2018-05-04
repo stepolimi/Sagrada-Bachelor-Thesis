@@ -1,4 +1,4 @@
-package it.polimi.ingsw.CardsTest.ObjCardTest;
+package it.polimi.ingsw.Model.CardsTest.ObjCardTest;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.Model.Cards.ObjCards.ColumnsObj;
