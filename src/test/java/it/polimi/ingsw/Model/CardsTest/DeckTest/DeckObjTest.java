@@ -48,7 +48,7 @@ public class DeckObjTest {
     public void correctExtract4(){
         deckPub = d.extract(1);
         assertEquals(2, deckPub.size());
-        assertEquals(7, d.getDeckPub().size());
+        assertEquals(8, d.getDeckPub().size());
 
 
     }
