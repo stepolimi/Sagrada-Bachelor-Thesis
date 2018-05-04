@@ -1,6 +1,7 @@
 package it.polimi.ingsw.game;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.game.GameMultiplayer;
 
 import java.util.ArrayList;
 import java.util.List;

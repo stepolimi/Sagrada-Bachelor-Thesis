@@ -1,8 +1,8 @@
 package it.polimi.ingsw.statesTest;
 
-import it.polimi.ingsw.Board;
-import it.polimi.ingsw.Player;
-import it.polimi.ingsw.game.states.Round;
+
+import it.polimi.ingsw.Model.*;
+import it.polimi.ingsw.Model.game.states.Round;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
