@@ -5,10 +5,10 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class Pinza extends ToolCard {
-    private static String name = "Pinza Sgrossatrice";
-    private static String description = "Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scleto di 1.\n Non puoi cambaire un 6 in un 1" +
+    private String name = "Pinza Sgrossatrice";
+    private String description = "Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scleto di 1.\n Non puoi cambaire un 6 in un 1" +
             "o un 1 in un 6";
-    private static int num_card = 1;
+    private int num_card = 1;
 
 
     public boolean effects(Player p, Round round, int change) {
@@ -33,6 +33,19 @@ public class Pinza extends ToolCard {
         else return false;
 
 
+    }
+
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 
 

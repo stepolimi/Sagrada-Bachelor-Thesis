@@ -4,10 +4,10 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class Martelletto extends ToolCard  {
-    private static String name = "Martelletto";
-    private static String description= "Tira nuovamente tutti i dadi della riserva. \n" +
+    private String name = "Martelletto";
+    private String description= "Tira nuovamente tutti i dadi della riserva. \n" +
             "Questa carta può essere utilizzata solo durante il tuo secondo turno, prima di scegliere il secondo dado";
-    private static  int num_card = 7;
+    private int num_card = 7;
     public boolean effects(Player p, Round round) {
 
         if(isMySecondTurn(p, round) && round.getPendingDice() == null){
@@ -26,6 +26,19 @@ public class Martelletto extends ToolCard  {
             return true;
         else return false;
     }
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
 
 
 }

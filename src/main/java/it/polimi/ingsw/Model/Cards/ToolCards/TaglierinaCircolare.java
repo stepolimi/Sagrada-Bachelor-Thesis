@@ -5,9 +5,9 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class TaglierinaCircolare extends ToolCard {
-    private static String name = "Taglierina Circolare";
-    private static String description = "Dopo aver scelto un dado, scambia quel dado con un dado sul tracciato di round";
-    private static int num_card = 5;
+    private String name = "Taglierina Circolare";
+    private String description = "Dopo aver scelto un dado, scambia quel dado con un dado sul tracciato di round";
+    private int num_card = 5;
 
     public void effects(Player p, Round round, int indexRound, int indexDice){
 
@@ -23,5 +23,18 @@ public class TaglierinaCircolare extends ToolCard {
         round.getBoard().getRoundTrack().insertDice(d, roundIndex );
         return trasport;
     }
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
 
 }

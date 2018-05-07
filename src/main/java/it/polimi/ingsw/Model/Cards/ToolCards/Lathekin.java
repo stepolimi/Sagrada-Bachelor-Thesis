@@ -5,9 +5,9 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class Lathekin extends ToolCard{
-    private static String name = "Lathekin";
-    private static String description = "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento";
-    private static int num_card = 4;
+    private String name = "Lathekin";
+    private String description = "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento";
+    private int num_card = 4;
 
 
 
@@ -42,5 +42,20 @@ public class Lathekin extends ToolCard{
 
 
     }
+
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
+
 
 }

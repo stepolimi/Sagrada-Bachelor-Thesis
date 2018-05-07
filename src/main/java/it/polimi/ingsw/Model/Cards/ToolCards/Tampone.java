@@ -5,10 +5,10 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class Tampone extends ToolCard {
-    private static String name = "Tampone Diamantato";
+    private String name = "Tampone Diamantato";
     private String description = "Dopo aver scelto un dado, giralo sulla facia opposta. \n " +
             "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc.";
-    private static int num_card = 10;
+    private int num_card = 10;
 
     public void effects(Player p, Round round){
 
@@ -37,5 +37,18 @@ public class Tampone extends ToolCard {
 
 
     }
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
 
 }
