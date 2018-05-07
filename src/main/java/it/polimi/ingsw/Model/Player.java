@@ -73,10 +73,7 @@ public class Player {
         this.myTurn = myTurn;
     }
 
-    public void takeSchema(List<Schema> sc, int index)
-    {
-        this.schema = sc.get(index);
-    }
+    public void takeSchema(List<Schema> sc, int index) { this.setSchema(sc.get(index)); }
 
     public void setObjective(PrivateObjective po){
         this.prCard = po;
@@ -94,7 +91,6 @@ public class Player {
     public void dump(){
         System.out.println(this);
     }
-
 
 }
 
