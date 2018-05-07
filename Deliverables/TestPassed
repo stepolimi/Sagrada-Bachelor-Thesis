@@ -30,6 +30,7 @@ DiceSpaceTest
 PlayerTest
 	correct_behave()
 	wrong_behave()
+	setAttributes()
 SchemaTest
 	NearDicesAngle()
 	DicePlacement()
