@@ -7,10 +7,10 @@ import it.polimi.ingsw.Model.game.states.Round;
 import java.util.List;
 
 public class Riga extends ToolCard {
-    private static String name = "Riga in sughero";
-    private static String description = "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro " +
+    private String name = "Riga in sughero";
+    private String description = "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro " +
             "dado. \n Deve rispettare tutte le restrizioni di piazzamento";
-    private static int num_card = 9;
+    private int num_card = 9;
 
     public boolean effects(Player player, Round round, int x, int y){
 
@@ -38,6 +38,19 @@ public class Riga extends ToolCard {
 
 
 
+    }
+
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 
 

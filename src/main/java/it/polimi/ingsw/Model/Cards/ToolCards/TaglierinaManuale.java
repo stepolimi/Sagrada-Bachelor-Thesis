@@ -8,10 +8,10 @@ import it.polimi.ingsw.Model.game.states.Round;
 
 public class TaglierinaManuale extends ToolCard {
 
-    private static  String name= "Taglierina Manuale";
-    private static String description = "Muovi fino a due dadi dello stesso colore di un solo dado sul Tracciato di Round. \n " +
+    private  String name= "Taglierina Manuale";
+    private String description = "Muovi fino a due dadi dello stesso colore di un solo dado sul Tracciato di Round. \n " +
             "Divi rispettare tutte le restrizioni di piazzamento";
-   private static int num_card = 12;
+   private  int num_card = 12;
 
    public boolean effects(Player p, Round round, int x, int y, int rows,
                        int columns, int x2, int y2, int rows2, int columns2, int num_insertion, int i){
@@ -56,6 +56,19 @@ public class TaglierinaManuale extends ToolCard {
        else return null;
 
 }
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
 
 
 }

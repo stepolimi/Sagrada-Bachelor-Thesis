@@ -4,9 +4,9 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class Tenaglia extends ToolCard{
-    private static  String name="Tenaglia a Rotelle";
-    private static String description = "Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turn in questo round";
-    private static int card_num = 8;
+    private String name="Tenaglia a Rotelle";
+    private String description = "Dopo il tuo primo turno scegli immediatamente un altro dado. Salta il tuo secondo turn in questo round";
+    private int num_card = 8;
 
 
 
@@ -22,6 +22,19 @@ public class Tenaglia extends ToolCard{
             else return false;
 
     }
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
+    }
+
 
 
 }

@@ -5,10 +5,10 @@ import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.game.states.Round;
 
 public class PennelloEglomise extends ToolCard {
-    private static String name = "Pennello per Eglomise";
-    private static String description = "Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore. \nDecvi rispettare tutte le altre " +
+    private String name = "Pennello per Eglomise";
+    private String description = "Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore. \nDecvi rispettare tutte le altre " +
             "restrizioni di piazzamento";
-    private static int num_card = 2;
+    private int num_card = 2;
 
 
 
@@ -26,6 +26,19 @@ public class PennelloEglomise extends ToolCard {
         else return false;
 
 
+    }
+
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 
 

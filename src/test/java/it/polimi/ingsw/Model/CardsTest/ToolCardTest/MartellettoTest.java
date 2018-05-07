@@ -49,7 +49,7 @@ public class MartellettoTest {
         int sizeSpace = board.getDiceSpace().getListDice().size();
         round.setTurnNumber(4);
         player.setTurn(true);
-        assertTrue(toolCard.effects(player, round, board.getDiceSpace()));
+        assertTrue(toolCard.effects(player, round));
         assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
     }
 

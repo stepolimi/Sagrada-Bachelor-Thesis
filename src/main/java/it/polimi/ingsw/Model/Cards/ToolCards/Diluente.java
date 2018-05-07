@@ -7,10 +7,10 @@ import it.polimi.ingsw.Model.game.states.Round;
 public class Diluente extends ToolCard {
 
 
-    private  static String  name = "Diluente per Pasta Calda";
-    private static String description = "Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane uno dal Sacchetto.\n" +
+    private  String  name = "Diluente per Pasta Calda";
+    private String description = "Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane uno dal Sacchetto.\n" +
             "Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni d piazzamento";
-    private static int num_card = 11;
+    private int num_card = 11;
 
 
 
@@ -30,6 +30,19 @@ public class Diluente extends ToolCard {
         else return false;
 
 
+    }
+
+    @Override
+    public String toString(){
+        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+        return src;
+
+    }
+
+    public void dump(){
+        System.out.println(this);
     }
 
 
