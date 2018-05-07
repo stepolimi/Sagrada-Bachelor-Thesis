@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.game;
 
 import it.polimi.ingsw.Model.Board;
+import it.polimi.ingsw.Model.DiceSpace;
 import it.polimi.ingsw.Model.Player;
 import it.polimi.ingsw.Model.rules.RulesManager;
 import it.polimi.ingsw.Model.game.states.Round;
@@ -13,6 +14,8 @@ public class GameMultiplayer {
     private List<Round> rounds= new ArrayList <Round> (10);
     private List<Player> players;
     private Board board = new Board(players);
+    private DiceSpace dices;
+
 
     public GameMultiplayer(List <Player> players){ this.players = players; }
 
@@ -35,4 +38,10 @@ public class GameMultiplayer {
         rounds.get(index).startRound();
 
     }
+
+    public DiceSpace getDices() {
+        return dices;
+    }
+
+
 }

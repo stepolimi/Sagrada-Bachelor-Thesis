@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Colour;
-import it.polimi.ingsw.Model.Dice;
-import it.polimi.ingsw.Model.DiceSpace;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+
 import static junit.framework.Assert.assertEquals;
 
 
@@ -16,7 +14,7 @@ public class DiceSpaceTest {
 
     ArrayList<Dice> lista = new ArrayList<Dice>();
 
-    DiceSpace diceSpace = new DiceSpace(lista);
+    DiceSpace diceSpace = new DiceSpace();
 
 
 

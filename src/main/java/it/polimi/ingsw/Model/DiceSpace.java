@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DiceSpace {
@@ -9,14 +10,15 @@ public class DiceSpace {
        return this.dices;
    }
 
-    public DiceSpace(List<Dice> dices)
+    public DiceSpace()
     {
-        this.dices = dices;
+        this.dices = new ArrayList<Dice>();
     }
 
    public void insertDice(Dice d)
    {
        this.dices.add(d);
+
    }
 
 
@@ -43,4 +45,6 @@ public class DiceSpace {
     {
         System.out.println(this);
     }
+
+
 }

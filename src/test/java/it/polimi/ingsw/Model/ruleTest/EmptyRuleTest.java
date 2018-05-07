@@ -26,7 +26,7 @@ public class EmptyRuleTest {
         schema.insertDice(0,0,dice_1);
         player.setSchema(schema);
 
-        assertTrue(rule.checkRule(player,0,1,0,dice_2));
+        assertTrue(rule.checkRule(0,1,0,dice_2, schema));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class EmptyRuleTest {
         schema.insertDice(0,0,dice_1);
         player.setSchema(schema);
 
-        assertFalse(rule.checkRule(player,0,0,0,dice_2));
+        assertFalse(rule.checkRule(0,0,0,dice_2, schema));
     }
 }
 

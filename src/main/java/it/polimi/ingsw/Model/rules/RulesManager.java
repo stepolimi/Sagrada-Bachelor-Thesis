@@ -1,7 +1,8 @@
 package it.polimi.ingsw.Model.rules;
 
 import it.polimi.ingsw.Model.Dice;
-import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Schema;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +20,10 @@ public class RulesManager {
 
     // toolCardNumber will be the index of the eventual tool card used by the user; it will be =0 if no tool card was used
 
-    public boolean checkRules(Player currentPlayer, int toolCardNumber, int x, int y, Dice dice){
+    public boolean checkRules(int toolCardNumber, int x, int y, Dice dice, Schema sch){
         boolean valid = true;
         for(InsertionRule r: rules){
-            valid = valid && r.checkRule(currentPlayer, toolCardNumber, x, y,dice);
+            valid = valid && r.checkRule(toolCardNumber, x, y, dice, sch);
         }
         return valid;
     }

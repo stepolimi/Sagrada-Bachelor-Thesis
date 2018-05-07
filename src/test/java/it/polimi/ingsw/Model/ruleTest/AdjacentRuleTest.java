@@ -25,28 +25,27 @@ public class AdjacentRuleTest {
     @Test
     public void correctInsertion() throws IOException {
         schema = schema.schemaInit(24);
-        player.setSchema(schema);
 
         //test for correct insertion in an empty schema
-        assertTrue(rule.checkRule(player,0,0,1,dice_1));
-        assertTrue(rule.checkRule(player,0,1,0,dice_1));
-        assertTrue(rule.checkRule(player,0,1,4,dice_1));
-        assertTrue(rule.checkRule(player,0,3,1,dice_1));
+        assertTrue(rule.checkRule(0,0,1,dice_1, schema));
+        assertTrue(rule.checkRule(0,1,0,dice_1, schema));
+        assertTrue(rule.checkRule(0,1,4,dice_1, schema));
+        assertTrue(rule.checkRule(0,3,1,dice_1, schema));
 
         schema.insertDice(3,3,dice_2);
 
         //test for correct insertion with a tool card n*9
-        assertTrue(rule.checkRule(player,9,0,1,dice_1));
-        assertTrue(rule.checkRule(player,9,1,0,dice_1));
-        assertTrue(rule.checkRule(player,9,1,4,dice_1));
-        assertTrue(rule.checkRule(player,9,3,1,dice_1));
+        assertTrue(rule.checkRule(9,0,1,dice_1, schema));
+        assertTrue(rule.checkRule(9,1,0,dice_1, schema));
+        assertTrue(rule.checkRule(9,1,4,dice_1, schema));
+        assertTrue(rule.checkRule(9,3,1,dice_1, schema));
 
         schema.insertDice(1,3,dice_3);
 
         //test for correct generic insertion
-        assertTrue(rule.checkRule(player,0,3,2,dice_1));
-        assertTrue(rule.checkRule(player,0,2,2,dice_1));
-        assertTrue(rule.checkRule(player,0,2,3,dice_1));
+        assertTrue(rule.checkRule(0,3,2,dice_1, schema));
+        assertTrue(rule.checkRule(0,2,2,dice_1, schema));
+        assertTrue(rule.checkRule(0,2,3,dice_1, schema));
 
 
 
@@ -56,25 +55,24 @@ public class AdjacentRuleTest {
     @Test
     public void wrongInsertion() throws IOException {
         schema = schema.schemaInit(24);
-        player.setSchema(schema);
 
         //test for wrong insertion in an empty schema
-        assertFalse(rule.checkRule(player,0,1,1,dice_1));
+        assertFalse(rule.checkRule(0,1,1,dice_1, schema));
 
         schema.insertDice(0,0,dice_2);
 
         //test for wrong insertion with a tool card n*9
-        assertFalse(rule.checkRule(player,9,0,1,dice_1));
-        assertFalse(rule.checkRule(player,9,1,0,dice_1));
-        assertFalse(rule.checkRule(player,9,1,2,dice_1));
-        assertFalse(rule.checkRule(player,9,2,1,dice_1));
+        assertFalse(rule.checkRule(9,0,1,dice_1, schema));
+        assertFalse(rule.checkRule(9,1,0,dice_1, schema));
+        assertFalse(rule.checkRule(9,1,2,dice_1, schema));
+        assertFalse(rule.checkRule(9,2,1,dice_1, schema));
 
         //test for wrong generic insertion
-        assertFalse(rule.checkRule(player,0,0,1,dice_3));
-        assertFalse(rule.checkRule(player,0,1,0,dice_3));
-        assertFalse(rule.checkRule(player,0,0,1,dice_4));
-        assertFalse(rule.checkRule(player,0,1,0,dice_4));
-        assertFalse(rule.checkRule(player,0,3,3,dice_1));
+        assertFalse(rule.checkRule(0,0,1,dice_3, schema));
+        assertFalse(rule.checkRule(0,1,0,dice_3, schema));
+        assertFalse(rule.checkRule(0,0,1,dice_4, schema));
+        assertFalse(rule.checkRule(0,1,0,dice_4, schema));
+        assertFalse(rule.checkRule(0,3,3,dice_1, schema));
 
 
 

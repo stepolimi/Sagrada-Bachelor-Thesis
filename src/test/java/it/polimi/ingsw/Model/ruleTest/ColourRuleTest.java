@@ -24,9 +24,9 @@ public class ColourRuleTest {
         schema = schema.schemaInit(24);
         player.setSchema(schema);
 
-        assertTrue(rule.checkRule(player,0,0,0,dice));
-        assertTrue(rule.checkRule(player,0,0,1,dice));
-        assertTrue(rule.checkRule(player,2,0,2,dice));
+        assertTrue(rule.checkRule(0,0,0,dice, schema));
+        assertTrue(rule.checkRule(0,0,1,dice, schema));
+        assertTrue(rule.checkRule(2,0,2,dice, schema));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class ColourRuleTest {
         schema = schema.schemaInit(24);
         player.setSchema(schema);
 
-        assertFalse(rule.checkRule(player,0,0,2,dice));
+        assertFalse(rule.checkRule(0,0,2,dice, schema));
 
     }
 }

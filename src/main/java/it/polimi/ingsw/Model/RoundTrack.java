@@ -13,10 +13,20 @@ public class RoundTrack {
             listRounds[i]=new ArrayList<Dice>();
     }
 
+    public List getListRounds(int i) {
+        return this.listRounds[i];
+    }
+
+    public Dice getDice(int i, int j) { return this.listRounds[i].get(j);}
+
     // forse conviene ricevere in ingresso una lista (da vedere)
-    public void insertDice(List <Dice> d, int nRound)
+    public void insertDices(ArrayList<Dice> d, int nRound)
     {
-        this.listRounds[nRound] = d;
+        this.listRounds[nRound].addAll(d);
+    }
+    public void insertDice(Dice d, int nRound)
+    {
+        this.listRounds[nRound].add(d);
     }
     public Dice removeDice(int nRound,int nDice)
     {
@@ -26,9 +36,6 @@ public class RoundTrack {
         return d;
     }
 
-    public List getListRounds(int i) {
-        return this.listRounds[i];
-    }
 
     @Override
     public String toString() {

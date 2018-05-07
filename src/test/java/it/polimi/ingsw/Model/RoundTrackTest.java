@@ -24,18 +24,22 @@ public class RoundTrackTest {
     @Test
     public void dice_insertion(){
         setOfDice();
-        trackround.insertDice(listDice, 1);
+        trackround.insertDices(listDice, 1);
         assertEquals(listDice.size(), trackround.getListRounds(1).size());
         assertEquals(d1, trackround.getListRounds(1).get(0));
     }
 
 
     @Test
-    public void dice_removing(){
+    public void roundtrack_empty(){
         setOfDice();
-        trackround.insertDice(listDice, 1);
-        listDice.add(trackround.removeDice(1,1));
-        assertEquals(listDice.size(), trackround.getListRounds(1).size());
+        trackround.insertDices(listDice, 1);
+        trackround.removeDice(1,1);
+        trackround.removeDice(1,0);
+
+
+
+        assertEquals(0, trackround.getListRounds(1).size());
 
     }
 

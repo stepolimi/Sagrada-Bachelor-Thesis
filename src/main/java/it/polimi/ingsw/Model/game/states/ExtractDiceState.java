@@ -11,10 +11,10 @@ public class ExtractDiceState extends State {
         //user can extract and roll the dices
 
     }
-
+//r
     @Override
     public void execute(Round round, String action){
-        round.setDices(new DiceSpace(round.getBoard().getDicebag().extract(round.getBoard().numPlayers())));
+        round.setDices(new DiceSpace());
     }
 
     @Override

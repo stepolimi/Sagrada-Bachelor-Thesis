@@ -88,6 +88,10 @@ public class Round {
         return board;
     }
 
+    public void setTurnNumber(int n){
+        this.turnNumber= n;
+    }
+
     public DiceSpace getDices() { return dices; }
 
     public void setDices(DiceSpace dices) { this.dices = dices; }

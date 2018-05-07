@@ -26,7 +26,7 @@ public class RulesManagerTest {
         schema = schema.schemaInit(24);
         player.setSchema(schema);
 
-        assertTrue(manager.checkRules(player,0,0,0,dice_1));
+        assertTrue(manager.checkRules(0,0,0,dice_1, schema));
     }
 
     @Test
@@ -36,16 +36,16 @@ public class RulesManagerTest {
         schema.insertDice(0,0,dice_1);
 
         //wrong for EmptyRule
-        assertFalse(manager.checkRules(player,0,0,0,dice_2));
+        assertFalse(manager.checkRules(0,0,0,dice_2, schema));
 
         //wrong for NumberRule
-        assertFalse(manager.checkRules(player,0,0,1,dice_3));
+        assertFalse(manager.checkRules(0,0,1,dice_3, schema));
 
         //wrong for ColourRule
-        assertFalse(manager.checkRules(player,0,0,1,dice_4));
+        assertFalse(manager.checkRules(0,0,1,dice_4, schema));
 
         //wrong for AdjacentRule
-        assertFalse(manager.checkRules(player,0,0,2,dice_2));
+        assertFalse(manager.checkRules(0,0,2,dice_2, schema));
     }
 
 

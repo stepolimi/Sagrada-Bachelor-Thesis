@@ -1,16 +1,16 @@
 package it.polimi.ingsw.Model.rules;
 
 import it.polimi.ingsw.Model.Dice;
-import it.polimi.ingsw.Model.Player;
+import it.polimi.ingsw.Model.Schema;
 
 import java.util.List;
 
 public class AdjacentRule implements InsertionRule {
 
-    public boolean checkRule(Player currentPlayer, int toolCardNumber, int x, int y, Dice dice){
-        List <Dice> nearDices = currentPlayer.getSchema().nearDice(x, y);
+    public boolean checkRule(int toolCardNumber, int x, int y, Dice dice, Schema sch){
+        List <Dice> nearDices = sch.nearDice(x, y);
 
-        if(currentPlayer.getSchema().isEmpty() == true) {
+        if(sch.isEmpty() == true) {
             if(x == 0 || y == 0 || x == 3 || y == 4)
                 return true;
             return false;

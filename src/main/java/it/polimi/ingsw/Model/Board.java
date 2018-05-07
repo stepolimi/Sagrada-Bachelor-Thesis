@@ -8,6 +8,8 @@ import java.util.List;
 public class Board {
     private List<Player>  playerList;
     private DiceBag dicebag;
+    private RoundTrack roundTrack;
+    private DiceSpace diceSpace;
     private DeckPublicObjective deckpubl;
     private DeckPrivateObjective deckpriv;
     // private DeckToolCard decktool;
@@ -19,9 +21,22 @@ public class Board {
         this.playerList = p;
         dicebag = new DiceBag();
         deckSchemi = new setSchemi(this.playerList.size());
+        roundTrack = new RoundTrack();
+        diceSpace = new DiceSpace();
 
     }
 
+    public List<Player> getPlayerList() {
+        return playerList;
+    }
+
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
+    }
+
+    public DiceSpace getDiceSpace() {
+        return diceSpace;
+    }
 
     public Player getPlayer(int index){
         return this.playerList.get(index);
