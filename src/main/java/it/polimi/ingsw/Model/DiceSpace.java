@@ -22,7 +22,7 @@ public class DiceSpace {
    }
 
 
-   public Dice removeDice(int n) // indice umano, non binario bisogna adattare tuto
+   public Dice removeDice(int n) // indice umano, non binario bisogna adattare tutto
    {
        if(n<(dices.size()+1) && n>0)
        {

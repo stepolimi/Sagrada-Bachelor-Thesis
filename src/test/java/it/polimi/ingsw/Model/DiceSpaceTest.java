@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class DiceSpaceTest {
@@ -23,10 +24,9 @@ public class DiceSpaceTest {
 
     }
 
-    public void removing(){
+    public Dice removing(){
 
-        if(diceSpace.getListDice() != null)
-            diceSpace.removeDice(0);
+        return diceSpace.removeDice(1);
     }
 
     @Test
@@ -37,9 +37,14 @@ public class DiceSpaceTest {
 
     @Test
     public void correct_remove(){
-        removing();
+        insertion();
+        assertTrue(removing() == d1);
         assertEquals(0, diceSpace.getListDice().size());
+
+        assertTrue(removing() == null);
+
     }
+
 
 
 }

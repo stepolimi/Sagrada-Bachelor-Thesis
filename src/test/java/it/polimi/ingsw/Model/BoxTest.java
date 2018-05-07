@@ -21,7 +21,12 @@ public class BoxTest {    //in every schema we have only boxes that could have O
         assertFalse(!((b.getNumber() != 0) && (b.getC() != null)), "wrong box format. Box could not have " +
                 "number and colour restriction at the same time");
     }
+    @Test
+    void string(){
+        Box b = new Box(Colour.ANSI_RED, 4);
 
+        assertTrue(b.toString().equals("[ 4 ]"));
+    }
 
 }
 

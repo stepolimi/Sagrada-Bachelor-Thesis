@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class setSchemi {
-    List<Schema> schema ;
-    List <Integer> nSchema;
+public class SetSchemi {
+    private List<Schema> schema ;
+    private List <Integer> nSchema;
 
-    public setSchemi(int nPlayer)
+    public SetSchemi(int nPlayer)
     {
         nSchema = new ArrayList<Integer>(){};
         schema = new ArrayList<Schema>();
@@ -23,7 +23,6 @@ public class setSchemi {
                 schema.add(new Schema().schemaInit(nSchema.get(random)));
                 schema.add(new Schema().schemaInit(nSchema.get(random)+12));
                 nSchema.remove(random);
-              //  nSchema.remove(random);
             }catch(IOException e)
             {
                 System.out.println(e.getMessage());

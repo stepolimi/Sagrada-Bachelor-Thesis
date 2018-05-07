@@ -25,6 +25,7 @@ public class SchemaTest {
         assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
         s.removeDice(0,0);
         assertTrue(s.getTable(0,0).getDice()==null,"The box is empty");
+        assertTrue(s.removeDice(0,0)==null,"The box is empty");
     }
 
 
