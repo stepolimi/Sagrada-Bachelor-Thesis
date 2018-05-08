@@ -4,7 +4,7 @@ import it.polimi.ingsw.Model.DiceSpace;
 
 public class ExtractDiceState extends State {
     private String state = "ExtractDiceState";
-    private static String next;
+    private String next;
 
     @Override
     public void setActions(Round round) {

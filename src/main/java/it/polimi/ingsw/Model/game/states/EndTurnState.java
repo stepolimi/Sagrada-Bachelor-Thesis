@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Model.game.states;
 
 public class EndTurnState extends State {
-    private String state = "EndTurnState";
-    private static String next ;
+    private static String state = "EndTurnState";
+    private String next ;
 
     @Override
     public void setActions(Round round){

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SetSchemiTest {
@@ -13,7 +14,7 @@ public class SetSchemiTest {
 
     public List<Schema> schemasList() {
         List<Schema> schemas = new ArrayList<Schema>();
-        for (int i = 0; i < 12; i++) {
+        for (int i = 1; i < 13; i++) {
             try {
                 schemas.add(new Schema().schemaInit(i));
                 schemas.add(new Schema().schemaInit(i + 12));
@@ -27,17 +28,29 @@ public class SetSchemiTest {
     @Test
     public void deliverTest(){
         List<Schema> schemas = schemasList();
+        boolean found = false;
 
         assertTrue(set.deliver(0).size()== 4);
         assertTrue(set.deliver(1).size()== 4);
         assertTrue(set.deliver(2).size()== 4);
-        /*
+
         for(Schema s: set.deliver(0)){
-            for(Schema s2: schemas)
-                if(s.toString() == s2.toString()) {
+            for(Schema s2: schemas) {
+                if (s.getName().equals(s2.getName())) {
                     found = true;
                 }
+            }
             assertTrue(found);
-        }*/
+            found = false;
+        }
+
+        //each set of schemas delivered contains different schemas
+        for(Schema s: set.deliver(0)){
+            assertFalse(set.deliver(1).contains(s) || set.deliver(2).contains(s));
+        }
+        for(Schema s: set.deliver(1)){
+            assertFalse(set.deliver(0).contains(s) || set.deliver(2).contains(s));
+        }
+
     }
 }

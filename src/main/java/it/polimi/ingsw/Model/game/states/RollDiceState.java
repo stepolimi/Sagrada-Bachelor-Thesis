@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model.game.states;
 
 public class RollDiceState extends State {
-    private String state = "RollDiceState";
+    private static String state = "RollDiceState";
     private static String next = "PlaceDiceState";
 
     @Override

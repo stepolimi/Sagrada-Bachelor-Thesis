@@ -39,6 +39,16 @@ public class RoundTest {
         //Round switch states correctly
         round.changeState("Initial");
         assertTrue(round.getCurrentState().toString() == "InitialState");
+        round.changeState("UseCard");
+        assertTrue(round.getCurrentState().toString() == "UseCardState");
+        round.changeState("PickDice");
+        assertTrue(round.getCurrentState().toString() == "PickDiceState");
+        round.changeState("RollDice");
+        assertTrue(round.getCurrentState().toString() == "RollDiceState");
+        round.changeState("ChangeValue");
+        assertTrue(round.getCurrentState().toString() == "ChangeValueState");
+        round.changeState("PlaceDice");
+        assertTrue(round.getCurrentState().toString() == "PlaceDiceState");
         round.changeState("EndTurn");
         assertTrue(round.getCurrentState().toString() == "EndTurnState");
     }

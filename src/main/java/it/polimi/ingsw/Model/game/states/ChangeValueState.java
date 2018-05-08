@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model.game.states;
 
 public class ChangeValueState extends State {
-    private String state = "ChangeValueState";
+    private static String state = "ChangeValueState";
     private String next;
 
     @Override
