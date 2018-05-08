@@ -27,7 +27,7 @@ public class RigaTest {
     Dice d3 = new Dice(Colour.ANSI_RED, 5);
     {
         try {
-            sch = new Schema().schemaInit(7);
+            sch = new Schema().schemaInit(13);
         } catch (IOException e) {
             e.printStackTrace();
         }

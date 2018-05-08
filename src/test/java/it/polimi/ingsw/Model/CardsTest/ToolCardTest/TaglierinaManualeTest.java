@@ -30,7 +30,7 @@ public class TaglierinaManualeTest {
 
     {
         try {
-            sch = new Schema().schemaInit(9);
+            sch = new Schema().schemaInit(15);
         } catch (IOException e) {
             e.printStackTrace();
         }

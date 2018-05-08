@@ -27,7 +27,7 @@ public class LathekinTest {
     Dice d3= new Dice(Colour.ANSI_RED, 3);
     {
         try {
-            sch = new Schema().schemaInit(7);
+            sch = new Schema().schemaInit(13);
         } catch (IOException e) {
             e.printStackTrace();
         }
