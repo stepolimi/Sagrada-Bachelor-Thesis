@@ -7,18 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Session {
-    List<Player> lobby = new ArrayList<Player>();
-    GameMultiplayer game;
+    private List<Player> lobby;
+    private GameMultiplayer game;
 
-    public void newGameMultiplayer(){
-        game = new GameMultiplayer(lobby);
+    public Session(List<Player> playerList){
+        this.game = new GameMultiplayer(playerList);
+        this.lobby = new ArrayList<Player>(playerList);
     }
 
-    public void joinPlayer(String nickname){
-        lobby.add(new Player(nickname));
+    public void joinPlayer(String player){
+        lobby.add(new Player(player));
     }
 
-    public void removePlayer(Player player){
+    public void removePlayer(String player){
         lobby.remove(player);
     }
+
+    public List getPlayers(){ return this.lobby; }
 }

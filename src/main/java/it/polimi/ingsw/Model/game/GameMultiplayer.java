@@ -12,12 +12,12 @@ import java.util.List;
 public class GameMultiplayer {
     private RulesManager rulesManager= new RulesManager();
     private List<Round> rounds= new ArrayList <Round> (10);
-    private List<Player> players;
+    private List<Player> players = new ArrayList<Player>();
     private Board board = new Board(players);
     private DiceSpace dices;
 
 
-    public GameMultiplayer(List <Player> players){ this.players = players; }
+    public GameMultiplayer(List <Player> players){ this.players.addAll(players); }
 
     public void gameInit(){
         for(int i=0; i < 10 ; i++){
