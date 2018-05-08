@@ -28,6 +28,8 @@ public class PinzaTest {
 
 
     public void setup(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);
@@ -65,5 +67,17 @@ public class PinzaTest {
         player.setTurn(true);
         assertFalse(toolCard.effects(player, round, -1));
         assertEquals(1, board.getDiceSpace().getListDice().size());
+    }
+
+    @Test
+    void not_pending(){
+        setup();
+        Dice d1= new Dice(Colour.ANSI_BLUE, 1);
+
+        int sizeSpace = board.getDiceSpace().getListDice().size();
+        round.setTurnNumber(4);
+        player.setTurn(true);
+        assertFalse(toolCard.effects(player, round, -1));
+        assertEquals(0, board.getDiceSpace().getListDice().size());
     }
 }

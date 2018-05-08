@@ -42,6 +42,7 @@ public class TaglierinaManualeTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
+        toolCard.dump();
 
         board.getRoundTrack().insertDice(d4, 3);
 
@@ -68,6 +69,7 @@ public class TaglierinaManualeTest {
     }
     @Test
     void correct_use2() throws IOException {
+
         setup_round();
         sch.insertDice(0, 3, d3);
         sch.insertDice(3,4, d5);

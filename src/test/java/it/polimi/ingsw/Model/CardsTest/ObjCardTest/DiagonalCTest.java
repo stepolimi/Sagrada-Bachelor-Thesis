@@ -69,6 +69,8 @@ public class DiagonalCTest {
         insertDice1();
 
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
+        card.dump();
+
         assertEquals(5, card.ScoreCard(s), "Result Correct");
 
     }
@@ -77,6 +79,8 @@ public class DiagonalCTest {
     public void nullScore(){
 
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
+        card.dump();
+
 
         assertEquals(0, card.ScoreCard(s), "result is 0");
     }
@@ -87,6 +91,8 @@ public class DiagonalCTest {
         insertDice2();
 
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
+        card.dump();
+
         assertEquals(4, card.ScoreCard(s), "Result Correct");
 
     }

@@ -51,6 +51,7 @@ public class ColumnsCTest {
 
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 5);
+        card.dump();
         assertEquals(10, card.ScoreCard(s), "score correct");
 
 
@@ -61,6 +62,7 @@ public class ColumnsCTest {
 
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 4);
+        card.dump();
         assertEquals(8, card.ScoreCard(s), "score correct");
 
 
@@ -70,6 +72,8 @@ public class ColumnsCTest {
 
 
         ColumnsObj card = new ColumnsObj("card", "description", 4);
+        card.dump();
+
         assertEquals(0, card.ScoreCard(s), "result is 0");
     }
 }

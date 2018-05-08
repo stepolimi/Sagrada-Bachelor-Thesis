@@ -17,6 +17,7 @@ public class PennelloEglomise extends ToolCard {
 
 
         Dice d = pickDiceFromSchema(x, y, p.getSchema());
+        if(d==null) return false;
 
         if(placeDiceToSchema(rows, columns, d, p.getSchema(), num_card) == true) {
             p.getSchema().removeDice(x, y);

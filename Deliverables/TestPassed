@@ -46,12 +46,16 @@ DiceTest
 	CorrectDiceFormat()
 TamponeTest
 	correct_change()
+	notPendingDice()
 RigaTest
 	wrong_use()
 	notSetDice()
 	correct_use()
 MartellettoTest
 	correct_roll()
+	is_not_my_turn()
+	first_turn()
+	pending_dice()
 TaglierinaManualeTest
 	correct_use1()
 	correct_use2()
@@ -68,6 +72,7 @@ PinzaTest
 PennelloPastaSaldaTest
 	roll_insertion()
 	roll_diceSpace()
+	not_pending()
 AlesatoreTest
 	wrong_use()
 	correct_use()

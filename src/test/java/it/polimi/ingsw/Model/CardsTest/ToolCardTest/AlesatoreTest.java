@@ -48,6 +48,8 @@ public class AlesatoreTest  {
     public void setupSchema() throws IOException {
         player.setSchema(sch);
 
+        toolCard.dump();
+
 
         sch.insertDice(0, 3, d1);
         sch.insertDice(1,3, d2);

@@ -51,6 +51,8 @@ public class CoupleCTest {
 
         insertDice();
         CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2 );
+        card.dump();
+
 
         assertEquals(4, card.ScoreCard(s), "correct calculus");
     }
@@ -58,6 +60,8 @@ public class CoupleCTest {
     public void null_score(){
 
         CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2 );
+        card.dump();
+
 
         assertEquals(0, card.ScoreCard(s), "result is 0");
     }

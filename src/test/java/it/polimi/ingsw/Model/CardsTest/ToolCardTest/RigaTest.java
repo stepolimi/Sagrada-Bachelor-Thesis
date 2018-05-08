@@ -34,6 +34,8 @@ public class RigaTest {
     }
 
     private void setup_round(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);
@@ -67,6 +69,7 @@ public class RigaTest {
     }
     @Test
     void correct_use() throws IOException {
+
         setup_round();
         setupSchema();
         round.setPendingDice(d3);

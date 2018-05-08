@@ -55,6 +55,8 @@ public class SetCTest {
 
        insertDice();
         SetObj card = new SetObj("name", "description", 4);
+        card.dump();
+
 
         assertEquals(8, card.ScoreCard(s), "correct computation");
     }
@@ -63,6 +65,8 @@ public class SetCTest {
     public void score_correct_number(){
     insertDice();
         SetObj card = new SetObj("name", "description", 5);
+        card.dump();
+
 
         assertEquals(10, card.ScoreCard(s), "correct computation");
 
@@ -73,6 +77,8 @@ public class SetCTest {
 
 
         SetObj card = new SetObj("name", "description", 5);
+        card.dump();
+
 
         assertEquals(0, card.ScoreCard(s), "result is 0");
 

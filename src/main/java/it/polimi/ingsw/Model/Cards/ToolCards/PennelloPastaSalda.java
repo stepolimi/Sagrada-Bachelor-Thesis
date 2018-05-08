@@ -15,6 +15,9 @@ public class PennelloPastaSalda extends ToolCard {
     public void effects(Player p, Round round, int x, int y){
 
         Dice d = round.getPendingDice();
+
+        if(d==null) return;
+
         round.setPendingDice(null);
         d.rollDice();
         if(placeDiceToSchema(x, y, d, p.getSchema(), num_card))

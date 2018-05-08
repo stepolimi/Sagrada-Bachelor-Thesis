@@ -13,7 +13,10 @@ public class Tampone extends ToolCard {
     public void effects(Player p, Round round){
 
         Dice d = round.getPendingDice();
+        if(d == null)
+            return;
         round.setPendingDice(null);
+
         d.setValue(flip_dice(d));
 
         round.getBoard().getDiceSpace().insertDice(d);

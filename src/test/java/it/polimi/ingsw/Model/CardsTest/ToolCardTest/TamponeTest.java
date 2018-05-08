@@ -26,6 +26,8 @@ public class TamponeTest {
 
 
     public void setup(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);
@@ -50,6 +52,17 @@ public class TamponeTest {
         toolCard.effects(player, round);
         assertEquals(2, board.getDiceSpace().getListDice().get(0).getValue() );
         assertEquals(1, board.getDiceSpace().getListDice().size());
+    }
+    @Test
+    void notPendingDice(){
+        setup();
+        Dice d1= new Dice(Colour.ANSI_BLUE, 5);
+
+        int sizeSpace = board.getDiceSpace().getListDice().size();
+        round.setTurnNumber(4);
+        player.setTurn(true);
+        toolCard.effects(player, round);
+        assertEquals(0, board.getDiceSpace().getListDice().size());
     }
 
 }

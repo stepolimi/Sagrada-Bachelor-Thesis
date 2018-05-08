@@ -27,6 +27,8 @@ public class TaglierinaCircolareTest {
 
 
     private void setup_round(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);

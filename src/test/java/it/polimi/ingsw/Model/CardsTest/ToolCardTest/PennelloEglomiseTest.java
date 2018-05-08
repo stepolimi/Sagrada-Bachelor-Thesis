@@ -47,6 +47,8 @@ public class PennelloEglomiseTest {
 
     public void setupSchema() throws IOException {
         player.setSchema(sch);
+        toolCard.dump();
+
 
 
         sch.insertDice(1, 0, d1);
@@ -87,6 +89,16 @@ public class PennelloEglomiseTest {
         assertFalse(toolCard.effects(player, round, 2, 0, 0, 1 ));
         assertEquals(num_dice, num_dice(sch));
 
+    }
+
+    @Test
+    void noDice() throws IOException {
+        setup_round();
+        setupSchema();
+        int num_dice = num_dice(sch);
+        assertFalse(toolCard.effects(player, round, 0, 0, 0, 0 ));
+        assertEquals(null, sch.getTable(0,0).getDice());
+        assertEquals(num_dice, num_dice(sch));
     }
 
 

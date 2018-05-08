@@ -15,6 +15,8 @@ public class Pinza extends ToolCard {
 
 
         Dice d = round.getPendingDice();
+        if(d == null) return false;
+
         round.setPendingDice(null);
 
         if (((change == 1) || (change == -1)) ){

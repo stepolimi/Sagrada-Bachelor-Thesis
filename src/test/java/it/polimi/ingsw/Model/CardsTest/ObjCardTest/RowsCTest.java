@@ -51,6 +51,8 @@ public class RowsCTest {
         insertDice();
 
         RowsObj card = new RowsObj("card", "descritption", 6);
+        card.dump();
+
 
         assertEquals(12, card.ScoreCard(s),"Correct Score");
 
@@ -63,6 +65,8 @@ public class RowsCTest {
         insertDice();
 
         RowsObj card1 = new RowsObj("card", "descritption", 5);
+        card1.dump();
+
         assertEquals(10, card1.ScoreCard(s), "Correct Score");
 
     }
@@ -71,6 +75,8 @@ public class RowsCTest {
     public void score_null(){
 
         RowsObj card1 = new RowsObj("card", "descritption", 5);
+        card1.dump();
+
         assertEquals(0, card1.ScoreCard(s), "result is 0");
     }
 

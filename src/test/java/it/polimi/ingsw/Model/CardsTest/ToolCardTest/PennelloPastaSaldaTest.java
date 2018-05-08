@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PennelloPastaSaldaTest {
@@ -34,6 +34,8 @@ public class PennelloPastaSaldaTest {
     }
 
     private void setup_round(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);
@@ -47,6 +49,7 @@ public class PennelloPastaSaldaTest {
 
     public void setupSchema() throws IOException {
         player.setSchema(sch);
+
 
 
         sch.insertDice(0, 3, d1);
@@ -73,5 +76,13 @@ public class PennelloPastaSaldaTest {
         assertFalse(toolCard.placeDiceToSchema(2, 3, d3, player.getSchema(), 6));
 
 
+    }
+
+    @Test
+    void not_pending() throws IOException {
+        setup_round();
+        setupSchema();
+        toolCard.effects(player, round, 0, 0);
+        assertEquals(0, board.getDiceSpace().getListDice().size());
     }
 }

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,6 +27,8 @@ public class MartellettoTest {
 
 
     public void setup(){
+        toolCard.dump();
+
         players.add(player);
         players.add(player2);
         players.add(player3);
@@ -50,6 +53,38 @@ public class MartellettoTest {
         round.setTurnNumber(4);
         player.setTurn(true);
         assertTrue(toolCard.effects(player, round));
+        assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
+    }
+
+    @Test
+    void is_not_my_turn(){
+        setup();
+        int sizeSpace = board.getDiceSpace().getListDice().size();
+        round.setTurnNumber(4);
+        player.setTurn(false);
+        assertFalse(toolCard.effects(player, round));
+        assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
+    }
+
+    @Test
+    void pending_dice(){
+        setup();
+        int sizeSpace = board.getDiceSpace().getListDice().size();
+        round.setPendingDice(new  Dice(Colour.ANSI_RED, 3));
+        round.setTurnNumber(4);
+        player.setTurn(true);
+        assertFalse(toolCard.effects(player, round));
+        assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
+    }
+
+    @Test
+    void first_turn(){
+        setup();
+        int sizeSpace = board.getDiceSpace().getListDice().size();
+        round.setPendingDice(new  Dice(Colour.ANSI_RED, 3));
+        round.setTurnNumber(1);
+        player.setTurn(true);
+        assertFalse(toolCard.effects(player, round));
         assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
     }
 
