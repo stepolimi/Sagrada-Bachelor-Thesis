@@ -13,14 +13,14 @@ public class Board {
     private DeckPublicObjective deckpubl;
     private DeckPrivateObjective deckpriv;
     // private DeckToolCard decktool;
-    private SetSchemi deckSchemi;
+    private SetSchemas deckSchemas;
     private List<Schema> schemaList;
 
     public Board (List <Player> p){
 
         this.playerList = p;
         dicebag = new DiceBag();
-        deckSchemi = new SetSchemi(this.playerList.size());
+        deckSchemas = new SetSchemas(this.playerList.size());
         roundTrack = new RoundTrack();
         diceSpace = new DiceSpace();
 

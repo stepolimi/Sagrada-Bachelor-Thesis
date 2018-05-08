@@ -9,8 +9,8 @@ import java.util.List;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SetSchemiTest {
-    SetSchemi set = new SetSchemi(3);
+public class SetSchemasTest {
+    SetSchemas set = new SetSchemas(3);
 
     public List<Schema> schemasList() {
         List<Schema> schemas = new ArrayList<Schema>();

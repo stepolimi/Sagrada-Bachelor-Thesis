@@ -1,7 +1,5 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Colour;
-import it.polimi.ingsw.Model.Dice;
 import org.junit.jupiter.api.Test;
 
 import static junit.framework.Assert.assertFalse;

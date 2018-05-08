@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetSchemi {
+public class SetSchemas {
     private List<Schema> schema ;
     private List <Integer> nSchema;
 
-    public SetSchemi(int nPlayers) {
+    public SetSchemas(int nPlayers) {
         nSchema = new ArrayList<Integer>(){};
 
         for(int i=1;i<13;i++)

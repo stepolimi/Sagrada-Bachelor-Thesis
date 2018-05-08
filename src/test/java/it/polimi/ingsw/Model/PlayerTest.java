@@ -1,10 +1,6 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Cards.ObjCards.ColumnsObj;
-import it.polimi.ingsw.Model.Cards.ObjCards.DiagonalObj;
-import it.polimi.ingsw.Model.Cards.ObjCards.ObjectiveCard;
 import it.polimi.ingsw.Model.Cards.PrivateObjective;
-import it.polimi.ingsw.Model.Player;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -70,10 +66,10 @@ public class PlayerTest {
         player = new Player("giocatore 1");
         Schema schema= this.schemaInit(1);
         Schema schema2 = this.schemaInit(2);
-        List<Schema> schemi = new ArrayList<Schema>();
-        schemi.add(schema);
-        schemi.add(schema2);
-        player.takeSchema(schemi,1);
+        List<Schema> schemas = new ArrayList<Schema>();
+        schemas.add(schema);
+        schemas.add(schema2);
+        player.takeSchema(schemas,1);
 
         assertTrue(player.getSchema() == schema2);
         assertTrue(player.getFavour() == 5);
