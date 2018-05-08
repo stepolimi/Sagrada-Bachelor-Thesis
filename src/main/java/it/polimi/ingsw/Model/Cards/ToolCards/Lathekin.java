@@ -8,7 +8,16 @@ public class Lathekin extends ToolCard{
     private String name = "Lathekin";
     private String description = "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento";
     private int num_card = 4;
+    private boolean used= false;
 
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
 
     public boolean effects(Player p, Round round, int x, int y, int rows,
@@ -35,6 +44,12 @@ public class Lathekin extends ToolCard{
             p.getSchema().insertDice(rows, columns, d1);
             p.getSchema().removeDice(x2, y2);
             p.getSchema().insertDice(rows2, columns2 , d2);
+            if(!this.isUsed()){
+                p.setFavour(p.getFavour()-2);
+                this.setUsed(true);
+            } else{
+                p.setFavour(p.getFavour()-1);
+            }
             return true;
 
         }

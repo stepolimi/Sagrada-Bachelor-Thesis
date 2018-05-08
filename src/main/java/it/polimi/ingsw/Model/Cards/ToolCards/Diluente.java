@@ -11,7 +11,16 @@ public class Diluente extends ToolCard {
     private String description = "Dopo aver scelto un dado, riponilo nel Sacchetto, poi pescane uno dal Sacchetto.\n" +
             "Scegli il valore del nuovo dado e piazzalo, rispettando tutte le restrizioni d piazzamento";
     private int num_card = 11;
+    private boolean used= false;
 
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
 
 
@@ -25,6 +34,12 @@ public class Diluente extends ToolCard {
         if(placeDiceToSchema(x, y, d, p.getSchema(), num_card) == true) {
 
             p.getSchema().insertDice(x, y, d);
+            if(!this.isUsed()){
+                p.setFavour(p.getFavour()-2);
+                this.setUsed(true);
+            } else{
+                p.setFavour(p.getFavour()-1);
+            }
             return true;
         }
         else return false;

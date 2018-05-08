@@ -11,6 +11,16 @@ public class Riga extends ToolCard {
     private String description = "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro " +
             "dado. \n Deve rispettare tutte le restrizioni di piazzamento";
     private int num_card = 9;
+    private boolean used= false;
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     public boolean effects(Player player, Round round, int x, int y){
 
@@ -28,6 +38,12 @@ public class Riga extends ToolCard {
             }
             if(!found)
                 player.getSchema().insertDice(x, y, d);
+            if(!this.isUsed()){
+                player.setFavour(player.getFavour()-2);
+                this.setUsed(true);
+            } else{
+                player.setFavour(player.getFavour()-1);
+            }
             return true;
 
             }

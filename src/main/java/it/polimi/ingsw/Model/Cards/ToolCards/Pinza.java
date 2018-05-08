@@ -9,6 +9,16 @@ public class Pinza extends ToolCard {
     private String description = "Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scleto di 1.\n Non puoi cambaire un 6 in un 1" +
             "o un 1 in un 6";
     private int num_card = 1;
+    private boolean used= false;
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
 
     public boolean effects(Player p, Round round, int change) {
@@ -29,6 +39,12 @@ public class Pinza extends ToolCard {
                 {
                 d.setValue(d.getValue() + change);
                 round.getBoard().getDiceSpace().insertDice(d);
+                    if(!this.isUsed()){
+                        p.setFavour(p.getFavour()-2);
+                        this.setUsed(true);
+                    } else{
+                        p.setFavour(p.getFavour()-1);
+                    }
             return true;
                 }
         }

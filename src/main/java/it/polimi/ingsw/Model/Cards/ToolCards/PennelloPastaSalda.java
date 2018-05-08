@@ -9,6 +9,16 @@ public class PennelloPastaSalda extends ToolCard {
     private String description = "Dopo aver scelto un dado. tira nuovamente quel dado. \n" +
             "Se non puoi piazzarlo, riponilo nella riserva";
     private int num_card = 6;
+    private boolean used= false;
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     //INSERT an expeption in round state which, if Pinza is used, jump the InsertDiceState because already done
     //it doesn'work because is missing the way in order to control the insertion or no of dice in the schema
@@ -23,6 +33,12 @@ public class PennelloPastaSalda extends ToolCard {
         if(placeDiceToSchema(x, y, d, p.getSchema(), num_card))
             p.getSchema().insertDice(x, y, d);
         else round.getBoard().getDiceSpace().insertDice(d);
+        if(!this.isUsed()){
+            p.setFavour(p.getFavour()-2);
+            this.setUsed(true);
+        } else{
+            p.setFavour(p.getFavour()-1);
+        }
 
 
     }

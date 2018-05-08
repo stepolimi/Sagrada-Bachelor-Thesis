@@ -9,6 +9,16 @@ public class Tampone extends ToolCard {
     private String description = "Dopo aver scelto un dado, giralo sulla facia opposta. \n " +
             "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc.";
     private int num_card = 10;
+    private boolean used= false;
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     public void effects(Player p, Round round){
 
@@ -20,6 +30,12 @@ public class Tampone extends ToolCard {
         d.setValue(flip_dice(d));
 
         round.getBoard().getDiceSpace().insertDice(d);
+        if(!this.isUsed()){
+            p.setFavour(p.getFavour()-2);
+            this.setUsed(true);
+        } else{
+            p.setFavour(p.getFavour()-1);
+        }
 
     }
 

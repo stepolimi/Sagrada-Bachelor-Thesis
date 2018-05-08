@@ -8,6 +8,16 @@ public class TaglierinaCircolare extends ToolCard {
     private String name = "Taglierina Circolare";
     private String description = "Dopo aver scelto un dado, scambia quel dado con un dado sul tracciato di round";
     private int num_card = 5;
+    private boolean used= false;
+
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
 
     public void effects(Player p, Round round, int indexRound, int indexDice){
 
@@ -16,6 +26,12 @@ public class TaglierinaCircolare extends ToolCard {
         round.setPendingDice(null);
         d = switchDice(indexRound, indexDice, d, round);
         round.getBoard().getDiceSpace().insertDice(d);
+        if(!this.isUsed()){
+            p.setFavour(p.getFavour()-2);
+            this.setUsed(true);
+        } else{
+            p.setFavour(p.getFavour()-1);
+        }
     }
 
     public Dice switchDice(int roundIndex, int indexDice, Dice d, Round round){
