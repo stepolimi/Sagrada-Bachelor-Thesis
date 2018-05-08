@@ -67,6 +67,7 @@ public class PennelloPastaSaldaTest {
             sch.insertDice(2,3,d3);
         assertEquals(sch.getTable(2,3).getDice(), d3);
 
+
     }
     @Test
     void roll_diceSpace() throws IOException {
@@ -74,6 +75,7 @@ public class PennelloPastaSaldaTest {
         setupSchema();
         Dice d3 = new Dice(Colour.ANSI_PURPLE, 2);
         assertFalse(toolCard.placeDiceToSchema(2, 3, d3, player.getSchema(), 6));
+
 
 
     }

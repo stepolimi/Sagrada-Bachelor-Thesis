@@ -54,6 +54,7 @@ public class PinzaTest {
         assertTrue(toolCard.effects(player, round, -1));
         assertEquals(4, board.getDiceSpace().getListDice().get(0).getValue() );
         assertEquals(1, board.getDiceSpace().getListDice().size());
+
     }
     @Test
     void wrong_change(){

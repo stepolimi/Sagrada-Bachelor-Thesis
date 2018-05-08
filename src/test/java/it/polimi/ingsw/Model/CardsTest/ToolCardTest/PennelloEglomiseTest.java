@@ -75,6 +75,8 @@ public class PennelloEglomiseTest {
         assertTrue(toolCard.effects(player, round, 2, 0, 0, 0 ));
         assertEquals(d2, sch.getTable(0,0).getDice());
         assertEquals(num_dice, num_dice(sch));
+        assertEquals(3,player.getFavour());
+
 
 
     }

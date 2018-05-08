@@ -54,6 +54,7 @@ public class MartellettoTest {
         player.setTurn(true);
         assertTrue(toolCard.effects(player, round));
         assertEquals(sizeSpace, board.getDiceSpace().getListDice().size() );
+
     }
 
     @Test

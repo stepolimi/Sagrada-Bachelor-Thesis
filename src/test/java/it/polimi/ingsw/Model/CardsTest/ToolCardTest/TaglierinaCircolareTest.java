@@ -47,6 +47,7 @@ public class TaglierinaCircolareTest {
         toolCard.effects(player, round, 3, 0 );
         assertEquals(d1, board.getRoundTrack().getDice(3,0));
         assertEquals(d2, board.getDiceSpace().getListDice().get(0));
+
     }
 
 

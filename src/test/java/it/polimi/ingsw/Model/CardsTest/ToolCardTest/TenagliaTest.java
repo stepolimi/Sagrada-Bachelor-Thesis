@@ -54,6 +54,7 @@ public class TenagliaTest {
         toolCard.effect(player, round);
 
         assertEquals(2, round.getBoard().getPlayerList().size());
+
     }
 
 

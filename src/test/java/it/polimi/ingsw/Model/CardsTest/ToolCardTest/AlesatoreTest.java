@@ -75,6 +75,8 @@ public class AlesatoreTest  {
        assertTrue(toolCard.effects(player,  1, 3, 0, 4 ));
        assertEquals(d2, sch.getTable(0,4).getDice());
        assertEquals(num_dice, num_dice(sch));
+       assertEquals(3,player.getFavour());
+
 
 
     }

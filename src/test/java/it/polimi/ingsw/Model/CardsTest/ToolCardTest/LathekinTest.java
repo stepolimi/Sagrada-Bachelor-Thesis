@@ -76,6 +76,8 @@ public class LathekinTest {
         assertEquals(d2, sch.getTable(1,3).getDice());
         assertEquals(d1, sch.getTable(2,4).getDice());
         assertEquals(num_dice, num_dice(sch));
+        assertEquals(3,player.getFavour());
+
 
 
     }

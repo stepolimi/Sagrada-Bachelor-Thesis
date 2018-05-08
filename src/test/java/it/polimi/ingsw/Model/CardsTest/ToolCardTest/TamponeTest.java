@@ -52,6 +52,7 @@ public class TamponeTest {
         toolCard.effects(player, round);
         assertEquals(2, board.getDiceSpace().getListDice().get(0).getValue() );
         assertEquals(1, board.getDiceSpace().getListDice().size());
+
     }
     @Test
     void notPendingDice(){
@@ -63,6 +64,7 @@ public class TamponeTest {
         player.setTurn(true);
         toolCard.effects(player, round);
         assertEquals(0, board.getDiceSpace().getListDice().size());
+
     }
 
 }

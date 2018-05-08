@@ -76,6 +76,8 @@ public class RigaTest {
         assertTrue(toolCard.effects(player,  round, 3, 0));
         assertEquals(d3, sch.getTable(3,0).getDice());
         assertEquals(3, num_dice(sch));
+        assertEquals(3,player.getFavour());
+
 
 
     }

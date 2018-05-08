@@ -83,6 +83,7 @@ public class TaglierinaManualeTest {
         assertEquals(num_dice, num_dice(sch));
 
 
+
     }
 
 
@@ -118,6 +119,7 @@ public class TaglierinaManualeTest {
         assertEquals(d2, sch.getTable(3,3).getDice());
         assertEquals(null, sch.getTable(2,4).getDice());
         assertEquals(num_dice, num_dice(sch));
+
 
 
     }
