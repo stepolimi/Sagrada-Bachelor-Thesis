@@ -49,7 +49,9 @@ public class PrivateCardTest {
 
         insertDice();
 
+
         PrivateObjective card = new PrivateObjective().PrivateInit(4);
+        card.dump();
         assertEquals(2, card.ScoreCard(s));
     }
 
@@ -57,6 +59,7 @@ public class PrivateCardTest {
     public void null_score() throws IOException {
 
         PrivateObjective card = new PrivateObjective().PrivateInit(4);
+        card.dump();
         assertEquals(0, card.ScoreCard(s), "result is 0");
 
     }
