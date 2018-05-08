@@ -1,23 +1,30 @@
 package it.polimi.ingsw.Model.game;
 
 import it.polimi.ingsw.Model.Board;
-import it.polimi.ingsw.Model.DiceSpace;
 import it.polimi.ingsw.Model.Player;
-import it.polimi.ingsw.Model.rules.RulesManager;
 import it.polimi.ingsw.Model.game.states.Round;
+import it.polimi.ingsw.Model.rules.RulesManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GameMultiplayer {
-    private RulesManager rulesManager= new RulesManager();
-    private List<Round> rounds= new ArrayList <Round> (10);
-    private List<Player> players = new ArrayList<Player>();
-    private Board board = new Board(players);
-    private DiceSpace dices;
+    private RulesManager rulesManager;
+    private List<Round> rounds;
+    private List<Player> players;
+    private Board board;
 
 
-    public GameMultiplayer(List <Player> players){ this.players.addAll(players); }
+    public List getRounds(){ return this.rounds; }
+
+    public GameMultiplayer(List <Player> players){
+        this.players = new ArrayList<Player>();
+        this.players.addAll(players);
+        this.rounds = new ArrayList<Round>();
+        this.board= new Board(players);
+
+    }
+    public Round getRound(int i) { return this.rounds.get(i); }
 
     public void gameInit(){
         for(int i=0; i < 10 ; i++){
@@ -39,9 +46,6 @@ public class GameMultiplayer {
 
     }
 
-    public DiceSpace getDices() {
-        return dices;
-    }
 
 
 }
