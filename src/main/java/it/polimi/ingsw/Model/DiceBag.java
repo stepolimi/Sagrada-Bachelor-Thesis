@@ -48,13 +48,15 @@ public class DiceBag {
     }
 
     public void insertDice(Dice dice) {
+        dice.setValue(0);
         this.dices.add(dice);
     }
 
-    public List getDices()
+    public List <Dice> getDices()
     {
         return this.dices;
     }
+
     @Override
     public String toString() {
         String str="";

@@ -37,8 +37,6 @@ public class RoundTrackTest {
         trackround.removeDice(1,1);
         trackround.removeDice(1,0);
 
-
-
         assertEquals(0, trackround.getListRounds(1).size());
 
     }
