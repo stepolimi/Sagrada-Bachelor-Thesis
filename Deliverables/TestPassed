@@ -1,14 +1,43 @@
 ALL TEST PASSED
-[root]
+
+ExtractDiceTest
+	nextStateTest()
+	nameTest()
+PickDiceTest
+	nextStateTest()
+	nameTest()
+EndTurnTest
+	nextStateTest()
+	nameTest()
+InitialStateTest
+	nextStateTest()
+	nameTest()
 RoundTest
 	ChangeStateCheck()
 	ChangeCurrentPlayerCheck()
+RollDiceTest
+	nextStateTest()
+	nameTest()
+PlaceDiceTest
+	nextStateTest()
+	nameTest()
+UseCardTest
+	nextStateTest()
+	nameTest()
+ChangeValueTest
+	nextStateTest()
+	nameTest()
+BoardTest
+	playersTest()
 RoundTrackTest
 	dice_insertion()
 	roundtrack_empty()
 BoxTest
 	CorrectBoxFormat()
+	string()
 	WrongBoxFormat()
+GameMultiTest
+	number_round()
 RulesManagerTest
 	correctInsertion()
 	wrongInsertion()
@@ -40,6 +69,7 @@ DiceBagTest
 	NumberExtractDice()
 	ExtractDice()
 	initial_quantity()
+	insertDiceTest()
 	final_quantity()
 DiceTest
 	WrongDiceFormat()
@@ -69,6 +99,7 @@ LathekinTest
 PinzaTest
 	correct_change()
 	wrong_change()
+	not_pending()
 PennelloPastaSaldaTest
 	roll_insertion()
 	roll_diceSpace()
@@ -81,6 +112,7 @@ TenagliaTest
 TaglierinaCircolareTest
 	correct_use()
 PennelloEglomiseTest
+	noDice()
 	wrong_use()
 	correct_use()
 PrivateCardTest
@@ -116,3 +148,8 @@ DeckPrivTest
 ToolsDeck
 	correct_size()
 	correct_extract()
+SetSchemiTest
+	deliverTest()
+SessionTest
+	join_players()
+	remove_player()
