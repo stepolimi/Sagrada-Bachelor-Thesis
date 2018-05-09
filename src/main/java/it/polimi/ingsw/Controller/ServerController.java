@@ -25,7 +25,7 @@ public class ServerController implements Observer{
 
     public void update(Observable os, Object obj) {
         if(((ArrayList)obj).get(0).equals("RemoveDice"))
-            ds.removeDice(((ArrayList<Integer>)obj).get(1));
+            ds.removeDice(1);
         else if(((ArrayList)obj).get(0).equals("InsertDice"))
             ds.insertDice(bag.takeDice());
 

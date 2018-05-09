@@ -16,6 +16,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
 
     public void updateText(String s) throws RemoteException {
         v.text.setText(s);
+        System.out.println(s);
     }
 
 

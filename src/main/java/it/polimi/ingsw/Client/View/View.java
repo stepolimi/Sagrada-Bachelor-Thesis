@@ -4,15 +4,17 @@ import it.polimi.ingsw.Client.Controller.ControllerClient;
 
 import javax.swing.*;
 import java.awt.*;
- // la view verrà fatta con javaFX, è solo per testare il funzionamento di rmi
-public class View  {
+
+
+// verrà sostituita da JavaFx, è solo per testare RMI e socket
+public class View{
     ControllerClient controller;
     JFrame viewFrame;
     JPanel panel;
     public JTextArea text;
     public JButton insButton, remButton, extrButton, actButton;
     boolean isConnect;
-
+    public JTextArea connection;
 
     public View(ControllerClient ctrl)
     {
@@ -28,7 +30,7 @@ public class View  {
         viewFrame.setSize(1000,700);
 
         panel = new JPanel();
-        viewFrame.add(panel, BorderLayout.WEST);
+        viewFrame.add(panel,BorderLayout.WEST);
 
         insButton = new JButton("Inserisci dado");
         panel.add(new JLabel("Inserisci un dado"));
@@ -42,6 +44,8 @@ public class View  {
         panel.add(new JLabel("Estrai nuovi dadi"));
         panel.add(extrButton);
 
+        connection = new JTextArea("Inserisci metodo connessione");
+        panel.add(connection);
         actButton = new JButton("Connettiti");
         panel.add(actButton);
 
@@ -56,4 +60,6 @@ public class View  {
 
 
     }
+
+
 }

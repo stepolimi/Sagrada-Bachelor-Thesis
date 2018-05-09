@@ -4,6 +4,7 @@ package it.polimi.ingsw.Model.game;
 import it.polimi.ingsw.Controller.ServerController;
 import it.polimi.ingsw.Model.DiceBag;
 import it.polimi.ingsw.Model.DiceSpace;
+import it.polimi.ingsw.ServerConnection.MultiSocketServer;
 import it.polimi.ingsw.ServerConnection.RmiServerMethod;
 import it.polimi.ingsw.ServerConnection.RmiServerMethodInterface;
 import it.polimi.ingsw.VirtualView.VirtualView;
@@ -33,6 +34,10 @@ public class Main {
         }catch (Exception e) {
             System.out.println("Errore di connessione: " + e);
         }
+
+        MultiSocketServer s = new MultiSocketServer(1666,virtual);
+        virtual.setMultipleServerSocket(s);
+        s.StartServer();
     }
 }
 
