@@ -2,6 +2,7 @@ package it.polimi.ingsw.Model.GameTest;
 
 import it.polimi.ingsw.Server.Model.board.Player;
 import it.polimi.ingsw.Server.Model.game.GameMultiplayer;
+import it.polimi.ingsw.Server.VirtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +21,9 @@ public class GameMultiTest {
         players.add(p2);
         players.add(p3);
 
+
         gameMultiplayer = new GameMultiplayer(players);
+        gameMultiplayer.setObserver(new VirtualView());
         gameMultiplayer.gameInit();
 
     }
