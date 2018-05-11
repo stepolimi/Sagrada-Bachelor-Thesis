@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Model;
 
+import it.polimi.ingsw.Server.Model.board.Schema;
+import it.polimi.ingsw.Server.Model.board.SetSchemas;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

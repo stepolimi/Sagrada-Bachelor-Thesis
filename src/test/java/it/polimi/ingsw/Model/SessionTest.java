@@ -1,12 +1,7 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.game.Session;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+/*
 public class SessionTest {
     Player p1 = new Player("Giocatore1");
     String p3= new String("Giocatore3");
@@ -39,3 +34,4 @@ public class SessionTest {
 
 
 }
+*/

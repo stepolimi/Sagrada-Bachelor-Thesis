@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Model;
 
-import it.polimi.ingsw.Model.Cards.PrivateObjective;
+import it.polimi.ingsw.Server.Model.cards.PrivateObjective;
+import it.polimi.ingsw.Server.Model.board.Player;
+import it.polimi.ingsw.Server.Model.board.Schema;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

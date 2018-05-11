@@ -1,11 +1,9 @@
 package it.polimi.ingsw.Model.CardsTest.DeckTest;
 
 
-import it.polimi.ingsw.Model.Cards.Decks.DeckPrivateObjective;
-import it.polimi.ingsw.Model.Cards.PrivateObjective;
+import it.polimi.ingsw.Server.Model.cards.Decks.DeckPrivateObjective;
+import it.polimi.ingsw.Server.Model.cards.PrivateObjective;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 

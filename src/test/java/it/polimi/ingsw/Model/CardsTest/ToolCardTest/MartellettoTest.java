@@ -1,8 +1,11 @@
 package it.polimi.ingsw.Model.CardsTest.ToolCardTest;
 
-import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.Cards.ToolCards.Martelletto;
-import it.polimi.ingsw.Model.game.states.Round;
+import it.polimi.ingsw.Server.Model.board.Board;
+import it.polimi.ingsw.Server.Model.cards.ToolCards.Martelletto;
+import it.polimi.ingsw.Server.Model.board.Colour;
+import it.polimi.ingsw.Server.Model.board.Dice;
+import it.polimi.ingsw.Server.Model.board.Player;
+import it.polimi.ingsw.Server.Model.game.states.Round;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

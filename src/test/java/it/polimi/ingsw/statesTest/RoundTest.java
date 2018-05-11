@@ -1,8 +1,9 @@
 package it.polimi.ingsw.statesTest;
 
 
-import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.game.states.Round;
+import it.polimi.ingsw.Server.Model.board.Board;
+import it.polimi.ingsw.Server.Model.board.Player;
+import it.polimi.ingsw.Server.Model.game.states.Round;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ public class RoundTest {
     void ChangeStateCheck(){
         TestInit();
         round = new Round(player,board);
-        round.setReference(round);
         round.roundInit();
 
         //Round starts in the correct state
@@ -58,8 +58,6 @@ public class RoundTest {
         TestInit();
         round = new Round(player,board);
         round2 = new Round(player2,board);
-        round.setReference(round);
-        round2.setReference(round2);
         round.roundInit();
         round2.roundInit();
 

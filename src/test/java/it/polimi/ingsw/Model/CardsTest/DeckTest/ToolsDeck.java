@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Model.CardsTest.DeckTest;
 
-import it.polimi.ingsw.Model.Cards.Decks.DeckToolsCard;
-import it.polimi.ingsw.Model.Cards.ToolCards.ToolCard;
+import it.polimi.ingsw.Server.Model.cards.Decks.DeckToolsCard;
+import it.polimi.ingsw.Server.Model.cards.ToolCards.ToolCard;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

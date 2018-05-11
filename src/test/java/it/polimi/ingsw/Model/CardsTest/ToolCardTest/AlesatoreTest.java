@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Model.CardsTest.ToolCardTest;
 
-import it.polimi.ingsw.Model.*;
-import it.polimi.ingsw.Model.Cards.ToolCards.Alesatore;
-import it.polimi.ingsw.Model.game.states.Round;
+import it.polimi.ingsw.Server.Model.board.*;
+import it.polimi.ingsw.Server.Model.cards.ToolCards.Alesatore;
+import it.polimi.ingsw.Server.Model.game.states.Round;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;

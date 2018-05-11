@@ -2,7 +2,7 @@ package it.polimi.ingsw.Client.Controller;
 
 import it.polimi.ingsw.Client.ClientConnection.RmiClientMethod;
 import it.polimi.ingsw.Client.View.View;
-import it.polimi.ingsw.ServerConnection.RmiServerMethodInterface;
+import it.polimi.ingsw.Server.ServerConnection.RmiServerMethodInterface;
 
 
 import java.awt.event.ActionEvent;
@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.rmi.Naming;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -114,6 +113,8 @@ public class ControllerClient implements ActionListener,Runnable {
         } else if (e.getSource() == v.extrButton) {
             action.add("ExtractDices");
         } else if (e.getSource() == v.actButton) {
+            action.add("Login");
+            action.add("BeLloF1go2003");              //andra messo uguale al nome del player che gli si chiede
             if (v.connection.getText().equals("Rmi")) {
                 this.doConnectRmi();
                 isRmi = true;
@@ -146,7 +147,6 @@ public class ControllerClient implements ActionListener,Runnable {
         }
     }
 
-    @Override
     public void run() {
         while(true) {
             String str = in.nextLine();
