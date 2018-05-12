@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="539.0" fitWidth="740.0" layoutX="-40.0" layoutY="-33.0" opacity="0.63" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/alldice.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="135.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="352.42626953125">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="69.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/Schemi/Via Lux.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="410.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/Schemi/Gravitas.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="69.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/Schemi/Ripples of Light.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="410.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/Schemi/Industria.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="67.0" layoutY="214.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="1" />
+      <Button layoutX="67.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="3" />
+      <Button layoutX="410.0" layoutY="214.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="2" />
+      <Button layoutX="410.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="4" />
+   </children>
+</Pane>
