@@ -5,15 +5,18 @@ import it.polimi.ingsw.Server.VirtualView.VirtualView;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MultiSocketServer  {
+public class MultiSocketServer implements Observer {
     private int port;
     private VirtualView virtual;
     static int playerConnessi;
-    private Vector<SocketConnection> sockets =  new Vector<SocketConnection>();
+    private HashMap<SocketConnection,String> sockets =  new HashMap<SocketConnection, String>();
     // ricordarsi di togliere il socket quando viene chiusa la connessione
 
     public MultiSocketServer(int port,VirtualView virtual)
@@ -40,7 +43,8 @@ public class MultiSocketServer  {
                     System.out.println("Accettato");
                     playerConnessi++;
                     SocketConnection sock = new SocketConnection(socket,virtual);
-                    sockets.add(sock);
+                    sock.addObserver(this);
+                    sockets.put(sock,"");
                     execute.submit(sock);
 
                 }catch(Exception ex)
@@ -62,8 +66,28 @@ public class MultiSocketServer  {
 
     }
 
-    public Vector<SocketConnection> getSocket()
+    public HashMap<SocketConnection,String> getSocket()
     {
         return this.sockets;
+    }
+
+
+    public void update(Observable o, Object arg) {
+        SocketConnection s = (SocketConnection) arg;
+
+        if(sockets.get(arg).equals(""))
+         sockets.put(s,s.getName());
+        else {
+            sockets.remove(s);
+            System.out.println("Disconnesso"+s.getName());
+            this.publish(s.getName()+" si è disconnesso");
+        }
+    }
+
+    public void publish(String str) {
+        if(!sockets.isEmpty()){
+            for(SocketConnection sock:sockets.keySet())
+                sock.sendMessage(str);
+        }
     }
 }

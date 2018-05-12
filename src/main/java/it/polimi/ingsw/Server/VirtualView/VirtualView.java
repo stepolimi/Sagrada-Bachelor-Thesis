@@ -26,9 +26,9 @@ public class VirtualView extends Observable implements Observer{
         notifyObservers(action);
     }
     public void setServer(RmiServerMethod server)
-{
-    this.server = server;
-}
+    {
+        this.server = server;
+    }
 
     public void update(Observable o, Object arg) {
        /* //this.ds = controller.getDiceSpace();
@@ -46,13 +46,13 @@ public class VirtualView extends Observable implements Observer{
             for(SocketConnection s:socket.getSocket())
                 s.InviaInfo(ds.toString());
         }*/
-       try {
-           if (o.getClass() == Session.class) { sessionHandler(arg); }
-           else if (o.getClass() == GameMultiplayer.class) { gameMultiplayerHandler(arg); }
+        try {
+            if (o.getClass() == Session.class) { sessionHandler(arg); }
+            else if (o.getClass() == GameMultiplayer.class) { gameMultiplayerHandler(arg); }
 
-       } catch(RemoteException ex) {
-           System.out.println(ex.getMessage());
-       }
+        } catch(RemoteException ex) {
+            System.out.println(ex.getMessage());
+        }
 
     }
 
@@ -60,30 +60,17 @@ public class VirtualView extends Observable implements Observer{
         /*notify:
             player joined, player left, new game cause timer, new game cause players
            */
-        if (server.getClients().size() > 0) {
-            for (RmiClientMethodInterface client : server.getClients()) {
-                    client.updateText((String) arg);
-            }
-        }
-        if (socket != null) {
-            for (SocketConnection s : socket.getSocket())
-                s.InviaInfo((String) arg);
-        }
+        server.publish((String)arg);
+        socket.publish((String)arg);
     }
 
     private void gameMultiplayerHandler(Object arg) throws RemoteException{
         /*notify:
             schemi creati
             */
-        if (server.getClients().size() > 0) {
-            for (RmiClientMethodInterface client : server.getClients()) {
-                    client.updateText((String) arg);
-            }
-        }
-        if (socket != null) {
-            for (SocketConnection s : socket.getSocket())
-                s.InviaInfo((String) arg);
-        }
+        server.publish((String)arg);
+        socket.publish((String)arg);
+
     }
 
 

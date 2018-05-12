@@ -5,5 +5,5 @@ import java.rmi.RemoteException;
 
 public interface RmiClientMethodInterface extends Remote{
     public void updateText(String s) throws RemoteException;
-    public String getName() throws RemoteException;
+    public void printText(String s) throws RemoteException;
 }

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Client.Controller;
 
+import it.polimi.ingsw.Client.ClientConnection.Connection;
 import it.polimi.ingsw.Client.ClientConnection.RmiClientMethod;
+import it.polimi.ingsw.Client.ClientConnection.RmiConnection;
+import it.polimi.ingsw.Client.ClientConnection.SocketConnection;
 import it.polimi.ingsw.Client.View.View;
 import it.polimi.ingsw.Server.ServerConnection.RmiServerMethodInterface;
 
@@ -15,50 +18,37 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class ControllerClient implements ActionListener,Runnable {
+public class ControllerClient implements ActionListener {
     View v;
     // virtual view per testarlo in locale, poi utilizzeremo rmi
-    RmiServerMethodInterface server;
-    RmiClientMethod client;
-    boolean isRmi;
-    boolean isSocket;
-    PrintWriter out;
-    Socket s;
-    Scanner in;
-    public ControllerClient() {}
+    Connection connection;
+    Thread t;
 
-    public void initView(View v)
-    {
-        this.v = v;
-        isRmi = false;
-        isSocket = false;
+    public ControllerClient() {
     }
 
-    public void doConnectRmi()
-    {
+    public void initView(View v) {
+        this.v = v;
+    }
 
-        if (v.actButton.getText().equals("Connettiti")){
+    public void doConnectRmi() {
 
-            try{
-                client=new RmiClientMethod("aaaa");
-                client.setView(v);
+        if (v.actButton.getText().equals("Connettiti")) {
 
-                server=(RmiServerMethodInterface) Naming.lookup("rmi://127.0.0.1/myabc");
-                server.login(client);
-
-
+            try {
+                connection = new RmiConnection(v);
+                connection.login();
                 v.actButton.setText("Disconnettiti");
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Errore connessione");
             }
-        }
-        else{
+        } else {
             try {
-                server.disconnected(client);
+                connection.disconnect();
                 v.actButton.setText("Connettiti");
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Errore connessione");
             }
@@ -67,32 +57,25 @@ public class ControllerClient implements ActionListener,Runnable {
     }
 
 
-    public void doConnectSocket()
-    {
+    public void doConnectSocket() {
 
-        if (v.actButton.getText().equals("Connettiti")){
+        if (v.actButton.getText().equals("Connettiti")) {
             try {
-                s = new Socket("localhost", 1666);
-                out = new PrintWriter(s.getOutputStream());
-                in = new Scanner(s.getInputStream());
-                Thread t = new Thread(this);
+                connection = new SocketConnection(v);
+                connection.login();
+                t = new Thread((SocketConnection) connection);
                 t.start();
 
 
                 v.actButton.setText("Disconnettiti");
-            }catch(IOException e)
-            {
+            } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        }
-        else{
+        } else {
             try {
-
-                s.close();
-                out.close();
-                in.close();
+                connection.disconnect();
                 v.actButton.setText("Connettiti");
-            }catch(Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Errore connessione");
             }
@@ -103,55 +86,26 @@ public class ControllerClient implements ActionListener,Runnable {
 
     public void actionPerformed(ActionEvent e) {
 
-        ArrayList action = new ArrayList();
+        String action = "";
 
         if (e.getSource() == v.insButton) {
-            action.add("InsertDice");
+            action = "InsertDice";
         } else if (e.getSource() == v.remButton) {
-            action.add("RemoveDice");
-            action.add(1);
+            action = "RemoveDice";
         } else if (e.getSource() == v.extrButton) {
-            action.add("ExtractDices");
+            action = "Extract";
         } else if (e.getSource() == v.actButton) {
-            action.add("Login");
-            action.add("BeLloF1go2003");              //andra messo uguale al nome del player che gli si chiede
             if (v.connection.getText().equals("Rmi")) {
                 this.doConnectRmi();
-                isRmi = true;
-            }else
-            {
+            } else {
                 this.doConnectSocket();
-                isSocket = true;
             }
         }
         //connettiti
 
         // bisogna chiamare il metodo del rmi server
-        if(isRmi)
-        {
-            System.out.println("Sto usando RMI");
-            try {
-                if(action.size()!=0)
-                    server.forwardAction(action);
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
-            }
-        }else if(isSocket)
-        {
-            System.out.println("Sto usando Socket");
-            if(action.size()>0)
-            {
-                out.println(action.get(0));
-                out.flush();
-            }
-        }
+        if (action != "")
+            connection.sendMessage(action);
     }
 
-    public void run() {
-        while(true) {
-            String str = in.nextLine();
-            System.out.println(str);
-            v.text.setText(str);
-        }
-    }
 }

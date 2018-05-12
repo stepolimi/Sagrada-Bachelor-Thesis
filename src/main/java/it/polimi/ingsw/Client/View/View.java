@@ -23,6 +23,9 @@ public class View{
         createView();
     }
 
+    public String getName(){
+        return this.text.getText();
+    }
     public void createView()
     {
         viewFrame = new JFrame("Prova Dadi");

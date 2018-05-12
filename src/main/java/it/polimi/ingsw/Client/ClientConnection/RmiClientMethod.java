@@ -7,21 +7,18 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMethodInterface {
     View v;
-    String name;
-    public RmiClientMethod(String name) throws RemoteException
-    {
-        this.name = name;
-    }
+
+    public RmiClientMethod() throws RemoteException
+    { }
 
 
     public void updateText(String s) throws RemoteException {
         v.text.setText(s);
-        System.out.println(s);
     }
 
-
-    public String getName() throws RemoteException {
-        return this.name;
+    public void printText(String str)
+    {
+        System.out.println(str);
     }
 
     public void setView(View v)
