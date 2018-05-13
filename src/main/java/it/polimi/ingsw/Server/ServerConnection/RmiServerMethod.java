@@ -13,15 +13,17 @@ import java.util.Vector;
 public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMethodInterface {
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
     private VirtualView virtual;
-
-    public RmiServerMethod(VirtualView virtual) throws RemoteException
+    private Connected connection;
+    public RmiServerMethod(VirtualView virtual,Connected connection) throws RemoteException
     {
         this.virtual = virtual;
+        this.connection = connection;
     }
 
     public boolean login(RmiClientMethodInterface client,String name) {
         // controllerò se non ci sono username uguali
-        clients.put(client,name);
+        Client user = new Client(client);
+        connection.getUsers().put(user,name);
         System.out.println(name+" si è connesso");
         try {
             client.printText("Welcome " + name);
@@ -32,7 +34,7 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
         return true;
     }
 
-    public void publish(String str) throws RemoteException {
+    /*public void publish(String str) throws RemoteException {
         if(!clients.isEmpty())
         {
             for(RmiClientMethodInterface client:clients.keySet()) {
@@ -51,7 +53,7 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     {
         return this.clients;
     }
-
+*/
     public void forwardAction(ArrayList action,RmiClientMethodInterface client) {
         if(clients.containsKey(client))
             virtual.forwardAction(action);
@@ -70,9 +72,14 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     }
 
     public void disconnected(RmiClientMethodInterface client) throws RemoteException {
-        String str = clients.get(client);
+
+        Client c = new Client(client);
+        String name = connection.remove(c);
+        connection.sendMessage(name+" si è disconnesso");
+        connection.sendMessage("Numero utenti ancora connessi:"+connection.nConnection());
+       /* String str = clients.get(client);
         this.clients.remove(client);
         this.publish(str+" si è disconnesso");
-
+        */
     }
 }

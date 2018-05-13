@@ -12,19 +12,17 @@ import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MultiSocketServer implements Observer {
+public class MultiSocketServer{
     private int port;
     private VirtualView virtual;
-    static int playerConnessi;
-    private HashMap<SocketConnection,String> sockets =  new HashMap<SocketConnection, String>();
+    private Connected connection;
     // ricordarsi di togliere il socket quando viene chiusa la connessione
 
-    public MultiSocketServer(int port,VirtualView virtual)
+    public MultiSocketServer(int port,VirtualView virtual,Connected connection)
     {
         this.port = port;
         this.virtual = virtual;
-        playerConnessi = 0;
-
+        this.connection = connection;
     }
 
     public void StartServer()
@@ -41,10 +39,7 @@ public class MultiSocketServer implements Observer {
                 {
                     Socket socket = serverSocket.accept();
                     System.out.println("Accettato");
-                    playerConnessi++;
-                    SocketConnection sock = new SocketConnection(socket,virtual);
-                    sock.addObserver(this);
-                    sockets.put(sock,"");
+                   SocketConnection sock = new SocketConnection(socket,virtual,connection);
                     execute.submit(sock);
 
                 }catch(Exception ex)
@@ -66,13 +61,10 @@ public class MultiSocketServer implements Observer {
 
     }
 
-    public HashMap<SocketConnection,String> getSocket()
-    {
-        return this.sockets;
-    }
 
 
-    public void update(Observable o, Object arg) {
+
+   /* public void update(Observable o, Object arg) {
         SocketConnection s = (SocketConnection) arg;
 
         if(sockets.get(arg).equals(""))
@@ -90,4 +82,6 @@ public class MultiSocketServer implements Observer {
                 sock.sendMessage(str);
         }
     }
+
+    */
 }

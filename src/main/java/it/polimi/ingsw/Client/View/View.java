@@ -12,7 +12,7 @@ public class View{
     JFrame viewFrame;
     JPanel panel;
     public JTextArea text;
-    public JButton insButton, remButton, extrButton, actButton;
+    public JButton insButton, remButton, extrButton, SocketButton,RmiButton;
     boolean isConnect;
     public JTextArea connection;
 
@@ -30,7 +30,7 @@ public class View{
     {
         viewFrame = new JFrame("Prova Dadi");
         viewFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        viewFrame.setSize(1000,700);
+        viewFrame.setSize(1200,700);
 
         panel = new JPanel();
         viewFrame.add(panel,BorderLayout.WEST);
@@ -49,16 +49,19 @@ public class View{
 
         connection = new JTextArea("Inserisci metodo connessione");
         panel.add(connection);
-        actButton = new JButton("Connettiti");
-        panel.add(actButton);
+        SocketButton = new JButton("Connettiti Socket");
+        RmiButton = new JButton("Connettiti Rmi");
+        panel.add(RmiButton);
+        panel.add(SocketButton);
 
         viewFrame.setVisible(true);
         insButton.addActionListener(controller);
         remButton.addActionListener(controller);
         extrButton.addActionListener(controller);
-        actButton.addActionListener(controller);
-
+        SocketButton.addActionListener(controller);
+        RmiButton.addActionListener(controller);
         text = new JTextArea();
+        text.setText("ciao");
         viewFrame.add(text,BorderLayout.SOUTH);
 
 

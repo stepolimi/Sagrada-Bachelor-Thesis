@@ -11,8 +11,9 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Scegli l'interfaccia grafica:\n1) Cli\n2)Gui");
-        Scanner  sc = new Scanner(System.in);
-        String str = sc.nextLine();
+       // Scanner  sc = new Scanner(System.in);
+       // String str = sc.nextLine();
+        String str ="2";
         if(Integer.parseInt(str)==1)
         {
             // da fare

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.VirtualView;
 
 import it.polimi.ingsw.Client.ClientConnection.RmiClientMethodInterface;
 import it.polimi.ingsw.Server.Model.game.GameMultiplayer;
+import it.polimi.ingsw.Server.ServerConnection.Connected;
 import it.polimi.ingsw.Server.ServerConnection.MultiSocketServer;
 import it.polimi.ingsw.Server.ServerConnection.RmiServerMethod;
 import it.polimi.ingsw.Server.ServerConnection.SocketConnection;
@@ -13,22 +14,24 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class VirtualView extends Observable implements Observer{
-    private RmiServerMethod server;
-    private MultiSocketServer socket;
+    private Connected connection;
 
-    public void setMultipleServerSocket(MultiSocketServer socket){
+  /*  public void setMultipleServerSocket(MultiSocketServer socket){
         this.socket = socket;
     }
 
+public void setServer(RmiServerMethod server)
+    {
+        this.server = server;
+    }
+
+    */
     public void forwardAction(ArrayList action)
     {
         setChanged();
         notifyObservers(action);
     }
-    public void setServer(RmiServerMethod server)
-    {
-        this.server = server;
-    }
+
 
     public void update(Observable o, Object arg) {
        /* //this.ds = controller.getDiceSpace();
@@ -60,17 +63,14 @@ public class VirtualView extends Observable implements Observer{
         /*notify:
             player joined, player left, new game cause timer, new game cause players
            */
-        server.publish((String)arg);
-        socket.publish((String)arg);
+        connection.sendMessage((String)arg);
     }
 
     private void gameMultiplayerHandler(Object arg) throws RemoteException{
         /*notify:
             schemi creati
             */
-        server.publish((String)arg);
-        socket.publish((String)arg);
-
+        connection.sendMessage((String)arg);
     }
 
 

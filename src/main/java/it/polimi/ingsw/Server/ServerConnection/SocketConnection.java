@@ -9,23 +9,20 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Scanner;
 
-public class SocketConnection extends Observable implements Runnable {
+public class SocketConnection implements Runnable,Connection {
     Socket s;
     VirtualView virtual;
     Scanner in;
     PrintWriter out;
+    Connected connection;
     private String name;
-    public SocketConnection(Socket s,VirtualView virtual)
+    public SocketConnection(Socket s,VirtualView virtual,Connected connection)
     {
         this.s = s;
         this.virtual = virtual;
+        this.connection = connection;
     }
 
-    public void InviaInfo(String str)
-    {
-        out.println(str);
-        out.flush();
-    }
 
     public void run() {
         try {
@@ -33,6 +30,7 @@ public class SocketConnection extends Observable implements Runnable {
             out = new PrintWriter(s.getOutputStream());
             while(true) {
                 String str = in.nextLine();
+                System.out.println(str);
                 if(str.equals("Disconnected")) {
                         this.logout();
                         break;
@@ -57,8 +55,7 @@ public class SocketConnection extends Observable implements Runnable {
     public void login(String str) {
 
         this.name = in.nextLine();
-        setChanged();
-        notifyObservers(this);
+        connection.getUsers().put(this,this.name);
         this.sendMessage("Welcome "+this.name);
         System.out.println(this.name+" si è loggato");
     }
@@ -68,8 +65,9 @@ public class SocketConnection extends Observable implements Runnable {
             in.close();
             out.close();
             s.close();
-            setChanged();
-            notifyObservers(this);
+            connection.sendMessage(this.name+" si è scollegato");
+            connection.remove(this);
+            connection.sendMessage("Numero utenti ancora connessi:"+connection.nConnection());
         }catch(IOException io)
         {
             System.out.println(io.getMessage());
