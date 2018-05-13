@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Client.ClientConnection;
 
 
-import it.polimi.ingsw.Client.View.View;
+import it.polimi.ingsw.Client.View.ControllerClient;
 import it.polimi.ingsw.Server.ServerConnection.RmiServerMethodInterface;
 
 import java.net.MalformedURLException;
@@ -12,13 +12,13 @@ import java.rmi.RemoteException;
 public class RmiConnection implements Connection {
     RmiServerMethodInterface server;
     RmiClientMethod client;
-    View v;
-    public RmiConnection(View v)
+    ControllerClient controllerClient;
+    public RmiConnection(ControllerClient controllerClient)
     {
-        this.v = v;
+        this.controllerClient = controllerClient;
         try {
             client = new RmiClientMethod();
-            client.setView(v);
+            client.setView(controllerClient);
             server = (RmiServerMethodInterface) Naming.lookup("rmi://127.0.0.1/myabc");
         }catch(RemoteException e){
             System.out.println(e.getMessage());
@@ -42,9 +42,9 @@ public class RmiConnection implements Connection {
         }
     }
 
-    public void login() {
+    public void login(String nickname) {
         try {
-            server.login(client,v.getName());
+            server.login(client, nickname);
         }catch(RemoteException e)
         {
             System.out.println(e.getMessage());

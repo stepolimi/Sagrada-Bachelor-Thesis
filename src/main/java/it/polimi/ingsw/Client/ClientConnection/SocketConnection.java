@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Client.ClientConnection;
 
-import it.polimi.ingsw.Client.View.View;
+import it.polimi.ingsw.Client.View.ControllerClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,15 +9,15 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SocketConnection implements Connection,Runnable {
+
     Socket socket;
     PrintWriter out;
     Scanner in;
-    View v; // da vedere
+    ControllerClient controllerClient;// da vedere
     private boolean stopThread = false;
 
-    public SocketConnection(View v) throws IOException
+    public SocketConnection(ControllerClient controllerClient) throws IOException
     {
-        this.v = v;
         socket = new Socket("localhost", 1666);
         out = new PrintWriter(socket.getOutputStream());
         in = new Scanner(socket.getInputStream());
@@ -31,10 +31,10 @@ public class SocketConnection implements Connection,Runnable {
     }
 
 
-    public void login() {
+    public void login(String nickname) {
         out.println("Login"); // deve esserci un if(str.equals("Login")){username = in.nextLine; }
         out.flush();
-        out.println(v.getName());
+        out.println(nickname);
         out.flush();
     }
 
@@ -64,7 +64,7 @@ public class SocketConnection implements Connection,Runnable {
             try {
                 String str = in.nextLine();
                 System.out.println(str);
-                v.text.setText(str);
+                controllerClient.setText(str);
             }catch (NoSuchElementException e){
                 System.out.println("disconnesso");
             }

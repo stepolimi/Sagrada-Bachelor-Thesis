@@ -1,103 +1,161 @@
-package it.polimi.ingsw.Client.Controller;
+package it.polimi.ingsw.Client.View;
 
 import it.polimi.ingsw.Client.ClientConnection.Connection;
+import it.polimi.ingsw.Client.ClientConnection.RmiClientMethod;
 import it.polimi.ingsw.Client.ClientConnection.RmiConnection;
 import it.polimi.ingsw.Client.ClientConnection.SocketConnection;
-import it.polimi.ingsw.Client.View.View;
+import it.polimi.ingsw.Server.ServerConnection.RmiServerMethodInterface;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.rmi.NotBoundException;
+import java.util.Scanner;
 
 
-public class ControllerClient implements ActionListener {
-    View v;
-    // virtual view per testarlo in locale, poi utilizzeremo rmi
+public class ControllerClient implements Runnable {
+
+    private static String text;
     Connection connection;
     Thread t;
 
-    public ControllerClient() {
+
+
+    @FXML
+    public Button playButton;
+
+    @FXML
+    public Button RMIButton;
+
+    @FXML
+    public Button SocketButton;
+
+    @FXML
+    public TextField nickname;
+
+    @FXML
+    public Button loginAction;
+
+
+    static RmiServerMethodInterface  server;
+    static RmiClientMethod client;
+    boolean isRmi;
+    boolean isSocket;
+    PrintWriter out;
+    Socket s;
+    Scanner in;
+
+
+    public ControllerClient() {}
+
+
+    @FXML
+    public void goRMI(ActionEvent actionEvent) throws IOException, NotBoundException {
+        Stage stage = (Stage) RMIButton.getScene().getWindow();
+        stage.close();
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/FXML/loginRMI.fxml"));
+        Scene scene = new Scene(parent);
+        stage.setScene(scene);
+        stage.show();
+
+
+
     }
 
-    public void initView(View v) {
-        this.v = v;
+
+
+
+    @FXML
+    public void goSocket(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) SocketButton.getScene().getWindow();
+        stage.close();
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/FXML/loginSocket.fxml"));
+        Scene scene = new Scene(parent);
+        stage.setScene(scene);
+        stage.show();
+
+
     }
 
-    public void doConnectRmi() {
 
-        if (v.RmiButton.getText().equals("Connettiti Rmi")) {
-
-            try {
-                connection = new RmiConnection(v);
-                connection.login();
-                v.RmiButton.setText("Disconnettiti");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Errore connessione");
-            }
-        } else {
-            try {
-                connection.disconnect();
-                v.RmiButton.setText("Connettiti Rmi");
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Errore connessione");
-            }
+    public void run() {
+        while(true) {
+            String str = in.nextLine();
+            System.out.println(str);
         }
+    }
+
+
+
+
+    public void playAction(ActionEvent actionEvent) throws IOException {
+
+
+        Stage stage = (Stage) playButton.getScene().getWindow();
+        stage.close();
+
+        Parent parent = FXMLLoader.load(getClass().getResource("/FXML/connection.fxml"));
+        Scene scene = new Scene(parent);
+        stage.setScene(scene);
+        stage.show();
+
+
 
     }
 
 
-    public void doConnectSocket() {
 
-        if (v.SocketButton.getText().equals("Connettiti Socket")) {
+    public String getName() {
+
+        return nickname.getText();
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void captureNicknameSocket(ActionEvent actionEvent) {
+
             try {
-                connection = new SocketConnection(v);
-                connection.login();
+                connection = new SocketConnection(this);
+                connection.login(getName());
                 t = new Thread((SocketConnection) connection);
                 t.start();
 
 
-                v.SocketButton.setText("Disconnettiti");
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
-        } else {
+
+
+
+    }
+
+    public void captureNicknameRMI(ActionEvent actionEvent) {
+
             try {
-                connection.disconnect();
-                v.SocketButton.setText("Connettiti Socket");
+                connection = new RmiConnection(this);
+                connection.login(getName());
+
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Errore connessione");
             }
-        }
+
 
     }
-
-
-    public void actionPerformed(ActionEvent e) {
-
-        String action = "";
-
-        if (e.getSource() == v.insButton) {
-            action = "InsertDice";
-        } else if (e.getSource() == v.remButton) {
-            action = "RemoveDice";
-        } else if (e.getSource() == v.extrButton) {
-            action = "Extract";
-        } else if (e.getSource() == v.SocketButton) {
-            this.doConnectSocket();
-        } else if(e.getSource()== v.RmiButton)
-                this.doConnectRmi();
-
-
-        //connettiti
-
-        // bisogna chiamare il metodo del rmi server
-        if (action != "")
-            connection.sendMessage(action);
-    }
-
 }

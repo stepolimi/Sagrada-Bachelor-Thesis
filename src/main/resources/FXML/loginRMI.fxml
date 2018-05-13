@@ -21,6 +21,6 @@
          </font>
       </Text>
       <TextField fx:id="nickname" layoutX="147.0" layoutY="146.0" prefHeight="27.0" prefWidth="196.0" />
-      <Button fx:id="loginAction" layoutX="343.0" layoutY="146.0" mnemonicParsing="false" onAction="#captureNickname" text="LOGIN" />
+      <Button fx:id="loginActionRMI" layoutX="343.0" layoutY="146.0" mnemonicParsing="false" onAction="#captureNicknameRMI" text="LOGIN" />
    </children>
 </Pane>

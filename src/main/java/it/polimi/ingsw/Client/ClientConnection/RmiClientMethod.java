@@ -1,19 +1,18 @@
 package it.polimi.ingsw.Client.ClientConnection;
 
-import it.polimi.ingsw.Client.View.View;
+import it.polimi.ingsw.Client.View.ControllerClient;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMethodInterface {
-    View v;
-
+        ControllerClient controllerClient;
     public RmiClientMethod() throws RemoteException
     { }
 
 
     public void updateText(String s) throws RemoteException {
-        v.text.setText(s);
+        controllerClient.setText(s);
     }
 
     public void printText(String str)
@@ -21,9 +20,9 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         System.out.println(str);
     }
 
-    public void setView(View v)
+    public void setView(ControllerClient controllerClient)
     {
-        this.v = v;
+        this.controllerClient = controllerClient;
     }
 
 }
