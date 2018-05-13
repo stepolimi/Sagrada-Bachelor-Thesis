@@ -23,13 +23,21 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     public boolean login(RmiClientMethodInterface client,String name) {
         // controllerò se non ci sono username uguali
         Client user = new Client(client);
-        connection.getUsers().put(user,name);
-        System.out.println(name+" si è connesso");
-        try {
-            client.printText("Welcome " + name);
-        }catch(RemoteException e)
-        {
-            System.out.println(e.getMessage());
+        if(connection.checkUsername(name)) {
+            connection.getUsers().put(user, name);
+
+            System.out.println(name + " si è connesso");
+            try {
+                client.printText("Welcome " + name);
+            } catch (RemoteException e) {
+                System.out.println(e.getMessage());
+            }
+        }else {
+            try {
+                client.printText("Login_error");
+            } catch (RemoteException e) {
+                System.out.println(e.getMessage());
+            }
         }
         return true;
     }
