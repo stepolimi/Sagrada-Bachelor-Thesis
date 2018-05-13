@@ -18,6 +18,7 @@ public class SocketConnection implements Connection,Runnable {
 
     public SocketConnection(ControllerClient controllerClient) throws IOException
     {
+        this.controllerClient = controllerClient;
         socket = new Socket("localhost", 1666);
         out = new PrintWriter(socket.getOutputStream());
         in = new Scanner(socket.getInputStream());
