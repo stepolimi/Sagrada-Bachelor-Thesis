@@ -28,7 +28,7 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
 
             System.out.println(name + " si è connesso");
             try {
-                client.printText("Welcome " + name);
+                client.printText("Welcome");
             } catch (RemoteException e) {
                 System.out.println(e.getMessage());
             }

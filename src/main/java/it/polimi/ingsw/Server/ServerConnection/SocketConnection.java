@@ -58,7 +58,7 @@ public class SocketConnection implements Runnable,Connection {
         if(connection.checkUsername(this.name))
         {
             connection.getUsers().put(this,this.name);
-            this.sendMessage("Welcome "+this.name);
+            this.sendMessage("Welcome");
             System.out.println(this.name+" si è loggato");
         }else
             this.sendMessage("Login_error");
