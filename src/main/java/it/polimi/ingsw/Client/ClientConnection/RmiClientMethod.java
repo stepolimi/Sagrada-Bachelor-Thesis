@@ -17,6 +17,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
 
     public void printText(String str)
     {
+        controllerClient.setText(str);
         System.out.println(str);
     }
 

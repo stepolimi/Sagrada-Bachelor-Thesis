@@ -64,11 +64,14 @@ public class SocketConnection implements Connection,Runnable {
         while(!stopThread){
             try {
                 String str = in.nextLine();
+                controllerClient.login_resultSocket(str);
                 System.out.println(str);
-                controllerClient.setText(str);
             }catch (NoSuchElementException e){
                 System.out.println("disconnesso");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
 
         }
     }
