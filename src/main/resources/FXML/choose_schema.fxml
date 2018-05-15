@@ -7,42 +7,41 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="454.0" prefWidth="622.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="539.0" fitWidth="740.0" layoutX="-40.0" layoutY="-33.0" opacity="0.63" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="728.0" fitWidth="1066.0" layoutX="-40.0" layoutY="-33.0" opacity="0.63" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/alldice.jpg" />
          </image>
       </ImageView>
-      <Text layoutX="135.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="352.42626953125">
+      <Text layoutX="174.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="496.42626953125">
          <font>
-            <Font size="36.0" />
+            <Font size="48.0" />
          </font>
       </Text>
-      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="69.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="218.0" fitWidth="271.0" layoutX="83.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/Schemi/Via Lux.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="410.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/Schemi/Gravitas.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="69.0" layoutY="270.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="218.0" fitWidth="254.0" layoutX="522.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/Schemi/Ripples of Light.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="130.0" fitWidth="150.0" layoutX="410.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="218.0" fitWidth="255.0" layoutX="522.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/Schemi/Industria.png" />
          </image>
       </ImageView>
-      <Button layoutX="67.0" layoutY="214.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="1" />
-      <Button layoutX="67.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="3" />
-      <Button layoutX="410.0" layoutY="214.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="2" />
-      <Button layoutX="410.0" layoutY="400.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="4" />
+      <Button layoutX="136.0" layoutY="300.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="1" />
+      <Button layoutX="136.0" layoutY="563.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="3" />
+      <Button layoutX="574.0" layoutY="300.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="2" />
+      <Button layoutX="574.0" layoutY="563.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="4" />
    </children>
 </Pane>
