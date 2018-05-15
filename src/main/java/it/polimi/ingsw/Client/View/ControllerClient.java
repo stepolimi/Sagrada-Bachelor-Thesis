@@ -95,37 +95,52 @@ public class ControllerClient  {
 
     public void captureNicknameSocket(ActionEvent actionEvent) {
 
-        try {
-            connection = new SocketConnection(this);
-            connection.login(getName());
-            t = new Thread((SocketConnection) connection);
-            t.start();
-
-
-
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        if(getName().equals("")) {
+            try {
+                setScene("nickname_empty");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        else {
+            try {
+                connection = new SocketConnection(this);
+                connection.login(getName());
+                t = new Thread((SocketConnection) connection);
+                t.start();
 
+
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
     }
 
     public void captureNicknameRMI(ActionEvent actionEvent) {
 
-        try {
-            connection = new RmiConnection(this);
-            connection.login(getName());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Errore connessione");
+        if(getName().equals("")) {
+            try {
+                setScene("nickname_empty");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            login_resultRMI(getText());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        else {
+            try {
+                connection = new RmiConnection(this);
+                connection.login(getName());
 
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Errore connessione");
+            }
+            try {
+                login_resultRMI(getText());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
 
