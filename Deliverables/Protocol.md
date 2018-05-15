@@ -27,7 +27,7 @@ Our protocol is :
 
 - Logout action—>action[1]=(“Logout”, nickname);
 
-- Dice Select —> action[*]=(“PickDice”, **“DiceSpace”**, indexOf);
+- Dice Select —> action[*]=(“PickDice”, **“DiceSpace”, indexOf);**
 
 					      or “RoundTrack”, roundNumber, indexOfArray);
 							 
@@ -37,7 +37,7 @@ Our protocol is :
 					      
 					      *next command passed depends if action[1] is a dicebag/rountrack/schema/dicespace
 
-- Dice Place —> action[*]=(“PlaceDice”, **“DiceSpace”**);
+- Dice Place —> action[*]=(“PlaceDice”, **“DiceSpace”);**
 
 					      or “RoundTrack”, roundNumber, indexOfArray);
 					      
