@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class SocketConnection implements Runnable,Connection {
     Socket s;
@@ -15,6 +15,7 @@ public class SocketConnection implements Runnable,Connection {
     Scanner in;
     PrintWriter out;
     Connected connection;
+    ArrayList action= new ArrayList();
     private String name;
     public SocketConnection(Socket s,VirtualView virtual,Connected connection)
     {
@@ -30,16 +31,17 @@ public class SocketConnection implements Runnable,Connection {
             out = new PrintWriter(s.getOutputStream());
             while(true) {
                 String str = in.nextLine();
+                StringTokenizer token = new StringTokenizer(str, "-");
+                while(token.hasMoreTokens())
+                    action.add(token.nextToken());
                 System.out.println(str);
-                if(str.equals("Disconnected")) {
+                if(action.get(0).equals("Disconnected")) {
                         this.logout();
                         break;
-                    }else if(str.equals("Login")){
-                    this.login(str);
+                    }else if(action.get(0).equals("Login")){
+                    this.login((String)action.get(1));
                 }else{
-                    // verrà sostituito sicuramente con Json
-                    ArrayList<String> action = new ArrayList<String>();
-                    action.add(str);
+
                     this.forwardAction(action);
                     System.out.println("Mi hai scritto:"+str);
                 }
@@ -54,12 +56,12 @@ public class SocketConnection implements Runnable,Connection {
 
     public void login(String str) {
 
-        this.name = in.nextLine();
-        if(connection.checkUsername(this.name))
+
+        if(connection.checkUsername(str))
         {
-            connection.getUsers().put(this,this.name);
+            connection.getUsers().put(this,str);
             this.sendMessage("Welcome");
-            System.out.println(this.name+" si è loggato");
+            System.out.println(str +" si è loggato");
         }else
             this.sendMessage("Login_error");
 

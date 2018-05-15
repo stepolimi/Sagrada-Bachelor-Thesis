@@ -33,9 +33,7 @@ public class SocketConnection implements Connection,Runnable {
 
 
     public void login(String nickname) {
-        out.println("Login"); // deve esserci un if(str.equals("Login")){username = in.nextLine; }
-        out.flush();
-        out.println(nickname);
+       out.println("Login-" + nickname);
         out.flush();
     }
 
