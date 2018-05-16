@@ -7,7 +7,7 @@ Our protocol for **RMI**  and **Socket** is the same. the difference is the way 
 
 for example the client login : 
 
-action[]=("Login", nickname)  
+	action[]=("Login", nickname)  
 	
 	action[0]=“login”: is the main command;
 	
@@ -26,21 +26,21 @@ Our protocol is :
 
 
 
-	- Login action —> action[1]=(“Login”, nickname);
+- Login action —> action[1]=(“Login”, nickname);
 
-	- Logout action—>action[1]=(“Logout”, nickname);
+- Logout action—>action[1]=(“Logout”, nickname);
 
-	- Dice Select —> action[*]=(“PickDice”, **“DiceSpace”, indexOf);**
+- Dice Select —> action[*]=(“PickDice”, **“DiceSpace”, indexOf);**
 
-					     	 or “RoundTrack”, roundNumber, indexOfArray);
+					     or “RoundTrack”, roundNumber, indexOfArray);
 							 
-					     	 or “DiceBag”);
+					     or “DiceBag”);
 							 
-					     	 or“Schema”, indexRows, indexColumns); 
+					     or“Schema”, indexRows, indexColumns); 
 					      
-					     	 *next command passed depends if action[1] is a dicebag/rountrack/schema/dicespace
+					     *next command passed depends if action[1] is a 	dicebag/rountrack/schema/dicespace
 
-	- Dice Place —> action[*]=(“PlaceDice”, **“DiceSpace”);**
+- Dice Place —> action[*]=(“PlaceDice”, **“DiceSpace”);**
 
 					      	 or “RoundTrack”, roundNumber, indexOfArray);
 					      
@@ -49,39 +49,39 @@ Our protocol is :
 					      	 or “Schema”, indexRows, indexColumns); 
 							 
 
-	- Dice Extract—> action[0]=(“ExtractDice”);
+- Dice Extract—> action[0]=(“ExtractDice”);
 
 
-	- Use of ToolCard—> action[1]=(“UseCard”, numberOfTool);
+- Use of ToolCard—> action[1]=(“UseCard”, numberOfTool);
 
 
-	- Declare end of turn —> action[0]=(“EndTurn”);
+- Declare end of turn —> action[0]=(“EndTurn”);
 
 
 
 
 ## for Server—>Client
 
-	- Login action —> action[1]=(“Login”, “Welcome”/“Login_error”);
+- Login action —> action[1]=(“Login”, “Welcome”/“Login_error”);
 							
 
 
-	- Pass set of Schemas —>action[4]=(“Schemas”, numofSchema1, numofSchema2, numofSchema3, numofSchema4);
-	(that player chooses) 
+- Pass set of Schemas —>action[4]=(“Schemas”, numofSchema1, numofSchema2, numofSchema3, numofSchema4);
+(that player chooses) 
 
 
-	- Dice Select —> action[1]=(“PickDice”, “Successfull”/“Unsuccessfull”);
+- Dice Select —> action[1]=(“PickDice”, “Successfull”/“Unsuccessfull”);
 				    
 							
 
 
-	- Dice Place —> action[1]=(“PlaceDice”, “Successfull”/"Unsuccessfull");
+- Dice Place —> action[1]=(“PlaceDice”, “Successfull”/"Unsuccessfull");
 					
 							
 
-	- Dice Extract—> action[2]=(“ExtractDice”, List< numberDice >, List< colourDice >);
+- Dice Extract—> action[2]=(“ExtractDice”, List< numberDice >, List< colourDice >);
 
 
-	- Use of ToolCard —> action[1]=(“UseCard”, “Successfull”/"Unsuccessfull");
+- Use of ToolCard —> action[1]=(“UseCard”, “Successfull”/"Unsuccessfull");
 					
 							
