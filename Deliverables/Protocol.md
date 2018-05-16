@@ -23,7 +23,7 @@ After, control part takes care of the string separation in every commands.
 
 Our protocol is :
 
-## for client—>Server
+## for Client—>Server
 
 
 
@@ -60,7 +60,7 @@ Our protocol is :
 
 
 
-## for server—>client
+## for Server—>Client
 
 - Login action —> action[1]=(“Login”, “Welcome”/“Login_error”);
 							
