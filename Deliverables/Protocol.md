@@ -6,8 +6,11 @@ Our protocol for **RMI**  and **Socket** is the same. the difference is the way 
 
 
 for example the client login : 
+
 action[]=("Login", nickname)  
+	
 	action[0]=“login”: is the main command;
+	
 	action[1]=“nickname”: is the second command that contain the nickname. every command depends on the previous.
 
 
