@@ -19,7 +19,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <Button fx:id="RMIButton" layoutX="77.0" layoutY="145.0" mnemonicParsing="false" onAction="#goRMI" prefHeight="76.0" prefWidth="125.0" text="RMI" />
-      <Button fx:id="SocketButton" layoutX="308.0" layoutY="145.0" mnemonicParsing="false" onAction="#goSocket" prefHeight="76.0" prefWidth="125.0" text="Socket" />
+      <Button fx:id="RMIButton" layoutX="77.0" layoutY="145.0" mnemonicParsing="false" onAction="#goRMI" prefHeight="76.0" prefWidth="125.0" styleClass="connectionRMI" text="RMI" />
+      <Button fx:id="SocketButton" layoutX="308.0" layoutY="145.0" mnemonicParsing="false" onAction="#goSocket" prefHeight="76.0" prefWidth="125.0" styleClass="connectionSocket" text="Socket" />
    </children>
 </Pane>

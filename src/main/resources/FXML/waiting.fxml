@@ -25,7 +25,7 @@
          </font>
       </Text>
       <ProgressBar layoutX="111.0" layoutY="192.0" prefWidth="200.0" progress="0.0" />
-      <ImageView fitHeight="556.0" fitWidth="527.0" layoutX="-106.0" layoutY="-18.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="556.0" fitWidth="527.0" layoutX="-18.0" layoutY="-166.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/fgioco4662_2.jpg" />
          </image>
