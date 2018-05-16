@@ -7,11 +7,12 @@ Our protocol for **RMI**  and **Socket** is the same. the difference is the way 
 
 for example the client login : 
 
-action[]=("Login", nickname)  
+	
+	action[]=("Login", nickname)  
 	
 	action[0]=“login”: is the main command;
 	
-	action[1]=“nickname”: is the second command that contain the nickname. every command depends on the previous.
+	action[1]=“nickname”: is the second command that contain the nickname. Every command depends on the previous.
 
 
 *For Socket*, communication is defined by the same commands, but, instead of arrays, there is a String which is the concatenation of every commands separated by a “-“.
