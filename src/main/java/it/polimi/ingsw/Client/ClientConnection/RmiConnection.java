@@ -2,7 +2,7 @@ package it.polimi.ingsw.Client.ClientConnection;
 
 
 import it.polimi.ingsw.Client.View.ControllerClient;
-import it.polimi.ingsw.Server.ServerConnection.RmiServerMethodInterface;
+import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
 
 import java.net.MalformedURLException;
 import java.rmi.Naming;
