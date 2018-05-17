@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.View.ControllerClient">
+<Pane prefHeight="776.0" prefWidth="1164.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.View.ControllerClient">
    <children>
       <ImageView fitHeight="776.0" fitWidth="1372.0" opacity="0.29" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/image/game.jpg" />
+            <Image url="@../assets/image/sagrada%20copia%202.jpg" />
          </image>
       </ImageView>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1372.0" >
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1372.0">
          <children>
             <Pane prefHeight="776.0" prefWidth="507.0" />
             <TabPane id="tab-pane" prefHeight="729.0" prefWidth="868.0" side="BOTTOM" stylesheets="@../CSS/game.css" tabClosingPolicy="UNAVAILABLE">
