@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.View.ControllerClient">
+   <children>
+      <ImageView fitHeight="776.0" fitWidth="1372.0" opacity="0.29" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/game.jpg" />
+         </image>
+      </ImageView>
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="776.0" prefWidth="1372.0" >
+         <children>
+            <Pane prefHeight="776.0" prefWidth="507.0" />
+            <TabPane id="tab-pane" prefHeight="729.0" prefWidth="868.0" side="BOTTOM" stylesheets="@../CSS/game.css" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Io" />
+                <Tab id="tab-header-backgroundtab-header-background" text="Altri Giocatori">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" stylesheets="@../CSS/game.css" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </HBox>
+   </children>
+</Pane>
