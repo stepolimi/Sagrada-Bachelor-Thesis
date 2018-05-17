@@ -1,3 +1,8 @@
 .tab-pane .tab-header-area .tab-header-background {
     -fx-background-color: trasparent;
 }
+
+.tab-pane .tab-header-area .headers-region {
+    -fx-background-color: blue;
+
+}
