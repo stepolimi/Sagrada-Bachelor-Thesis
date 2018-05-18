@@ -1,8 +1,8 @@
-package it.polimi.ingsw.Client.View;
+package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.Client.ClientConnection.Connection;
-import it.polimi.ingsw.Client.ClientConnection.RmiConnection;
-import it.polimi.ingsw.Client.ClientConnection.SocketConnection;
+import it.polimi.ingsw.client.clientConnection.Connection;
+import it.polimi.ingsw.client.clientConnection.RmiConnection;
+import it.polimi.ingsw.client.clientConnection.SocketConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.serverConnection;
 
-import it.polimi.ingsw.Client.ClientConnection.RmiClientMethodInterface;
+import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;
@@ -42,10 +42,10 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     /*public void publish(String str) throws RemoteException {
         if(!clients.isEmpty())
         {
-            for(RmiClientMethodInterface Client:clients.keySet()) {
+            for(RmiClientMethodInterface client:clients.keySet()) {
                 try{
-                    Client.updateText(str);
-                    Client.printText(str);
+                    client.updateText(str);
+                    client.printText(str);
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
@@ -80,8 +80,8 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
 
         Client c = new Client(client);
         String name = connection.remove(c);
-       /* String str = clients.get(Client);
-        this.clients.remove(Client);
+       /* String str = clients.get(client);
+        this.clients.remove(client);
         this.publish(str+" si è disconnesso");
         */
     }

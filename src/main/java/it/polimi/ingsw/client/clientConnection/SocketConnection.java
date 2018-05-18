@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Client.ClientConnection;
+package it.polimi.ingsw.client.clientConnection;
 
-import it.polimi.ingsw.Client.View.ControllerClient;
+import it.polimi.ingsw.client.view.ControllerClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -62,7 +62,8 @@ public class SocketConnection implements Connection,Runnable {
         while(!stopThread){
             try {
                 String str = in.nextLine();
-                controllerClient.login_resultSocket(str);
+                if(str.equals("Welcome") || str.equals("Login_error"))
+                    controllerClient.login_resultSocket(str);
                 System.out.println(str);
             }catch (NoSuchElementException e){
                 System.out.println("disconnesso");

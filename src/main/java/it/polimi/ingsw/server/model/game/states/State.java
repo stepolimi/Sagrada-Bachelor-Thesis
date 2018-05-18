@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface State {
 
-    /*idea di funzionamento: la execute dei diversi stati notificherà alla virtual View i pulsanti/movimenti/azioni che
-     saranno disponibili all'utente in quella data situazione, la quale manderà le informazioni alla View (o notificherà
-     direttamente alla View)
+    /*idea di funzionamento: la execute dei diversi stati notificherà alla virtual view i pulsanti/movimenti/azioni che
+     saranno disponibili all'utente in quella data situazione, la quale manderà le informazioni alla view (o notificherà
+     direttamente alla view)
      */
 
     public void execute(Round round, List action);

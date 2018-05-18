@@ -38,7 +38,7 @@ public class Box {
 
     @Override
     public String toString(){     //method used to print every scema. now this is situated in a class of model part
-                                    //to MOVE in the View part
+                                    //to MOVE in the view part
         if(this.dice != null)
             return "[ "+this.dice.toString()+" ]";
         else if(this.getNumber()!=0)
