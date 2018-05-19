@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.clientConnection;
 
 
-import it.polimi.ingsw.client.view.ControllerClient;
+import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
 
 import java.net.MalformedURLException;
@@ -12,13 +12,12 @@ import java.rmi.RemoteException;
 public class RmiConnection implements Connection {
     RmiServerMethodInterface server;
     RmiClientMethod client;
-    ControllerClient controllerClient;
-    public RmiConnection(ControllerClient controllerClient)
+    Handler hand; // used to manage graphic
+    public RmiConnection(Handler hand)
     {
-        this.controllerClient = controllerClient;
+        this.hand= hand;
         try {
-            client = new RmiClientMethod();
-            client.setView(controllerClient);
+            client = new RmiClientMethod(hand);
             server = (RmiServerMethodInterface) Naming.lookup("rmi://127.0.0.1/myabc");
         }catch(RemoteException e){
             System.out.println(e.getMessage());

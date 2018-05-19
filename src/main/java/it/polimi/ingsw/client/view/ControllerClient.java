@@ -11,13 +11,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
 
-public class ControllerClient  {
+public class ControllerClient implements View {
 
     private static String text;
     public Button repeatLogin;
@@ -25,8 +26,8 @@ public class ControllerClient  {
     public Button loginActionRMI;
     Connection connection;
     Thread t;
-
-
+    private ViewGUI gui;
+    Handler hand;
     @FXML
     public Button playButton;
 
@@ -42,12 +43,15 @@ public class ControllerClient  {
 
 
 
-    public ControllerClient() {
+    public ControllerClient(Handler hand)
+    {
+        this.hand = hand;
     }
 
 
+
     @FXML
-    public void goRMI(ActionEvent actionEvent) throws IOException, NotBoundException {
+    public void goRMI(ActionEvent actionEvent) {
         Stage stage = (Stage) RMIButton.getScene().getWindow();
         stage.close();
 
@@ -58,18 +62,18 @@ public class ControllerClient  {
 
 
     @FXML
-    public void goSocket(ActionEvent actionEvent) throws IOException {
+    public void goSocket(ActionEvent actionEvent) {
         Stage stage = (Stage) SocketButton.getScene().getWindow();
         stage.close();
 
-       setScene("loginSocket");
+        setScene("loginSocket");
 
 
     }
 
 
-    public void playAction(ActionEvent actionEvent) throws IOException {
 
+    public void playAction(ActionEvent actionEvent) {
 
         Stage stage = (Stage) playButton.getScene().getWindow();
         stage.close();
@@ -96,15 +100,12 @@ public class ControllerClient  {
     public void captureNicknameSocket(ActionEvent actionEvent) {
 
         if(getName().equals("")) {
-            try {
-                setScene("nickname_empty");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setScene("nickname_empty");
+
         }
         else {
             try {
-                connection = new SocketConnection(this);
+                connection = new SocketConnection(hand);
                 connection.login(getName());
                 t = new Thread((SocketConnection) connection);
                 t.start();
@@ -120,26 +121,20 @@ public class ControllerClient  {
     public void captureNicknameRMI(ActionEvent actionEvent) {
 
         if(getName().equals("")) {
-            try {
-                setScene("nickname_empty");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            setScene("nickname_empty");
+
         }
         else {
             try {
-                connection = new RmiConnection(this);
+                connection = new RmiConnection(hand);
                 connection.login(getName());
 
             } catch (Exception e) {
                 e.printStackTrace();
                 System.out.println("Errore connessione");
             }
-            try {
-                login_resultRMI(getText());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+
         }
 
     }
@@ -153,25 +148,27 @@ public class ControllerClient  {
 
 
 
-    public void login_resultRMI(String src) throws IOException {
+    public void login(String src) {
 
         text=src;
         Platform.runLater(new Runnable() {
             public void run() {
                 if (text.equals("Welcome")) {
-                    Stage stage = (Stage) loginActionRMI.getScene().getWindow();
+                    Stage stage;
+                    if(connection instanceof SocketConnection)
+                    {
+                        stage = (Stage) loginActionSocket.getScene().getWindow();
+                    }
+                    else
+                    {
+                        stage = (Stage) loginActionRMI.getScene().getWindow();
+                    }
+
                     stage.close();
-                    try {
-                        setScene("waiting");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    setScene("waiting");
+
                 } else if (text.equals("Login_error")) {
-                    try {
-                        setScene("nickname_error");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    setScene("nickname_error");
                 }
             }
 
@@ -180,57 +177,32 @@ public class ControllerClient  {
 
     }
 
-    public void login_resultSocket(String src) throws IOException {
+    public void setHandler(Handler hand) {
+        this.hand = hand;
+    }
 
+    public void setScene(String src)  {
 
-
-            text = src;
-
-
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    if (text.equals("Welcome")) {
-                        Stage stage = (Stage) loginActionSocket.getScene().getWindow();
-                        stage.close();
-                        try {
-                            setScene("waiting");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (text.equals("Login_error")) {
-                        try {
-                            setScene("nickname_error");
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-
-            });
-
-            return;
-
-
+        Stage stage= new Stage();
+        Pane p = null;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/FXML/"+ src +".fxml"));
+            p = loader.load();
+            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(p);
+        stage.setScene(scene);
+        stage.show();
 
     }
 
+    public void startScene() {
 
-        public void setScene(String src) throws IOException {
-
-                    Stage stage= new Stage();
-                    Parent parent = null;
-                    try {
-                        parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Scene scene = new Scene(parent);
-                    stage.setScene(scene);
-                    stage.show();
-
-                }
-
-
+    }
 
 
 }
