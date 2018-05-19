@@ -15,7 +15,7 @@ for example the client login :
 
 
 *For Socket*, communication is defined by the same commands, but, instead of arrays, there is a String which is the concatenation of every commands separated by a “-“.
-***For example the client login is “login-nickname”.***
+For example the client login is ***“login-nickname”.***
 After, control part takes care of the string separation in every commands.
 
 
