@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
@@ -196,6 +198,15 @@ public class ControllerClient implements View {
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent event) {
+                if(connection!= null)
+                    connection.disconnect();
+
+                    Platform.exit();
+                    System.exit(0);
+            }
+        });
         stage.show();
 
     }
