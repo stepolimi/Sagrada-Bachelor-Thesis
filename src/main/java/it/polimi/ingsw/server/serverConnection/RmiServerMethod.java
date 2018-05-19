@@ -21,7 +21,7 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
 
     public boolean login(RmiClientMethodInterface client,String name) {
         // controllerò se non ci sono username uguali
-        Client user = new Client(client);
+        RmiServerConnection user = new RmiServerConnection(client);
         List action = new ArrayList();
         action.add("Login");
         action.add(name);
@@ -42,10 +42,10 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     /*public void publish(String str) throws RemoteException {
         if(!clients.isEmpty())
         {
-            for(RmiClientMethodInterface Client:clients.keySet()) {
+            for(RmiClientMethodInterface RmiServerConnection:clients.keySet()) {
                 try{
-                    Client.updateText(str);
-                    Client.printText(str);
+                    RmiServerConnection.updateText(str);
+                    RmiServerConnection.printText(str);
                 }catch(Exception e){
                     System.out.println(e.getMessage());
                 }
@@ -78,10 +78,10 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
 
     public void disconnected(RmiClientMethodInterface client) throws RemoteException {
 
-        Client c = new Client(client);
+        RmiServerConnection c = new RmiServerConnection(client);
         String name = connection.remove(c);
-       /* String str = clients.get(Client);
-        this.clients.remove(Client);
+       /* String str = clients.get(RmiServerConnection);
+        this.clients.remove(RmiServerConnection);
         this.publish(str+" si è disconnesso");
         */
     }

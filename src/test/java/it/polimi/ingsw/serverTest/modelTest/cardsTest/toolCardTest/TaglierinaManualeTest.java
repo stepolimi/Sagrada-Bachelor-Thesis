@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.TaglierinaManuale;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.rules.RulesManager;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -16,19 +17,20 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TaglierinaManualeTest {
-    Schema sch;
+    private Schema sch;
     private List<Player> players = new ArrayList<Player>();
     private Player player = new Player("player 1");
     private Player player2 = new Player("player 2");
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    TaglierinaManuale toolCard = new TaglierinaManuale();
-    Dice d1= new Dice(Colour.ANSI_PURPLE, 1);
-    Dice d2= new Dice(Colour.ANSI_PURPLE, 5);
-    Dice d3= new Dice(Colour.ANSI_BLUE, 2);
-    Dice d4= new Dice (Colour.ANSI_PURPLE, 6);
-    Dice d5= new Dice (Colour.ANSI_RED, 6);
+    private TaglierinaManuale toolCard = new TaglierinaManuale();
+    private Dice d1= new Dice(Colour.ANSI_PURPLE, 1);
+    private Dice d2= new Dice(Colour.ANSI_PURPLE, 5);
+    private Dice d3= new Dice(Colour.ANSI_BLUE, 2);
+    private Dice d4= new Dice (Colour.ANSI_PURPLE, 6);
+    private Dice d5= new Dice (Colour.ANSI_RED, 6);
+    private VirtualView virtual = new VirtualView();
 
     {
         try {
@@ -44,21 +46,14 @@ public class TaglierinaManualeTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
-        board.setObserver(new VirtualView());
+        virtual.setConnection(new Connected());
+        board.setObserver(virtual);
         board.setDiceSpace(new ArrayList<Dice>());
         toolCard.dump();
 
         board.getRoundTrack().insertDice(d4, 3);
 
-
-
     }
-
-
-
-
-
-
 
     public int num_dice(Schema sch) {
         int count = 0;
@@ -81,7 +76,7 @@ public class TaglierinaManualeTest {
         sch.insertDice(2,0, d1);
         schemas.add(sch);
         player.setSchemas(schemas);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchema(0);
         int num_dice = num_dice(sch);
@@ -107,7 +102,7 @@ public class TaglierinaManualeTest {
         sch.insertDice(2,0, d1);
         schemas.add(sch);
         player.setSchemas(schemas);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchema(0);
 
@@ -129,7 +124,7 @@ public class TaglierinaManualeTest {
         sch.insertDice(2,0, d1);
         schemas.add(sch);
         player.setSchemas(schemas);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchema(0);
         int num_dice = num_dice(sch);

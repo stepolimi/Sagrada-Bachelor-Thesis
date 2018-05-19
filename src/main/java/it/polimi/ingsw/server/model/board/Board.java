@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.costants.GameCreationMessages.setPublicObjectives;
+import static it.polimi.ingsw.costants.GameCreationMessages.setToolCards;
+
 public class Board extends Observable{
     private List<Player>  playerList;
     private DiceBag dicebag;
@@ -88,23 +91,23 @@ public class Board extends Observable{
 
     public void setDeckpubl(List<ObjectiveCard> deck){
         this.deckPubl = deck;
-        forwardAction("setPublicObjectives");
+        forwardAction(setPublicObjectives);
     }
 
     public void addPriv(PrivateObjective Priv) { this.deckPriv.add(Priv); }
 
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
-        forwardAction("setToolCard");
+        forwardAction(setToolCards);
     }
 
     public void forwardAction(String string){
         List action = new ArrayList();
         action.add(string);
-        if(string.equals("setPublicObjectives"))
+        if(string.equals(setPublicObjectives))
             for(ObjectiveCard o: deckPubl)
                 action.add("o.getName");                    //to be changed
-        else if (string.equals("setToolCard"))
+        else if (string.equals(setToolCards))
             for(ToolCard tool: deckTool)
                 action.add("tool.getNumber");               //to be changed
         setChanged();

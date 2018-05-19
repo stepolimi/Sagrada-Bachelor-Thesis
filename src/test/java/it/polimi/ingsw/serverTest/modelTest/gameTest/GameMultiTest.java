@@ -32,10 +32,9 @@ public class GameMultiTest {
         game.getBoard().setDiceSpace(new ArrayList<Dice>());
 
     }
-//////////////////////////////////////////////////////////////////aggiungere test/////////////////////////////////
+
     @Test
     public void gameInitTest(){
-
         setup();
         game.gameInit();
         for(Player p:game.getBoard().getPlayerList()) {

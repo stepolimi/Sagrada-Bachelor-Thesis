@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.Riga;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.rules.RulesManager;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +24,12 @@ public class RigaTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    Riga toolCard = new Riga();
-    Dice d1= new Dice(Colour.ANSI_BLUE, 2);
-    Dice d2= new Dice(Colour.ANSI_GREEN, 1);
-    Dice d3 = new Dice(Colour.ANSI_RED, 5);
+    private Riga toolCard = new Riga();
+    private Dice d1= new Dice(Colour.ANSI_BLUE, 2);
+    private Dice d2= new Dice(Colour.ANSI_GREEN, 1);
+    private Dice d3 = new Dice(Colour.ANSI_RED, 5);
+    private VirtualView virtual;
+
     {
         try {
             sch = new Schema().schemaInit(13);
@@ -36,6 +39,8 @@ public class RigaTest {
     }
 
     private void setup_round(){
+        virtual = new VirtualView();
+        virtual.setConnection(new Connected());
         toolCard.dump();
 
         players.add(player);
@@ -43,7 +48,7 @@ public class RigaTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
-        board.setObserver(new VirtualView());
+        board.setObserver(virtual);
         board.setDiceSpace(new ArrayList<Dice>());
 
     }
@@ -54,7 +59,7 @@ public class RigaTest {
         List<Schema> schemas = new ArrayList<Schema>();
         schemas.add(sch);
         player.setSchemas(schemas);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchema(0);
 

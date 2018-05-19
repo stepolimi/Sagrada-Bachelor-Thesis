@@ -39,11 +39,10 @@ public class SocketConnection implements Runnable,Connection {
                     action.add(token.nextToken());
                 System.out.println(str);
                 if(action.get(0).equals("Disconnected")) {
-                        this.logout(action);
-                        break;
+                    this.logout(action);
+
                 }else if(action.get(0).equals("Login")) {
-                    if(!this.login((String) action.get(1)))
-                        break;
+                    this.login((String) action.get(1));
                 }
                 this.forwardAction(action);
                 System.out.println("Mi hai scritto:"+str);
@@ -56,11 +55,14 @@ public class SocketConnection implements Runnable,Connection {
 
     public boolean login(String str) {
         if(connection.checkUsername(str)) {
+            this.name = str;
             connection.getUsers().put(this,str);
             System.out.println(str +" si è loggato");
             return true;
         }else{
-            this.sendMessage(loginError);
+            action.clear();
+            action.add(loginError);
+            this.sendMessage(action);
             return false;
         }
     }
@@ -70,9 +72,7 @@ public class SocketConnection implements Runnable,Connection {
             in.close();
             out.close();
             s.close();
-            //connection.forwardMessage(this.name+" si è scollegato");
             connection.remove(this);
-            //connection.sendMessage("Numero utenti ancora connessi:"+connection.nConnection());
         }catch(IOException io)
         {
             System.out.println(io.getMessage());
@@ -80,8 +80,12 @@ public class SocketConnection implements Runnable,Connection {
     }
 
 
-    public void sendMessage(String str) {
-        out.println(str);
+    public void sendMessage(List action) {
+        String message = new String();
+        for(Object o: action){
+            message = message + "-" + o;
+        }
+        out.println(message);
         out.flush();
     }
 

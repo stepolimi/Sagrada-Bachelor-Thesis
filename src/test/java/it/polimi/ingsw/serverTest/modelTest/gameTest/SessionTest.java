@@ -29,6 +29,9 @@ public class SessionTest {
         players.add(p4);
 
         session = new Session();
+        virtual = new VirtualView();
+        session.setObserver(virtual);
+        virtual.setConnection(new Connected());
 
     }
 
@@ -44,10 +47,8 @@ public class SessionTest {
 
         //game will be created when lobby reaches 4 players
         for(String s: players) {
-            try {
-                assertTrue(session.getGame() == null);
-                session.joinPlayer(s);
-            } catch (Exception e) { }
+            assertTrue(session.getGame() == null);
+            session.joinPlayer(s);
         }
         assertTrue(session.getGame()!= null);
 
@@ -62,8 +63,7 @@ public class SessionTest {
 
     @Test
     void remove_player(){
-        virtual = new VirtualView();
-        virtual.setConnection(new Connected());
+
         setup();
         session.setObserver(virtual);
 

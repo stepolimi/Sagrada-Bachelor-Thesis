@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.costants.GameCreationMessages.setPrivateCard;
+import static it.polimi.ingsw.costants.GameCreationMessages.setSchemas;
+
 public class Player extends Observable{
     private String nickname;
     private Schema schema;
@@ -41,6 +44,7 @@ public class Player extends Observable{
     public void setSchema(int index) {
         this.schema = schemas.get(index);
         this.favour = schema.getDifficult();
+        schema.setPlayer(this);
         schema.addObserver(obs);
     }
 
@@ -66,7 +70,7 @@ public class Player extends Observable{
 
     public void setPrCard(PrivateObjective prCard) {
         this.prCard = prCard;
-        forwardAction("setPrivateCard");
+        notify(setPrivateCard);
     }
 
     public int getScore() {
@@ -87,7 +91,7 @@ public class Player extends Observable{
 
     public void setSchemas(List<Schema> schemas){
         this.schemas = schemas;
-        forwardAction("settedSchemas");
+        notify(setSchemas);
     }
     public List<Schema> getSchems(){ return schemas; }
 
@@ -104,14 +108,14 @@ public class Player extends Observable{
         System.out.println(this);
     }
 
-    public void forwardAction(String string){
+    public void notify(String string){
         List action = new ArrayList();
         action.add(string);
         action.add(nickname);
-        if(string.equals("setSchemas"))
+        if(string.equals(setSchemas))
             for (Schema s : schemas) {
                 action.add(s.getName());                        //to be changed
-        } else if(string.equals("setPrivateCard"))
+        } else if(string.equals(setPrivateCard))
             action.add("privateCardIdentifier");                      //to be changed
         setChanged();
         notifyObservers(action);

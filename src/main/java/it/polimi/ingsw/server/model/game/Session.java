@@ -94,7 +94,7 @@ public class Session extends Observable{
         }else if(string.equals(timerPing)){
             action.clear();
             action.add(startingGameMsg);
-            action.add(((Long)(lobbyTimer - ((System.currentTimeMillis() - startingTime)/1000))).toString());
+            action.add(((Long)(lobbyTimer - (System.currentTimeMillis() - startingTime)/1000)).toString());
             setChanged();
             notifyObservers(action);
         }else{

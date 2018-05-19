@@ -18,8 +18,7 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         Iterator <Connection> it = users.keySet().iterator();
         while(it.hasNext())
         {
-            //if(action.get(0).equals(startingGameMsg))
-                it.next().sendMessage((String)action.get(1));
+            it.next().sendMessage(action);
         }
     }
 
@@ -28,8 +27,10 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         while(it.hasNext())
         {
             Connection conn = it.next();
-            if(users.get(conn).equals(action.get(1)))
-                conn.sendMessage((String)action.get(0));
+            if(users.get(conn).equals(action.get(1))) {
+                action.remove(1);
+                conn.sendMessage(action);
+            }
         }
     }
 

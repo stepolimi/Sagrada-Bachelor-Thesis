@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.virtualView;
 
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
+import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.model.game.Session;
@@ -28,6 +29,7 @@ public class VirtualView extends Observable implements Observer{
         else if (o.getClass() == GameMultiplayer.class) { gameMultiplayerHandler(arg); }
         else if (o.getClass() == Board.class) { connection.forwardMessage((List)arg); }
         else if (o.getClass() == Player.class) { connection.sendMessage((List)arg); }
+        else if (o.getClass() == Schema.class) {connection.sendMessage((List)arg);}
 
     }
 

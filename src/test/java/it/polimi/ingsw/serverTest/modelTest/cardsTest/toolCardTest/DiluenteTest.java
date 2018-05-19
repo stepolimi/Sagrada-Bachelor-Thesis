@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.Diluente;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.rules.RulesManager;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,8 @@ public class DiluenteTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    Diluente toolCard = new Diluente();
+    private Diluente toolCard = new Diluente();
+    private VirtualView virtual;
 
     Dice d1= new Dice(Colour.ANSI_BLUE, 2);
     Dice d2= new Dice(Colour.ANSI_GREEN, 3);
@@ -40,20 +42,22 @@ public class DiluenteTest {
 
 
     private void setup_round(){
-        toolCard.dump();
+         virtual = new VirtualView();
+         virtual.setConnection(new Connected());
+         toolCard.dump();
 
-        players.add(player);
-        players.add(player2);
-        players.add(player3);
-        board = new Board(players);
-        round = new Round(player,board);
-        round.setPendingDice(d3);
+         players.add(player);
+         players.add(player2);
+         players.add(player3);
+         board = new Board(players);
+         round = new Round(player,board);
+         round.setPendingDice(d3);
 
     }
     public void setupSchema() throws IOException {
         List<Schema> schemas = new ArrayList<Schema>();
         schemas.add(sch);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchemas(schemas);
         player.setSchema(0);

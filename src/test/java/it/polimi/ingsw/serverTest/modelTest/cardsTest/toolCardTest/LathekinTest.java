@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.Lathekin;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.rules.RulesManager;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -23,10 +24,11 @@ public class LathekinTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    Lathekin toolCard = new Lathekin();
-    Dice d1= new Dice(Colour.ANSI_BLUE, 5);
-    Dice d2= new Dice(Colour.ANSI_GREEN, 1);
-    Dice d3= new Dice(Colour.ANSI_RED, 3);
+    private Lathekin toolCard = new Lathekin();
+    private Dice d1= new Dice(Colour.ANSI_BLUE, 5);
+    private Dice d2= new Dice(Colour.ANSI_GREEN, 1);
+    private Dice d3= new Dice(Colour.ANSI_RED, 3);
+    private VirtualView virtual;
     {
         try {
             sch = new Schema().schemaInit(13);
@@ -36,6 +38,8 @@ public class LathekinTest {
     }
 
     private void setup_round(){
+        virtual = new VirtualView();
+        virtual.setConnection(new Connected());
         toolCard.dump();
 
         players.add(player);
@@ -52,7 +56,7 @@ public class LathekinTest {
     public void setupSchema() throws IOException {
         List<Schema> schemas = new ArrayList<Schema>();
         schemas.add(sch);
-        player.setObserver(new VirtualView());
+        player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchemas(schemas);
         player.setSchema(0);

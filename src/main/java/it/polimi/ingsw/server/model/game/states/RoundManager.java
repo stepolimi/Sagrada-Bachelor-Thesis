@@ -11,7 +11,7 @@ public class RoundManager  {
     private List<Round> rounds;
     private Observer obs;
     private int firstPlayerIndex = 0;
-    private int roundNum = 0;
+    private int roundNum = 1;
 
     public RoundManager(Board board,Observer obs){
         this.board = board;
@@ -21,7 +21,7 @@ public class RoundManager  {
 
     public void startNewRound() {
         Round round ;
-        if(roundNum <10){
+        if(roundNum <=10){
             round = new Round(board.getPlayerList().get(firstPlayerIndex),board);
             round.addObserver(obs);
             rounds.add(round);

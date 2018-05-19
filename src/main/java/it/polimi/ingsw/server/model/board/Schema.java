@@ -82,14 +82,10 @@ public class Schema extends Observable{
             this.isEmpty = false;
             this.table[rows][columns].setDice(d);
 
-            setChanged();
-            notifyObservers("dado inserito");
-        }else{
-            setChanged();
-            notifyObservers("piazzamento sbagliato");
+            notify("PickDice",rows,columns);
         }
-
     }
+
     public void insertDice(int rows , int columns, Dice d)
     {
         this.isEmpty = false;
@@ -105,12 +101,10 @@ public class Schema extends Observable{
         {
             d = this.table[rows][columns].getDice();
             this.table[rows][columns].setDice(null);
-            setChanged();
-            notifyObservers("dado tolto");
+
+            notify("PlaceDice",rows,columns);
             return d;
         }
-        setChanged();
-        notifyObservers("errore cella vuota");
         return null;
     }
 
@@ -182,5 +176,17 @@ public class Schema extends Observable{
 
     public void setRulesManager(RulesManager rulesManager){
         this.rulesManager = rulesManager;
+    }
+
+    public void setPlayer(Player player){ /*this.player = player;*/ }
+
+    public void notify(String string, int x, int y){
+        List action = new ArrayList();
+        action.add(string);
+        //action.add(this.player.getNickname()));
+        action.add(x);
+        action.add(y);
+        setChanged();
+        notifyObservers(action);
     }
 }
