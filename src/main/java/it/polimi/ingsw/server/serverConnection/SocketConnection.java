@@ -40,7 +40,6 @@ public class SocketConnection implements Runnable,Connection {
                 System.out.println(str);
                 if(action.get(0).equals("Disconnected")) {
                     this.logout(action);
-
                 }else if(action.get(0).equals("Login")) {
                     this.login((String) action.get(1));
                 }

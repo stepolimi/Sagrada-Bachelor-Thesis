@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.serverConnection;
 
-import it.polimi.ingsw.Client.ClientConnection.RmiClientMethodInterface;
+import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -23,10 +23,10 @@ public class RmiServerConnection implements Connection{
         try {
             if((action.get(0)).equals(loginError) || (action.get(0)).equals(loginSuccessful)) { client.printText((String)action.get(0)); }              //it will call his method and send action
             else if(action.get(0).equals(startingGameMsg)) { client.printText((String)action.get(1)); }                                                 //it will call his method and send action
-            else if(action.get(0).equals(setPrivateCard)) { client.printText((String)action.get(1)); }                                                  //it will call his method and send action
-            else if(action.get(0).equals(setSchemas)) { client.printText((String)action.get(1)); }                                                      //it will call his method and send action
-            else if(action.get(0).equals(setPublicObjectives)) { client.printText((String)action.get(1));}                                              //it will call his method and send action
-            else if(action.get(0).equals(setToolCards)) { client.printText((String)action.get(1));}                                                     //it will call his method and send action
+            else if(action.get(0).equals(setPrivateCard)) { client.printText((String)action.get(0)); }                                                  //it will call his method and send action
+            else if(action.get(0).equals(setSchemas)) { client.printText((String)action.get(0)); }                                                      //it will call his method and send action
+            else if(action.get(0).equals(setPublicObjectives)) { client.printText((String)action.get(0));}                                              //it will call his method and send action
+            else if(action.get(0).equals(setToolCards)) { client.printText((String)action.get(0));}                                                     //it will call his method and send action
 
         }catch(RemoteException e)
         {

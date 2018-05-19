@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.serverConnection;
 
-import it.polimi.ingsw.Client.ClientConnection.RmiClientMethodInterface;
+import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;

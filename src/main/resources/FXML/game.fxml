@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<Pane prefHeight="848.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.View.ControllerClient">
+<Pane prefHeight="848.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.ControllerClient">
    <children>
       <ImageView fitHeight="847.0" fitWidth="1269.0" opacity="0.29" pickOnBounds="true" preserveRatio="true">
          <image>
