@@ -25,8 +25,7 @@ public class ControllerClient implements View {
 
     private static String text;
     public Button repeatLogin;
-    public Button loginActionSocket;
-    public Button loginActionRMI;
+    public Button loginAction;
     Connection connection;
     Thread t;
     private ViewGUI gui;
@@ -63,8 +62,10 @@ public class ControllerClient implements View {
     public void goRMI(ActionEvent actionEvent) {
         Stage stage = (Stage) RMIButton.getScene().getWindow();
         stage.close();
+        connection = new RmiConnection(hand);
 
-        setScene("loginRMI");
+
+        setScene("login");
 
 
     }
@@ -74,8 +75,16 @@ public class ControllerClient implements View {
     public void goSocket(ActionEvent actionEvent) {
         Stage stage = (Stage) SocketButton.getScene().getWindow();
         stage.close();
+        try {
+            connection = new SocketConnection(hand);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        t = new Thread((SocketConnection) connection);
+        t.start();
 
-        setScene("loginSocket");
+
+        setScene("login");
 
 
     }
@@ -106,7 +115,9 @@ public class ControllerClient implements View {
         this.text = text;
     }
 
-    public void captureNicknameSocket(ActionEvent actionEvent) {
+
+
+    public void captureNickname(ActionEvent actionEvent) {
 
         if(getName().equals("")) {
             setScene("nickname_empty");
@@ -114,28 +125,6 @@ public class ControllerClient implements View {
         }
         else {
             try {
-                connection = new SocketConnection(hand);
-                connection.login(getName());
-                t = new Thread((SocketConnection) connection);
-                t.start();
-
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-    }
-
-    public void captureNicknameRMI(ActionEvent actionEvent) {
-
-        if(getName().equals("")) {
-            setScene("nickname_empty");
-
-        }
-        else {
-            try {
-                connection = new RmiConnection(hand);
                 connection.login(getName());
 
             } catch (Exception e) {
@@ -164,15 +153,7 @@ public class ControllerClient implements View {
             public void run() {
                 if (text.equals("Welcome")) {
                     Stage stage;
-                    if(connection instanceof SocketConnection)
-                    {
-                        stage = (Stage) loginActionSocket.getScene().getWindow();
-                    }
-                    else
-                    {
-                        stage = (Stage) loginActionRMI.getScene().getWindow();
-                    }
-
+                    stage = (Stage) loginAction.getScene().getWindow();
                     stage.close();
                     setScene("waiting");
 
