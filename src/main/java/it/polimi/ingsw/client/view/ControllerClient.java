@@ -16,6 +16,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 
@@ -30,6 +31,12 @@ public class ControllerClient implements View {
     Thread t;
     private ViewGUI gui;
     Handler hand;
+
+
+
+    @FXML
+    public Button closeButton;
+
     @FXML
     public Button playButton;
 
@@ -198,6 +205,8 @@ public class ControllerClient implements View {
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
+
+
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
                 if(connection!= null)
@@ -215,5 +224,26 @@ public class ControllerClient implements View {
 
     }
 
+
+
+    public void QuitPaneAction(ActionEvent actionEvent) {
+        setScene("QuitPane");
+
+    }
+
+
+    public void disconnectAction (ActionEvent actionEvent){
+
+        connection.disconnect();
+
+        Platform.exit();
+        System.exit(0);
+    }
+
+    public void quitPannel (ActionEvent actionEvent){
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
+
+    }
 
 }

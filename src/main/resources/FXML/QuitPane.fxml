@@ -25,11 +25,11 @@
             <Image url="@../assets/image/DiceBlack.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="ExitButton" layoutX="67.0" layoutY="116.0" mnemonicParsing="false" onAction="#DisconnectAction" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: tomato; -fx-border-color: black;" text="Si">
+      <Button fx:id="disconnectButton" layoutX="67.0" layoutY="116.0" mnemonicParsing="false" onAction="#disconnectAction" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: tomato; -fx-border-color: black;" text="Si">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button fx:id="CloseQuitPane" layoutX="225.0" layoutY="116.0" mnemonicParsing="false" onAction="#ClosePane" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: lime; -fx-border-color: black;" text="No">
+      <Button fx:id="closeButton" layoutX="225.0" layoutY="116.0" mnemonicParsing="false" onAction="#quitPannel" prefHeight="27.0" prefWidth="70.0" style="-fx-background-color: lime; -fx-border-color: black;" text="No">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
