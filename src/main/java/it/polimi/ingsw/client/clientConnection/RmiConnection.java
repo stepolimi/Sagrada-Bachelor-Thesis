@@ -8,6 +8,8 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 public class RmiConnection implements Connection {
     RmiServerMethodInterface server;
@@ -17,15 +19,12 @@ public class RmiConnection implements Connection {
     {
         this.hand= hand;
         try {
+            Registry registry = LocateRegistry.getRegistry("192.168.0.4",1099);
             client = new RmiClientMethod(hand);
-            server = (RmiServerMethodInterface) Naming.lookup("rmi://127.0.0.1/myabc");
+            server = (RmiServerMethodInterface) registry.lookup("RmiServerMethodInterface");
         }catch(RemoteException e){
             System.out.println(e.getMessage());
-        }
-        catch(MalformedURLException e2){
-            System.out.println(e2.getMessage());
-        }
-        catch(NotBoundException e3){
+        } catch(NotBoundException e3){
             System.out.println(e3.getMessage());
         }
 

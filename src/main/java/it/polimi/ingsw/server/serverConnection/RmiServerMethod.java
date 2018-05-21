@@ -9,7 +9,7 @@ import java.util.*;
 
 import static it.polimi.ingsw.costants.LoginMessages.loginError;
 
-public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMethodInterface {
+public class RmiServerMethod implements RmiServerMethodInterface {
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
     private VirtualView virtual;
     private Connected connection;

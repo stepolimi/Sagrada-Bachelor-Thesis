@@ -9,6 +9,9 @@ import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Observer;
 
 public class Main {
@@ -25,10 +28,14 @@ public class Main {
         ((VirtualView) virtual).setConnection(connection);
         try {
             //System.setSecurityManager(new RMISecurityManager());
-            java.rmi.registry.LocateRegistry.createRegistry(1099);
 
-            RmiServerMethodInterface b = new RmiServerMethod((VirtualView)virtual,connection);
-            Naming.rebind("rmi://127.0.0.1/myabc", b);
+           // java.rmi.registry.LocateRegistry.createRegistry(1099);
+
+            RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);
+            RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,1099);
+            Registry registry = LocateRegistry.createRegistry(1099);
+
+            Naming.rebind("RmiServerMethodInterface", stub);
             // devo passare un oggetto serverMethod a virtualView
             System.out.println("server connesso");
 
