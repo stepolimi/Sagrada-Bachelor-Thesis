@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-
-
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
@@ -34,8 +32,8 @@ public class ViewCLI implements View{
         String choose;
         while(!correct) {
             System.out.println("Scegli la tua connessione");
-            System.out.println("1)Socket");
-            System.out.println("2)Rmi");
+            System.out.println("1 ----> Socket");
+            System.out.println("2 ----> Rmi");
             choose = input.nextLine();
             if (Integer.parseInt(choose) == 1)
             {
@@ -60,15 +58,15 @@ public class ViewCLI implements View{
 
     public void setLogin()
     {
-        System.out.println("Inserisci il tuo username");
+        System.out.println("Inserisci il tuo username:");
         username = input.nextLine();
         connection.login(username);
 
     }
 
     public void startScene() {
-        System.out.println("Welcome to Sagrada Game");
-        System.out.println("You can choose a type of:");
+        System.out.println("\u001B[32m" + "W E L C O M E ");
+        System.out.println("\u001B[0m"+"You can choose a type of:");
         System.out.println("Graphic Interface: GUI or CLI");
         System.out.println("Connection: RMI/SOCKET");
     }

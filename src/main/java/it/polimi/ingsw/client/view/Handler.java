@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+
 import java.util.Scanner;
 
 public class Handler {
@@ -19,9 +21,13 @@ public class Handler {
         String choose;
         while (!correct) {
             Scanner in = new Scanner(System.in);
-            System.out.println("Scegli l'interfaccia grafica");
-            System.out.println("1)Cli");
-            System.out.println("2)GUI");
+            System.out.println("\u001B[33m"+ "|----------------------------|");
+            System.out.println("\u001B[34m" + "  S A G R A D A    G A M E");
+            System.out.println("\u001B[33m"+"|----------------------------|");
+
+            System.out.println("\u001B[37m"+"Scegli l'interfaccia grafica");
+            System.out.println("1 ----> Cli");
+            System.out.println("2-----> GUI");
             choose = in.nextLine();
             if (Integer.parseInt(choose) == 1)
             {
