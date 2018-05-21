@@ -28,8 +28,9 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         {
             Connection conn = it.next();
             if(users.get(conn).equals(action.get(1))) {
-                //action.remove(1);
+                action.remove(1);
                 conn.sendMessage(action);
+                return;
             }
         }
     }
@@ -47,7 +48,7 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
             Connection conn = it.next();
             if(users.get(conn).equals(str))
             {
-                System.out.println("Esiste già username");
+                System.out.println("connection failed: invalid username\n" + " ---");
                 return false;
             }
         }

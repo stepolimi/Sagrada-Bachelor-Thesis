@@ -8,7 +8,7 @@ public class Pinza extends ToolCard {
     private String name = "Pinza Sgrossatrice";
     private String description = "Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scleto di 1.\n Non puoi cambaire un 6 in un 1" +
             "o un 1 in un 6";
-    private int num_card = 1;
+    private int numCard = 1;
     private boolean used= false;
 
 
@@ -53,10 +53,12 @@ public class Pinza extends ToolCard {
 
     }
 
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

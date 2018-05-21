@@ -8,7 +8,7 @@ public class PennelloEglomise extends ToolCard {
     private String name = "Pennello per Eglomise";
     private String description = "Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore. \nDecvi rispettare tutte le altre " +
             "restrizioni di piazzamento";
-    private int num_card = 2;
+    private int numCard = 2;
     private boolean used= false;
 
 
@@ -29,7 +29,7 @@ public class PennelloEglomise extends ToolCard {
         Dice d = pickDiceFromSchema(x, y, p.getSchema());
         if(d==null) return false;
 
-        if(placeDiceToSchema(rows, columns, d, p.getSchema(), num_card) == true) {
+        if(placeDiceToSchema(rows, columns, d, p.getSchema(), numCard) == true) {
             p.getSchema().removeDice(x, y);
             p.getSchema().insertDice(rows, columns, d,2);
             if(!this.isUsed()){
@@ -45,10 +45,12 @@ public class PennelloEglomise extends ToolCard {
 
     }
 
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

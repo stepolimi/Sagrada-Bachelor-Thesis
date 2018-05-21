@@ -1,4 +1,4 @@
-//board class represent the entire material used toplay like cards schema and the dicebag. it contains also players
+//board class contains all materials used to play, like cards, schemas and the dicebag. it also contains players
 
 package it.polimi.ingsw.server.model.board;
 
@@ -34,7 +34,7 @@ public class Board extends Observable{
         deckTool = new ArrayList<ToolCard>();
 
     }
-    //vanno estratti e creati obbiettivi publici, privati, e toolcard
+
     public void setObserver(Observer obs) {
         this.obs = obs;
         roundTrack.addObserver(obs);
@@ -101,15 +101,24 @@ public class Board extends Observable{
         forwardAction(setToolCards);
     }
 
+    public int getConnected(){
+        int count=0;
+        for(Player p: playerList){
+            if(p.isConnected())
+                count ++;
+        }
+        return count;
+    }
+
     public void forwardAction(String string){
         List action = new ArrayList();
         action.add(string);
         if(string.equals(setPublicObjectives))
             for(ObjectiveCard o: deckPubl)
-                action.add("o.getName");                    //to be changed
+                action.add(o.getName());                    //to be changed (maybe)
         else if (string.equals(setToolCards))
             for(ToolCard tool: deckTool)
-                action.add("tool.getNumber");               //to be changed
+                action.add(tool.getNum());
         setChanged();
         notifyObservers(action);
     }

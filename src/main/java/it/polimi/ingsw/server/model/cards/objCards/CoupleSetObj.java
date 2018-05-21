@@ -35,9 +35,10 @@ public class CoupleSetObj extends ObjectiveCard {
             return 2 * count1;
 
         else return 2 * count2;
-
-
     }
+
+    @Override
+    public String getName(){ return this.name; }
 
     @Override
     public String toString(){

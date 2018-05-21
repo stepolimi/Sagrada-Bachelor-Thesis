@@ -13,8 +13,8 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
     private VirtualView virtual;
     private Connected connection;
-    public RmiServerMethod(VirtualView virtual,Connected connection) throws RemoteException
-    {
+
+    public RmiServerMethod(VirtualView virtual,Connected connection) throws RemoteException {
         this.virtual = virtual;
         this.connection = connection;
     }
@@ -25,10 +25,10 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
         List action = new ArrayList();
         action.add("Login");
         action.add(name);
+        System.out.println(name + "'s trying to connect:");
         if(connection.checkUsername(name)) {
             connection.getUsers().put(user, name);
             virtual.forwardAction(action);
-            System.out.println(name + " si è connesso");
         }else {
             try {
                 client.printText(loginError);
@@ -76,13 +76,14 @@ public class RmiServerMethod extends UnicastRemoteObject  implements RmiServerMe
         }
     }
 
-    public void disconnected(RmiClientMethodInterface client) throws RemoteException {
-
+    public void disconnected(RmiClientMethodInterface client) {
         RmiServerConnection c = new RmiServerConnection(client);
         String name = connection.remove(c);
-       /* String str = clients.get(RmiServerConnection);
-        this.clients.remove(RmiServerConnection);
-        this.publish(str+" si è disconnesso");
-        */
+        if(name != null) {
+            List action = new ArrayList();
+            action.add("Disconnected");
+            action.add(name);
+            virtual.forwardAction(action);
+        }
     }
 }

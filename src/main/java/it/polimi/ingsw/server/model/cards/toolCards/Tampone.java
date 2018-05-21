@@ -8,7 +8,7 @@ public class Tampone extends ToolCard {
     private String name = "Tampone Diamantato";
     private String description = "Dopo aver scelto un dado, giralo sulla facia opposta. \n " +
             "6 diventa 1, 5 diventa 2, 4 diventa 3 ecc.";
-    private int num_card = 10;
+    private int numCard = 10;
     private boolean used= false;
 
 
@@ -53,13 +53,14 @@ public class Tampone extends ToolCard {
         else if(value==5)
             return 2;
         else return 1;
-
-
     }
+
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

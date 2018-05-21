@@ -53,19 +53,18 @@ public class ServerController implements Observer{
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(action.get(1))) {
                 p.setSchema((Integer)action.get(2));
+                p.getSchema().setRulesManager(game.getRulesManager());
                 game.getBoard().addSchema(p.getSchema());
             }
         }
-        if(game.getBoard().getDeckSchemas().size() == 4) {
+        if(game.getBoard().getDeckSchemas().size() == game.getBoard().getConnected()) {
             roundManager.startNewRound();
             round = roundManager.getRound();
         }
-
     }
 
     public void extractDiceManager(List action){
         round.execute(action);
-
     }
 
     public void takeDiceManager(List action){

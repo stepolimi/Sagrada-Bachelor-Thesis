@@ -10,7 +10,7 @@ public class Riga extends ToolCard {
     private String name = "Riga in sughero";
     private String description = "Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente ad un altro " +
             "dado. \n Deve rispettare tutte le restrizioni di piazzamento";
-    private int num_card = 9;
+    private int numCard = 9;
     private boolean used= false;
 
 
@@ -56,10 +56,12 @@ public class Riga extends ToolCard {
 
     }
 
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

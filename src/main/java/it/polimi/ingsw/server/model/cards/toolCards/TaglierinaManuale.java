@@ -11,7 +11,7 @@ public class TaglierinaManuale extends ToolCard {
     private  String name= "Taglierina Manuale";
     private String description = "Muovi fino a due dadi dello stesso colore di un solo dado sul Tracciato di Round. \n " +
             "Divi rispettare tutte le restrizioni di piazzamento";
-   private  int num_card = 12;
+   private  int numCard = 12;
     private boolean used= false;
 
 
@@ -31,14 +31,14 @@ public class TaglierinaManuale extends ToolCard {
 
        Dice d1 = pickDiceFromSchema(x, y, p.getSchema());
 
-       if(placeDiceToSchema(rows, columns, d1, p.getSchema(), num_card)  && d1.getcolour() ==
+       if(placeDiceToSchema(rows, columns, d1, p.getSchema(), numCard)  && d1.getcolour() ==
                OneColourRoundTrack(round.getBoard().getRoundTrack(),  i)) {
 
            p.getSchema().removeDice(x, y);
            p.getSchema().insertDice(rows, columns, d1,12);
            if (num_insertion == 2) {
                Dice d2 = pickDiceFromSchema(x2, y2, p.getSchema());
-               if (!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), num_card))
+               if (!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), numCard))
                    return false;
                if (d1.getcolour() == OneColourRoundTrack(round.getBoard().getRoundTrack(), i)) {
                    p.getSchema().removeDice(x2, y2);
@@ -70,19 +70,21 @@ public class TaglierinaManuale extends ToolCard {
 
 
 
-    public Colour OneColourRoundTrack(RoundTrack roundTrack, int i){
-       boolean flag = false;
-       if(roundTrack.getListRounds(i).size() == 1) {
-           return roundTrack.getDice(i, 0).getcolour();
+    public Colour OneColourRoundTrack(RoundTrack roundTrack, int i) {
+        boolean flag = false;
+        if (roundTrack.getListRounds(i).size() == 1) {
+            return roundTrack.getDice(i, 0).getcolour();
 
-       }
-       else return null;
+        } else return null;
 
-}
+    }
+
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

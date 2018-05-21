@@ -9,7 +9,7 @@ public abstract class ToolCard {
 
     private String name;
     private String description;
-    private int num_card;
+    private int numCard;
     private boolean used= false;
 
     public boolean isUsed() {
@@ -35,6 +35,5 @@ public abstract class ToolCard {
         return round.getBoard().getDiceSpace().getListDice().remove(n);
     }
 
-
-
+    public abstract int getNum() ;
 }

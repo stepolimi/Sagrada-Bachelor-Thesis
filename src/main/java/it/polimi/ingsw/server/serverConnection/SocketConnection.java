@@ -19,61 +19,58 @@ public class SocketConnection implements Runnable,Connection {
     PrintWriter out;
     Connected connection;
     ArrayList action= new ArrayList();
-    private String name;
-    public SocketConnection(Socket s,VirtualView virtual,Connected connection)
-    {
+
+    public SocketConnection(Socket s,VirtualView virtual,Connected connection) {
         this.s = s;
         this.virtual = virtual;
         this.connection = connection;
     }
-
 
     public void run() {
         try {
             in = new Scanner(s.getInputStream());
             out = new PrintWriter(s.getOutputStream());
             while(true) {
+                action.clear();
                 String str = in.nextLine();
                 StringTokenizer token = new StringTokenizer(str, "-");
                 while(token.hasMoreTokens())
                     action.add(token.nextToken());
-                System.out.println(str);
                 if(action.get(0).equals("Disconnected")) {
-                    this.logout(action);
+                    this.logout();
                 }else if(action.get(0).equals("Login")) {
                     this.login((String) action.get(1));
                 }
-                this.forwardAction(action);
-                System.out.println("Mi hai scritto:"+str);
             }
-        }catch(Exception e)
+        }catch(IOException e)
         {
             System.out.println(e.getMessage());
         }
     }
 
-    public boolean login(String str) {
+    public void login(String str) {
+        System.out.println(str + "'s trying to connect:");
         if(connection.checkUsername(str)) {
-            this.name = str;
             connection.getUsers().put(this,str);
-            System.out.println(str +" si è loggato");
-            return true;
+            forwardAction(action);
         }else{
             action.clear();
             action.add(loginError);
-            this.sendMessage(action);
-            return false;
+            action.add("username");
+            sendMessage(action);
         }
     }
 
-    public void logout(List action) {
+    public void logout() {
         try {
             in.close();
             out.close();
             s.close();
-            connection.remove(this);
-        }catch(IOException io)
-        {
+            String name = connection.remove(this);
+            action.add(name);
+            if(name != null)
+                forwardAction(action);
+        }catch(IOException io) {
             System.out.println(io.getMessage());
         }
     }
@@ -82,16 +79,14 @@ public class SocketConnection implements Runnable,Connection {
     public void sendMessage(List action) {
         String message = new String();
         for(Object o: action){
-            message = message + "-" + o;
+            if(message.length() == 0)
+                message = message + o;
+            else
+                message = message + "-" + o;
         }
         out.println(message);
         out.flush();
     }
 
-    public void forwardAction(ArrayList action) {
-        virtual.forwardAction(action);
-    }
-
-    public String getName(){return this.name;}
-
+    public void forwardAction(ArrayList action) { virtual.forwardAction(action); }
 }

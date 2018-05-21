@@ -8,7 +8,7 @@ public class Alesatore extends ToolCard {
     private String name = "Alesatore per lamina di rame";
     private String description = "Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di valore. \nDevi rispettare tutte le altre " +
             "restrizioni di piazzamento";
-    private int num_card = 3;
+    private int numCard = 3;
     private boolean used= false;
 
 
@@ -42,10 +42,12 @@ public class Alesatore extends ToolCard {
 
     }
 
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

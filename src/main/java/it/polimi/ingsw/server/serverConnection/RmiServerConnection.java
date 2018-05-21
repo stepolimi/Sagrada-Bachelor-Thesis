@@ -13,11 +13,9 @@ import static it.polimi.ingsw.costants.LoginMessages.startingGameMsg;
 public class RmiServerConnection implements Connection{
     RmiClientMethodInterface client;
 
-    public RmiServerConnection(RmiClientMethodInterface client)
-    {
+    public RmiServerConnection(RmiClientMethodInterface client) {
         this.client = client;
     }
-
 
     public void sendMessage(List action) {
         try {
@@ -28,8 +26,7 @@ public class RmiServerConnection implements Connection{
             else if(action.get(0).equals(setPublicObjectives)) { client.printText((String)action.get(0));}                                              //it will call his method and send action
             else if(action.get(0).equals(setToolCards)) { client.printText((String)action.get(0));}                                                     //it will call his method and send action
 
-        }catch(RemoteException e)
-        {
+        }catch(RemoteException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -40,8 +37,6 @@ public class RmiServerConnection implements Connection{
             return false;
 
         RmiServerConnection cli = (RmiServerConnection) obj;
-        System.out.println("Ugualiiiiiii");
-        System.out.println(this.client.equals(cli.client));
        return (this.client.equals(cli.client)) ;
     }
 }

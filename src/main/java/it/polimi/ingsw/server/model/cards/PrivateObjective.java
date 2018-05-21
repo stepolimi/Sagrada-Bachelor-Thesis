@@ -13,10 +13,10 @@ public class PrivateObjective {
     private String description;
     private Colour c;
 
-    public PrivateObjective PrivateInit (int n) throws IOException {   //costructs the Schema obj from file
+    public PrivateObjective PrivateInit (int n) throws IOException {   //constructs the private objective from file
 
         PrivateObjective sch = new PrivateObjective();
-        final String filePath = new String("src/main/data/PrivCard/" + n + ".json");  //import every schema from
+        final String filePath = new String("src/main/data/PrivCard/" + n + ".json");  //import every private objective from
         //json file form /src/main/data/Schema/i.json
         Gson g = new Gson();
 
@@ -51,6 +51,16 @@ public class PrivateObjective {
         }
         return score;
     }
+
+    public String getColour(){
+        if(c == Colour.ANSI_GREEN){ return "green"; }
+        else if(c == Colour.ANSI_BLUE) { return "blue"; }
+        else if(c == Colour.ANSI_RED){ return "red"; }
+        else if(c == Colour.ANSI_PURPLE) { return "purple"; }
+        else if(c == Colour.ANSI_YELLOW) { return "yellow"; }
+        return "";
+    }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";

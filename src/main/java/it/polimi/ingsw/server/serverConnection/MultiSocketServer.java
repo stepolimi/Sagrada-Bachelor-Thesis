@@ -34,8 +34,7 @@ public class MultiSocketServer{
                 try
                 {
                     Socket socket = serverSocket.accept();
-                    System.out.println("Accettato");
-                   SocketConnection sock = new SocketConnection(socket,virtual,connection);
+                    SocketConnection sock = new SocketConnection(socket,virtual,connection);
                     execute.submit(sock);
 
                 }catch(Exception ex)

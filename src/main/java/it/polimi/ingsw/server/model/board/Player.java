@@ -15,7 +15,7 @@ public class Player extends Observable{
     private String nickname;
     private Schema schema;
     private int favour;
-    private boolean connected;
+    private boolean connected ;
     private PrivateObjective prCard;
     private int score;
     private boolean myTurn;
@@ -26,7 +26,7 @@ public class Player extends Observable{
 
     public Player(String nickname){
         this.nickname = nickname;
-        this.connected = false;
+        this.connected = true;
         this.score = 0;
         this.myTurn = false;
     }
@@ -116,7 +116,7 @@ public class Player extends Observable{
             for (Schema s : schemas) {
                 action.add(s.getName());                        //to be changed
         } else if(string.equals(setPrivateCard))
-            action.add("privateCardIdentifier");                      //to be changed
+            action.add(prCard.getColour());                      //to be changed
         setChanged();
         notifyObservers(action);
     }

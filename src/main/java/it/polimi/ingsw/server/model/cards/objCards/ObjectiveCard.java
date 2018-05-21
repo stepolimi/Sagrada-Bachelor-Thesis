@@ -7,4 +7,6 @@ public abstract class ObjectiveCard {
     private String description;
 
     public abstract int ScoreCard(Schema sch);
+
+    public abstract String getName();
 }

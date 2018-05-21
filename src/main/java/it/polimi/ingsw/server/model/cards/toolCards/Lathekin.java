@@ -7,7 +7,7 @@ import it.polimi.ingsw.server.model.game.states.Round;
 public class Lathekin extends ToolCard{
     private String name = "Lathekin";
     private String description = "Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento";
-    private int num_card = 4;
+    private int numCard = 4;
     private boolean used= false;
 
 
@@ -27,14 +27,14 @@ public class Lathekin extends ToolCard{
 
         Dice d1 = pickDiceFromSchema(x, y, p.getSchema());
 
-        if(!placeDiceToSchema(rows, columns, d1, p.getSchema(), num_card)) {
+        if(!placeDiceToSchema(rows, columns, d1, p.getSchema(), numCard)) {
             flag = false;
             return false;
         }
 
         Dice d2 = pickDiceFromSchema(x2, y2, p.getSchema());
 
-        if(!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), num_card)) {
+        if(!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), numCard)) {
             flag= false;
             return false;
         }
@@ -58,10 +58,12 @@ public class Lathekin extends ToolCard{
 
     }
 
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

@@ -26,6 +26,7 @@ public class GameMultiplayer extends Observable {
         this.players.addAll(players);
         this.board= new Board(players);
         this.roundManager = new RoundManager(board,obs);
+        this.rulesManager = new RulesManager();
     }
 
     public void setObserver(Observer obs){
@@ -52,7 +53,6 @@ public class GameMultiplayer extends Observable {
         DeckToolsCard deckTools = new DeckToolsCard();
         board.setDeckpubl(deckPublic.extract(players.size()));
         board.setDeckTool(deckTools.extract());
-
     }
 
     public void endGame(){
@@ -64,4 +64,6 @@ public class GameMultiplayer extends Observable {
     public Board getBoard() { return board; }
 
     public RoundManager getRoundManager() { return roundManager; }
+
+    public RulesManager getRulesManager() { return rulesManager; }
 }

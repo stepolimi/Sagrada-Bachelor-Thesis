@@ -7,7 +7,7 @@ public class Martelletto extends ToolCard  {
     private String name = "Martelletto";
     private String description= "Tira nuovamente tutti i dadi della riserva. \n" +
             "Questa carta può essere utilizzata solo durante il tuo secondo turno, prima di scegliere il secondo dado";
-    private int num_card = 7;
+    private int numCard = 7;
     private boolean used= false;
 
 
@@ -43,10 +43,13 @@ public class Martelletto extends ToolCard  {
             return true;
         else return false;
     }
+
+    public int getNum() { return numCard; }
+
     @Override
     public String toString(){
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.num_card + "\n";
+        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.numCard + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

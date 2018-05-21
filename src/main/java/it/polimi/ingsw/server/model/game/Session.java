@@ -8,7 +8,10 @@ import java.util.*;
 import static it.polimi.ingsw.costants.LoginMessages.*;
 import static it.polimi.ingsw.costants.TimerCostants.lobbyTimer;
 
-public class Session extends Observable{
+//session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
+//players that will leave the game after his start will be set as "disconnected" but not removed from the game.
+
+public  class Session extends Observable {
     private List<Player> lobby ;
     private GameMultiplayer game;
     private TaskTimer taskTimer;
@@ -35,6 +38,7 @@ public class Session extends Observable{
                 }
             notify(loginSuccessful);
             lobby.add(new Player(player));
+            System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == 2 ) {
                 startingTime = System.currentTimeMillis();
                 taskTimer = new TaskTimer(lobbyTimer,this);
@@ -47,6 +51,7 @@ public class Session extends Observable{
             }
         }
         else {
+            System.out.println("connection failed: a game is already running\n" + " ---");
             notify(loginError);
         }
     }
@@ -54,22 +59,24 @@ public class Session extends Observable{
     public void removePlayer(String player){
         action = new ArrayList<String>();
         if(game == null) {
-            for(Player p: lobby)
-                if(p.getNickname().equals(player)) {
-                    lobby.remove(p);
-                    break;
+            for(int i=0; i<lobby.size(); i++)
+                if(lobby.get(i).getNickname().equals(player)) {
+                    lobby.remove(i);
                 }
             if(lobby.size() == 1) {
                 timer.cancel();
                 startingTime = 0L;
             }
+            System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
         }
-        else
-            for(Player p: game.getPlayers()){
-                if(p.getNickname().equals(player)) {
+        else {
+            for (Player p : game.getPlayers()) {
+                if (p.getNickname().equals(player)) {
                     p.setConnected(false);
+                    System.out.println(player + " disconnected:\n"+ "players still connected: " + game.getBoard().getConnected() + "\n ---" );
                 }
             }
+        }
     }
 
     public List<Player> getPlayers(){ return this.lobby; }
@@ -77,10 +84,12 @@ public class Session extends Observable{
     public GameMultiplayer getGame() { return game; }
 
     private void startGame(){
+        System.out.println("game starting\n" + " ---");
         game = new GameMultiplayer(lobby);
         game.setObserver(obs);
         game.addObserver(obs);
         game.gameInit();
+        System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
     }
 
     public void notify(String string){
@@ -95,6 +104,12 @@ public class Session extends Observable{
             action.clear();
             action.add(startingGameMsg);
             action.add(((Long)(lobbyTimer - (System.currentTimeMillis() - startingTime)/1000)).toString());
+            setChanged();
+            notifyObservers(action);
+        }else if(string.equals(loginError)){
+            action.add(string);
+            action.add(player);
+            action.add("game");
             setChanged();
             notifyObservers(action);
         }else{
