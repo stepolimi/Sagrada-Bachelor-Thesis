@@ -28,6 +28,7 @@ public class ViewGUI extends Application {
         scene = new Scene(p);
         stage = primaryStage;
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

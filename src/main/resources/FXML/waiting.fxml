@@ -9,30 +9,30 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="421.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="267.0" prefWidth="466.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="267.0" fitWidth="421.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="273.0" fitWidth="478.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/waiting.jpeg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="556.0" fitWidth="527.0" layoutX="-45.0" layoutY="-171.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="556.0" fitWidth="527.0" layoutX="-45.0" layoutY="-191.0" opacity="0.18" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/fgioco4662_2.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="disconnectButton" layoutX="280.0" layoutY="192.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="27.0" prefWidth="90.0" text="Disconnetti">
+      <Button fx:id="disconnectButton" layoutX="186.0" layoutY="226.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="27.0" prefWidth="107.0" text="Disconnetti">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ProgressBar layoutX="80.0" layoutY="192.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" />
-      <Text fill="WHITE" layoutX="97.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In attesa di altri giocatori..." textAlignment="CENTER">
+      <ProgressBar layoutX="139.0" layoutY="190.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" />
+      <Text fill="WHITE" layoutX="126.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In attesa di altri giocatori..." textAlignment="CENTER">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="114.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Benvenuto!">
+      <Text fill="WHITE" layoutX="137.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Benvenuto!">
          <font>
             <Font size="36.0" />
          </font>

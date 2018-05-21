@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -16,9 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.rmi.NotBoundException;
 
 
 public class ControllerClient implements View {
@@ -160,6 +157,10 @@ public class ControllerClient implements View {
                 } else if (text.equals("Login_error")) {
                     setScene("nickname_error");
                 }
+
+                else if (text.equals("Login_error-game") || text.equals("Login_error-username"))
+                    setScene("TooManyPlayers");
+
             }
 
         });
@@ -186,6 +187,7 @@ public class ControllerClient implements View {
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
+        stage.setResizable(false);
 
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

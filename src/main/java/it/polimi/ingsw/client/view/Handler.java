@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import java.util.Scanner;
 
 public class Handler {
@@ -54,7 +52,7 @@ public class Handler {
     // deliver action on GUI or CLI
     public void deliverGI(String action)
     {
-        if(action.equals("Welcome") || action.equals("Login_error"))
+        if(action.equals("Welcome") || action.equals("Login_error") || action.equals("Login_error-game") || action.equals("Login_error-username"))
         {
             v.login(action);
         }
