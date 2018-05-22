@@ -55,7 +55,7 @@ public class Tampone extends ToolCard {
         else return 1;
     }
 
-    public int getNum() { return numCard; }
+    public Integer getNum() { return numCard; }
 
     @Override
     public String toString(){

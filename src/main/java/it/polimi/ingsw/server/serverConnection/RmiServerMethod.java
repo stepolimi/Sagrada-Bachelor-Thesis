@@ -21,17 +21,20 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public boolean login(RmiClientMethodInterface client,String name) {
         // controllerò se non ci sono username uguali
-        RmiServerConnection user = new RmiServerConnection(client);
+        RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
         action.add("Login");
         action.add(name);
-        System.out.println(name + "'s trying to connect:");
+        System.out.println(name + "'s trying to connect with rmi:");
         if(connection.checkUsername(name)) {
             connection.getUsers().put(user, name);
             virtual.forwardAction(action);
         }else {
             try {
-                client.printText(loginError);
+                action.clear();
+                action.add(loginError);
+                action.add("username");
+                client.login(action);
             } catch (RemoteException e) {
                 System.out.println(e.getMessage());
             }
@@ -77,7 +80,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public void disconnected(RmiClientMethodInterface client) {
-        RmiServerConnection c = new RmiServerConnection(client);
+        RmiServerConnection c = new RmiServerConnection(client,this);
         String name = connection.remove(c);
         if(name != null) {
             List action = new ArrayList();

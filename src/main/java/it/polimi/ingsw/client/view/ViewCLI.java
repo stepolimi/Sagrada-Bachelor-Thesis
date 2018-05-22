@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ViewCLI implements View{
@@ -76,15 +77,60 @@ public class ViewCLI implements View{
         {
             System.out.println("La partita inizierà a breve");
             System.out.println("Aspettando altri giocatori...");
-        }else if(str.equals("Login_error"))
-        {
+        }else if(str.equals("Login_error-username")) {
             System.out.println("Errore, nickname già in uso");
             this.setLogin();
+        }else if(str.equals("Login_error-game")) {
+            System.out.println("Errore, partita già in corso");
+            this.setLogin();
         }
+    }
+
+    public void playerConnected(String name){
+        System.out.println(name + " si è aggiunto alla lobby\n");
+    }
+
+    public void playerDisconnected(String name){
+        System.out.println(name + " si è disconnesso\n");
+    }
+
+    public void timerPing(String time) {
+        System.out.println("la partita inizierà tra " + time + " secondi\n");
+    }
+
+    public void createGame(){
+        System.out.println("partita creata\n");
+    }
+
+    public void setSchemas(List<String> schemas){
+        System.out.println("scrivi il nome dello schema che preferisci tra:");
+        for(String s: schemas)
+            System.out.println(s);
+        System.out.println("\n");
+    }
+
+    public void setPrivateCard(String colour){
+        System.out.println("il tuo obiettivo privato sarà il colore: " + colour + "\n");
+    }
+
+    public void setPublicObjectives(List<String> cards){
+        System.out.println("gli obiettivi publici per questa partita saranno:");
+        for(String s: cards)
+            System.out.println(s);
+        System.out.println("\n");
+    }
+
+    public void setToolCards(List<String> cards){
+        System.out.println("le carte utensili per questa partita saranno:");
+        for(String s: cards)
+            System.out.println("la carta numero " + s + ",");
+        System.out.println("\n");
     }
 
     public void setHandler(Handler hand) {
         this.hand = hand;
     }
+
+    public String getName(){ return this.username;}
 }
 

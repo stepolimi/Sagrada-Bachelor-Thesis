@@ -53,11 +53,11 @@ public class PrivateObjective {
     }
 
     public String getColour(){
-        if(c == Colour.ANSI_GREEN){ return "green"; }
-        else if(c == Colour.ANSI_BLUE) { return "blue"; }
-        else if(c == Colour.ANSI_RED){ return "red"; }
-        else if(c == Colour.ANSI_PURPLE) { return "purple"; }
-        else if(c == Colour.ANSI_YELLOW) { return "yellow"; }
+        if(c == Colour.ANSI_GREEN){ return "verde"; }
+        else if(c == Colour.ANSI_BLUE) { return "blu"; }
+        else if(c == Colour.ANSI_RED){ return "rosso"; }
+        else if(c == Colour.ANSI_PURPLE) { return "viola"; }
+        else if(c == Colour.ANSI_YELLOW) { return "giallo"; }
         return "";
     }
 

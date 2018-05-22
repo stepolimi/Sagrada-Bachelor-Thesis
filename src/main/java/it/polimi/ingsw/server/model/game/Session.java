@@ -68,12 +68,14 @@ public  class Session extends Observable {
                 startingTime = 0L;
             }
             System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
+            notify(logout);
         }
         else {
             for (Player p : game.getPlayers()) {
                 if (p.getNickname().equals(player)) {
                     p.setConnected(false);
                     System.out.println(player + " disconnected:\n"+ "players still connected: " + game.getBoard().getConnected() + "\n ---" );
+                    notify(logout);
                 }
             }
         }
@@ -84,7 +86,7 @@ public  class Session extends Observable {
     public GameMultiplayer getGame() { return game; }
 
     private void startGame(){
-        System.out.println("game starting\n" + " ---");
+        System.out.println("starting game\n" + " ---");
         game = new GameMultiplayer(lobby);
         game.setObserver(obs);
         game.addObserver(obs);
@@ -102,7 +104,7 @@ public  class Session extends Observable {
             startGame();
         }else if(string.equals(timerPing)){
             action.clear();
-            action.add(startingGameMsg);
+            action.add(timerPing);
             action.add(((Long)(lobbyTimer - (System.currentTimeMillis() - startingTime)/1000)).toString());
             setChanged();
             notifyObservers(action);
@@ -112,7 +114,7 @@ public  class Session extends Observable {
             action.add("game");
             setChanged();
             notifyObservers(action);
-        }else{
+        }else if(string.equals(logout) || string.equals(loginSuccessful)){
             action.add(string);
             action.add(player);
             setChanged();

@@ -35,5 +35,5 @@ public abstract class ToolCard {
         return round.getBoard().getDiceSpace().getListDice().remove(n);
     }
 
-    public abstract int getNum() ;
+    public abstract Integer getNum() ;
 }

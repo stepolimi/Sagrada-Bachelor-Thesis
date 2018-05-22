@@ -6,28 +6,42 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.loginError;
-import static it.polimi.ingsw.costants.LoginMessages.loginSuccessful;
-import static it.polimi.ingsw.costants.LoginMessages.startingGameMsg;
+import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class RmiServerConnection implements Connection{
     RmiClientMethodInterface client;
+    RmiServerMethod serverMethod;
 
-    public RmiServerConnection(RmiClientMethodInterface client) {
+    public RmiServerConnection(RmiClientMethodInterface client, RmiServerMethod serverMethod) {
         this.client = client;
+        this.serverMethod = serverMethod;
     }
 
     public void sendMessage(List action) {
         try {
-            if((action.get(0)).equals(loginError) || (action.get(0)).equals(loginSuccessful)) { client.printText((String)action.get(0)); }              //it will call his method and send action
-            else if(action.get(0).equals(startingGameMsg)) { client.printText((String)action.get(1)); }                                                 //it will call his method and send action
-            else if(action.get(0).equals(setPrivateCard)) { client.printText((String)action.get(0)); }                                                  //it will call his method and send action
-            else if(action.get(0).equals(setSchemas)) { client.printText((String)action.get(0)); }                                                      //it will call his method and send action
-            else if(action.get(0).equals(setPublicObjectives)) { client.printText((String)action.get(0));}                                              //it will call his method and send action
-            else if(action.get(0).equals(setToolCards)) { client.printText((String)action.get(0));}                                                     //it will call his method and send action
+
+            if((action.get(0)).equals(loginSuccessful)) {
+                client.login(action);
+            }else if((action.get(0)).equals(loginError) ){
+                client.login(action);
+            }else if(action.get(0).equals(logout)){
+                client.playerDisconnected(action);
+            } else if(action.get(0).equals(timerPing)) {
+                client.timerPing(action);
+            } else if(action.get(0).equals(startingGameMsg)) {
+                client.createGame();
+            } else if(action.get(0).equals(setPrivateCard)) {
+                client.setPrivateCard(action);
+            } else if(action.get(0).equals(setSchemas)) {
+                client.setSchemas(action);
+            } else if(action.get(0).equals(setPublicObjectives)) {
+                client.setPublicObjectives(action);
+            } else if(action.get(0).equals(setToolCards)) {
+                client.setToolCards(action);
+            }
 
         }catch(RemoteException e) {
-            System.out.println(e.getMessage());
+            serverMethod.disconnected(this.client);
         }
     }
 

@@ -1,16 +1,19 @@
 package it.polimi.ingsw.client.view;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class Handler {
     View v;
+
     public Handler() {
         this.setGraphicInterface();
         v.startScene();
         v.setScene("connection");
         v.setScene("login");
-
-
     }
 
     public void setGraphicInterface()
@@ -49,14 +52,6 @@ public class Handler {
         }
 
     }
-    // deliver action on GUI or CLI
-    public void deliverGI(String action)
-    {
-        if(action.equals("Welcome") || action.equals("Login_error") || action.equals("Login_error-game") || action.equals("Login_error-username"))
-        {
-            v.login(action);
-        }
-    }
 
-
+    public View getView() { return v; }
 }

@@ -34,7 +34,7 @@ public class VirtualView extends Observable implements Observer{
     }
 
     private void sessionHandler(Object action) {
-        if(((List) action).get(0).equals(loginSuccessful) || ((List) action).get(0).equals(loginError) )
+        if(((List) action).get(0).equals(loginError) )
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);

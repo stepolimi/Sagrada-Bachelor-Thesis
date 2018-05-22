@@ -118,7 +118,7 @@ public class Board extends Observable{
                 action.add(o.getName());                    //to be changed (maybe)
         else if (string.equals(setToolCards))
             for(ToolCard tool: deckTool)
-                action.add(tool.getNum());
+                action.add(tool.getNum().toString());
         setChanged();
         notifyObservers(action);
     }

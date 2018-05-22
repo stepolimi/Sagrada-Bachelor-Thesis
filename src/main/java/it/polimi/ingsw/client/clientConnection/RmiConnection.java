@@ -19,7 +19,7 @@ public class RmiConnection implements Connection {
     {
         this.hand= hand;
         try {
-            Registry registry = LocateRegistry.getRegistry("192.168.0.4",1099);
+            Registry registry = LocateRegistry.getRegistry("localhost",1099);
             client = new RmiClientMethod(hand);
             server = (RmiServerMethodInterface) registry.lookup("RmiServerMethodInterface");
         }catch(RemoteException e){

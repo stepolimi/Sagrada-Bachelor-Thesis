@@ -40,7 +40,7 @@ public class Diluente extends ToolCard {
         this.used = used;
     }
 
-    public int getNum() { return numCard; }
+    public Integer getNum() { return numCard; }
 
     @Override
     public String toString(){

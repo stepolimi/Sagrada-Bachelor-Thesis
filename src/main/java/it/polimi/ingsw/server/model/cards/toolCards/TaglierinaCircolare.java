@@ -40,7 +40,7 @@ public class TaglierinaCircolare extends ToolCard {
         return trasport;
     }
 
-    public int getNum() { return numCard; }
+    public Integer getNum() { return numCard; }
 
     @Override
     public String toString(){

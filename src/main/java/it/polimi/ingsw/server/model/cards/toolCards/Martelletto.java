@@ -44,7 +44,7 @@ public class Martelletto extends ToolCard  {
         else return false;
     }
 
-    public int getNum() { return numCard; }
+    public Integer getNum() { return numCard; }
 
     @Override
     public String toString(){

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.serverConnection;
 ;
 import java.util.*;
 
+import static it.polimi.ingsw.costants.LoginMessages.loginError;
 import static it.polimi.ingsw.costants.LoginMessages.startingGameMsg;
 
 public class Connected {
@@ -30,6 +31,8 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
             if(users.get(conn).equals(action.get(1))) {
                 action.remove(1);
                 conn.sendMessage(action);
+                if(action.get(0).equals(loginError))
+                    remove(conn);
                 return;
             }
         }

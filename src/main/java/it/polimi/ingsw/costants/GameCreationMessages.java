@@ -1,8 +1,8 @@
 package it.polimi.ingsw.costants;
 
 public class GameCreationMessages {
-    public final static String setPrivateCard = "setPrivateCard";
-    public final static String setSchemas = "setSchemas";
-    public final static String setPublicObjectives = "setPublicObjectives";
-    public final static String setToolCards = "setToolCards";
+    public static final String setPrivateCard = "setPrivateCard";
+    public static final String setSchemas = "setSchemas";
+    public static final String setPublicObjectives = "setPublicObjectives";
+    public static final String setToolCards = "setToolCards";
 }

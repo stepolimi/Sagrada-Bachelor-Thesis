@@ -1,12 +1,15 @@
 package it.polimi.ingsw.client.clientConnection;
 
 import it.polimi.ingsw.client.view.Handler;
+import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
+
+import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class SocketConnection implements Connection,Runnable {
 
@@ -58,11 +61,42 @@ public class SocketConnection implements Connection,Runnable {
         while (!stopThread) {
             try {
                 String str = in.nextLine();
-                System.out.println(str);
-                hand.deliverGI(str);
+                List <String> action =new ArrayList<String>();
+                StringTokenizer token = new StringTokenizer(str, "-");
+                while(token.hasMoreTokens())
+                    action.add(token.nextToken());
+                deliverGI(action);
             } catch (NoSuchElementException e) {
                 System.out.println("disconnesso");
+                stopThread = true;
             }
+        }
+    }
+
+    // deliver action on GUI or CLI
+    public void deliverGI(List<String> action) {
+        View v = hand.getView();
+        if(action.get(0).equals(loginSuccessful)) {
+            if (action.get(1).equals(v.getName()))
+                v.login(action.get(0));
+            else
+                v.playerConnected(action.get(1));
+        }else if(action.get(0).equals(loginError)) {
+            v.login(action.get(0) + "-" + action.get(1));
+        }else if(action.get(0).equals(logout)){
+            v.playerDisconnected(action.get(1));
+        }else if(action.get(0).equals(timerPing)){
+            v.timerPing(action.get(1));
+        }else if(action.get(0).equals(startingGameMsg)) {
+            v.createGame();
+        }else if(action.get(0).equals(setSchemas)) {
+            v.setSchemas(action.subList(1,5));
+        }else if(action.get(0).equals(setPrivateCard)) {
+            v.setPrivateCard(action.get(1));
+        }else if(action.get(0).equals(setPublicObjectives)) {
+            v.setPublicObjectives(action.subList(1,4));
+        }else if(action.get(0).equals(setToolCards)) {
+            v.setToolCards(action.subList(1,4));
         }
     }
 }

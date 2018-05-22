@@ -8,9 +8,6 @@ class used to construct and represent the schema of every player.
          [for example first extract--> schema2 and schema7
                 (we associated their back card with increment of 12)
                 --> (schema2/schema14 and schema7/schema19)
-
-
-
  */
 
 

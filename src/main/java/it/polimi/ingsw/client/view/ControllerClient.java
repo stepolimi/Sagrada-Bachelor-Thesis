@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class ControllerClient implements View {
@@ -100,7 +101,6 @@ public class ControllerClient implements View {
 
 
     public String getName() {
-
         return nickname.getText();
     }
 
@@ -154,18 +154,57 @@ public class ControllerClient implements View {
                     stage.close();
                     setScene("waiting");
 
-                } else if (text.equals("Login_error")) {
+                } else if (text.equals("Login_error-username")) {
                     setScene("nickname_error");
                 }
 
-                else if (text.equals("Login_error-game") || text.equals("Login_error-username"))
+                else if (text.equals("Login_error-game"))
                     setScene("TooManyPlayers");
 
             }
 
         });
+    }
 
+    public void playerConnected(String name){
+        System.out.println(name + " si è aggiunto alla lobby\n");                         //message
+    }
 
+    public void playerDisconnected(String name){
+        System.out.println(name + " si è disconnesso\n");                               //message
+    }
+
+    public void timerPing(String time) {
+        System.out.println("la partita inizierà tra " + time + " secondi\n");             //loading bar
+    }
+
+    public void createGame(){
+        System.out.println("partita creata\n");                                           //message
+    }
+
+    public void setSchemas(List<String> schemas){
+        System.out.println("scegli lo schema che preferisci tra:");                     //schemas
+        for(String s: schemas)
+            System.out.println(s);
+        System.out.println("\n");
+    }
+
+    public void setPrivateCard(String colour){
+        System.out.println("il tuo obiettivo privato sarà il colore: " + colour + "\n");       //private objective
+    }
+
+    public void setPublicObjectives(List<String> cards){
+        System.out.println("gli obiettivi publici per questa partita saranno:");       //public objectives
+        for(String s: cards)
+            System.out.println(s);
+        System.out.println("\n");
+    }
+
+    public void setToolCards(List<String> cards){
+        System.out.println("le carte utensili per questa partita saranno:");            //tool cards
+        for(String s: cards)
+            System.out.println("la carta numero " + s + ",");
+        System.out.println("\n");
     }
 
     public void setHandler(Handler hand) {

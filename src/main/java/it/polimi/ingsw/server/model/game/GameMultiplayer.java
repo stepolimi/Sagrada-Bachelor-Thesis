@@ -36,6 +36,11 @@ public class GameMultiplayer extends Observable {
     }
 
     public void gameInit(){
+        //set one set of 3 Public Objective and one of 3 Tool Cards in the board
+        DeckPublicObjective deckPublic = new DeckPublicObjective();
+        DeckToolsCard deckTools = new DeckToolsCard();
+        board.setDeckpubl(deckPublic.extract(players.size()));
+        board.setDeckTool(deckTools.extract());
 
         //set a private objective and a set of 4 Schemas for each player
         DeckPrivateObjective deckPriv = new DeckPrivateObjective();
@@ -44,15 +49,9 @@ public class GameMultiplayer extends Observable {
             p.setObserver(obs);
             p.addObserver(obs);
             p.setPrCard(deckPriv.extract());
-            board.addPriv(p.getPrCard());
             p.setSchemas(deckSchemas.deliver(getBoard().getIndex(p)));
+            board.addPriv(p.getPrCard());
         }
-
-        //set one set of 3 Public Objective and one of 3 Tool Cards in the board
-        DeckPublicObjective deckPublic = new DeckPublicObjective();
-        DeckToolsCard deckTools = new DeckToolsCard();
-        board.setDeckpubl(deckPublic.extract(players.size()));
-        board.setDeckTool(deckTools.extract());
     }
 
     public void endGame(){

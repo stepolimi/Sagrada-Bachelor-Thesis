@@ -114,9 +114,9 @@ public class Player extends Observable{
         action.add(nickname);
         if(string.equals(setSchemas))
             for (Schema s : schemas) {
-                action.add(s.getName());                        //to be changed
+                action.add(s.getName());
         } else if(string.equals(setPrivateCard))
-            action.add(prCard.getColour());                      //to be changed
+            action.add(prCard.getColour());
         setChanged();
         notifyObservers(action);
     }

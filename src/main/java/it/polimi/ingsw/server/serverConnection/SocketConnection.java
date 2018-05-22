@@ -2,7 +2,9 @@ package it.polimi.ingsw.server.serverConnection;
 
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -15,10 +17,11 @@ import static it.polimi.ingsw.costants.LoginMessages.loginError;
 public class SocketConnection implements Runnable,Connection {
     Socket s;
     VirtualView virtual;
-    Scanner in;
+   // Scanner in;
     PrintWriter out;
     Connected connection;
     ArrayList action= new ArrayList();
+    BufferedReader in;
 
     public SocketConnection(Socket s,VirtualView virtual,Connected connection) {
         this.s = s;
@@ -28,11 +31,11 @@ public class SocketConnection implements Runnable,Connection {
 
     public void run() {
         try {
-            in = new Scanner(s.getInputStream());
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             out = new PrintWriter(s.getOutputStream());
-            while(true) {
+            while(in!=null) {
                 action.clear();
-                String str = in.nextLine();
+                String str = in.readLine();
                 StringTokenizer token = new StringTokenizer(str, "-");
                 while(token.hasMoreTokens())
                     action.add(token.nextToken());
@@ -44,12 +47,12 @@ public class SocketConnection implements Runnable,Connection {
             }
         }catch(IOException e)
         {
-            System.out.println(e.getMessage());
+           this.logout();
         }
     }
 
     public void login(String str) {
-        System.out.println(str + "'s trying to connect:");
+        System.out.println(str + "'s trying to connect with socket:");
         if(connection.checkUsername(str)) {
             connection.getUsers().put(this,str);
             forwardAction(action);
@@ -67,6 +70,8 @@ public class SocketConnection implements Runnable,Connection {
             out.close();
             s.close();
             String name = connection.remove(this);
+            action.clear();
+            action.add("Disconnected");
             action.add(name);
             if(name != null)
                 forwardAction(action);

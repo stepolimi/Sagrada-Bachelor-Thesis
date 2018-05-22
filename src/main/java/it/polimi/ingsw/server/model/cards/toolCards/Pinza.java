@@ -53,7 +53,7 @@ public class Pinza extends ToolCard {
 
     }
 
-    public int getNum() { return numCard; }
+    public Integer getNum() { return numCard; }
 
     @Override
     public String toString(){
