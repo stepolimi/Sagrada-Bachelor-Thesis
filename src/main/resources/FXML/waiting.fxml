@@ -21,12 +21,12 @@
             <Image url="@../assets/image/fgioco4662_2.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="disconnectButton" layoutX="186.0" layoutY="226.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="27.0" prefWidth="107.0" text="Disconnetti">
+      <Button fx:id="disconnectButton" layoutX="165.0" layoutY="220.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="33.0" prefWidth="137.0" text="Disconnetti">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ProgressBar layoutX="139.0" layoutY="190.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" />
+      <ProgressBar fx:id="progressbar" layoutX="133.0" layoutY="189.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" stylesheets="@../CSS/waiting.css" />
       <Text fill="WHITE" layoutX="126.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In attesa di altri giocatori..." textAlignment="CENTER">
          <font>
             <Font size="18.0" />
