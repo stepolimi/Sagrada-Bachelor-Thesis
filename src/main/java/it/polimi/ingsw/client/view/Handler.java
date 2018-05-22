@@ -30,13 +30,13 @@ public class Handler {
             System.out.println("1 ----> Cli");
             System.out.println("2-----> GUI");
             choose = in.nextLine();
-            if (Integer.parseInt(choose) == 1)
+            if (choose.equals("1"))
             {
                 v = new ViewCLI();
                 v.setHandler(this);
                 correct = true;
             }
-            else if(Integer.parseInt(choose) == 2)
+            else if(choose.equals("2"))
             {
                 String args[]={};
                 ViewGUI gui = new ViewGUI();

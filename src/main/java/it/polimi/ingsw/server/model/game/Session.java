@@ -57,6 +57,7 @@ public  class Session extends Observable {
     }
 
     public void removePlayer(String player){
+        this.player = player;
         action = new ArrayList<String>();
         if(game == null) {
             for(int i=0; i<lobby.size(); i++)

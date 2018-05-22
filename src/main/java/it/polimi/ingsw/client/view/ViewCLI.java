@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class ViewCLI implements View{
     private Scanner input;
-    private String username;
+    private String username="";
     private Connection connection;
     private Handler hand;
     public ViewCLI()
@@ -36,7 +36,7 @@ public class ViewCLI implements View{
             System.out.println("1 ----> Socket");
             System.out.println("2 ----> Rmi");
             choose = input.nextLine();
-            if (Integer.parseInt(choose) == 1)
+            if (choose.equals("1"))
             {
                 try {
                     connection = new SocketConnection(hand);
@@ -47,7 +47,7 @@ public class ViewCLI implements View{
                 }
                 correct = true;
             }
-            else if (Integer.parseInt(choose) == 2)
+            else if (choose.equals("2"))
             {
                 connection = new RmiConnection(hand);
                 correct = true;
@@ -59,8 +59,10 @@ public class ViewCLI implements View{
 
     public void setLogin()
     {
-        System.out.println("Inserisci il tuo username:");
-        username = input.nextLine();
+        while(username.equals("")) {
+            System.out.println("Inserisci il tuo username:");
+            username = input.nextLine();
+        }
         connection.login(username);
 
     }
