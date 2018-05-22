@@ -26,7 +26,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ProgressBar fx:id="progressbar" layoutX="133.0" layoutY="189.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" stylesheets="@../CSS/waiting.css" />
+      <ProgressBar fx:id="progressBar" layoutX="133.0" layoutY="189.0" prefHeight="27.0" prefWidth="200.0" progress="0.0" stylesheets="@../CSS/waiting.css" />
       <Text fill="WHITE" layoutX="126.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="In attesa di altri giocatori..." textAlignment="CENTER">
          <font>
             <Font size="18.0" />

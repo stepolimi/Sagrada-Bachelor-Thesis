@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -30,6 +31,9 @@ public class ControllerClient implements View {
     Handler hand;
 
 
+
+    @FXML
+    public ProgressBar progressBar;
 
     @FXML
     public Button closeButton;
@@ -154,6 +158,7 @@ public class ControllerClient implements View {
                     stage.close();
                     setScene("waiting");
 
+
                 } else if (text.equals("Login_error-username")) {
                     setScene("nickname_error");
                 }
@@ -174,9 +179,24 @@ public class ControllerClient implements View {
         System.out.println(name + " si è disconnesso\n");                               //message
     }
 
-    public void timerPing(String time) {
-        System.out.println("la partita inizierà tra " + time + " secondi\n");             //loading bar
-    }
+    public void timerPing(final String time) {
+
+        Platform.runLater(new Runnable() {
+            String text = time;
+            public void run() {
+                System.out.println("la partita inizierà tra " + text + " secondi\n");             //loading bar
+                double seconds = Integer.parseInt(text);
+                double tot = 60.000;
+                double full = 1.000;
+                double result = full - seconds / tot;
+                progressBar.setProgress(result);
+            }
+
+
+                          }
+            );
+
+        }
 
     public void createGame(){
         System.out.println("partita creata\n");                                           //message
