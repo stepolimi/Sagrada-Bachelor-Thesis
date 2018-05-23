@@ -55,6 +55,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
 
     public void setSchemas(List action)throws RemoteException{
         v.setSchemas(action.subList(1,action.size()));
+
     }
 
     public void setPrivateCard(List action)throws RemoteException{

@@ -81,7 +81,8 @@ public class SocketConnection implements Connection,Runnable {
                 v.login(action.get(0));
             else
                 v.playerConnected(action.get(1));
-        }else if(action.get(0).equals(loginError)) {
+        }
+        else if(action.get(0).equals(loginError)) {
             v.login(action.get(0) + "-" + action.get(1));
         }else if(action.get(0).equals(logout)){
             v.playerDisconnected(action.get(1));

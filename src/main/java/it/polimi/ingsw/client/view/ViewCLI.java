@@ -107,8 +107,18 @@ public class ViewCLI implements View{
     public void setSchemas(List<String> schemas){
         System.out.println("scrivi il nome dello schema che preferisci tra:");
         for(String s: schemas)
-            System.out.println(s);
+        showSchemas(s);
         System.out.println("\n");
+    }
+
+    public void showSchemas(String nome)
+    {
+        Schema schema = new Schema();
+        try {
+            System.out.println(schema.InitSchema(nome).toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setPrivateCard(String colour){
