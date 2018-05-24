@@ -57,5 +57,11 @@ public class RmiConnection implements Connection {
             System.out.println(e.getMessage());
         }
     }
+
+    public void insertDice(int indexDiceSpace, int row, int column) {
+
+    }
+
+
 }
 

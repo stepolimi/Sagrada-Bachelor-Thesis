@@ -7,4 +7,5 @@ public interface Connection {
     public void login(String nickname);
 
     public void disconnect();
+    public void insertDice(int indexDiceSpace,int row,int column);
 }

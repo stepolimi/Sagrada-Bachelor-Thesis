@@ -7,8 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Schema {
-    String name;
-    Dices grid [][];
+    private String name;
+    private Dices grid [][];
     private  final int ROWS = 4;
     private final int COLUMNS = 5;
     int difficult;
@@ -42,6 +42,10 @@ public class Schema {
     }
 
 
+    public Dices[][] getGrid()
+    {
+        return this.grid;
+    }
     @Override
     public String toString() {
         String str = "";
