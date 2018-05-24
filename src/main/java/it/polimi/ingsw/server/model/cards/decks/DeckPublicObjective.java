@@ -11,10 +11,10 @@ public class DeckPublicObjective {
 
     public DeckPublicObjective() {
         this.deckPub = new ArrayList<ObjectiveCard>();
-        RowsObj card1 = new RowsObj("Colori diversi: riga", "Righe senza colori ripetuti", 6);
-        RowsObj card2 = new RowsObj("Sfumature diverse: riga", "Righe senza sfumature ripetute", 5);
-        ColumnsObj card3 = new ColumnsObj("Colori diversi: colonna", "Colonne senza colori ripetuti",5);
-        ColumnsObj card4 = new ColumnsObj("Sfumature diverse: colonna", "Colonne senza sfumature ripetute",4);
+        RowsObj card1 = new RowsObj("Colori diversi_riga", "Righe senza colori ripetuti", 6);
+        RowsObj card2 = new RowsObj("Sfumature diverse_riga", "Righe senza sfumature ripetute", 5);
+        ColumnsObj card3 = new ColumnsObj("Colori diversi_colonna", "Colonne senza colori ripetuti",5);
+        ColumnsObj card4 = new ColumnsObj("Sfumature diverse_colonna", "Colonne senza sfumature ripetute",4);
         CoupleSetObj card5=new CoupleSetObj("Sfumature chiare", "Set di 1 & 2 ovunque", 1, 2 );
         CoupleSetObj card6=new CoupleSetObj("Sfumature medie", "Set di 3 & 4 ovunque", 3, 4);
         CoupleSetObj card7=new CoupleSetObj("Sfumature scure", "Set di 5 & 6 ovunque", 5, 6);

@@ -12,7 +12,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -22,13 +25,13 @@ import java.util.List;
 
 public class ControllerClient implements View {
 
-    private static String text;
+    public static String text;
     public Button repeatLogin;
     public Button loginAction;
-    Connection connection;
-    Thread t;
-    private ViewGUI gui;
-    Handler hand;
+    public Connection connection;
+    public Thread t;
+    public ViewGUI gui;
+    public Handler hand;
 
 
 
@@ -50,8 +53,41 @@ public class ControllerClient implements View {
     @FXML
     public TextField nickname;
 
+    @FXML
+    public ImageView schema1;
 
+    @FXML
+    public ImageView schema2;
 
+    @FXML
+    public ImageView schema3;
+
+    @FXML
+    public ImageView schema4;
+
+    @FXML
+    public ImageView toolCard1;
+
+    @FXML
+    public ImageView toolCard2;
+
+    @FXML
+    public ImageView toolCard3;
+
+    @FXML
+    public ImageView publObj1;
+
+    @FXML
+    public ImageView publObj2;
+
+    @FXML
+    public ImageView publObj3;
+
+    @FXML
+    public ImageView privateCard;
+
+    @FXML
+    public Text waitingMessage;
 
     public ControllerClient(Handler hand)
     {
@@ -124,6 +160,10 @@ public class ControllerClient implements View {
             setScene("nickname_empty");
 
         }
+
+        else if(getName().length() > 8)
+            setScene("nickname_empty");
+
         else {
             try {
                 connection.login(getName());
@@ -171,12 +211,20 @@ public class ControllerClient implements View {
         });
     }
 
-    public void playerConnected(String name){
-        System.out.println(name + " si è aggiunto alla lobby\n");                         //message
+    public void playerConnected(final String name){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                waitingMessage.setText(name+  " si è aggiunto alla lobby......\n");
+            }
+        });
     }
 
-    public void playerDisconnected(String name){
-        System.out.println(name + " si è disconnesso\n");                               //message
+    public void playerDisconnected(final String name){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                waitingMessage.setText(name+  " si è disconnesso........\n");
+            }
+        });
     }
 
     public void timerPing(final String time) {
@@ -199,32 +247,101 @@ public class ControllerClient implements View {
         }
 
     public void createGame(){
-        System.out.println("partita creata\n");                                           //message
+        Platform.runLater(new Runnable() {
+            public void run() {
+                System.out.println("partita creata\n");
+
+
+               setScene("game");
+                Stage stage = (Stage) progressBar.getScene().getWindow();
+                stage.close();
+
+
+
+            }
+        });
     }
 
-    public void setSchemas(List<String> schemas){
-        System.out.println("scegli lo schema che preferisci tra:");                     //schemas
-        for(String s: schemas)
-            System.out.println(s);
-        System.out.println("\n");
+    public void setSchemas(final List<String> schemas){
+        Platform.runLater(new Runnable() {
+            public void run() {
+                String path = new String("/assets/image/Schemi/");
+
+                setScene("choose_schema");
+
+                Image image = new Image(path + schemas.get(0) + ".png");
+                schema1.setImage(image);
+
+                image = new Image(path + schemas.get(1) + ".png");
+                schema2.setImage(image);
+
+                image = new Image(path + schemas.get(2) + ".png");
+                schema3.setImage(image);
+
+                image = new Image(path + schemas.get(3) + ".png");
+                schema4.setImage(image);
+            }
+        });
+
     }
 
-    public void setPrivateCard(String colour){
-        System.out.println("il tuo obiettivo privato sarà il colore: " + colour + "\n");       //private objective
+    public void setPrivateCard(final String colour){
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                Image image = new Image("/assets/image/Cards/PrivateObj/"+ colour + ".png");
+                privateCard.setImage(image);
+            }
+        });
     }
 
-    public void setPublicObjectives(List<String> cards){
-        System.out.println("gli obiettivi publici per questa partita saranno:");       //public objectives
-        for(String s: cards)
-            System.out.println(s);
-        System.out.println("\n");
+    public void setPublicObjectives(final List<String> cards){
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                String path = new String("/assets/image/Cards/PublicObj/");
+
+                Image image = new Image(path + cards.get(0)+ ".png");
+                publObj1.setImage(image);
+
+                image = new Image(path + cards.get(1)+ ".png");
+                publObj2.setImage(image);
+
+                image = new Image(path + cards.get(2)+ ".png");
+                publObj3.setImage(image);
+
+
+
+                System.out.println("\n");
+            }
+        });
+
     }
 
-    public void setToolCards(List<String> cards){
-        System.out.println("le carte utensili per questa partita saranno:");            //tool cards
-        for(String s: cards)
-            System.out.println("la carta numero " + s + ",");
-        System.out.println("\n");
+    public void setToolCards(final List<String> cards){
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                String path = new String("/assets/image/Cards/ToolCard/");
+                for(String s: cards)
+                    System.out.println("la carta numero " + s + ",");
+                Image image = new Image(path + cards.get(0)+ ".png");
+                toolCard1.setImage(image);
+
+                image = new Image(path + cards.get(1)+ ".png");
+                toolCard2.setImage(image);
+
+                image = new Image(path + cards.get(2)+ ".png");
+                toolCard3.setImage(image);
+
+
+
+                System.out.println("\n");
+            }
+        });
+
+
     }
 
     public void setHandler(Handler hand) {
@@ -246,6 +363,7 @@ public class ControllerClient implements View {
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
+        stage.setTitle("SAGRADA GAME");
         stage.setResizable(false);
 
 
@@ -287,5 +405,8 @@ public class ControllerClient implements View {
         stage.close();
 
     }
+
+
+
 
 }

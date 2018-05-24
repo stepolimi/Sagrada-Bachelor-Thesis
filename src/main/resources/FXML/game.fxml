@@ -10,47 +10,23 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<Pane prefHeight="848.0" prefWidth="1264.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.ControllerClient">
+<Pane prefHeight="805.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="847.0" fitWidth="1269.0" opacity="0.29" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="815.0" fitWidth="1269.0" opacity="0.29" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/sagrada copia 2.jpg" />
          </image>
       </ImageView>
-      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="853.0" prefWidth="1263.0">
+      <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="817.0" prefWidth="1193.0">
          <children>
             <Pane prefHeight="848.0" prefWidth="507.0">
                <children>
-                  <ImageView fitHeight="265.0" fitWidth="181.0" layoutX="37.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/PublicObj/Schermata%202018-05-17%20alle%2017.56.51.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="252.0" fitWidth="188.0" layoutX="287.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/ToolCard/6.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="265.0" fitWidth="181.0" layoutX="37.0" layoutY="301.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/PublicObj/Schermata%202018-05-17%20alle%2017.56.51.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="265.0" fitWidth="181.0" layoutX="37.0" layoutY="581.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/PublicObj/Schermata%202018-05-17%20alle%2017.56.51.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="252.0" fitWidth="188.0" layoutX="287.0" layoutY="298.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/ToolCard/6.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="252.0" fitWidth="188.0" layoutX="287.0" layoutY="581.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../assets/image/Cards/ToolCard/6.png" />
-                     </image>
-                  </ImageView>
+                  <ImageView fx:id="publObj1" fitHeight="234.0" fitWidth="156.0" layoutX="51.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="toolCard2" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="publObj2" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="toolCard1" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="publObj3" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="toolCard3" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="548.0" pickOnBounds="true" preserveRatio="true" />
                </children></Pane>
             <TabPane id="tab-pane" prefHeight="853.0" prefWidth="755.0" side="BOTTOM" stylesheets="@../CSS/game.css" tabClosingPolicy="UNAVAILABLE">
               <tabs>
@@ -103,14 +79,9 @@
                                     </ImageView>
                                  </children>
                               </GridPane>
-                              <ImageView fitHeight="309.0" fitWidth="209.0" layoutX="510.0" layoutY="443.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="schema1" fitHeight="265.0" fitWidth="356.0" layoutX="90.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/image/Cards/PrivateObj/Schermata%202018-05-17%20alle%2017.58.06.png" />
-                                 </image>
-                              </ImageView>
-                              <ImageView fitHeight="265.0" fitWidth="356.0" layoutX="90.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../assets/image/Schemi/SchemiRemake/Chromatic%20Splendor.png" />
+                                    <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
                                  </image>
                               </ImageView>
                               <GridPane gridLinesVisible="true" layoutX="88.0" layoutY="457.0" prefHeight="265.0" prefWidth="353.0">
@@ -130,15 +101,7 @@
                                  <children>
                                     <Pane prefHeight="200.0" prefWidth="200.0">
                                        <children>
-                                          <Pane layoutX="-3.0" prefHeight="68.0" prefWidth="73.0">
-                                             <children>
-                                                <ImageView fitHeight="62.0" fitWidth="64.0" layoutX="8.0" layoutY="3.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../assets/image/Dice/Red/1.png" />
-                                                   </image>
-                                                </ImageView>
-                                             </children>
-                                          </Pane>
+                                          <Pane layoutX="-3.0" prefHeight="68.0" prefWidth="73.0" />
                                        </children>
                                     </Pane>
                                     <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
@@ -161,6 +124,7 @@
                                     <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
+                              <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="514.0" layoutY="476.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </Pane>
                      </content></Tab>
@@ -213,6 +177,9 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
+                              <ImageView fx:id="schema2" fitHeight="182.0" fitWidth="242.0" layoutX="223.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="schema3" fitHeight="184.0" fitWidth="247.0" layoutX="221.0" layoutY="288.0" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView fx:id="schema4" fitHeight="184.0" fitWidth="246.0" layoutX="218.0" layoutY="525.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </Pane>
                      </content>

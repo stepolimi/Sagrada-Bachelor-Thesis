@@ -21,7 +21,7 @@
             <Image url="@../assets/image/fgioco4662_2.jpg" />
          </image>
       </ImageView>
-      <Button fx:id="disconnectButton" layoutX="165.0" layoutY="220.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="33.0" prefWidth="137.0" text="Disconnetti">
+      <Button fx:id="disconnectButton" layoutX="171.0" layoutY="219.0" mnemonicParsing="false" onAction="#QuitPaneAction" prefHeight="33.0" prefWidth="137.0" text="Disconnetti">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -37,5 +37,6 @@
             <Font size="36.0" />
          </font>
       </Text>
+      <Text fx:id="waitingMessage" fill="WHITE" layoutX="342.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="..........................." wrappingWidth="123.98307228088379" />
    </children>
 </Pane>

@@ -19,26 +19,10 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <ImageView fitHeight="218.0" fitWidth="271.0" layoutX="83.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/image/Schemi/Via Lux.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/image/Schemi/Gravitas.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="218.0" fitWidth="254.0" layoutX="522.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/image/Schemi/Ripples of Light.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="218.0" fitWidth="255.0" layoutX="522.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../assets/image/Schemi/Industria.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="schema1" fitHeight="218.0" fitWidth="271.0" layoutX="83.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="schema3" fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="schema4" fitHeight="218.0" fitWidth="254.0" layoutX="522.0" layoutY="345.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="schema2" fitHeight="218.0" fitWidth="255.0" layoutX="522.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
       <Button layoutX="136.0" layoutY="300.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="1" />
       <Button layoutX="136.0" layoutY="563.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="3" />
       <Button layoutX="574.0" layoutY="300.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="150.0" text="2" />
