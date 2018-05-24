@@ -38,7 +38,10 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void insertDice(int row,int column)
+    {
 
+    }
     public void disconnect() {
         stopRunning();
         out.println("Disconnected");
@@ -50,6 +53,11 @@ public class SocketConnection implements Connection,Runnable {
             System.out.println(e.getMessage());
         }
         in.close();
+    }
+
+    public void insertDice(int indexDiceSpace, int row, int column) {
+        out.println(pickDice+"-"+indexDiceSpace+"-"+row+"-"+column);
+        out.flush();
     }
 
     public void stopRunning() {
@@ -98,6 +106,18 @@ public class SocketConnection implements Connection,Runnable {
             v.setPublicObjectives(action.subList(1,4));
         }else if(action.get(0).equals(setToolCards)) {
             v.setToolCards(action.subList(1,4));
+        }else if(action.get(0).equals(approvedSchema))
+        {
+            //v.chooseSchema();
+        }else if(action.get(0).equals(setOpponentsSchemas))
+        {
+            //v.setOpponentsSchemas(action.subList(1,3));
+        }else if(action.get(0).equals(startTurn))
+        {
+            //v.startTurn();
+        }else if(action.get(0).equals(approvedDice))
+        {
+           // v.setDice();
         }
     }
 }
