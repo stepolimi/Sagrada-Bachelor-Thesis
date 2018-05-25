@@ -19,19 +19,19 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <ImageView fx:id="schema1" fitHeight="218.0" fitWidth="271.0" layoutX="84.0" layoutY="82.0" onMouseClicked="#sendSchema1" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="schemaA" fitHeight="218.0" fitWidth="271.0" layoutX="84.0" layoutY="82.0" onMouseClicked="#sendSchema1" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="schema3" fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="321.0" onMouseClicked="#sendSchema3" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="schemaC" fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="321.0" onMouseClicked="#sendSchema3" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="schema4" fitHeight="218.0" fitWidth="254.0" layoutX="422.0" layoutY="325.0" onMouseClicked="#sendSchema4" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="schemaD" fitHeight="218.0" fitWidth="254.0" layoutX="422.0" layoutY="325.0" onMouseClicked="#sendSchema4" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>
-      <ImageView fx:id="schema2" fitHeight="218.0" fitWidth="255.0" layoutX="422.0" layoutY="82.0" onMouseClicked="#sendSchema2" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="schemaB" fitHeight="218.0" fitWidth="255.0" layoutX="422.0" layoutY="82.0" onMouseClicked="#sendSchema2" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></ImageView>

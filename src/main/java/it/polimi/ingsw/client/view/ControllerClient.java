@@ -56,16 +56,16 @@ public class ControllerClient implements View {
     public TextField nickname;
 
     @FXML
-    public ImageView schema1;
+    public ImageView schemaA;
 
     @FXML
-    public ImageView schema2;
+    public ImageView schemaB;
 
     @FXML
-    public ImageView schema3;
+    public ImageView schemaC;
 
     @FXML
-    public ImageView schema4;
+    public ImageView schemaD;
 
     @FXML
     public ImageView toolCard1;
@@ -84,6 +84,9 @@ public class ControllerClient implements View {
 
     @FXML
     public ImageView publObj3;
+
+    @FXML
+    public ImageView schema1;
 
     @FXML
     public ImageView privateCard;
@@ -273,16 +276,16 @@ public class ControllerClient implements View {
                 setScene("choose_schema");
 
                 Image image = new Image(path + schemas.get(0) + ".png");
-                schema1.setImage(image);
+                schemaA.setImage(image);
 
                 image = new Image(path + schemas.get(1) + ".png");
-                schema2.setImage(image);
+                schemaB.setImage(image);
 
                 image = new Image(path + schemas.get(2) + ".png");
-                schema3.setImage(image);
+                schemaC.setImage(image);
 
                 image = new Image(path + schemas.get(3) + ".png");
-                schema4.setImage(image);
+                schemaD.setImage(image);
             }
         });
 
@@ -429,11 +432,18 @@ public class ControllerClient implements View {
         connection.sendSchema(schemasClient.get(3));
     }
 
-    public void chooseSchema(String name) {
+    public void chooseSchema(final String name) {
 
+    Platform.runLater(new Runnable() {
+        public void run() {
+            String path = "/assets/image/Schemi/SchemiRemake/";
+            Image image = new Image(path + name + ".png");
+            schema1.setImage(image);
 
-        String path = "/assets/image/Schemi/SchemiRemake/";
-        Image image = new Image(path + name + ".png");
-        schema1.setImage(image);
+            Stage stage = (Stage) schemaA.getScene().getWindow();
+            stage.close();
+        }
+    });
+
     }
 }
