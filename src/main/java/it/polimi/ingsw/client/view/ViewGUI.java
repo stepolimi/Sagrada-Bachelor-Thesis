@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -30,6 +31,8 @@ public class ViewGUI extends Application {
         stage = primaryStage;
         stage.setScene(scene);
         stage.setResizable(false);
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
         stage.show();
     }
 
