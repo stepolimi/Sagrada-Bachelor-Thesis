@@ -446,4 +446,8 @@ public class ControllerClient implements View {
     });
 
     }
+
+    public void setOpponentsSchemas(List<String> schemas) {
+        
+    }
 }

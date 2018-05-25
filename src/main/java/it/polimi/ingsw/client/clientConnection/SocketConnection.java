@@ -114,7 +114,7 @@ public class SocketConnection implements Connection,Runnable {
             v.chooseSchema(action.get(1));
         }else if(action.get(0).equals(setOpponentsSchemas))
         {
-            //v.setOpponentsSchemas(action.subList(1,3));
+            v.setOpponentsSchemas(action.subList(1,action.size()));
         }else if(action.get(0).equals(startTurn))
         {
             //v.startTurn();

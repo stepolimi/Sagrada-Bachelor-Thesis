@@ -6,6 +6,7 @@ import it.polimi.ingsw.client.clientConnection.SocketConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,7 +19,8 @@ public class ViewCLI implements View{
     private String username="";
     private Connection connection;
     private Handler hand;
-    private ArrayList<Schema> schemas ; // size = numPlayer
+    private HashMap<String,Schema> schemas ;
+
     private ArrayList <String> moves;
     private String privateObjective;
     private List <String> publicObjcective ;
@@ -32,7 +34,7 @@ public class ViewCLI implements View{
     public ViewCLI()
     {
         input = new Scanner(System.in);
-        schemas = new ArrayList<Schema>();
+        schemas = new HashMap<String, Schema>();
         privateObjective = "";
         publicObjcective = new ArrayList<String>();
         toolCard = new ArrayList<String>();
@@ -96,7 +98,6 @@ public class ViewCLI implements View{
                 String nameSchema;
                 nameSchema = input.nextLine();
                 connection.sendSchema(nameSchema);
-
             }
         });
         t.start();
@@ -159,13 +160,15 @@ public class ViewCLI implements View{
     public void setOpponentsSchemas(List <String> s)
     {
         Schema temp= new Schema();
-        for(String sch:s) {
+        for(int i=0;i<s.size();i=i+2) {
             try {
-                schemas.add(temp.InitSchema(sch));
+                if(!s.get(i).equals(this.getName()))
+                    schemas.put(s.get(i),temp.InitSchema(s.get(i+1)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        showOpponentsSchemas();
     }
 
     // show method
@@ -190,8 +193,9 @@ public class ViewCLI implements View{
 
     public void showOpponentsSchemas()
     {
-        for(int i=1;i<schemas.size();i++)
-            System.out.println(schemas.get(i).toString());
+        for(String key:schemas.keySet())
+            if(!key.equals(username))
+                System.out.println(schemas.get(key).toString());
     }
     public void showPrivateObjective()
     {
@@ -270,7 +274,7 @@ public class ViewCLI implements View{
     {
         try {
             Schema s = new Schema();
-            schemas.add(s.InitSchema(name));
+            schemas.put(this.getName(),s.InitSchema(name));
             System.out.println("schema approvato: " + name);
         } catch (IOException e) {
             e.printStackTrace();

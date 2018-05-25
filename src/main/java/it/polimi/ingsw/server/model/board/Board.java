@@ -91,19 +91,19 @@ public class Board extends Observable{
     public void addSchema(Schema schema){
         this.deckSchemas.add(schema);
         if(deckSchemas.size() == playerList.size())
-            notify(setOpponentsSchemas);
+            notifyChanges(setOpponentsSchemas);
     }
 
     public void setDeckpubl(List<ObjectiveCard> deck){
         this.deckPublic = deck;
-        notify(setPublicObjectives);
+        notifyChanges(setPublicObjectives);
     }
 
     public void addPriv(PrivateObjective Priv) { this.deckPrivate.add(Priv); }
 
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
-        notify(setToolCards);
+        notifyChanges(setToolCards);
     }
 
     public int getConnected(){
@@ -115,7 +115,7 @@ public class Board extends Observable{
         return count;
     }
 
-    public void notify(String string){
+    public void notifyChanges(String string){
         List action = new ArrayList();
         action.add(string);
         if(string.equals(setPublicObjectives))

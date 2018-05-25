@@ -16,4 +16,5 @@ public interface RmiClientMethodInterface extends Remote{
     public void setPublicObjectives(List action)throws RemoteException;
     public void setToolCards(List action)throws RemoteException;
     public void chooseSchema(List action) throws RemoteException;
+    public void setOpponentsSchemas(List action) throws RemoteException;
 }

@@ -17,4 +17,5 @@ public interface View {
     public void playerConnected(String name);
     public void playerDisconnected(String name);
     public void chooseSchema(String name);
+    public void setOpponentsSchemas(List <String>schemas);
 }
