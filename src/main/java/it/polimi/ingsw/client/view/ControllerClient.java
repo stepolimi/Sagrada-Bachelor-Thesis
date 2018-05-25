@@ -34,8 +34,22 @@ public class ControllerClient implements View {
     public Thread t;
     public ViewGUI gui;
     public Handler hand;
+    public Schema mySchema;
+
+
+
 
     private List<String> schemasClient;
+
+
+    @FXML
+    public Text nickname2;
+
+    @FXML
+    public Text nickname3;
+
+    @FXML
+    public Text nickname4;
 
     @FXML
     public ProgressBar progressBar;
@@ -89,15 +103,35 @@ public class ControllerClient implements View {
     public ImageView schema1;
 
     @FXML
+    public ImageView schema2;
+
+    @FXML
+    public ImageView schema3;
+
+    @FXML
+    public ImageView schema4;
+
+    @FXML
     public ImageView privateCard;
 
     @FXML
     public Text waitingMessage;
 
+    @FXML
+    private Text nFavour;
+
     public ControllerClient(Handler hand)
     {
         this.hand = hand;
     }
+
+
+
+
+    public void setMySchema(Schema mySchema) {
+        this.mySchema = mySchema;
+    }
+
 
 
 
@@ -439,15 +473,60 @@ public class ControllerClient implements View {
             String path = "/assets/image/Schemi/SchemiRemake/";
             Image image = new Image(path + name + ".png");
             schema1.setImage(image);
+            Schema schema = new Schema();
+            try {
+                schema = schema.InitSchema(name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            nFavour.setText("x "+ schema.difficult);
+
 
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
+
+
         }
     });
 
+
+
     }
 
-    public void setOpponentsSchemas(List<String> schemas) {
+    public void setOpponentsSchemas(final List<String> schemas) {
+
+
+        Platform.runLater(new Runnable() {
+            List<String> stringList = new ArrayList<String>(schemas);
+
+            public void run() {
+                String path = "/assets/image/Schemi/SchemiRemake/";
+
+                List<Object> schemaImages = new ArrayList<Object>();
+                schemaImages.add(nickname2);
+                schemaImages.add(schema2);
+
+                schemaImages.add(nickname3);
+                schemaImages.add(schema3);
+
+                schemaImages.add(nickname4);
+                schemaImages.add(schema4);
+
+
+                stringList.remove(stringList.indexOf(nickname.getText())+1);
+                stringList.remove(stringList.indexOf(nickname.getText()));
+
+                for(int i = 0; i< stringList.size(); i = i+2){
+                        ((Text)(schemaImages.get(i))).setText(stringList.get(i));
+                        Image image = new Image(path + stringList.get(i+1) +  ".png");
+                        ((ImageView)schemaImages.get(i+1)).setImage(image);
+                }
+
+
+            }
+        });
+
         
     }
 }

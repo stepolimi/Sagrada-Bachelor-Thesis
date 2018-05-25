@@ -14,6 +14,7 @@ public class Schema {
     int difficult;
 
 
+
     public Schema InitSchema(String nome) throws IOException
     {
         Schema sch = new Schema();
