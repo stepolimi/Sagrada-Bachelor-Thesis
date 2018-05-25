@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane prefHeight="805.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -35,51 +37,6 @@
                      <content>
                         <Pane prefHeight="820.0" prefWidth="284.0">
                            <children>
-                              <GridPane layoutX="103.0" layoutY="739.0" prefHeight="33.0" prefWidth="314.0">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                 <children>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="37.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
-                                       <image>
-                                          <Image url="@../assets/image/favour.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </GridPane>
                               <ImageView fx:id="schema1" fitHeight="265.0" fitWidth="356.0" layoutX="90.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
@@ -150,6 +107,16 @@
                                     <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
+                              <ImageView fitHeight="37.0" fitWidth="51.0" layoutX="105.0" layoutY="733.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/favour.png" />
+                                 </image>
+                              </ImageView>
+                              <Text layoutX="147.0" layoutY="765.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x 5">
+                                 <font>
+                                    <Font size="36.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </Pane>
                      </content></Tab>
