@@ -32,7 +32,7 @@ public class RulesManagerTest {
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
 
         assertTrue(manager.checkRules(0,0,0,dice_1, schema));
     }
@@ -44,7 +44,7 @@ public class RulesManagerTest {
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
         schema.insertDice(0,0,dice_1);
 
         //wrong for EmptyRule

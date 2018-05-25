@@ -27,8 +27,11 @@ public class SocketConnection implements Connection,Runnable {
     }
 
 
-    public void sendMessage(String str) {
-        out.println(str);
+    public void sendSchema(String str) {
+        String action = "ChooseSchema-";
+        action += hand.getView().getName() + "-";
+        action += str;
+        out.println(action);
         out.flush();
     }
 
@@ -108,7 +111,7 @@ public class SocketConnection implements Connection,Runnable {
             v.setToolCards(action.subList(1,4));
         }else if(action.get(0).equals(approvedSchema))
         {
-            //v.chooseSchema();
+            v.chooseSchema(action.get(1));
         }else if(action.get(0).equals(setOpponentsSchemas))
         {
             //v.setOpponentsSchemas(action.subList(1,3));

@@ -61,7 +61,7 @@ public class RigaTest {
         player.setSchemas(schemas);
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
-        player.setSchema(0);
+        player.setSchema(sch.getName());
 
         sch.insertDice(0, 3, d1);
         sch.insertDice(1,3, d2);

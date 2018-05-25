@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.model.game;
 
+import it.polimi.ingsw.costants.TimerCostants;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.timer.TaskTimer;
+import it.polimi.ingsw.server.timer.LobbyTimer;
 
 import java.util.*;
 
 import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.costants.TimerCostants.lobbyTimer;
 
 //session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
 //players that will leave the game after his start will be set as "disconnected" but not removed from the game.
@@ -14,7 +14,7 @@ import static it.polimi.ingsw.costants.TimerCostants.lobbyTimer;
 public  class Session extends Observable {
     private List<Player> lobby ;
     private GameMultiplayer game;
-    private TaskTimer taskTimer;
+    private LobbyTimer lobbyTimer;
     private Timer timer;
     private Observer obs;
     private Long startingTime = 0L;
@@ -41,9 +41,9 @@ public  class Session extends Observable {
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == 2 ) {
                 startingTime = System.currentTimeMillis();
-                taskTimer = new TaskTimer(lobbyTimer,this);
+                lobbyTimer = new LobbyTimer(TimerCostants.LobbyTimerValue,this);
                 timer = new Timer();
-                timer.schedule(taskTimer,0L,5000L);
+                timer.schedule(lobbyTimer,0L,5000L);
             }
             else if(lobby.size() == 4){
                 timer.cancel();
@@ -51,6 +51,13 @@ public  class Session extends Observable {
             }
         }
         else {
+            for(Player p: lobby){
+                if(p.getNickname().equals(player)){
+                    p.setConnected(true);
+                    notify("WelcomeBack");
+                    return ;
+                }
+            }
             System.out.println("connection failed: a game is already running\n" + " ---");
             notify(loginError);
         }
@@ -106,7 +113,7 @@ public  class Session extends Observable {
         }else if(string.equals(timerPing)){
             action.clear();
             action.add(timerPing);
-            action.add(((Long)(lobbyTimer - (System.currentTimeMillis() - startingTime)/1000)).toString());
+            action.add(((Long)(TimerCostants.LobbyTimerValue - (System.currentTimeMillis() - startingTime)/1000)).toString());
             setChanged();
             notifyObservers(action);
         }else if(string.equals(loginError)){
@@ -115,7 +122,18 @@ public  class Session extends Observable {
             action.add("game");
             setChanged();
             notifyObservers(action);
-        }else if(string.equals(logout) || string.equals(loginSuccessful)){
+        }else if(string.equals(logout) ) {
+            action.add(string);
+            action.add(player);
+            setChanged();
+            notifyObservers(action);
+        }else if(string.equals(loginSuccessful)){
+            action.add(string);
+            action.add(player);
+            action.add(((Integer)lobby.size()).toString());
+            setChanged();
+            notifyObservers(action);
+        }else if(string.equals("WelcomeBack")){
             action.add(string);
             action.add(player);
             setChanged();

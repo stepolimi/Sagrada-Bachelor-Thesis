@@ -59,7 +59,7 @@ public class LathekinTest {
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(sch.getName());
 
 
         sch.insertDice(1, 0, d1);

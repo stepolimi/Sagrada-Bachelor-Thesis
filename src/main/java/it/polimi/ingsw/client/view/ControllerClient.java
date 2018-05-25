@@ -14,6 +14,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -408,7 +409,6 @@ public class ControllerClient implements View {
 
     }
 
-/*
     @FXML
     void sendSchema1(MouseEvent event) {
         connection.sendSchema(schemasClient.get(0));
@@ -427,8 +427,13 @@ public class ControllerClient implements View {
     @FXML
     void sendSchema4(MouseEvent event) {
         connection.sendSchema(schemasClient.get(3));
-    }*/
+    }
+
+    public void chooseSchema(String name) {
 
 
-
+        String path = "/assets/image/Schemi/SchemiRemake/";
+        Image image = new Image(path + name + ".png");
+        schema1.setImage(image);
+    }
 }

@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.setPrivateCard;
-import static it.polimi.ingsw.costants.GameCreationMessages.setSchemas;
+import static it.polimi.ingsw.costants.GameCreationMessages.*;
 
 public class Player extends Observable{
     private String nickname;
@@ -41,11 +40,18 @@ public class Player extends Observable{
         return schema;
     }
 
-    public void setSchema(int index) {
-        this.schema = schemas.get(index);
-        this.favour = schema.getDifficult();
-        schema.setPlayer(this);
-        schema.addObserver(obs);
+    public void setSchema(String name) {
+        for(Schema s: schemas) {
+            if (s.getName().equals(name)) {
+                schema = s;
+                favour = schema.getDifficult();
+                schema.setPlayer(this);
+                schema.addObserver(obs);
+                notify(approvedSchema);
+                return;
+            }
+        }
+        notify(setSchemas);
     }
 
     public int getFavour() {
@@ -95,6 +101,13 @@ public class Player extends Observable{
     }
     public List<Schema> getSchems(){ return schemas; }
 
+    public List<String> getNameSchemas(){
+        List<String> nameSchemas = new ArrayList<String>();
+        for(Schema s: schemas)
+            nameSchemas.add(s.getName());
+        return nameSchemas;
+    }
+
     @Override
     public String toString() {
         String src = new String();
@@ -113,10 +126,12 @@ public class Player extends Observable{
         action.add(string);
         action.add(nickname);
         if(string.equals(setSchemas))
-            for (Schema s : schemas) {
+            for (Schema s : schemas)
                 action.add(s.getName());
-        } else if(string.equals(setPrivateCard))
+        else if(string.equals(setPrivateCard))
             action.add(prCard.getColour());
+        else if(string.equals(approvedSchema))
+            action.add(schema.getName());
         setChanged();
         notifyObservers(action);
     }

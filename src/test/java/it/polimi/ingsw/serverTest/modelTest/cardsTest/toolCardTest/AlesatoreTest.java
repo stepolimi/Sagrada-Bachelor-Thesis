@@ -55,7 +55,7 @@ public class AlesatoreTest  {
          player.setObserver(virtual);
          sch.setRulesManager(new RulesManager());
          player.setSchemas(schemas);
-         player.setSchema(0);
+         player.setSchema(sch.getName());
          toolCard.dump();
 
         sch.insertDice(0, 3, d1);

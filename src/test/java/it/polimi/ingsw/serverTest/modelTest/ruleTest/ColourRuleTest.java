@@ -31,7 +31,7 @@ public class ColourRuleTest {
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
 
         assertTrue(rule.checkRule(0,0,0,dice, schema));
         assertTrue(rule.checkRule(0,0,1,dice, schema));
@@ -45,7 +45,7 @@ public class ColourRuleTest {
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
 
         assertFalse(rule.checkRule(0,0,2,dice, schema));
 

@@ -38,6 +38,8 @@ public class RmiServerConnection implements Connection{
                 client.setPublicObjectives(action);
             } else if(action.get(0).equals(setToolCards)) {
                 client.setToolCards(action);
+            }else if(action.get(0).equals(approvedSchema)){
+                client.chooseSchema(action);
             }
 
         }catch(RemoteException e) {

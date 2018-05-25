@@ -25,7 +25,7 @@ public class GameMultiplayer extends Observable {
         this.players = new ArrayList<Player>();
         this.players.addAll(players);
         this.board= new Board(players);
-        this.roundManager = new RoundManager(board,obs);
+        this.roundManager = new RoundManager(board);
         this.rulesManager = new RulesManager();
     }
 
@@ -33,6 +33,7 @@ public class GameMultiplayer extends Observable {
         this.obs = obs;
         board.addObserver(obs);
         board.setObserver(obs);
+        roundManager.setObserver(obs);
     }
 
     public void gameInit(){

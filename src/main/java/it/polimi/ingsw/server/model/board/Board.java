@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.costants.GameCreationMessages.setOpponentsSchemas;
 import static it.polimi.ingsw.costants.GameCreationMessages.setPublicObjectives;
 import static it.polimi.ingsw.costants.GameCreationMessages.setToolCards;
 
@@ -19,8 +20,8 @@ public class Board extends Observable{
     private RoundTrack roundTrack;
     private DiceSpace diceSpace;
     private List<Schema> deckSchemas;
-    private List<ObjectiveCard> deckPubl;
-    private List<PrivateObjective> deckPriv;
+    private List<ObjectiveCard> deckPublic;
+    private List<PrivateObjective> deckPrivate;
     private List<ToolCard> deckTool;
     private Observer obs;
 
@@ -29,8 +30,8 @@ public class Board extends Observable{
         dicebag = new DiceBag();
         roundTrack = new RoundTrack();
         deckSchemas = new ArrayList<Schema>();
-        deckPriv = new ArrayList<PrivateObjective>();
-        deckPubl = new ArrayList<ObjectiveCard>();
+        deckPrivate = new ArrayList<PrivateObjective>();
+        deckPublic = new ArrayList<ObjectiveCard>();
         deckTool = new ArrayList<ToolCard>();
 
     }
@@ -81,24 +82,28 @@ public class Board extends Observable{
 
     public List<Schema> getDeckSchemas() { return deckSchemas; }
 
-    public List<PrivateObjective> getDeckpriv() { return deckPriv; }
+    public List<PrivateObjective> getDeckpriv() { return deckPrivate; }
 
     public List<ToolCard> getDecktool() { return deckTool; }
 
-    public List<ObjectiveCard> getDeckpubl() { return deckPubl; }
+    public List<ObjectiveCard> getDeckpubl() { return deckPublic; }
 
-    public void addSchema(Schema schema){ this.deckSchemas.add(schema); }
-
-    public void setDeckpubl(List<ObjectiveCard> deck){
-        this.deckPubl = deck;
-        forwardAction(setPublicObjectives);
+    public void addSchema(Schema schema){
+        this.deckSchemas.add(schema);
+        if(deckSchemas.size() == playerList.size())
+            notify(setOpponentsSchemas);
     }
 
-    public void addPriv(PrivateObjective Priv) { this.deckPriv.add(Priv); }
+    public void setDeckpubl(List<ObjectiveCard> deck){
+        this.deckPublic = deck;
+        notify(setPublicObjectives);
+    }
+
+    public void addPriv(PrivateObjective Priv) { this.deckPrivate.add(Priv); }
 
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
-        forwardAction(setToolCards);
+        notify(setToolCards);
     }
 
     public int getConnected(){
@@ -110,15 +115,21 @@ public class Board extends Observable{
         return count;
     }
 
-    public void forwardAction(String string){
+    public void notify(String string){
         List action = new ArrayList();
         action.add(string);
         if(string.equals(setPublicObjectives))
-            for(ObjectiveCard o: deckPubl)
-                action.add(o.getName());                    //to be changed (maybe)
+            for(ObjectiveCard o: deckPublic)
+                action.add(o.getName());
         else if (string.equals(setToolCards))
             for(ToolCard tool: deckTool)
                 action.add(tool.getNum().toString());
+        else if(string.equals(setOpponentsSchemas)){
+            for(Player p: playerList) {
+                action.add(p.getNickname());
+                action.add(p.getSchema().getName());
+            }
+        }
         setChanged();
         notifyObservers(action);
     }

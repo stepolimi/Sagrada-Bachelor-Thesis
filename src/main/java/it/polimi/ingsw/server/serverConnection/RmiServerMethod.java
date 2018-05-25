@@ -62,11 +62,9 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         return this.clients;
     }
 */
-    public void forwardAction(ArrayList action,RmiClientMethodInterface client) {
-        if(clients.containsKey(client))
-            virtual.forwardAction(action);
+    public void forwardAction(List action,RmiClientMethodInterface client) {
+        virtual.forwardAction(action);
     }
-
 
     public void forwardAction(String str,RmiClientMethodInterface client) throws RemoteException {
         if(clients.containsKey(client)) {

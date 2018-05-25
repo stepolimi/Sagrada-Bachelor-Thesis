@@ -78,7 +78,7 @@ public class TaglierinaManualeTest {
         player.setSchemas(schemas);
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
-        player.setSchema(0);
+        player.setSchema(sch.getName());
         int num_dice = num_dice(sch);
         assertTrue(toolCard.effects(player, round, 3, 1, 3, 3, 2,0, 2, 4,2, 3  ));
         assertEquals(d2, sch.getTable(3,3).getDice());
@@ -104,7 +104,7 @@ public class TaglierinaManualeTest {
         player.setSchemas(schemas);
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
-        player.setSchema(0);
+        player.setSchema(sch.getName());
 
 
 
@@ -126,7 +126,7 @@ public class TaglierinaManualeTest {
         player.setSchemas(schemas);
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
-        player.setSchema(0);
+        player.setSchema(sch.getName());
         int num_dice = num_dice(sch);
         assertTrue(toolCard.effects(player, round, 3, 1, 3, 3, 2,0, 2, 4,1, 3  ));
         assertEquals(d2, sch.getTable(3,3).getDice());

@@ -7,12 +7,12 @@ import java.util.TimerTask;
 import static it.polimi.ingsw.costants.LoginMessages.timerElapsed;
 import static it.polimi.ingsw.costants.LoginMessages.timerPing;
 
-public class TaskTimer extends TimerTask{
+public class LobbyTimer extends TimerTask{
     private Long startingTime = 0L;
     private int waitTime;
     private Session session;
 
-    public TaskTimer(int waitTime, Session session) {
+    public LobbyTimer(int waitTime, Session session) {
         this.waitTime = waitTime ;
         this.session = session;
     }

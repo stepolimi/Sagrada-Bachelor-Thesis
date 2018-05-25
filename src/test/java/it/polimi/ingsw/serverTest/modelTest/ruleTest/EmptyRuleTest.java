@@ -33,7 +33,7 @@ public class EmptyRuleTest {
         schema.insertDice(0,0,dice_1);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
         assertTrue(rule.checkRule(0,1,0,dice_2, schema));
     }
 
@@ -45,7 +45,7 @@ public class EmptyRuleTest {
         schema.insertDice(0,0,dice_1);
         schemas.add(schema);
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(schema.getName());
 
         assertFalse(rule.checkRule(0,0,0,dice_2, schema));
     }

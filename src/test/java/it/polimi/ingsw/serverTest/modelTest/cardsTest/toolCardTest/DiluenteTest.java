@@ -60,7 +60,7 @@ public class DiluenteTest {
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(sch.getName());
 
 
         sch.insertDice(3, 0, d1);

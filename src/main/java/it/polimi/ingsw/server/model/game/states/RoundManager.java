@@ -5,28 +5,28 @@ import it.polimi.ingsw.server.model.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
+import java.util.Random;
 
 public class RoundManager  {
     private Board board;
     private List<Round> rounds;
     private Observer obs;
     private int firstPlayerIndex = 0;
-    private int roundNum = 1;
+    private int roundNum = 0;
+    private Round round ;
 
-    public RoundManager(Board board,Observer obs){
+    public RoundManager(Board board){
         this.board = board;
-        this.obs = obs;
         rounds = new ArrayList<Round>();
     }
 
     public void startNewRound() {
-        Round round ;
         if(roundNum <=10){
             round = new Round(board.getPlayerList().get(firstPlayerIndex),board);
             round.addObserver(obs);
             rounds.add(round);
             round.roundInit();
-            if(firstPlayerIndex < board.getPlayerList().size())
+            if(firstPlayerIndex < board.numPlayers()-1)
                 firstPlayerIndex ++;
             else
                 firstPlayerIndex = 0;
@@ -34,7 +34,16 @@ public class RoundManager  {
         }
     }
 
-    public int getRoundNumber(){return rounds.size();}
+    public void setFirstPlayer(){
+        Random rand = new Random();
+        firstPlayerIndex = rand.nextInt(board.numPlayers());
+    }
 
-    public Round getRound(){ return rounds.get(rounds.size() - 1);}
+    public int getRoundNumber(){return roundNum;}
+
+    public Round getRound(){ return rounds.get(roundNum - 1);}
+
+    public void setObserver(Observer obs){
+        this.obs = obs;
+    }
 }

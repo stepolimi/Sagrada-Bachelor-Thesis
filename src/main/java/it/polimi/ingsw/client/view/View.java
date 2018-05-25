@@ -16,4 +16,5 @@ public interface View {
     public void setToolCards(List<String> cards);
     public void playerConnected(String name);
     public void playerDisconnected(String name);
+    public void chooseSchema(String name);
 }

@@ -43,6 +43,8 @@ public class SocketConnection implements Runnable,Connection {
                     this.logout();
                 }else if(action.get(0).equals("Login")) {
                     this.login((String) action.get(1));
+                }else{
+                    forwardAction(action);
                 }
             }
         }catch(IOException e)

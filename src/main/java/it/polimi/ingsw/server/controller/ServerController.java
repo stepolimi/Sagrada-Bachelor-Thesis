@@ -52,12 +52,15 @@ public class ServerController implements Observer{
         roundManager = game.getRoundManager();
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(action.get(1))) {
-                p.setSchema((Integer)action.get(2));
-                p.getSchema().setRulesManager(game.getRulesManager());
-                game.getBoard().addSchema(p.getSchema());
+                p.setSchema((String) action.get(2));
+                if(p.getNameSchemas().contains(action.get(2))) {
+                    p.getSchema().setRulesManager(game.getRulesManager());
+                    game.getBoard().addSchema(p.getSchema());
+                }
             }
         }
-        if(game.getBoard().getDeckSchemas().size() == game.getBoard().getConnected()) {
+        if(game.getBoard().getDeckSchemas().size() == game.getBoard().getPlayerList().size()) {
+            roundManager.setFirstPlayer();
             roundManager.startNewRound();
             round = roundManager.getRound();
         }
@@ -90,7 +93,7 @@ public class ServerController implements Observer{
         round.execute(action);
         if(round.getTurnNumber() == game.getBoard().getPlayerList().size() -1){
             game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber());
-            if(roundManager.getRoundNumber() <10) {
+            if(roundManager.getRoundNumber() <=10) {
                 roundManager.startNewRound();
                 round = roundManager.getRound();
             }

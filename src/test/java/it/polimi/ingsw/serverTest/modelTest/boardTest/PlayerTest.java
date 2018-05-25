@@ -74,7 +74,7 @@ public class PlayerTest {
         schemas.add(schema2);
         player.setSchemas(schemas);
         player.setObserver(new VirtualView());
-        player.setSchema(1);
+        player.setSchema(schema2.getName());
 
         assertTrue(player.getSchema() == schema2);
         assertTrue(player.getFavour() == 5);

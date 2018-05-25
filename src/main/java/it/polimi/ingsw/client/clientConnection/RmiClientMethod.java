@@ -74,9 +74,9 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
        // v.setOpponentsSchemas();
     }
 
-    public void chooseSchema()
+    public void chooseSchema(List action)
     {
-        //v.chooseSchema
+        v.chooseSchema((String)action.get(1));
     }
 
     public void startTurn()

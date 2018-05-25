@@ -19,7 +19,6 @@ public class ViewCLI implements View{
     private Connection connection;
     private Handler hand;
     private ArrayList<Schema> schemas ; // size = numPlayer
-    private String schemaChoose;
     private ArrayList <String> moves;
     private String privateObjective;
     private List <String> publicObjcective ;
@@ -32,7 +31,6 @@ public class ViewCLI implements View{
     private int indexDiceSpace;
     public ViewCLI()
     {
-        schemaChoose = "";
         input = new Scanner(System.in);
         schemas = new ArrayList<Schema>();
         privateObjective = "";
@@ -92,10 +90,16 @@ public class ViewCLI implements View{
         System.out.println("scrivi il nome dello schema che preferisci tra:");
         for(String s: schemas)
             showSchemas(s);
-        String nameSchema;
-        nameSchema = input.nextLine();
-        connection.sendMessage(nameSchema);
-        schemaChoose = nameSchema;
+
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                String nameSchema;
+                nameSchema = input.nextLine();
+                connection.sendSchema(nameSchema);
+
+            }
+        });
+        t.start();
         System.out.println("\n");
     }
 
@@ -262,10 +266,12 @@ public class ViewCLI implements View{
 
 
 
-    public void schemaChoose()
+    public void chooseSchema(String name)
     {
         try {
-            schemas.get(0).InitSchema(schemaChoose);
+            Schema s = new Schema();
+            schemas.add(s.InitSchema(name));
+            System.out.println("schema approvato: " + name);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -320,7 +326,7 @@ public class ViewCLI implements View{
     public void passTurn()
     {
         this.myTurn = false;
-        connection.sendMessage(endTurn);
+        //connection.sendMessage(endTurn);
     }
 
     public void insertDice()

@@ -10,6 +10,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RmiConnection implements Connection {
     RmiServerMethodInterface server;
@@ -31,9 +33,13 @@ public class RmiConnection implements Connection {
     }
 
 
-    public void sendMessage(String str) {
+    public void sendSchema(String str) {
         try {
-            server.forwardAction(str,client);
+            List action = new ArrayList();
+            action.add("ChooseSchema");
+            action.add(hand.getView().getName());
+            action.add(str);
+            server.forwardAction(action,client);
         }catch(RemoteException e)
         {
             System.out.println(e.getMessage());

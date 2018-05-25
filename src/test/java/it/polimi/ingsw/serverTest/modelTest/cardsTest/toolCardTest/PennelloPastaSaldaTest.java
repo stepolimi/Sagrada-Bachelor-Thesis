@@ -59,7 +59,7 @@ public class PennelloPastaSaldaTest {
         player.setObserver(virtual);
         sch.setRulesManager(new RulesManager());
         player.setSchemas(schemas);
-        player.setSchema(0);
+        player.setSchema(sch.getName());
 
 
 
