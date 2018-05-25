@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +34,7 @@ public class ControllerClient implements View {
     public ViewGUI gui;
     public Handler hand;
 
-
+    private List<String> schemasClient;
 
     @FXML
     public ProgressBar progressBar;
@@ -263,6 +264,7 @@ public class ControllerClient implements View {
     }
 
     public void setSchemas(final List<String> schemas){
+        this.schemasClient = new ArrayList<String>(schemas);
         Platform.runLater(new Runnable() {
             public void run() {
                 String path = new String("/assets/image/Schemi/");
@@ -406,6 +408,26 @@ public class ControllerClient implements View {
 
     }
 
+/*
+    @FXML
+    void sendSchema1(MouseEvent event) {
+        connection.sendSchema(schemasClient.get(0));
+    }
+
+    @FXML
+    void sendSchema2(MouseEvent event) {
+        connection.sendSchema(schemasClient.get(1));
+    }
+
+    @FXML
+    void sendSchema3(MouseEvent event) {
+        connection.sendSchema(schemasClient.get(2));
+    }
+
+    @FXML
+    void sendSchema4(MouseEvent event) {
+        connection.sendSchema(schemasClient.get(3));
+    }*/
 
 
 
