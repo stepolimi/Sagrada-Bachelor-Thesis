@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.costants.GameCreationMessages.endTurn;
-
+import static it.polimi.ingsw.costants.TimerCostants.LobbyTimerValue;
 
 
 public class ViewCLI implements View{
@@ -31,8 +31,11 @@ public class ViewCLI implements View{
     private int row;
     private int column;
     private int indexDiceSpace;
+    private int nPlayer;
+    private static final String operatingSystem = System.getProperty("os.name");
     public ViewCLI()
     {
+        moves = new ArrayList<String>();
         input = new Scanner(System.in);
         schemas = new HashMap<String, Schema>();
         privateObjective = "";
@@ -40,6 +43,10 @@ public class ViewCLI implements View{
         toolCard = new ArrayList<String>();
         diceSpace = new ArrayList<Dices>();
     }
+
+
+
+
 
 // set method
     public void setScene(String scene) {
@@ -169,6 +176,11 @@ public class ViewCLI implements View{
             }
         }
         showOpponentsSchemas();
+        startTurn();
+    }
+
+    public void setNumberPlayer(int nPlayer) {
+        this.nPlayer = nPlayer;
     }
 
     // show method
@@ -185,6 +197,10 @@ public class ViewCLI implements View{
 
     public void showDiceSpace()
     {
+        diceSpace.add(new Dices("",6,Colour.ANSI_RED));
+        diceSpace.add(new Dices("",5,Colour.ANSI_BLUE));
+        diceSpace.add(new Dices("",4,Colour.ANSI_GREEN));
+        diceSpace.add(new Dices("",3,Colour.ANSI_YELLOW));
         for(Dices d:diceSpace)
         {
             System.out.println(d.toString());
@@ -252,19 +268,37 @@ public class ViewCLI implements View{
     }
 
     public void playerConnected(String name){
+        System.out.print("\r");
         System.out.println(name + " si è aggiunto alla lobby\n");
+        nPlayer++;
     }
 
     public void playerDisconnected(String name){
+        System.out.print("\r");
         System.out.println(name + " si è disconnesso\n");
+        nPlayer--;
     }
 
     public void timerPing(String time) {
-        System.out.println("la partita inizierà tra " + time + " secondi\n");
+        //System.out.println("Caricamento");
+       // for(int i=0;i<(LobbyTimerValue-Integer.parseInt(time))/5;i++) {
+            int percent =(int)(((LobbyTimerValue-Double.parseDouble(time))/LobbyTimerValue)*100);
+            System.out.print("\u001B[34m\rLoading:");
+            for(int i=0;i<percent;i++)
+            {
+                System.out.print("▋");
+            }
+            for(int i=percent;i<100;i++)
+            {
+                System.out.print(" ");
+            }
+        System.out.print(percent+"%\u001B[0m");
+       // }
+       // System.out.println("la partita inizierà tra " + time + " secondi\n");
     }
 
     public void createGame(){
-        System.out.println("partita creata\n");
+        System.out.println("\npartita creata\n");
     }
 
 
@@ -281,16 +315,17 @@ public class ViewCLI implements View{
         }
     }
 
+
     public void startTurn()
     {
-        while(myTurn) {
+      //  while(myTurn) {
             System.out.println("Il tuo schema:");
-            System.out.println(schemas.get(0).toString());
+            System.out.println(schemas.get(username).toString());
             showDiceSpace();
             setMoves();
             showMoves();
             chooseMoves();
-        }
+    //    }
     }
 
     public void chooseMoves()

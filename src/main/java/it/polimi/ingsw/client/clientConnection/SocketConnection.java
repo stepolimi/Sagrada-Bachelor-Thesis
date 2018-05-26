@@ -88,8 +88,11 @@ public class SocketConnection implements Connection,Runnable {
     public void deliverGI(List<String> action) {
         View v = hand.getView();
         if(action.get(0).equals(loginSuccessful)) {
-            if (action.get(1).equals(v.getName()))
+            if (action.get(1).equals(v.getName())){
                 v.login(action.get(0));
+                v.setNumberPlayer(Integer.parseInt(action.get(2)));
+            }
+
             else
                 v.playerConnected(action.get(1));
         }

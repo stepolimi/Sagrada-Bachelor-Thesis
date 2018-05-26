@@ -22,10 +22,10 @@ public class LobbyTimer extends TimerTask{
         if(startingTime == 0)
             startingTime = System.currentTimeMillis();
         if (System.currentTimeMillis() < startingTime + waitTime * 1000) {
-            session.notify(timerPing);
+            session.notifyChanges(timerPing);
         }
         else{
-            session.notify(timerElapsed);
+            session.notifyChanges(timerElapsed);
             this.cancel();
         }
     }

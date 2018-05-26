@@ -32,11 +32,11 @@ public  class Session extends Observable {
             }else
                 for(Player p: lobby) {
                     if (p.getNickname().equals(player)) {
-                        notify(loginError);
+                        notifyChanges(loginError);
                         return;
                     }
                 }
-            notify(loginSuccessful);
+            notifyChanges(loginSuccessful);
             lobby.add(new Player(player));
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == 2 ) {
@@ -47,19 +47,19 @@ public  class Session extends Observable {
             }
             else if(lobby.size() == 4){
                 timer.cancel();
-                notify(lobbyFull);
+                notifyChanges(lobbyFull);
             }
         }
         else {
             for(Player p: lobby){
                 if(p.getNickname().equals(player)){
                     p.setConnected(true);
-                    notify("WelcomeBack");
+                    notifyChanges("WelcomeBack");
                     return ;
                 }
             }
             System.out.println("connection failed: a game is already running\n" + " ---");
-            notify(loginError);
+            notifyChanges(loginError);
         }
     }
 
@@ -76,14 +76,14 @@ public  class Session extends Observable {
                 startingTime = 0L;
             }
             System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
-            notify(logout);
+            notifyChanges(logout);
         }
         else {
             for (Player p : game.getPlayers()) {
                 if (p.getNickname().equals(player)) {
                     p.setConnected(false);
                     System.out.println(player + " disconnected:\n"+ "players still connected: " + game.getBoard().getConnected() + "\n ---" );
-                    notify(logout);
+                    notifyChanges(logout);
                 }
             }
         }
@@ -102,7 +102,7 @@ public  class Session extends Observable {
         System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
     }
 
-    public void notify(String string){
+    public void notifyChanges(String string){
         if(string.equals(timerElapsed) || string.equals(lobbyFull)) {
             action.clear();
             action.add(startingGameMsg);

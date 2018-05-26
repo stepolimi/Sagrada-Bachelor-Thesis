@@ -529,4 +529,8 @@ public class ControllerClient implements View {
 
         
     }
+
+    public void setNumberPlayer(int nPlayer) {
+
+    }
 }

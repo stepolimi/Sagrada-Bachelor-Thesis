@@ -58,7 +58,7 @@ public class Round extends Observable{
     }
 
     public void execute(List action){
-        timer.cancel();                                                                         //dubbio primo giro
+        timer.cancel();
         if (usingTool == 0) {
             currentState = states.get(currentState.nextState(this, action));
             currentState.execute(this, action);
