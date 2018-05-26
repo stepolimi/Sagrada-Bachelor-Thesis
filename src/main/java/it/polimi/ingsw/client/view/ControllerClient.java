@@ -14,7 +14,7 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -35,6 +35,7 @@ public class ControllerClient implements View {
     public ViewGUI gui;
     public Handler hand;
     public Schema mySchema;
+
 
 
 
@@ -119,6 +120,12 @@ public class ControllerClient implements View {
 
     @FXML
     private Text nFavour;
+
+    @FXML
+    public  ImageView dice;
+
+    @FXML
+    public ImageView cell;
 
     public ControllerClient(Handler hand)
     {
@@ -288,7 +295,6 @@ public class ControllerClient implements View {
     public void createGame(){
         Platform.runLater(new Runnable() {
             public void run() {
-                System.out.println("partita creata\n");
 
 
                setScene("game");
@@ -352,7 +358,6 @@ public class ControllerClient implements View {
 
 
 
-                System.out.println("\n");
             }
         });
 
@@ -364,8 +369,7 @@ public class ControllerClient implements View {
             public void run() {
 
                 String path = new String("/assets/image/Cards/ToolCard/");
-                for(String s: cards)
-                    System.out.println("la carta numero " + s + ",");
+
                 Image image = new Image(path + cards.get(0)+ ".png");
                 toolCard1.setImage(image);
 
@@ -529,6 +533,37 @@ public class ControllerClient implements View {
 
         
     }
+
+    @FXML
+    void handleDragDetection(MouseEvent event) {
+        Dragboard db = dice.startDragAndDrop(TransferMode.ANY);
+        ClipboardContent cb = new ClipboardContent();
+        cb.putImage(dice.getImage());
+
+        db.setContent(cb);
+        event.consume();
+
+    }
+
+    @FXML
+    void handleDiceDrag(DragEvent event) {
+        if(event.getDragboard().hasImage())
+            event.acceptTransferModes(TransferMode.ANY);
+    }
+
+    @FXML
+    void handleImageDropped(DragEvent event) {
+        cell.setImage(event.getDragboard().getImage());
+    }
+
+    @FXML
+    void handleDragDone(DragEvent event) {
+        dice.setImage(null);
+
+    }
+
+
+
 
     public void setNumberPlayer(int nPlayer) {
 
