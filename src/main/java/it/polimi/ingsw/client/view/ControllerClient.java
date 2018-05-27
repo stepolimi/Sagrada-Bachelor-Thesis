@@ -121,11 +121,8 @@ public class ControllerClient implements View {
     @FXML
     private Text nFavour;
 
-    @FXML
-    public  ImageView dice;
 
-    @FXML
-    public ImageView cell;
+
 
     public ControllerClient(Handler hand)
     {
@@ -536,10 +533,12 @@ public class ControllerClient implements View {
 
     @FXML
     void handleDragDetection(MouseEvent event) {
-        Dragboard db = dice.startDragAndDrop(TransferMode.ANY);
-        ClipboardContent cb = new ClipboardContent();
-        cb.putImage(dice.getImage());
 
+        ImageView imageView = (ImageView) event.getTarget();
+        Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+
+        ClipboardContent cb = new ClipboardContent();
+        cb.putImage(imageView.getImage());
         db.setContent(cb);
         event.consume();
 
@@ -547,18 +546,28 @@ public class ControllerClient implements View {
 
     @FXML
     void handleDiceDrag(DragEvent event) {
-        if(event.getDragboard().hasImage())
+        if(event.getDragboard().hasImage()) {
             event.acceptTransferModes(TransferMode.ANY);
+        }
     }
 
     @FXML
     void handleImageDropped(DragEvent event) {
-        cell.setImage(event.getDragboard().getImage());
+        ImageView imageView = (ImageView) event.getTarget();
+        imageView.setImage(event.getDragboard().getImage());
+        event.getDragboard().setContent(null);
+
+
     }
 
     @FXML
     void handleDragDone(DragEvent event) {
-        dice.setImage(null);
+        ImageView imageView = (ImageView) event.getTarget();
+
+        if(!(event.getDragboard().hasImage()))
+            imageView.setImage(null);
+
+
 
     }
 

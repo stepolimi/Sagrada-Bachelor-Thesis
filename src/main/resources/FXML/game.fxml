@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
@@ -57,30 +58,26 @@
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <ImageView fx:id="cell" fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" />
-                                       </children>
-                                    </Pane>
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+                                    <ImageView fitHeight="63.0" fitWidth="67.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+                                    <ImageView fitHeight="67.0" fitWidth="69.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                                    <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
                               <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="514.0" layoutY="476.0" pickOnBounds="true" preserveRatio="true" />
@@ -94,21 +91,28 @@
                                 <rowConstraints>
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <ImageView fx:id="dice" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true">
+                                       <cursor>
+                                          <Cursor fx:constant="OPEN_HAND" />
+                                       </cursor>
                                        <image>
-                                          <Image url="@../assets/image/Dice/Green/1.png" />
+                                          <Image url="@../assets/image/Dice/Green/2.png" />
                                        </image></ImageView>
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                                       <image>
+                                          <Image url="@../assets/image/Dice/Blue/3.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                    <ImageView fitHeight="61.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="62.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="61.0" fitWidth="66.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
                               </GridPane>
                               <ImageView fitHeight="37.0" fitWidth="51.0" layoutX="105.0" layoutY="733.0" pickOnBounds="true" preserveRatio="true">
