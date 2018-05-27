@@ -42,6 +42,8 @@ public class ControllerClient implements View {
 
     private List<String> schemasClient;
 
+    @FXML
+    private ImageView imageZoomed;
 
     @FXML
     public Text nickname2;
@@ -200,12 +202,12 @@ public class ControllerClient implements View {
     public void captureNickname(ActionEvent actionEvent) {
 
         if(getName().equals("")) {
-            setScene("nickname_empty");
+            setNotice("nickname_empty");
 
         }
 
         else if(getName().length() > 8)
-            setScene("nickname_empty");
+            setNotice("nickname_empty");
 
         else {
             try {
@@ -243,11 +245,11 @@ public class ControllerClient implements View {
 
 
                 } else if (text.equals("Login_error-username")) {
-                    setScene("nickname_error");
+                    setNotice("nickname_error");
                 }
 
                 else if (text.equals("Login_error-game"))
-                    setScene("TooManyPlayers");
+                    setNotice("TooManyPlayers");
 
             }
 
@@ -421,6 +423,28 @@ public class ControllerClient implements View {
 
     }
 
+    public void setNotice(String src)  {
+
+        Stage stage= new Stage();
+        Pane p = null;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/FXML/"+ src +".fxml"));
+            p = loader.load();
+            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(p);
+        stage.setScene(scene);
+        stage.setTitle("SAGRADA GAME");
+        stage.setResizable(false);
+
+        stage.show();
+
+    }
+
     public void startScene() {
 
     }
@@ -428,7 +452,7 @@ public class ControllerClient implements View {
 
 
     public void QuitPaneAction(ActionEvent actionEvent) {
-        setScene("QuitPane");
+        setNotice("QuitPane");
 
     }
 
@@ -575,6 +599,14 @@ public class ControllerClient implements View {
 
 
     public void setNumberPlayer(int nPlayer) {
+
+    }
+
+    @FXML
+    void imageZoom(MouseEvent event) {
+        ImageView image = (ImageView) event.getTarget();
+        setNotice("zoomImage");
+        imageZoomed.setImage(image.getImage());
 
     }
 }
