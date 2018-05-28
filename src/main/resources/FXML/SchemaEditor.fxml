@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,12 +13,17 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.ControllerEditor">
    <children>
+      <ImageView fitHeight="673.0" fitWidth="946.0" layoutX="-101.0" opacity="0.48" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/pic19.jpg" />
+         </image>
+      </ImageView>
       <ImageView fitHeight="265.0" fitWidth="353.0" layoutX="211.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
          </image>
       </ImageView>
-      <Text layoutX="142.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crea il tuo schema">
+      <Text layoutX="253.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crea il tuo schema">
          <font>
             <Font size="36.0" />
          </font>
@@ -82,58 +88,94 @@
                <image>
                   <Image url="@../assets/image/SchemaElement/1.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="red" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/red.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="two" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/2.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="yellow" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/yellow.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="three" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@../assets/image/SchemaElement/3.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="blue" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@../assets/image/SchemaElement/blue.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="four" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
                   <Image url="@../assets/image/SchemaElement/4.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="green" fitHeight="63.0" fitWidth="71.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
                   <Image url="@../assets/image/SchemaElement/green.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="five" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
                <image>
                   <Image url="@../assets/image/SchemaElement/5.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="purple" fitHeight="64.0" fitWidth="70.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <image>
                   <Image url="@../assets/image/SchemaElement/purple.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
             <ImageView id="six" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
                <image>
                   <Image url="@../assets/image/SchemaElement/6.png" />
                </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
             </ImageView>
          </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
       </GridPane>
       <Text layoutX="211.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome dello schema:" wrappingWidth="193.21875">
          <font>
@@ -142,5 +184,13 @@
       </Text>
       <TextField fx:id="schemaName" layoutX="394.0" layoutY="253.0" prefHeight="28.0" prefWidth="166.0" />
       <Text fx:id="error" layoutX="302.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="172.0" />
+      <ImageView fx:id="nextButton" fitHeight="67.0" fitWidth="71.0" layoutX="690.0" layoutY="519.0" onMouseClicked="#schemaDone" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/freccia.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
    </children>
 </Pane>

@@ -22,9 +22,8 @@ public class ViewGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader();
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/FXML/play.fxml"));
-        
+        loader.setLocation(getClass().getResource("/FXML/SchemaEditor.fxml"));
+        ControllerEditor controllerEditor = new ControllerEditor();
         Pane p =  loader.load();
 
         scene = new Scene(p);
