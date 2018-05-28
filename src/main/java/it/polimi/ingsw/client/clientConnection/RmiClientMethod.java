@@ -83,9 +83,40 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.setOpponentsSchemas(action.subList(1,action.size()));
     }
 
-    public void startTurn()
-    {
-        // v.startTurn();
+    public void startRound(List action) {
+        v.startRound();
+    }
+
+    public void startTurn(List action) {
+        v.startTurn((String)action.get(1));
+    }
+
+    public void setActions(List action) {
+        v.setActions(action.subList(1,action.size()));
+    }
+
+    public void setDiceSpace(List action) {
+        v.setDiceSpace(action.subList(1,action.size()));
+    }
+
+    public void insertDiceAccepted(List action) {
+        v.insertDiceAccepted(action.subList(1,action.size()));
+    }
+
+    public void pickDiceSpace(List action) {
+        v.pickDiceSpace(action.subList(1,action.size()));
+    }
+
+    public void pickDiceSpaceError(List action) {
+        v.pickDiceSpaceError(action.subList(1,action.size()));
+    }
+
+    public void placeDiceSchema(List action) {
+        v.placeDiceSchema(action.subList(1,action.size()));
+    }
+
+    public void placeDiceSchemaError(List action) {
+        v.placeDiceSchemaError(action.subList(1,action.size()));
     }
 
 }

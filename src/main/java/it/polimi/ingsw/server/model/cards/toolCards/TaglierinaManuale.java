@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
@@ -35,14 +36,22 @@ public class TaglierinaManuale extends ToolCard {
                OneColourRoundTrack(round.getBoard().getRoundTrack(),  i)) {
 
            p.getSchema().removeDice(x, y);
-           p.getSchema().insertDice(rows, columns, d1,12);
+           try {
+               p.getSchema().insertDice(rows, columns, d1,12);
+           } catch (InsertDiceException e) {
+               e.printStackTrace();
+           }
            if (num_insertion == 2) {
                Dice d2 = pickDiceFromSchema(x2, y2, p.getSchema());
                if (!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), numCard))
                    return false;
                if (d1.getcolour() == OneColourRoundTrack(round.getBoard().getRoundTrack(), i)) {
                    p.getSchema().removeDice(x2, y2);
-                   p.getSchema().insertDice(rows2, columns2, d2,12);
+                   try {
+                       p.getSchema().insertDice(rows2, columns2, d2,12);
+                   } catch (InsertDiceException e) {
+                       e.printStackTrace();
+                   }
                }
                if (!this.isUsed()) {
                    p.setFavour(p.getFavour() - 2);

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.DiceSpace;
@@ -18,18 +19,23 @@ public class DiceSpaceTest {
 
     ArrayList<Dice> lista = new ArrayList<Dice>();
 
-    DiceSpace diceSpace = new DiceSpace(lista);
+    DiceSpace diceSpace = new DiceSpace();
 
 
 
     public void insertion(){
+        diceSpace.setDices(lista);
         diceSpace.insertDice(d1);
 
     }
 
     public Dice removing(){
-
-        return diceSpace.removeDice(1);
+        try {
+            Dice dice = diceSpace.removeDice(0);
+            return dice;
+        }catch(RemoveDiceException e){
+            return null;
+        }
     }
 
     @Test

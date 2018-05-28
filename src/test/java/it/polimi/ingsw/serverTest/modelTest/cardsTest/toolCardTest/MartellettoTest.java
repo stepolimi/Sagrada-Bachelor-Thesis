@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -23,11 +24,12 @@ public class MartellettoTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    Martelletto toolCard = new Martelletto();
-    Dice d1= new Dice(Colour.ANSI_BLUE, 5);
-    Dice d2= new Dice(Colour.ANSI_GREEN, 1);
-    Dice d3= new Dice(Colour.ANSI_RED, 3);
-    List<Dice> dices = new ArrayList<Dice>();
+    private VirtualView view = new VirtualView();
+    private Martelletto toolCard = new Martelletto();
+    private Dice d1= new Dice(Colour.ANSI_BLUE, 5);
+    private Dice d2= new Dice(Colour.ANSI_GREEN, 1);
+    private Dice d3= new Dice(Colour.ANSI_RED, 3);
+    private List<Dice> dices = new ArrayList<Dice>();
 
 
     public void setup(){
@@ -38,7 +40,8 @@ public class MartellettoTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
-        board.setObserver(new VirtualView());
+        board.setObserver(view);
+        view.setConnection(new Connected());
         board.setDiceSpace(new ArrayList<Dice>());
         board.getDiceSpace().insertDice(d1);
         board.getDiceSpace().insertDice(d2);

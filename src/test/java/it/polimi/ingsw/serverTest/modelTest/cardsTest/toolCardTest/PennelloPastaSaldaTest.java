@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.toolCardTest;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.PennelloPastaSalda;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -74,8 +75,13 @@ public class PennelloPastaSaldaTest {
         setupSchema();
         Dice d3 = new Dice(Colour.ANSI_PURPLE, 1);
         assertTrue(toolCard.placeDiceToSchema(2, 3, d3, player.getSchema(), 6));
-        if(toolCard.placeDiceToSchema(2, 3, d3, player.getSchema(), 6))
-            sch.insertDice(2,3,d3,6);
+        if(toolCard.placeDiceToSchema(2, 3, d3, player.getSchema(), 6)) {
+            try {
+                sch.insertDice(2,3,d3,6);
+            } catch (InsertDiceException e) {
+                e.printStackTrace();
+            }
+        }
         assertEquals(sch.getTable(2,3).getDice(), d3);
 
 
@@ -95,7 +101,8 @@ public class PennelloPastaSaldaTest {
     void not_pending() throws IOException {
         setup_round();
         setupSchema();
-        board.setObserver(new VirtualView());
+        board.setObserver(virtual);
+        virtual.setConnection(new Connected());
         board.setDiceSpace(new ArrayList<Dice>());
         toolCard.effects(player, round, 0, 0);
         assertEquals(0, board.getDiceSpace().getListDice().size());

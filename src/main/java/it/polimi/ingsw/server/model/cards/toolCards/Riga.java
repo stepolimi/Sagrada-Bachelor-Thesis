@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -36,8 +37,13 @@ public class Riga extends ToolCard {
                 if (dice != null)
                     found = true;
             }
-            if(!found)
-                player.getSchema().insertDice(x, y, d,9);
+            if(!found) {
+                try {
+                    player.getSchema().insertDice(x, y, d,9);
+                } catch (InsertDiceException e) {
+                    e.printStackTrace();
+                }
+            }
             if(!this.isUsed()){
                 player.setFavour(player.getFavour()-2);
                 this.setUsed(true);

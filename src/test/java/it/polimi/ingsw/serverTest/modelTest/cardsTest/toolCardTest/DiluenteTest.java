@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.toolCardTest;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.cards.toolCards.Diluente;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -89,7 +90,11 @@ public class DiluenteTest {
 
         assertTrue(toolCard.placeDiceToSchema(3, 1, round.getPendingDice(), sch, 11));
         if(toolCard.placeDiceToSchema(3, 1, round.getPendingDice(), sch, 11)){
-            player.getSchema().insertDice(3, 1, round.getPendingDice(),11);
+            try {
+                player.getSchema().insertDice(3, 1, round.getPendingDice(),11);
+            } catch (InsertDiceException e) {
+                e.printStackTrace();
+            }
         }
         assertEquals(3, num_dice(sch));
 
@@ -104,7 +109,11 @@ public class DiluenteTest {
 
         assertFalse(toolCard.placeDiceToSchema(0, 0, round.getPendingDice(), sch, 11));
         if(toolCard.placeDiceToSchema(0, 0, round.getPendingDice(), sch, 11)){
-            player.getSchema().insertDice(0, 0, round.getPendingDice(),11);
+            try {
+                player.getSchema().insertDice(0, 0, round.getPendingDice(),11);
+            } catch (InsertDiceException e) {
+                e.printStackTrace();
+            }
         }
         assertEquals(2, num_dice(sch));
     }

@@ -7,9 +7,8 @@ import java.util.Observable;
 public class RoundTrack extends Observable{
     private List<Dice>[] listRounds;
     private static int totRounds = 10;
-    public RoundTrack()
-    {
-        listRounds = new List [totRounds];
+    public RoundTrack() {
+        listRounds = new ArrayList [totRounds];
         for(int i = 0;i<totRounds;i++)
             listRounds[i]=new ArrayList<Dice>();
     }
@@ -20,22 +19,41 @@ public class RoundTrack extends Observable{
 
     public Dice getDice(int i, int j) { return this.listRounds[i].get(j);}
 
-    public void insertDices(List<Dice> d, int nRound)
-    {
-        this.listRounds[nRound].addAll(d);
+    public void insertDices(List<Dice> dices, int nRound) {
+        List<String> action = new ArrayList<String>();
+        this.listRounds[nRound].addAll(dices);
+        action.add("addRoundTrack");
+        action.add(((Integer)nRound).toString());
+        for(Dice d: dices){
+            action.add(d.getcolour().toString());
+            action.add(((Integer)d.getValue()).toString());
+        }
+        setChanged();
+        notifyObservers(action);
     }
 
-    public void insertDice(Dice d, int nRound)
-    {
-        this.listRounds[nRound].add(d);
+    public void insertDice(Dice dice, int nRound) {
+        List<String> action = new ArrayList<String>();
+        this.listRounds[nRound].add(dice);
+        action.add("addRoundTrack");
+        action.add(((Integer)nRound).toString());
+        action.add(dice.getcolour().toString());
+        action.add(((Integer)dice.getValue()).toString());
+        setChanged();
+        notifyObservers(action);
     }
 
-    public Dice removeDice(int nRound,int nDice)
-    {
-        Dice d;
-        d = this.listRounds[nRound].get(nDice);
+    public Dice removeDice(int nRound,int nDice) {
+        List<String> action = new ArrayList<String>();
+        Dice dice;
+        dice = this.listRounds[nRound].get(nDice);
         this.listRounds[nRound].remove(nDice);
-        return d;
+        action.add("removeRoundTrack");
+        action.add(((Integer)nRound).toString());
+        action.add(((Integer)nDice).toString());
+        setChanged();
+        notifyObservers(action);
+        return dice;
     }
 
 

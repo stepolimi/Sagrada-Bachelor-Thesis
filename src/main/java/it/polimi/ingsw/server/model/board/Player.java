@@ -99,7 +99,7 @@ public class Player extends Observable{
         this.schemas = schemas;
         notify(setSchemas);
     }
-    public List<Schema> getSchems(){ return schemas; }
+    public List<Schema> getSchemas(){ return schemas; }
 
     public List<String> getNameSchemas(){
         List<String> nameSchemas = new ArrayList<String>();

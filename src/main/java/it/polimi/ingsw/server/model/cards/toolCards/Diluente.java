@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -18,7 +19,11 @@ public class Diluente extends ToolCard {
 
         if(placeDiceToSchema(x, y, d, p.getSchema(), numCard) == true) {
 
-            p.getSchema().insertDice(x, y, d,11);
+            try {
+                p.getSchema().insertDice(x, y, d,11);
+            } catch (InsertDiceException e) {
+                e.printStackTrace();
+            }
             if(!this.isUsed()){
                 p.setFavour(p.getFavour()-2);
                 this.setUsed(true);

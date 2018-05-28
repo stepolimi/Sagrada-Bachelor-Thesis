@@ -3,13 +3,18 @@ package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
+import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.game.states.Round;
+import it.polimi.ingsw.server.model.rules.RulesManager;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoundTest {
@@ -20,14 +25,29 @@ public class RoundTest {
     private Board board ;
     private Round round ;
     private Round round2;
-    List action = new ArrayList();
+    private VirtualView view = new VirtualView();
+    private List action = new ArrayList();
+
 
     private void TestInit(){
+        List<Schema> schemas = new ArrayList<Schema>();
+        Schema schema = new Schema();
+        try {
+            schema = schema.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        schemas.add(schema);
+        schema.setRulesManager(new RulesManager());
+        player.setObserver(view);
+        player.setSchemas(schemas);
+        player.setSchema(schema.getName());
         players.add(player);
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        board.setObserver(new VirtualView());
+        board.setObserver(view);
+        view.setConnection(new Connected());
     }
 
     @Test
@@ -43,17 +63,22 @@ public class RoundTest {
         //action.add("UseCard");
         //round.execute(action);
         //assertTrue(round.getCurrentState().toString() == "UseCardState");
-        action.add(0,"PickDice");
+        action.clear();
+        action.add("InsertDice");
+        action.add("");
+        action.add(0);
+        action.add(0);
+        action.add(0);
         round.execute(action);
-        assertTrue(round.getCurrentState().toString() == "PickDiceState");
+        assertTrue(round.getCurrentState().toString() == "InsertDiceState");
         //action.add("RollDice");
         //round.execute(action);
         //assertTrue(round.getCurrentState().toString() == "RollDiceState");
         //round.execute("ChangeValue");
         //assertTrue(round.getCurrentState().toString() == "ChangeValueState");
-        action.add(0,"PlaceDice");
-        round.execute(action);
-        assertTrue(round.getCurrentState().toString() == "PlaceDiceState");
+        //action.add(0,"PlaceDice");
+        //round.execute(action);
+        //assertTrue(round.getCurrentState().toString() == "PlaceDiceState");
         action.add(0,"EndTurn");
         round.execute(action);
         assertTrue(round.getCurrentState().toString() == "EndTurnState");
@@ -74,7 +99,6 @@ public class RoundTest {
         assertTrue(round.getTurnNumber()== 0);
 
         //Round change the currentPlayer correctly
-        round.execute(action);
         round.execute(action);
         assertTrue(round.getCurrentPlayer()== player2);
         round.execute(action);

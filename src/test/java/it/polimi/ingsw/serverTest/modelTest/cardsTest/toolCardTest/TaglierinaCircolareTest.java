@@ -6,11 +6,13 @@ import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,9 +23,10 @@ public class TaglierinaCircolareTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    TaglierinaCircolare toolCard = new TaglierinaCircolare();
-    Dice d1= new Dice(Colour.ANSI_BLUE, 1);
-    Dice d2= new Dice(Colour.ANSI_GREEN, 2);
+    private VirtualView view= new VirtualView();
+    private TaglierinaCircolare toolCard = new TaglierinaCircolare();
+    private Dice d1= new Dice(Colour.ANSI_BLUE, 1);
+    private Dice d2= new Dice(Colour.ANSI_GREEN, 2);
 
 
 
@@ -35,7 +38,8 @@ public class TaglierinaCircolareTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
-        board.setObserver(new VirtualView());
+        board.setObserver(view);
+        view.setConnection(new Connected());
         board.setDiceSpace(new ArrayList<Dice>());
         round.setPendingDice(d1);
         board.getRoundTrack().insertDice(d2, 3);

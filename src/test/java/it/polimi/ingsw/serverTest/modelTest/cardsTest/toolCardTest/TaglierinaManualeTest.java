@@ -133,7 +133,5 @@ public class TaglierinaManualeTest {
         assertEquals(null, sch.getTable(2,4).getDice());
         assertEquals(num_dice, num_dice(sch));
 
-
-
     }
 }

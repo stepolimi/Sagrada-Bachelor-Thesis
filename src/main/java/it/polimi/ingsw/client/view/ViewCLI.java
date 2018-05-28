@@ -111,33 +111,41 @@ public class ViewCLI implements View{
         System.out.println("\n");
     }
 
-    public void setDiceSpace(ArrayList dice)
+    public void setDiceSpace(List<String> dice)
     {
+        System.out.println("setto la diceSpace");
         for(int i=0;i<dice.size();i=i+2)
         {
-            diceSpace.add(new Dices("",Integer.parseInt((String) dice.get(i)),(Colour)dice.get(i+1)));
+            diceSpace.add(new Dices("",Integer.parseInt(dice.get(i+1)), Colour.stringToColour(dice.get(i))));
         }
     }
 
+    public void insertDiceAccepted(List action) {
+        this.schemas.get(username).getGrid()[row][column]= diceSpace.get(indexDiceSpace);
+    }
 
-    public void setDice(int player)
-    {
-        this.schemas.get(player).getGrid()[row][column]= diceSpace.get(indexDiceSpace);
+    public void pickDiceSpace(List action) {
         diceSpace.remove(indexDiceSpace);
-        moves.remove("Inserisci un dado");
     }
 
-    public void setMoves()
-    {
-        moves.add("Mostra l'obiettivo privato");
-        moves.add("Mostra gli obiettivi pubblici");
-        moves.add("Mostra schemi avversari");
-        moves.add("Mostra le tool card");
-        moves.add("Passa il turno");
-        moves.add("Inserisci un dado");
-        moves.add("Usa una toolcard");
+    public void pickDiceSpaceError(List action) {
+        System.out.println("posizione di toglle del dado dalla dicespace completamente sbagliata");
+        //todo ristampare le azioni;
+     }
 
+    public void placeDiceSchema(List action) {
+        if(!action.get(0).equals(username)){
+            this.schemas.get(action.get(0)).getGrid()[(Integer)action.get(1)][(Integer)action.get(2)]=
+                    new Dices("",(Integer)action.get(4),Colour.stringToColour((String)action.get(3)));
+        }
     }
+
+    public void placeDiceSchemaError(List action) {
+        System.out.println("errore nell'inserimento del dado");
+        //todo ristampare le azioni;
+    }
+
+
 
     public void setPrivateCard(String colour){
         System.out.println("il tuo obiettivo privato sarà il colore: " + colour + "\n");
@@ -176,11 +184,28 @@ public class ViewCLI implements View{
             }
         }
         showOpponentsSchemas();
-        startTurn();
     }
 
     public void setNumberPlayer(int nPlayer) {
         this.nPlayer = nPlayer;
+    }
+
+    public void startRound() {
+        System.out.println("nuovo round iniziato");
+
+    }
+
+    public void setActions(List<String> actions) {
+        moves.clear();
+        moves.add("Mostra l'obiettivo privato");
+        moves.add("Mostra gli obiettivi pubblici");
+        moves.add("Mostra schemi avversari");
+        moves.add("Mostra le tool card");
+        if(actions == null)
+            return;
+        for(String action: actions)
+            moves.add(action);
+        showMoves();
     }
 
     // show method
@@ -197,14 +222,11 @@ public class ViewCLI implements View{
 
     public void showDiceSpace()
     {
-        diceSpace.add(new Dices("",6,Colour.ANSI_RED));
-        diceSpace.add(new Dices("",5,Colour.ANSI_BLUE));
-        diceSpace.add(new Dices("",4,Colour.ANSI_GREEN));
-        diceSpace.add(new Dices("",3,Colour.ANSI_YELLOW));
         for(Dices d:diceSpace)
         {
-            System.out.println(d.toString());
+            System.out.print(d.toString());
         }
+        System.out.println("\n");
     }
 
     public void showOpponentsSchemas()
@@ -215,7 +237,7 @@ public class ViewCLI implements View{
     }
     public void showPrivateObjective()
     {
-        System.out.println("Il tuo obiettivo privato è:"+publicObjcective);
+        System.out.println("Il tuo obiettivo privato è:"+privateObjective);
     }
 
     public void showPublicObjective()
@@ -316,16 +338,26 @@ public class ViewCLI implements View{
     }
 
 
-    public void startTurn()
+    public void startTurn(String name)
     {
-      //  while(myTurn) {
-            System.out.println("Il tuo schema:");
-            System.out.println(schemas.get(username).toString());
-            showDiceSpace();
-            setMoves();
+        System.out.println("Il tuo schema:");
+        System.out.println(schemas.get(username).toString());
+        showDiceSpace();
+        if(!name.equals(username)) {
+            myTurn = false;
+            System.out.println("turno iniziato, tocca a: " + name);
+            setActions(null);
             showMoves();
-            chooseMoves();
-    //    }
+        }
+        else
+            myTurn = true;
+        Thread thread = new Thread(new Runnable() {
+            public void run() {
+                while(myTurn)
+                    chooseMoves();
+            }
+        });
+        thread.start();
     }
 
     public void chooseMoves()
@@ -355,7 +387,6 @@ public class ViewCLI implements View{
             case 1: showPublicObjective();break;
             case 2: showOpponentsSchemas();break;
             case 3: showToolCard();break;
-            case 4: passTurn(); break;
         }
 
     }

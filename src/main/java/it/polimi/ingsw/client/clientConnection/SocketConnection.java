@@ -8,6 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
+import static it.polimi.ingsw.costants.GameConstants.setActions;
+import static it.polimi.ingsw.costants.GameConstants.startRound;
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 import static it.polimi.ingsw.costants.LoginMessages.*;
 
@@ -120,8 +122,18 @@ public class SocketConnection implements Connection,Runnable {
             v.setOpponentsSchemas(action.subList(1,action.size()));
         }else if(action.get(0).equals(startTurn))
         {
-            //v.startTurn();
-        }else if(action.get(0).equals(approvedDice))
+            v.startTurn(action.get(1));
+        }else if(action.get(0).equals(startRound))
+        {
+            v.startRound();
+        }else if(action.get(0).equals(setActions))
+        {
+            v.setActions(action.subList(1,action.size()));
+        }else if(action.get(0).equals(setDiceSpace))
+        {
+            v.setDiceSpace(action.subList(1,action.size()));
+        }
+        else if(action.get(0).equals(approvedDice))
         {
            // v.setDice();
         }

@@ -2,7 +2,8 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.costants.TimerCostants;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.timer.LobbyTimer;
+import it.polimi.ingsw.server.timer.GameTimer;
+import it.polimi.ingsw.server.timer.TimedComponent;
 
 import java.util.*;
 
@@ -11,13 +12,13 @@ import static it.polimi.ingsw.costants.LoginMessages.*;
 //session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
 //players that will leave the game after his start will be set as "disconnected" but not removed from the game.
 
-public  class Session extends Observable {
+public  class Session extends Observable implements TimedComponent {
     private List<Player> lobby ;
     private GameMultiplayer game;
-    private LobbyTimer lobbyTimer;
+    private GameTimer lobbyTimer;
     private Timer timer;
-    private Observer obs;
     private Long startingTime = 0L;
+    private Observer obs;
     private List<String> action ;
     private String player;
 
@@ -41,7 +42,7 @@ public  class Session extends Observable {
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == 2 ) {
                 startingTime = System.currentTimeMillis();
-                lobbyTimer = new LobbyTimer(TimerCostants.LobbyTimerValue,this);
+                lobbyTimer = new GameTimer(TimerCostants.LobbyTimerValue,this);
                 timer = new Timer();
                 timer.schedule(lobbyTimer,0L,5000L);
             }

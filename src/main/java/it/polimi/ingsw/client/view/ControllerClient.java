@@ -609,4 +609,46 @@ public class ControllerClient implements View {
         imageZoomed.setImage(image.getImage());
 
     }
+
+    public void startRound() {
+        System.out.println("nuovo round iniziato");
+    }
+
+    public void startTurn(String name) {
+        if(!name.equals(nickname.getText()))
+            System.out.println("turno iniziato, tocca a: " + name);
+
+        else
+            System.out.println("tocca a te!!!!!");
+    }
+
+    public void setActions(List<String> actions) {
+        System.out.println("scegli l'azione da fare: ");
+        for(String string: actions)
+            System.out.println(string);
+    }
+
+    public void setDiceSpace(List<String> dices) {
+        System.out.println("diceSpace settato");
+    }
+
+    public void insertDiceAccepted(List action) {
+
+    }
+
+    public void pickDiceSpace(List action) {
+
+    }
+
+    public void pickDiceSpaceError(List action) {
+
+    }
+
+    public void placeDiceSchema(List action) {
+
+    }
+
+    public void placeDiceSchemaError(List action) {
+
+    }
 }

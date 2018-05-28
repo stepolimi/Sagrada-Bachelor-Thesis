@@ -1,37 +1,67 @@
 package it.polimi.ingsw.server.model.board;
 
+import it.polimi.ingsw.server.exception.RemoveDiceException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static it.polimi.ingsw.costants.GameConstants.*;
+
 public class DiceSpace extends Observable {
-   private  List<Dice> dices;
+    private  List<Dice> dices;
 
-   public DiceSpace(List <Dice> dices) { this.dices = dices; }
-
-   public List<Dice> getListDice(){
-        return this.dices;
+    public void setDices(List <Dice> dices) {
+        List action = new ArrayList();
+        this.dices = dices;
+        action.add(setDiceSpace);
+        for(Dice d: dices){
+            action.add(d.getcolour().toString());
+            action.add(((Integer)d.getValue()).toString());
+        }
+        setChanged();
+        notifyObservers(action);
     }
 
-   public void insertDice(Dice d)
-   {
-       this.dices.add(d);
+    public List<Dice> getListDice(){ return this.dices; }
+
+    public void insertDice(Dice d) {
+        List action = new ArrayList();
+        this.dices.add(d);
+        action.add(placeDiceSpace);
+        action.add(d.getcolour().toString());
+        action.add(((Integer)d.getValue()).toString());
         setChanged();
-        notifyObservers(dices);
-   }
+        notifyObservers(action);
+    }
 
+    public Dice getDice(int index) throws RemoveDiceException{
+        List action = new ArrayList();
+        if(index < dices.size() && index >= 0) {
+            return dices.get(index);
+        }
+        action.add(pickDiceSpaceError);
+        action.add("diceSpace");
+        setChanged();
+        notifyObservers(action);
+        throw new RemoveDiceException();
+    }
 
-   public Dice removeDice(int n) // indice umano, non binario bisogna adattare tutto
-   {
-       if(n<(dices.size()+1) && n>0)
-       {
-           Dice d = dices.get(n - 1);
-           dices.remove(n - 1);
-           setChanged();
-           notifyObservers(dices);
-           return d;
-       }
-       return null;
-   }
+    public Dice removeDice(int index) throws RemoveDiceException {
+        List action = new ArrayList();
+        if(index < dices.size() && index >= 0)                                      //can be useless
+        {
+            Dice d = dices.get(index);
+            dices.remove(index);
+            action.add(pickDiceSpace);
+            action.add("diceSpace");
+            action.add(((Integer)index).toString());
+            setChanged();
+            notifyObservers(action);
+            return d;
+        }
+        throw new RemoveDiceException();
+    }
 
     @Override
     public String toString() {
@@ -45,6 +75,5 @@ public class DiceSpace extends Observable {
     {
         System.out.println(this);
     }
-
 
 }

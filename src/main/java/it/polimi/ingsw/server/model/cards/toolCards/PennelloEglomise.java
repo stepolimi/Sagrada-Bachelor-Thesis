@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -31,7 +32,11 @@ public class PennelloEglomise extends ToolCard {
 
         if(placeDiceToSchema(rows, columns, d, p.getSchema(), numCard) == true) {
             p.getSchema().removeDice(x, y);
-            p.getSchema().insertDice(rows, columns, d,2);
+            try {
+                p.getSchema().insertDice(rows, columns, d,2);
+            } catch (InsertDiceException e) {
+                e.printStackTrace();
+            }
             if(!this.isUsed()){
                 p.setFavour(p.getFavour()-2);
                 this.setUsed(true);

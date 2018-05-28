@@ -39,8 +39,8 @@ public class GameMultiTest {
         game.gameInit();
         for(Player p:game.getBoard().getPlayerList()) {
             assertTrue(p.getPrCard() != null);
-            assertTrue(p.getSchems().size() == 4);
-            for(Schema schema: p.getSchems()){
+            assertTrue(p.getSchemas().size() == 4);
+            for(Schema schema: p.getSchemas()){
                 assertTrue(schema != null);
             }
         }

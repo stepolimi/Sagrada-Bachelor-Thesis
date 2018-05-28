@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.game;
 
+import it.polimi.ingsw.costants.TimerCostants;
 import it.polimi.ingsw.server.model.board.SetSchemas;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
@@ -8,18 +9,25 @@ import it.polimi.ingsw.server.model.game.states.RoundManager;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
+import it.polimi.ingsw.server.timer.GameTimer;
+import it.polimi.ingsw.server.timer.TimedComponent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
+import java.util.*;
 
-public class GameMultiplayer extends Observable {
+import static it.polimi.ingsw.costants.LoginMessages.*;
+import static it.polimi.ingsw.costants.LoginMessages.timerPing;
+import static it.polimi.ingsw.costants.TimerCostants.schemaTimerValue;
+import static it.polimi.ingsw.costants.TimerCostants.schemasTimerPing;
+
+public class GameMultiplayer extends Observable implements TimedComponent {
     private List<Player> players;
     private Board board;
     private Observer obs;
     private RoundManager roundManager;
     private RulesManager rulesManager;
+    private GameTimer schemaTimer;
+    private Timer timer;
+    private Long startingTime = 0L;
 
     public GameMultiplayer( List <Player> players){
         this.players = new ArrayList<Player>();
@@ -53,6 +61,11 @@ public class GameMultiplayer extends Observable {
             p.setSchemas(deckSchemas.deliver(getBoard().getIndex(p)));
             board.addPriv(p.getPrCard());
         }
+
+        startingTime = System.currentTimeMillis();
+        schemaTimer = new GameTimer(schemaTimerValue,this);
+        timer = new Timer();
+        timer.schedule(schemaTimer,0L,5000L);
     }
 
     public void endGame(){
@@ -66,4 +79,23 @@ public class GameMultiplayer extends Observable {
     public RoundManager getRoundManager() { return roundManager; }
 
     public RulesManager getRulesManager() { return rulesManager; }
+
+    public Timer getTimer(){ return timer;}
+
+    public void notifyChanges(String string) {
+        List action = new ArrayList();
+        if (string.equals(timerElapsed)) {
+            for(Player p: players){
+                if(p.getSchema() == null)
+                    p.setSchema(p.getSchemas().get(0).getName());
+            }
+            roundManager.setFirstPlayer();
+            roundManager.startNewRound();
+        } else if (string.equals(timerPing)) {
+            action.add(schemasTimerPing);
+            action.add(((Long) (TimerCostants.LobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000)).toString());
+            setChanged();
+            notifyObservers(action);
+        }
+    }
 }

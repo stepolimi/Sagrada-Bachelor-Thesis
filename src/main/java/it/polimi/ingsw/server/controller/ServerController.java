@@ -29,11 +29,14 @@ public class ServerController implements Observer{
         if(head.equals("Login")) {loginManager((List)action); }
         else if(head.equals("Disconnected")) { logoutManager((List)action); }
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
-        else if(head.equals("ExtractDice")) {extractDiceManager((List)action); }
+        else if(head.equals("InsertDice")) {insertDiceManager((List)action); }
         else if(head.equals("TakeDice")) { takeDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
         else if(head.equals("UseCard")) {useCardManager((List)action); }
         else if(head.equals("EndTurn")) {endTurnManager((List)action); }
+        else{
+            view.sendError((String)((List)action).get(1));
+        }
 
     }
 
@@ -60,27 +63,36 @@ public class ServerController implements Observer{
             }
         }
         if(game.getBoard().getDeckSchemas().size() == game.getBoard().getPlayerList().size()) {
+            game.getTimer().cancel();
             roundManager.setFirstPlayer();
             roundManager.startNewRound();
             round = roundManager.getRound();
         }
     }
 
-    public void extractDiceManager(List action){
+    public void insertDiceManager(List action){
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
     public void takeDiceManager(List action){
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
     public void placeDiceManager(List action){
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
 
 
     public void useCardManager(List action){
+        if(round == null)
+            round = roundManager.getRound();
         round.setUsingTool((Integer)action.get(1));
 
 
@@ -90,6 +102,8 @@ public class ServerController implements Observer{
     }
 
     public void endTurnManager(List action){
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
         if(round.getTurnNumber() == game.getBoard().getPlayerList().size() -1){
             game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber());

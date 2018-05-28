@@ -76,8 +76,9 @@ public class Board extends Observable{
     public DiceBag getDicebag() { return dicebag;  }
 
     public void setDiceSpace(List<Dice> dices){
-        diceSpace = new DiceSpace(dices);
+        diceSpace = new DiceSpace();
         diceSpace.addObserver(obs);
+        diceSpace.setDices(dices);
     }
 
     public List<Schema> getDeckSchemas() { return deckSchemas; }

@@ -17,4 +17,15 @@ public interface RmiClientMethodInterface extends Remote{
     public void setToolCards(List action)throws RemoteException;
     public void chooseSchema(List action) throws RemoteException;
     public void setOpponentsSchemas(List action) throws RemoteException;
+    void startRound(List action) throws RemoteException;
+    void startTurn(List action) throws RemoteException;
+    void setActions(List action) throws RemoteException;
+    void setDiceSpace(List action) throws RemoteException;
+    void insertDiceAccepted(List action) throws RemoteException;
+
+    void pickDiceSpace(List action) throws RemoteException;
+    void pickDiceSpaceError(List action) throws RemoteException;
+
+    void placeDiceSchema(List action) throws RemoteException;
+    void placeDiceSchemaError(List action) throws RemoteException;
 }

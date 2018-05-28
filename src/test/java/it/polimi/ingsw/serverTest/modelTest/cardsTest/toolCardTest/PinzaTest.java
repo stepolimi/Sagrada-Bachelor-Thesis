@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -23,9 +24,9 @@ public class PinzaTest {
     private Player player3 = new Player("player 3");
     private Board board ;
     private Round round ;
-    Pinza toolCard = new Pinza();
-
-    List<Dice> dices = new ArrayList<Dice>();
+    private VirtualView view = new VirtualView();
+    private Pinza toolCard = new Pinza();
+    private List<Dice> dices = new ArrayList<Dice>();
 
 
     public void setup(){
@@ -36,7 +37,8 @@ public class PinzaTest {
         players.add(player3);
         board = new Board(players);
         round = new Round(player,board);
-        board.setObserver(new VirtualView());
+        board.setObserver(view);
+        view.setConnection(new Connected());
         board.setDiceSpace(new ArrayList<Dice>());
         dices.addAll(board.getDiceSpace().getListDice());
         round.setCurrentPlayer(player);

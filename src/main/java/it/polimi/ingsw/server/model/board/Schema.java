@@ -16,6 +16,7 @@ package it.polimi.ingsw.server.model.board;
 
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
@@ -26,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static it.polimi.ingsw.costants.GameConstants.*;
+
 public class Schema extends Observable{
     private String name;  //name of schema card
     private int difficult;
@@ -33,6 +36,7 @@ public class Schema extends Observable{
     private boolean isEmpty = true;
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;
+    private String player;
     private RulesManager rulesManager;
 
     public Schema schemaInit (int n) throws IOException {   //constructs the Schema obj from file
@@ -50,7 +54,6 @@ public class Schema extends Observable{
         try {
             String sc;
             sc = b.readLine();
-
             sch = g.fromJson(sc, Schema.class);
         }
         catch(IOException e){
@@ -70,17 +73,30 @@ public class Schema extends Observable{
         return table[i][j];
     }
 
+    public void testInsertDice(int rows , int columns, Dice d, int tool) throws InsertDiceException{
+        List<String> action = new ArrayList<String>();
+        if(!rulesManager.checkRules(tool,rows,columns,d,this)) {
+            action.add(placeDiceSchemaError);
+            action.add(player);
+            throw new InsertDiceException();
+        }
+    }
 
-    // it returns the dice added in the schema in the position indicated with rows e columns arguments,
-    //if it's empty returns null
-    public void insertDice(int rows , int columns, Dice d, int tool)
-    {
-        if(rulesManager.checkRules(tool,rows,columns,d,this)) {
+    public void insertDice(int rows , int columns, Dice d, int tool) throws InsertDiceException {
+        List<String> action = new ArrayList<String>();
+        if(rulesManager.checkRules(tool,rows,columns,d,this)) {                                 //can be useless
             this.isEmpty = false;
             this.table[rows][columns].setDice(d);
-
-            notify("PickDice",rows,columns);
-        }
+            action.add(placeDiceSchema);
+            action.add(player);
+            action.add(((Integer)rows).toString());
+            action.add(((Integer)columns).toString());
+            action.add(d.getcolour().toString());
+            action.add(((Integer)d.getValue()).toString());
+            setChanged();
+            notifyObservers(action);
+        } else
+            throw new InsertDiceException();
     }
 
     public void insertDice(int rows , int columns, Dice d)
@@ -91,26 +107,29 @@ public class Schema extends Observable{
     }
 
     //it removed dice from rows-colomuns position. it returns null if is already empty
-    public Dice removeDice(int rows,int columns)
-    {
+    public Dice removeDice(int rows,int columns) {
+        List<String> action = new ArrayList<String>();
         Dice d;
-        if(this.table[rows][columns].getDice()!=null)
-        {
+        if(this.table[rows][columns].getDice()!=null) {
             d = this.table[rows][columns].getDice();
             this.table[rows][columns].setDice(null);
-
-            notify("PlaceDice",rows,columns);
+            action.add(pickDiceSchema);
+            action.add(player);
+            action.add(((Integer)rows).toString());
+            action.add(((Integer)columns).toString());
+            setChanged();
+            notifyObservers(action);
             return d;
         }
+        action.add(pickDiceSchemaError);
+        action.add(player);
+        setChanged();
+        notifyObservers(action);
         return null;
     }
 
-
-
     public List nearDice(int rows,int columns)
     {
-
-        // partono da in alto a sx e proseguono in senso di riga
 
         List<Dice> nearDice = new ArrayList<Dice>(9);
         for(int i=-1;i<2;i++)
@@ -119,7 +138,7 @@ public class Schema extends Observable{
 
         // rimuovo il dado stesso ( ho preferito aggiungere la remove che controllare ogni ciclo che non fosse [0][0])
         nearDice.remove(4);
-            return nearDice;
+        return nearDice;
 
     }
 
@@ -137,10 +156,25 @@ public class Schema extends Observable{
         return d;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public void setRulesManager(RulesManager rulesManager){
+        this.rulesManager = rulesManager;
+    }
+
+    public void setPlayer(Player player){ this.player = player.getNickname(); }
+
+
     @Override
     public String toString() {
         String str="";
-        str+= this.getName()+"\n";
+        str+= this.name +"\n";
         str+= "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         for(int i=0; i<this.ROWS;i++)
         {
@@ -156,34 +190,11 @@ public class Schema extends Observable{
         str+="┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
         str+="Difficult:";
         for(int i=0;i<this.getDifficult();i++)
-        str+="*";
+            str+="*";
 
         return str;
     }
 
     public void dump(){ System.out.println(this); }
 
-    public String getName() {
-        return name;
-    }
-
-    public boolean isEmpty() {
-        return isEmpty;
-    }
-
-    public void setRulesManager(RulesManager rulesManager){
-        this.rulesManager = rulesManager;
-    }
-
-    public void setPlayer(Player player){ /*this.player = player;*/ }
-
-    public void notify(String string, int x, int y){
-        List action = new ArrayList();
-        action.add(string);
-        //action.add(this.player.getNickname()));
-        action.add(x);
-        action.add(y);
-        setChanged();
-        notifyObservers(action);
-    }
 }

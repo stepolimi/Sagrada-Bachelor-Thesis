@@ -16,6 +16,16 @@ public enum Colour {
         this.escape = escape;
     }
 
+    public static Colour stringToColour(String c)
+    {
+        if(c.equals("ANSI_GREEN")){ return Colour.ANSI_GREEN; }
+        else if(c.equals("ANSI_BLUE")) { return Colour.ANSI_BLUE; }
+        else if(c.equals("ANSI_RED")){ return Colour.ANSI_RED; }
+        else if(c.equals("ANSI_PURPLE")) { return Colour.ANSI_PURPLE; }
+        else if(c.equals("ANSI_YELLOW")) { return Colour.ANSI_YELLOW; }
+        return null;
+    }
+
     public String escape() {
         return escape;
     }
