@@ -78,57 +78,57 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <ImageView id="one" fx:id="one" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="one" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../assets/image/SchemaElement/1.png" />
                </image>
             </ImageView>
-            <ImageView id="red" fx:id="red" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+            <ImageView id="red" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/red.png" />
                </image>
             </ImageView>
-            <ImageView id="two" fx:id="two" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+            <ImageView id="two" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/2.png" />
                </image>
             </ImageView>
-            <ImageView id="yellow" fx:id="yellow" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <ImageView id="yellow" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
                   <Image url="@../assets/image/SchemaElement/yellow.png" />
                </image>
             </ImageView>
-            <ImageView id="three" fx:id="three" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+            <ImageView id="three" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
                   <Image url="@../assets/image/SchemaElement/3.png" />
                </image>
             </ImageView>
-            <ImageView id="blue" fx:id="blue" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <ImageView id="blue" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
                   <Image url="@../assets/image/SchemaElement/blue.png" />
                </image>
             </ImageView>
-            <ImageView id="four" fx:id="four" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+            <ImageView id="four" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
                   <Image url="@../assets/image/SchemaElement/4.png" />
                </image>
             </ImageView>
-            <ImageView id="green" fx:id="green" fitHeight="63.0" fitWidth="71.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <ImageView id="green" fitHeight="63.0" fitWidth="71.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
                   <Image url="@../assets/image/SchemaElement/green.png" />
                </image>
             </ImageView>
-            <ImageView id="five" fx:id="five" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+            <ImageView id="five" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
                <image>
                   <Image url="@../assets/image/SchemaElement/5.png" />
                </image>
             </ImageView>
-            <ImageView id="purple" fx:id="purple" fitHeight="64.0" fitWidth="70.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <ImageView id="purple" fitHeight="64.0" fitWidth="70.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <image>
                   <Image url="@../assets/image/SchemaElement/purple.png" />
                </image>
             </ImageView>
-            <ImageView id="six" fx:id="six" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+            <ImageView id="six" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
                <image>
                   <Image url="@../assets/image/SchemaElement/6.png" />
                </image>
