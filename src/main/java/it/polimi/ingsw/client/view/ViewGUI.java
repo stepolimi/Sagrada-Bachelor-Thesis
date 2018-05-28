@@ -24,7 +24,6 @@ public class ViewGUI extends Application {
         FXMLLoader loader = new FXMLLoader();
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/FXML/play.fxml"));
-        
         Pane p =  loader.load();
 
         scene = new Scene(p);

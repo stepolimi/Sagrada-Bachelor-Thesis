@@ -1,10 +1,12 @@
 package it.polimi.ingsw.client.view;
 
+import com.google.gson.Gson;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +18,7 @@ import static it.polimi.ingsw.costants.TimerCostants.LobbyTimerValue;
 
 public class ViewCLI implements View{
     private Scanner input;
-    private String username="";
+    private String username;
     private Connection connection;
     private Handler hand;
     private HashMap<String,Schema> schemas ;
@@ -35,6 +37,7 @@ public class ViewCLI implements View{
     private static final String operatingSystem = System.getProperty("os.name");
     public ViewCLI()
     {
+        username = "";
         moves = new ArrayList<String>();
         input = new Scanner(System.in);
         schemas = new HashMap<String, Schema>();
@@ -82,6 +85,7 @@ public class ViewCLI implements View{
             else
                 correct = false;
         }
+        this.startScene();
     }
 
     public void setLogin()
@@ -139,7 +143,7 @@ public class ViewCLI implements View{
                     new Dices("",(Integer)action.get(4),Colour.stringToColour((String)action.get(3)));
         }
     }
-
+    }
     public void placeDiceSchemaError(List action) {
         System.out.println("errore nell'inserimento del dado");
         //todo ristampare le azioni;
@@ -172,13 +176,207 @@ public class ViewCLI implements View{
         this.hand = hand;
     }
 
+    public void createSchema() {
+        int nCostraint=0;
+        System.out.println("\u001B[34m Hai scelto di creare la tua griglia: \u001B[0m");
+        Schema sc = new Schema();
+        System.out.println("Scegli il nome della griglia:");
+        sc.setName(input.nextLine());
+
+        for (int i = 0; i < sc.getGrid().length; i++)
+        {
+            for (int j = 0; j < sc.getGrid()[0].length; j++) {
+                System.out.println("Inserisci la restrizione della cella:" + "[" + i + "][" + j + "]");
+                if(setCostraint(sc,i,j))
+                    nCostraint++;
+            }
+        }
+        setDifficult(sc,nCostraint);
+        System.out.println("La griglia che hai creato è questa:");
+        System.out.println(sc);
+        System.out.println("Desideri apportare modifiche? y si");
+        if(input.nextLine().equals("y"))
+            modifySchema(sc);
+        System.out.println("Vuoi salvare su file il tuo schema? y si");
+        try {
+            saveSchema(sc);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        schemas.put(username,sc);
+    }
+
+    public boolean setCostraint(Schema sc,int i,int j)
+    {
+        boolean isCostraint=true;
+        String costraint;
+        correct = false;
+        while (!correct) {
+            correct = true;
+            System.out.println("1) colore verde(g) -rosso(r) -blu (b) -giallo (y) -viola (p)");
+            System.out.println("2) numero 1-6");
+            System.out.println("3) nessuna restrizione (e)");
+            costraint = input.nextLine();
+            char word = costraint.charAt(0);
+            switch (word) {
+                case 'r':
+                    sc.getGrid()[i][j].setCostraint("\u001B[31m");
+                    break;
+                case 'g':
+                    sc.getGrid()[i][j].setCostraint("\u001B[32m");
+                    break;
+                case 'y':
+                    sc.getGrid()[i][j].setCostraint("\u001B[33m");
+                    break;
+                case 'b':
+                    sc.getGrid()[i][j].setCostraint("\u001B[34m");
+                    break;
+                case 'p':
+                    sc.getGrid()[i][j].setCostraint("\u001B[35m");
+                    break;
+                case '1':
+                    sc.getGrid()[i][j].setCostraint("1");
+                    break;
+                case '2':
+                    sc.getGrid()[i][j].setCostraint("2");
+                    break;
+                case '3':
+                    sc.getGrid()[i][j].setCostraint("3");
+                    break;
+                case '4':
+                    sc.getGrid()[i][j].setCostraint("4");
+                    break;
+                case '5':
+                    sc.getGrid()[i][j].setCostraint("5");
+                    break;
+                case '6':
+                    sc.getGrid()[i][j].setCostraint("6");
+                    break;
+                case 'e': {
+                    sc.getGrid()[i][j].setCostraint("");
+                    isCostraint = false;
+                }
+                    break;
+                default:
+                    correct = false;
+
+            }
+        if(!sc.nearCostraint(i,j,sc.getGrid()[i][j].getCostraint()))
+        {
+            correct = false;
+            System.out.println(" \u001B[31m Restrizione già immessa nelle caselle adiacenti \u001B[0m");
+            System.out.println("Selezionarne un'altra");
+        }
+        }
+
+        return isCostraint;
+    }
+
+    public void setDifficult(Schema sc,int nCostraint)
+    {
+        int difficult;
+
+        if(nCostraint<8)
+            difficult = 1;
+        else if(nCostraint<11)
+            difficult = 2;
+        else if(nCostraint<12)
+            difficult=3;
+        else if(nCostraint<13)
+            difficult=4;
+        else if(nCostraint<14)
+            difficult=5;
+        else
+            difficult=6;
+
+        sc.setDifficult(difficult);
+    }
+    public void modifySchema(Schema s)
+    {
+        int row, column;
+        correct = false;
+        while(!correct) {
+
+
+            try {
+                System.out.println("Inserisci la riga che vuoi modificare");
+                row = Integer.parseInt(input.nextLine());
+
+                System.out.println("Inserisci la colonna che vuoi modificare");
+                column = Integer.parseInt(input.nextLine());
+
+                setCostraint(s,row,column);
+
+                System.out.println("Modifica avvenuta!");
+
+                System.out.println("Questo è il tuo schema");
+                System.out.println(s);
+
+                System.out.println("Vuoi modificare ancora la griglia? y si");
+
+                if (input.nextLine().equals("y"))
+                    correct = false;
+                else
+                    correct = true;
+
+            } catch (NumberFormatException e) {
+                correct = false;
+            }
+        }
+    }
+
+    public void saveSchema(Schema s) throws IOException
+    {
+        String path = "src/main/data/SchemaPlayer/";
+        String name,schema;
+        Gson g = new Gson();
+        schema = g.toJson(s);
+        correct = false;
+        while(!correct)
+        {
+            String copyPath;
+            System.out.println("Inserisci il nome che vorrai dare allo schema:");
+            name = input.nextLine();
+            copyPath = path + name + ".json";
+            FileWriter fw=null;
+            BufferedWriter b;
+                File file = new File(copyPath);
+
+                if (file.exists())
+                    System.out.println("Il file " + copyPath + " esiste già");
+                else if (file.createNewFile())
+                {
+                    System.out.println("Il file " + copyPath + " è stato creato");
+                    fw = new FileWriter(file);
+                    b = new BufferedWriter(fw);
+                    b.write(schema);
+                    b.flush();
+                    fw.close();
+                    b.close();
+                    correct = true;
+                }
+                else
+                    System.out.println("Il file " + path + " non può essere creato");
+
+        }
+
+    }
+
+
+    public void setChangeGrid(int row,int column,Colour c,int number,String player)
+    {
+        schemas.get(player).getGrid()[row][column].setColour(c);
+        schemas.get(player).getGrid()[row][column].setNumber(number);
+    }
+
     public void setOpponentsSchemas(List <String> s)
     {
+        clearScreen();
         Schema temp= new Schema();
         for(int i=0;i<s.size();i=i+2) {
             try {
                 if(!s.get(i).equals(this.getName()))
-                    schemas.put(s.get(i),temp.InitSchema(s.get(i+1)));
+                    schemas.put(s.get(i),temp.InitSchema("SchemaClient/"+s.get(i+1)));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -213,7 +411,7 @@ public class ViewCLI implements View{
     {
         Schema schema = new Schema();
         try {
-            System.out.println(schema.InitSchema(nome).toString());
+            System.out.println(schema.InitSchema("SchemaClient/"+nome).toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -233,7 +431,10 @@ public class ViewCLI implements View{
     {
         for(String key:schemas.keySet())
             if(!key.equals(username))
+            {
+                System.out.println("Giocatore: "+key);
                 System.out.println(schemas.get(key).toString());
+            }
     }
     public void showPrivateObjective()
     {
@@ -268,11 +469,63 @@ public class ViewCLI implements View{
     // action method
 
     public void startScene() {
+        int choose;
         System.out.println("\u001B[32m" + "W E L C O M E ");
-        System.out.println("\u001B[0m"+"You can choose a type of:");
-        System.out.println("Graphic Interface: GUI or CLI");
-        System.out.println("Connection: RMI/SOCKET");
+        System.out.println("\u001B[0m"+"Prima di cominciare...");
+        while(!correct) {
+            try {
+                correct = true;
+                System.out.println("Desideri:");
+                System.out.println("1)Costruire il tuo schema");
+                System.out.println("2)Caricarlo da file");
+                System.out.println("3)Utilizzare schemi predefiniti");
+                choose = Integer.parseInt(input.nextLine());
+                switch(choose)
+                {
+                    case 1: createSchema(); break;
+                    case 2: loadSchema(); break;
+                    case 3: break;
+                    default: correct = false;
+                }
+            }catch(NumberFormatException e)
+            {
+                System.out.println("Scelta non valida");
+            }
+        }
+
     }
+
+    public void loadSchema()
+    {
+        String name;
+        boolean correct=false;
+        final String path = "src/main/data/SchemaPlayer";
+        File f = new File(path);
+        Schema sc = new Schema();
+        while(!correct) {
+            System.out.println("Scegli il nome dello schema da caricare");
+            if(f.list().length==0)
+            {
+                System.out.println("\u001B[31m Nessuno schema da caricare \u001B[0m");
+                System.out.println("Crearne uno? y per si");
+                if(input.nextLine().equals("y"))
+                    createSchema();
+                break;
+            }
+            for(String file:f.list())
+            System.out.println(file.substring(0,file.length()-5));
+            name = input.nextLine();
+            try {
+                schemas.put(username,sc.InitSchema("SchemaPlayer/"+name));
+                correct = true;
+            } catch (IOException e) {
+                System.out.println("Errore con lo schema da caricare");
+                correct = false;
+            }
+        }
+    }
+
+
 
     public void login(String str) {
         if (str.equals("Welcome"))
@@ -285,7 +538,6 @@ public class ViewCLI implements View{
         }else if(str.equals("Login_error-game")) {
             System.out.println("Errore, partita già in corso");
             System.out.println("Riprovare più tardi");
-
         }
     }
 
@@ -320,6 +572,7 @@ public class ViewCLI implements View{
     }
 
     public void createGame(){
+        clearScreen();
         System.out.println("\npartita creata\n");
     }
 
@@ -330,11 +583,12 @@ public class ViewCLI implements View{
     {
         try {
             Schema s = new Schema();
-            schemas.put(this.getName(),s.InitSchema(name));
+            schemas.put(this.getName(),s.InitSchema("SchemaClient/"+name));
             System.out.println("schema approvato: " + name);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Aspettando la scelta degli altri giocatori...");
     }
 
 
@@ -348,6 +602,7 @@ public class ViewCLI implements View{
             System.out.println("turno iniziato, tocca a: " + name);
             setActions(null);
             showMoves();
+            clearScreen();
         }
         else
             myTurn = true;
@@ -438,6 +693,11 @@ public class ViewCLI implements View{
     }
 
 
+    public void clearScreen()
+    {
+        for(int i= 0 ;i<10;i++)
+        System.out.println("\n");
+    }
 
     public void useToolCard()
     {

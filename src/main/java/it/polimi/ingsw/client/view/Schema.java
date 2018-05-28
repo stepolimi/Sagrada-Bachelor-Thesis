@@ -13,12 +13,23 @@ public class Schema {
     private final int COLUMNS = 5;
     int difficult;
 
+    public Schema()
+    {
+        grid = new Dices[ROWS][COLUMNS];
+        for(int i=0;i<ROWS;i++)
+        {
+            for (int j=0;j<COLUMNS;j++)
+            {
+                grid[i][j]= new Dices("",0,null);
+            }
+        }
+    }
 
 
     public Schema InitSchema(String nome) throws IOException
     {
         Schema sch = new Schema();
-        final String filePath = "src/main/data/SchemaClient/" + nome + ".json";  //import every schema from
+        final String filePath = "src/main/data/" + nome + ".json";  //import every schema from
         //json file form /src/main/data/Schema/i.json
         Gson g = new Gson();
 
@@ -71,4 +82,42 @@ public class Schema {
         str+="\n";
      return str;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setDifficult(int difficult)
+    {
+        this.difficult = difficult;
+    }
+
+    public boolean nearCostraint(int rows,int columns,String costraint)
+    {
+        if(costraint.equals(""))
+            return true;
+
+        for(int i=-1;i<2;i++)
+             for (int j = -1; j < 2; j++)
+             {
+                 if(i!=0 || j!=0) {
+                     if (!checkNearCostraint(rows + i, columns + j, costraint))
+                         return false;
+                 }
+             }
+
+        return true;
+
+    }
+    public boolean checkNearCostraint(int rows,int columns,String costraint)
+    {
+
+        try {
+            if(grid[rows][columns].getCostraint().equals(costraint))
+              return false;
+        }catch (ArrayIndexOutOfBoundsException e) {
+            return true;
+        }
+        return true;
+    }
+
 }

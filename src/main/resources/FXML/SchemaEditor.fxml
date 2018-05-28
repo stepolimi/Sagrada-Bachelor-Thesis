@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="615.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.ControllerEditor">
+   <children>
+      <ImageView fitHeight="673.0" fitWidth="946.0" layoutX="-101.0" opacity="0.48" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/pic19.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="265.0" fitWidth="353.0" layoutX="211.0" layoutY="289.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
+         </image>
+      </ImageView>
+      <Text layoutX="253.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crea il tuo schema">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trascina gli elementi sul tuo schema in modo tale che si possano rispettare le seguenti restrizioni:" wrappingWidth="746.6796875">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="211.0" layoutY="289.0" prefHeight="265.0" prefWidth="353.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+            <ImageView fitHeight="67.0" fitWidth="71.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" />
+            <ImageView fitHeight="63.0" fitWidth="67.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" />
+            <ImageView fitHeight="67.0" fitWidth="69.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="626.0" layoutY="117.0" prefHeight="387.0" prefWidth="135.0" style="-fx-border-color: black;">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <ImageView id="one" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/1.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="red" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/red.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="two" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/2.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="yellow" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/yellow.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="three" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/3.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="blue" fitHeight="65.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/blue.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="four" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/4.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="green" fitHeight="63.0" fitWidth="71.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/green.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="five" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/5.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="purple" fitHeight="64.0" fitWidth="70.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="4">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/purple.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+            <ImageView id="six" fitHeight="60.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="5">
+               <image>
+                  <Image url="@../assets/image/SchemaElement/6.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="OPEN_HAND" />
+               </cursor>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </GridPane>
+      <Text layoutX="211.0" layoutY="274.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nome dello schema:" wrappingWidth="193.21875">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
+      <TextField fx:id="schemaName" layoutX="394.0" layoutY="253.0" prefHeight="28.0" prefWidth="166.0" />
+      <Text fx:id="error" layoutX="302.0" layoutY="579.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="172.0" />
+      <ImageView fx:id="nextButton" fitHeight="67.0" fitWidth="71.0" layoutX="690.0" layoutY="519.0" onMouseClicked="#schemaDone" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/freccia.jpg" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+   </children>
+</Pane>

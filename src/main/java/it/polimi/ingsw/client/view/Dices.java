@@ -57,4 +57,7 @@ public class Dices {
     public void setColour(Colour colour) {
         this.colour = colour;
     }
+
+    public void setNumber(int number){ this.number = number;
+    }
 }
