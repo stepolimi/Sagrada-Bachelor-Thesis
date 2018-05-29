@@ -65,11 +65,19 @@ public class RmiConnection implements Connection {
     }
 
     public void insertDice(int indexDiceSpace, int row, int column) {
-
+        try {
+            server.insertDice(indexDiceSpace,row,column);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void sendEndTurn() {
-
+        try {
+            server.sendEndTurn();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
 

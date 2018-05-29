@@ -12,7 +12,7 @@ public interface RmiClientMethodInterface extends Remote{
     public void timerPing(List action)throws RemoteException;
     public void createGame()throws RemoteException;
     public void setSchemas(List action)throws RemoteException;
-    public void setPrivateCard(List action)throws RemoteException;
+    public void setPrivateCard(String privateCard)throws RemoteException;
     public void setPublicObjectives(List action)throws RemoteException;
     public void setToolCards(List action)throws RemoteException;
     public void chooseSchema(List action) throws RemoteException;

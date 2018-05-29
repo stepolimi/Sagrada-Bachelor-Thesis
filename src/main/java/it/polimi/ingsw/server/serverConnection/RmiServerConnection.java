@@ -40,7 +40,8 @@ public class RmiServerConnection implements Connection{
             } else if(action.get(0).equals(startingGameMsg)) {
                 client.createGame();
             } else if(action.get(0).equals(setPrivateCard)) {
-                client.setPrivateCard(action);
+                String privateCard = (String)action.get(1);
+                client.setPrivateCard(privateCard);
             } else if(action.get(0).equals(setSchemas)) {
                 client.setSchemas(action);
             } else if(action.get(0).equals(setPublicObjectives)) {
