@@ -124,27 +124,30 @@ public class ViewCLI implements View{
         }
     }
 
-    public void insertDiceAccepted(List action) {
+    public void insertDiceAccepted() {
+
         this.schemas.get(username).getGrid()[row][column]= diceSpace.get(indexDiceSpace);
+        System.out.println("Dado inserito+"+schemas.get(username));
     }
 
     public void pickDiceSpace(List action) {
-        diceSpace.remove(indexDiceSpace);
+        diceSpace.remove(Integer.parseInt((String)action.get(0)));
     }
 
-    public void pickDiceSpaceError(List action) {
+    public void pickDiceSpaceError() {
         System.out.println("posizione di toglle del dado dalla dicespace completamente sbagliata");
         //todo ristampare le azioni;
      }
 
     public void placeDiceSchema(List action) {
         if(!action.get(0).equals(username)){
-            this.schemas.get(action.get(0)).getGrid()[(Integer)action.get(1)][(Integer)action.get(2)]=
-                    new Dices("",(Integer)action.get(4),Colour.stringToColour((String)action.get(3)));
+            this.schemas.get(action.get(0)).getGrid()[Integer.parseInt((String)action.get(1))][Integer.parseInt((String)action.get(2))]=
+                    new Dices("",Integer.parseInt((String) action.get(4)),Colour.stringToColour((String)action.get(3)));
         }
     }
-    }
-    public void placeDiceSchemaError(List action) {
+
+
+    public void placeDiceSchemaError() {
         System.out.println("errore nell'inserimento del dado");
         //todo ristampare le azioni;
     }
@@ -460,6 +463,7 @@ public class ViewCLI implements View{
 
     public void showMoves()
     {
+
         System.out.println("Scegli una tra le seguenti opzioni:");
         for(int i=0;i<moves.size();i++)
             System.out.println((i+1)+")"+moves.get(i));
@@ -602,7 +606,6 @@ public class ViewCLI implements View{
             System.out.println("turno iniziato, tocca a: " + name);
             setActions(null);
             showMoves();
-            clearScreen();
         }
         else
             myTurn = true;
@@ -623,18 +626,18 @@ public class ViewCLI implements View{
         //to be modified later
         move = input.nextLine();
         choose = Integer.parseInt(move);
-        if(moves.get(choose-1).equals("Inserisci un dado"))
+        if(moves.get(choose-1).equals("InsertDice"))
         {
             insertDice();
-
             // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di inserire un dado
             //moves.remove(choose-1);
-        }else if(moves.get(choose-1).equals("Usa una toolcard"))
+        }else if(moves.get(choose-1).equals("UseToolCard"))
         {
             useToolCard();
             // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
             // moves.remove(choose-1);
-        }
+        }else if(moves.get(choose-1).equals("EndTurn"))
+            passTurn();
 
         switch(choose-1)
         {
@@ -662,24 +665,24 @@ public class ViewCLI implements View{
             try {
                 System.out.println("Inserisci l'indice del dado della riserva:(Da 1 a "+diceSpace.size()+")");
                 indexDiceSpace = Integer.parseInt(input.nextLine());
-
-                if(indexDiceSpace<=0 || indexDiceSpace>diceSpace.size())
+                indexDiceSpace--;
+                if(indexDiceSpace<0 || indexDiceSpace>diceSpace.size())
                     throw new NumberFormatException();
 
                 System.out.println("Inserisci la riga");
                 row = Integer.parseInt(input.nextLine());
-
-                if(row<=0 || row>4)
+                row--;
+                if(row<0 || row>3)
                     throw  new NumberFormatException();
 
                 System.out.println("Inserisci la oolonna");
                 column = Integer.parseInt(input.nextLine());
-
-                if (column<=0 || column>5)
+                column --;
+                if (column<0 || column>4)
                     throw  new NumberFormatException();
 
                 correct = true;
-                connection.insertDice(indexDiceSpace-1,row,column);
+                connection.insertDice(indexDiceSpace,row,column);
 
             }catch(NumberFormatException e) {
                 System.out.println("Formato non valido");

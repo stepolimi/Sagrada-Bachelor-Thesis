@@ -8,9 +8,10 @@ public class PickDiceState implements State {
     private static String state = "PickDiceState";
 
     public void execute(Round round, List action){
+        //todo castare a integer come nel primo blocco
         if(action.get(1) == "DiceSpace") {
             try {
-                round.setPendingDice(round.getBoard().getDiceSpace().removeDice((Integer) action.get(2)));
+                round.setPendingDice(round.getBoard().getDiceSpace().removeDice(Integer.parseInt((String)action.get(2))));
             } catch (RemoveDiceException e) {
                 System.out.println("illegal dice removal\n" + " ---");
             }

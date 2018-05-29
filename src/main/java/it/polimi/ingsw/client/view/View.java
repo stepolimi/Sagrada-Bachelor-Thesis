@@ -23,11 +23,11 @@ public interface View {
     void startTurn(String name) ;
     void setActions(List <String> actions);
     void setDiceSpace(List <String> dices);
-    void insertDiceAccepted(List action);
+    void insertDiceAccepted();
 
     void pickDiceSpace(List action);
-    void pickDiceSpaceError(List action);
+    void pickDiceSpaceError();
 
     void placeDiceSchema(List action);
-    void placeDiceSchemaError(List action);
+    void placeDiceSchemaError();
 }

@@ -85,6 +85,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     public void notifyChanges(String string) {
         List action = new ArrayList();
         if (string.equals(timerElapsed)) {
+            System.out.println("Choosing schema timer elapsed\n"+"---");
             for(Player p: players){
                 if(p.getSchema() == null)
                     p.setSchema(p.getSchemas().get(0).getName());

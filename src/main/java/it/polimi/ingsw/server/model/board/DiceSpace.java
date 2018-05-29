@@ -54,7 +54,6 @@ public class DiceSpace extends Observable {
             Dice d = dices.get(index);
             dices.remove(index);
             action.add(pickDiceSpace);
-            action.add("diceSpace");
             action.add(((Integer)index).toString());
             setChanged();
             notifyObservers(action);

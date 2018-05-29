@@ -100,7 +100,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void insertDiceAccepted(List action) {
-        v.insertDiceAccepted(action.subList(1,action.size()));
+        v.insertDiceAccepted();
     }
 
     public void pickDiceSpace(List action) {
@@ -108,7 +108,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void pickDiceSpaceError(List action) {
-        v.pickDiceSpaceError(action.subList(1,action.size()));
+        v.pickDiceSpaceError();
     }
 
     public void placeDiceSchema(List action) {
@@ -116,7 +116,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void placeDiceSchemaError(List action) {
-        v.placeDiceSchemaError(action.subList(1,action.size()));
+        v.placeDiceSchemaError();
     }
 
 }

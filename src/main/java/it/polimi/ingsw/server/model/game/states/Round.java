@@ -10,6 +10,7 @@ import java.util.*;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
 import static it.polimi.ingsw.costants.GameCreationMessages.startTurn;
+import static it.polimi.ingsw.costants.LoginMessages.timerElapsed;
 import static it.polimi.ingsw.costants.LoginMessages.timerPing;
 import static it.polimi.ingsw.costants.TimerCostants.TurnTimerValue;
 import static it.polimi.ingsw.costants.TimerCostants.turnTimerElapsed;
@@ -158,11 +159,13 @@ public class Round extends Observable implements TimedComponent {
             action.add(turnTimerPing);
             action.add(currentPlayer.getNickname());
             action.add(((Long)(TurnTimerValue - (System.currentTimeMillis() - startingTime)/1000)).toString());
-        }else if(string.equals(turnTimerElapsed)){
+        }else if(string.equals(timerElapsed)){
+            System.out.println("TurnTimer elapsed\n"+" ---");
             currentPlayer.setConnected(false);
             List list = new ArrayList();
             list.add("EndTurn");
             execute(list);
+            return;
         }
         setChanged();
         notifyObservers(action);

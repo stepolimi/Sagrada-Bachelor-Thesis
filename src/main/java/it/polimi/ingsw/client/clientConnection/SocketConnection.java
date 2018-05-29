@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 
-import static it.polimi.ingsw.costants.GameConstants.setActions;
-import static it.polimi.ingsw.costants.GameConstants.startRound;
+import static it.polimi.ingsw.costants.GameConstants.*;
+import static it.polimi.ingsw.costants.GameConstants.setDiceSpace;
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 import static it.polimi.ingsw.costants.LoginMessages.*;
 
@@ -43,10 +43,6 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
-    public void insertDice(int row,int column)
-    {
-
-    }
     public void disconnect() {
         stopRunning();
         out.println("Disconnected");
@@ -133,9 +129,21 @@ public class SocketConnection implements Connection,Runnable {
         {
             v.setDiceSpace(action.subList(1,action.size()));
         }
-        else if(action.get(0).equals(approvedDice))
+        else if(action.get(0).equals(insertDiceAccepted))
         {
-           // v.setDice();
+            v.insertDiceAccepted();
+        }else if(action.get(0).equals(pickDiceSpace))
+        {
+            v.pickDiceSpace(action.subList(1,action.size()));
+        }else if(action.get(0).equals(pickDiceSpaceError))
+        {
+            v.pickDiceSpaceError();
+        }else if(action.get(0).equals(placeDiceSchemaError))
+        {
+            v.placeDiceSchemaError();
+        }else if(action.get(0).equals(placeDiceSchema))
+        {
+            v.placeDiceSchema(action.subList(1,action.size()));
         }
     }
 }

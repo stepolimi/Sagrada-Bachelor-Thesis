@@ -78,6 +78,8 @@ public class Schema extends Observable{
         if(!rulesManager.checkRules(tool,rows,columns,d,this)) {
             action.add(placeDiceSchemaError);
             action.add(player);
+            setChanged();
+            notifyObservers(action);
             throw new InsertDiceException();
         }
     }
