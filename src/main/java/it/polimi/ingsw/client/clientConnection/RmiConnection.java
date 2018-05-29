@@ -68,6 +68,10 @@ public class RmiConnection implements Connection {
 
     }
 
+    public void sendEndTurn() {
+
+    }
+
 
 }
 

@@ -8,8 +8,7 @@ public class GameCreationMessages {
     public static final String approvedSchema = "okSchema";
     public static final String setOpponentsSchemas = "setOpponentsSchemas";
     public static final String startTurn = "startTurn";
-    public static final String endTurn ="endTurn";
+    public static final String endTurn ="EndTurn";
     public static final String pickDice = "InsertDice";
-    public static final String approvedDice = "approvedDice";
     public static final String setDiceSpace = "setDiceSpace";
 }

@@ -61,6 +61,11 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void sendEndTurn() {
+        out.println(endTurn);
+        out.flush();
+    }
+
     public void stopRunning() {
         stopThread = true;
     }

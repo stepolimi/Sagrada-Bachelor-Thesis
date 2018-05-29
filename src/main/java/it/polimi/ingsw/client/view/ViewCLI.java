@@ -34,10 +34,14 @@ public class ViewCLI implements View{
     private int column;
     private int indexDiceSpace;
     private int nPlayer;
+    private int round;
+    private boolean gameRunning;
     private static final String operatingSystem = System.getProperty("os.name");
     public ViewCLI()
     {
+        round = 0;
         username = "";
+        gameRunning = true;
         moves = new ArrayList<String>();
         input = new Scanner(System.in);
         schemas = new HashMap<String, Schema>();
@@ -117,7 +121,7 @@ public class ViewCLI implements View{
 
     public void setDiceSpace(List<String> dice)
     {
-        System.out.println("setto la diceSpace");
+        diceSpace.clear();
         for(int i=0;i<dice.size();i=i+2)
         {
             diceSpace.add(new Dices("",Integer.parseInt(dice.get(i+1)), Colour.stringToColour(dice.get(i))));
@@ -135,8 +139,7 @@ public class ViewCLI implements View{
     }
 
     public void pickDiceSpaceError() {
-        System.out.println("posizione di toglle del dado dalla dicespace completamente sbagliata");
-        //todo ristampare le azioni;
+        System.out.println("Indice della riserva non corretto");
      }
 
     public void placeDiceSchema(List action) {
@@ -392,8 +395,8 @@ public class ViewCLI implements View{
     }
 
     public void startRound() {
-        System.out.println("nuovo round iniziato");
-
+        round++;
+        System.out.println("Round"+round);
     }
 
     public void setActions(List<String> actions) {
@@ -609,9 +612,10 @@ public class ViewCLI implements View{
         }
         else
             myTurn = true;
+
         Thread thread = new Thread(new Runnable() {
             public void run() {
-                while(myTurn)
+                while(gameRunning)
                     chooseMoves();
             }
         });
@@ -620,33 +624,55 @@ public class ViewCLI implements View{
 
     public void chooseMoves()
     {
-        String move;
+        String move="";
         int choose;
-
+        boolean correct = false;
         //to be modified later
-        move = input.nextLine();
-        choose = Integer.parseInt(move);
-        if(moves.get(choose-1).equals("InsertDice"))
-        {
-            insertDice();
-            // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di inserire un dado
-            //moves.remove(choose-1);
-        }else if(moves.get(choose-1).equals("UseToolCard"))
-        {
-            useToolCard();
-            // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
-            // moves.remove(choose-1);
-        }else if(moves.get(choose-1).equals("EndTurn"))
-            passTurn();
 
-        switch(choose-1)
+        while(!correct)
         {
-            case 0:showPrivateObjective(); break;
-            case 1: showPublicObjective();break;
-            case 2: showOpponentsSchemas();break;
-            case 3: showToolCard();break;
+            correct = true;
+            try
+            {
+                move = input.nextLine();
+
+                choose = Integer.parseInt(move);
+
+                if (moves.get(choose - 1).equals("InsertDice")) {
+                    insertDice();
+                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di inserire un dado
+                    //moves.remove(choose-1);
+                } else if (moves.get(choose - 1).equals("UseToolCard")) {
+                    useToolCard();
+                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
+                    // moves.remove(choose-1);
+                } else if (moves.get(choose - 1).equals("EndTurn"))
+                    passTurn();
+
+                switch (choose - 1) {
+                    case 0:
+                        showPrivateObjective();
+                        break;
+                    case 1:
+                        showPublicObjective();
+                        break;
+                    case 2:
+                        showOpponentsSchemas();
+                        break;
+                    case 3:
+                        showToolCard();
+                        break;
+                    default: correct = false;
+                }
+
+
+
+            }catch (Exception e) {
+               // e.printStackTrace();
+               // System.out.println("Errore divinooooo");
+                correct= false;
+            }
         }
-
     }
 
 
@@ -654,7 +680,7 @@ public class ViewCLI implements View{
     public void passTurn()
     {
         this.myTurn = false;
-        //connection.sendMessage(endTurn);
+        connection.sendEndTurn();
     }
 
     public void insertDice()

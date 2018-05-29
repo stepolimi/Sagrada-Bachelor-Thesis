@@ -8,4 +8,6 @@ public interface Connection {
 
     public void disconnect();
     public void insertDice(int indexDiceSpace,int row,int column);
+    public void sendEndTurn();
+
 }
