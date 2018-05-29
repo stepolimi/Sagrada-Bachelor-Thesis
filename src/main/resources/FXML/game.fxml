@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="815.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="pane" prefHeight="815.0" prefWidth="1182.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="815.0" fitWidth="1269.0" opacity="0.6" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -122,15 +122,8 @@
                                        <cursor>
                                           <Cursor fx:constant="OPEN_HAND" />
                                        </cursor>
-                                       <image>
-                                          <Image url="@../assets/image/Dice/Green/2.png" />
-                                       </image>
                                     </ImageView>
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
-                                       <image>
-                                          <Image url="@../assets/image/Dice/Blue/3.png" />
-                                       </image>
-                                    </ImageView>
+                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                                     <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
                                     <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
                                     <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -139,6 +132,9 @@
                                     <ImageView fitHeight="62.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <ImageView fitHeight="61.0" fitWidth="66.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
+                                 <cursor>
+                                    <Cursor fx:constant="OPEN_HAND" />
+                                 </cursor>
                               </GridPane>
                               <ImageView fitHeight="37.0" fitWidth="51.0" layoutX="105.0" layoutY="733.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -149,6 +145,27 @@
                                  <font>
                                     <Font size="36.0" />
                                  </font>
+                              </Text>
+                              <Text fx:id="textflow" layoutX="449.0" layoutY="739.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="257.9830722808838">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="153.0" fitWidth="156.0" layoutX="589.0" layoutY="75.0" onMouseClicked="#nextPlayer" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/icon.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <Text fill="WHITE" layoutX="605.0" layoutY="139.0" onMouseClicked="#nextPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="  FINE TURNO" wrappingWidth="187.158203125">
+                                 <font>
+                                    <Font size="33.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
                               </Text>
                            </children>
                         </Pane>

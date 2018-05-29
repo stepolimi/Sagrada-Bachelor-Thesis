@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -40,7 +41,22 @@ public class ControllerClient implements View {
 
 
 
+    private int indexDiceSpace;
+
+    public ImageView drag;
+
+    public ImageView drop;
+
+
     private List<String> schemasClient;
+
+    private List<String> diceSpaceList;
+
+    @FXML
+    public Text textflow;
+
+
+    
 
     @FXML
     private ImageView imageZoomed;
@@ -122,6 +138,11 @@ public class ControllerClient implements View {
 
     @FXML
     private Text nFavour;
+
+    @FXML
+    public GridPane diceSpace;
+
+
 
 
 
@@ -297,8 +318,8 @@ public class ControllerClient implements View {
 
 
                setScene("game");
-                Stage stage = (Stage) progressBar.getScene().getWindow();
-                stage.close();
+               Stage stage = (Stage) progressBar.getScene().getWindow();
+               stage.close();
 
 
 
@@ -407,6 +428,8 @@ public class ControllerClient implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
         stage.setResizable(false);
 
 
@@ -439,6 +462,8 @@ public class ControllerClient implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
         stage.setResizable(false);
 
         stage.show();
@@ -510,6 +535,7 @@ public class ControllerClient implements View {
 
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
+            diceSpace.setDisable(true);
 
 
         }
@@ -578,6 +604,7 @@ public class ControllerClient implements View {
     @FXML
     void handleImageDropped(DragEvent event) {
         ImageView imageView = (ImageView) event.getTarget();
+
         imageView.setImage(event.getDragboard().getImage());
         event.getDragboard().setContent(null);
 
@@ -610,16 +637,26 @@ public class ControllerClient implements View {
 
     }
 
+    @FXML
+    void nextPlayer(MouseEvent event) {
+
+    }
+
     public void startRound() {
-        System.out.println("nuovo round iniziato");
+        textflow.setText("nuovo round iniziato");
     }
 
     public void startTurn(String name) {
-        if(!name.equals(nickname.getText()))
-            System.out.println("turno iniziato, tocca a: " + name);
 
-        else
-            System.out.println("tocca a te!!!!!");
+
+        if(!name.equals(nickname.getText()))
+            textflow.setText("turno iniziato, tocca a: " + name);
+
+
+        else {
+            textflow.setText("tocca a te!!!!!");
+            diceSpace.setDisable(false);
+        }
     }
 
     public void setActions(List<String> actions) {
@@ -628,11 +665,52 @@ public class ControllerClient implements View {
             System.out.println(string);
     }
 
-    public void setDiceSpace(List<String> dices) {
-        System.out.println("diceSpace settato");
+    public void setDiceSpace(final List<String> dices) {
+        Platform.runLater(new Runnable() {
+            List<String> stringList = new ArrayList<String>(dices);
+
+            public void run() {
+                String path = "/assets/image/Dice";
+                System.out.println("diceSpace settato");
+                ImageView imageView = new ImageView();
+                int j = 0;
+                for (int i = 0; i < stringList.size(); i = i + 2, j++) {
+                    if (stringList.get(i).equals(("ANSI_BLUE"))) {
+                        imageView = (ImageView) diceSpace.getChildren().get(j);
+                        imageView.setImage(new Image(path + "/Blue/" + (stringList.get(i + 1)) + ".png"));
+
+                    }
+                    else if (stringList.get(i).equals(("ANSI_RED"))){
+                        imageView = (ImageView) diceSpace.getChildren().get(j);
+                        imageView.setImage(new Image(path + "/Red/" + (stringList.get(i + 1)) + ".png"));
+                    }
+
+                    else if (stringList.get(i).equals("ANSI_YELLOW")){
+                        imageView = (ImageView) diceSpace.getChildren().get(j);
+                        imageView.setImage(new Image(path + "/Yellow/" + (stringList.get(i + 1)) + ".png"));
+                    }
+
+                    else if (stringList.get(i).equals("ANSI_GREEN")){
+                        imageView = (ImageView) diceSpace.getChildren().get(j);
+                        imageView.setImage(new Image(path + "/Green/" + (stringList.get(i + 1)) + ".png"));
+                    }
+
+                    else{
+                        imageView = (ImageView) diceSpace.getChildren().get(j);
+                        imageView.setImage(new Image(path + "/Purple/" + (stringList.get(i + 1)) + ".png"));
+                    }
+
+                }
+
+
+            }
+        });
+
+
+
     }
 
-    public void insertDiceAccepted(List action) {
+    public void insertDiceAccepted() {
 
     }
 
@@ -640,7 +718,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void pickDiceSpaceError(List action) {
+    public void pickDiceSpaceError() {
 
     }
 
@@ -648,7 +726,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void placeDiceSchemaError(List action) {
+    public void placeDiceSchemaError() {
 
     }
 }
