@@ -397,6 +397,15 @@ public class ViewCLI implements View{
     public void startRound() {
         round++;
         System.out.println("Round"+round);
+        if(round == 1) {
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    while (gameRunning)
+                        chooseMoves();
+                }
+            });
+            thread.start();
+        }
     }
 
     public void setActions(List<String> actions) {
@@ -612,14 +621,6 @@ public class ViewCLI implements View{
         }
         else
             myTurn = true;
-
-        Thread thread = new Thread(new Runnable() {
-            public void run() {
-                while(gameRunning)
-                    chooseMoves();
-            }
-        });
-        thread.start();
     }
 
     public void chooseMoves()
@@ -711,6 +712,7 @@ public class ViewCLI implements View{
                 connection.insertDice(indexDiceSpace,row,column);
 
             }catch(NumberFormatException e) {
+                e.printStackTrace();
                 System.out.println("Formato non valido");
             }/*catch(IndexException ex)
             {

@@ -7,6 +7,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
+import static it.polimi.ingsw.costants.GameCreationMessages.endTurn;
+import static it.polimi.ingsw.costants.GameCreationMessages.pickDice;
 import static it.polimi.ingsw.costants.LoginMessages.loginError;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
@@ -87,4 +89,20 @@ public class RmiServerMethod implements RmiServerMethodInterface {
             virtual.forwardAction(action);
         }
     }
+
+    public void insertDice(int indexDiceSpace, int row, int column) {
+        List action = new ArrayList();
+        action.add(pickDice);
+        action.add(((Integer)indexDiceSpace).toString());
+        action.add(((Integer)row).toString());
+        action.add(((Integer)column).toString());
+        virtual.forwardAction(action);
+    }
+
+    public void sendEndTurn() {
+        List action = new ArrayList();
+        action.add(endTurn);
+        virtual.forwardAction(action);
+    }
+
 }
