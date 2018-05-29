@@ -58,8 +58,8 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
 
     }
 
-    public void setPrivateCard(List action)throws RemoteException{
-        v.setPrivateCard((String)action.get(1));
+    public void setPrivateCard(String privateCard)throws RemoteException{
+        v.setPrivateCard(privateCard);
     }
 
     public void setPublicObjectives(List action)throws RemoteException{
