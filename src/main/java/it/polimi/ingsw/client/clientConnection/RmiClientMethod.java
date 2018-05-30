@@ -100,7 +100,11 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void pickDiceSpace(List action) {
-        v.pickDiceSpace(action.subList(1,action.size()));
+        try {
+            v.pickDiceSpace(action.subList(1,action.size()));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void pickDiceSpaceError(List action) {

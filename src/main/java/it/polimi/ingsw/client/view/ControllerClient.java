@@ -324,8 +324,7 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
 
-
-                setScene("game");
+               setScene("game");
                Stage stage = (Stage) progressBar.getScene().getWindow();
                stage.close();
                endTurn.setDisable(true);
@@ -545,7 +544,6 @@ public class ControllerClient implements View {
 
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
-            diceSpace.setDisable(true);
 
 
         }
@@ -615,7 +613,6 @@ public class ControllerClient implements View {
 
     @FXML void handleImageDropped(DragEvent event) throws InterruptedException {
 
-        System.out.println(this.getName());
 
         ImageView imageView = (ImageView) event.getTarget();
 
@@ -733,7 +730,7 @@ public class ControllerClient implements View {
 
             public void run() {
                 String path = "/assets/image/Dice";
-                System.out.println("diceSpace settato");
+                textflow.setText("diceSpace settato");
                 ImageView imageView = new ImageView();
                 int j = 0;
                 for (int i = 0; i < stringList.size(); i = i + 2, j++) {
@@ -783,14 +780,18 @@ public class ControllerClient implements View {
 
     }
 
-    public void pickDiceSpace(List action) {
-
-        ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
-
-        imageView.setImage(null);
+    public void pickDiceSpace(final List action) throws InterruptedException {
 
 
+                ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
+
+                imageView.setImage(null);
+
+                sleep(500);
+
+                diceSort();
     }
+
 
     public void pickDiceSpaceError() {
 
@@ -805,5 +806,30 @@ public class ControllerClient implements View {
         synchronized (lock) {
             lock.notify();
         }
+    }
+
+    public void diceSort() {
+
+
+                List<Image> dice = new ArrayList<Image>();
+                ImageView imageView;
+
+                for(int i = 0; i < 9;i++){
+                    imageView = (ImageView) diceSpace.getChildren().get(i);
+                    if(imageView.getImage() != null) {
+                        dice.add(imageView.getImage());
+                        imageView.setImage(null);
+                    }
+                }
+
+                for(int i = 0; i < dice.size(); i++){
+                    imageView = (ImageView) diceSpace.getChildren().get(i);
+                    imageView.setImage(dice.get(i));
+
+                }
+
+
+
+
     }
 }

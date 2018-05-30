@@ -25,7 +25,7 @@ public interface View {
     void setDiceSpace(List <String> dices);
     void insertDiceAccepted();
 
-    void pickDiceSpace(List action);
+    void pickDiceSpace(List action) throws InterruptedException;
     void pickDiceSpaceError();
 
     void placeDiceSchema(List action);

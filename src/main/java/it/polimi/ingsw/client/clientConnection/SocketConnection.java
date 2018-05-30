@@ -139,7 +139,11 @@ public class SocketConnection implements Connection,Runnable {
             v.insertDiceAccepted();
         }else if(action.get(0).equals(PICK_DICE_SPACE))
         {
-            v.pickDiceSpace(action.subList(1,action.size()));
+            try {
+                v.pickDiceSpace(action.subList(1,action.size()));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }else if(action.get(0).equals(PICK_DICE_SPACE_ERROR))
         {
             v.pickDiceSpaceError();
