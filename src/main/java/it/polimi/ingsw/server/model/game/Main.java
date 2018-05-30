@@ -37,7 +37,7 @@ public class Main {
 
             Naming.rebind("RmiServerMethodInterface", stub);
             // devo passare un oggetto serverMethod a virtualView
-            System.out.println("server connesso");
+            System.out.println("Rmi pronto");
 
         }catch (Exception e) {
             System.out.println("Errore di connessione: " + e);

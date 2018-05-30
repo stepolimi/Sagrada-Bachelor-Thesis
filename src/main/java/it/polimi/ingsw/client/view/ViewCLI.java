@@ -34,6 +34,7 @@ public class ViewCLI implements View{
     private int nPlayer;
     private int round;
     private boolean gameRunning;
+    Thread schemaThread ;
     private static final String operatingSystem = System.getProperty("os.name");
     public ViewCLI()
     {
@@ -106,17 +107,27 @@ public class ViewCLI implements View{
         for(String s: schemas)
             showSchemas(s);
 
-        Thread t = new Thread(new Runnable() {
+        schemaThread = new Thread(new Runnable() {
             public void run() {
-                String nameSchema;
-                nameSchema = input.nextLine();
-                connection.sendSchema(nameSchema);
+                try {
+                    String nameSchema;
+                    nameSchema = input.nextLine();
+                    if(!schemaThread.isInterrupted())
+                    connection.sendSchema(nameSchema);
+                }catch(Exception e)
+                {
+                    System.out.println("Schema già inserito");
+                }
             }
         });
-        t.start();
+        schemaThread.start();
         System.out.println("\n");
     }
 
+    public void stopTakeSchema()
+    {
+        schemaThread.interrupt();
+    }
     public void setDiceSpace(List<String> dice)
     {
         diceSpace.clear();
@@ -595,6 +606,9 @@ public class ViewCLI implements View{
 
     public void chooseSchema(String name)
     {
+        if(schemaThread.isAlive())
+            schemaThread.interrupt();
+
         try {
             Schema s = new Schema();
             schemas.put(this.getName(),s.InitSchema("SchemaClient/"+name));
@@ -700,7 +714,7 @@ public class ViewCLI implements View{
                 if(row<0 || row>3)
                     throw  new NumberFormatException();
 
-                System.out.println("Inserisci la oolonna");
+                System.out.println("Inserisci la colonna");
                 column = Integer.parseInt(input.nextLine());
                 column --;
                 if (column<0 || column>4)

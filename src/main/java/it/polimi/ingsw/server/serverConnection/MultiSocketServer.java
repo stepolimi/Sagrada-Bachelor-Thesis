@@ -28,7 +28,7 @@ public class MultiSocketServer{
         try {
             serverSocket = new ServerSocket(port);
 
-            System.out.println("server ready");
+            System.out.println("Socket pronto");
             while(true)
             {
                 try

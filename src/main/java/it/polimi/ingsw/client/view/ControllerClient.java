@@ -51,7 +51,7 @@ public class ControllerClient implements View {
 
     public ImageView drop;
 
-
+    Object lock = new Object();
     private List<String> schemasClient;
 
 
@@ -613,10 +613,9 @@ public class ControllerClient implements View {
         }
     }
 
-    @FXML
-    void handleImageDropped(DragEvent event) throws InterruptedException {
+    @FXML void handleImageDropped(DragEvent event) throws InterruptedException {
 
-
+        System.out.println(this.getName());
 
         ImageView imageView = (ImageView) event.getTarget();
 
@@ -642,8 +641,9 @@ public class ControllerClient implements View {
         int colIndex = col;
 
         connection.insertDice(indexDiceSpace, rowIndex, colIndex);
-
-        sleep(600);
+        synchronized (lock) {
+            lock.wait();
+        }
 
         if(correctInsertion) {
             imageView.setImage(event.getDragboard().getImage());
@@ -773,8 +773,12 @@ public class ControllerClient implements View {
     }
 
     public void insertDiceAccepted() {
-        correctInsertion=true;
 
+        correctInsertion=true;
+        synchronized (lock)
+        {
+            lock.notify();
+        }
 
 
     }
@@ -798,6 +802,8 @@ public class ControllerClient implements View {
 
     public void placeDiceSchemaError() {
         correctInsertion=false;
-
+        synchronized (lock) {
+            lock.notify();
+        }
     }
 }

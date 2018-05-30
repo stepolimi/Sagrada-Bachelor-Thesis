@@ -32,7 +32,8 @@ public class ServerController implements Observer{
         if(head.equals("Login")) {loginManager((List)action); }
         else if(head.equals("Disconnected")) { logoutManager((List)action); }
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
-        else if(head.equals(PICK_DICE)) {insertDiceManager((List)action); }
+        else if(head.equals(PICK_DICE)) {
+            insertDiceManager((List)action); }
         else if(head.equals("TakeDice")) { takeDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
         else if(head.equals("UseCard")) {useCardManager((List)action); }
