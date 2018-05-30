@@ -18,7 +18,7 @@ public class PickDiceState implements State {
         }else if(action.get(1) == "RoundTrack")
             round.setPendingDice(round.getBoard().getRoundTrack().removeDice((Integer)action.get(2),(Integer)action.get(3)));
         else if(action.get(1) == "DiceBag")
-            round.setPendingDice(round.getBoard().getDicebag().takeDice());
+            round.setPendingDice(round.getBoard().getDiceBag().takeDice());
         else if(action.get(1) == "Schema")
             round.setPendingDice(round.getCurrentPlayer().getSchema().removeDice((Integer)action.get(2),(Integer)action.get(3)));
     }

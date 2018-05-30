@@ -1,14 +1,13 @@
 package it.polimi.ingsw.costants;
 
 public class GameCreationMessages {
-    public static final String setPrivateCard = "setPrivateCard";
-    public static final String setSchemas = "setSchemas";
-    public static final String setPublicObjectives = "setPublicObjectives";
-    public static final String setToolCards = "setToolCards";
-    public static final String approvedSchema = "okSchema";
-    public static final String setOpponentsSchemas = "setOpponentsSchemas";
-    public static final String startTurn = "startTurn";
-    public static final String endTurn ="EndTurn";
-    public static final String pickDice = "InsertDice";
-    public static final String setDiceSpace = "setDiceSpace";
+    public static final String SET_PRIVATE_CARD = "setPrivateCard";
+    public static final String SET_SCHEMAS = "setSchemas";
+    public static final String SET_PUBLIC_OBJECTIVES = "setPublicObjectives";
+    public static final String SET_TOOL_CARDS = "setToolCards";
+    public static final String APPROVED_SCHEMA = "okSchema";
+    public static final String SET_OPPONENTS_SCHEMAS = "setOpponentsSchemas";
+    public static final String START_TURN = "startTurn";
+    public static final String END_TURN ="EndTurn";
+    public static final String PICK_DICE = "InsertDice";
 }

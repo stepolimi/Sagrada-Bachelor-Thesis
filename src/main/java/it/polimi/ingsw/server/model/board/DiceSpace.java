@@ -14,9 +14,9 @@ public class DiceSpace extends Observable {
     public void setDices(List <Dice> dices) {
         List action = new ArrayList();
         this.dices = dices;
-        action.add(setDiceSpace);
+        action.add(SET_DICE_SPACE);
         for(Dice d: dices){
-            action.add(d.getcolour().toString());
+            action.add(d.getColour().toString());
             action.add(((Integer)d.getValue()).toString());
         }
         setChanged();
@@ -28,8 +28,8 @@ public class DiceSpace extends Observable {
     public void insertDice(Dice d) {
         List action = new ArrayList();
         this.dices.add(d);
-        action.add(placeDiceSpace);
-        action.add(d.getcolour().toString());
+        action.add(PLACE_DICE_SPACE);
+        action.add(d.getColour().toString());
         action.add(((Integer)d.getValue()).toString());
         setChanged();
         notifyObservers(action);
@@ -40,8 +40,7 @@ public class DiceSpace extends Observable {
         if(index < dices.size() && index >= 0) {
             return dices.get(index);
         }
-        action.add(pickDiceSpaceError);
-        action.add("diceSpace");
+        action.add(PICK_DICE_SPACE_ERROR);
         setChanged();
         notifyObservers(action);
         throw new RemoveDiceException();
@@ -53,7 +52,7 @@ public class DiceSpace extends Observable {
         {
             Dice d = dices.get(index);
             dices.remove(index);
-            action.add(pickDiceSpace);
+            action.add(PICK_DICE_SPACE);
             action.add(((Integer)index).toString());
             setChanged();
             notifyObservers(action);

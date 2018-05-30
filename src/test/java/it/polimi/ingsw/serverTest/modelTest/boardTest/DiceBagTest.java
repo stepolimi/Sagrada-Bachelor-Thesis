@@ -15,7 +15,7 @@ public class DiceBagTest {
         int r = 0, y=0, p=0, g=0, b=0;
         int notZero =0;
         for(Dice d: db.getDices()){
-            switch(d.getcolour()) {
+            switch(d.getColour()) {
                 case ANSI_RED:r++; break;
                 case ANSI_YELLOW:y++; break;
                 case ANSI_PURPLE:p++; break;
@@ -42,7 +42,7 @@ public class DiceBagTest {
     void ExtractDice() {
         String str;
         int r = 18,y=18,p=18,g=18,b=18;
-        switch(db.takeDice().getcolour()) {
+        switch(db.takeDice().getColour()) {
             case ANSI_RED:r--; break;
             case ANSI_YELLOW:y--;break;
             case ANSI_PURPLE:p--;break;

@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.timer;
 
 import java.util.TimerTask;
 
-import static it.polimi.ingsw.costants.LoginMessages.timerElapsed;
-import static it.polimi.ingsw.costants.LoginMessages.timerPing;
+import static it.polimi.ingsw.costants.LoginMessages.TIMER_ELAPSED;
+import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
 
 public class GameTimer extends TimerTask{
     private Long startingTime = 0L;
@@ -20,11 +20,11 @@ public class GameTimer extends TimerTask{
         if(startingTime == 0)
             startingTime = System.currentTimeMillis();
         if (System.currentTimeMillis() < startingTime + waitTime * 1000) {
-            timedComponent.notifyChanges(timerPing);
+            timedComponent.notifyChanges(TIMER_PING);
         }
         else{
-            timedComponent.notifyChanges(timerPing);
-            timedComponent.notifyChanges(timerElapsed);
+            timedComponent.notifyChanges(TIMER_PING);
+            timedComponent.notifyChanges(TIMER_ELAPSED);
             this.cancel();
         }
     }

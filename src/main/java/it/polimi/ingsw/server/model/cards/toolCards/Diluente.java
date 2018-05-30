@@ -13,9 +13,9 @@ public class Diluente extends ToolCard {
     private boolean used= false;
 
     public boolean effects(Player p, Round round, int x, int y) {
-        round.getBoard().getDicebag().insertDice(round.getPendingDice());
+        round.getBoard().getDiceBag().insertDice(round.getPendingDice());
         round.setPendingDice(null);
-        Dice d= round.getBoard().getDicebag().takeDice();
+        Dice d= round.getBoard().getDiceBag().takeDice();
 
         if(placeDiceToSchema(x, y, d, p.getSchema(), numCard) == true) {
 

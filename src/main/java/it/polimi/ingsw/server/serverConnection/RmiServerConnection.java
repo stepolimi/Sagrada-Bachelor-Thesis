@@ -1,17 +1,16 @@
 package it.polimi.ingsw.server.serverConnection;
 
 import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
-import it.polimi.ingsw.costants.GameConstants;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameConstants.setDiceSpace;
+import static it.polimi.ingsw.costants.GameConstants.SET_DICE_SPACE;
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.costants.TimerCostants.schemasTimerPing;
-import static it.polimi.ingsw.costants.TimerCostants.turnTimerPing;
+import static it.polimi.ingsw.costants.TimerCostants.SCHEMAS_TIMER_PING;
+import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_PING;
 
 public class RmiServerConnection implements Connection{
     RmiClientMethodInterface client;
@@ -25,58 +24,58 @@ public class RmiServerConnection implements Connection{
     public void sendMessage(List action) {
         try {
 
-            if((action.get(0)).equals(loginSuccessful)) {
+            if((action.get(0)).equals(LOGIN_SUCCESSFUL)) {
                 client.login(action);
-            } else if((action.get(0)).equals(loginError) ){
+            } else if((action.get(0)).equals(LOGIN_ERROR) ){
                 client.login(action);
-            } else if(action.get(0).equals(logout)){
+            } else if(action.get(0).equals(LOGOUT)){
                 client.playerDisconnected(action);
-            } else if(action.get(0).equals(timerPing)) {
+            } else if(action.get(0).equals(TIMER_PING)) {
                 client.timerPing(action);
-            } else if(action.get(0).equals(schemasTimerPing)) {
+            } else if(action.get(0).equals(SCHEMAS_TIMER_PING)) {
                 //client.schemasTimerPing(action);
-            } else if(action.get(0).equals(turnTimerPing)) {
+            } else if(action.get(0).equals(TURN_TIMER_PING)) {
                 //client.turnTimerPing(action);
-            } else if(action.get(0).equals(startingGameMsg)) {
+            } else if(action.get(0).equals(STARTING_GAME_MSG)) {
                 client.createGame();
-            } else if(action.get(0).equals(setPrivateCard)) {
+            } else if(action.get(0).equals(SET_PRIVATE_CARD)) {
                 String privateCard = (String)action.get(1);
                 client.setPrivateCard(privateCard);
-            } else if(action.get(0).equals(setSchemas)) {
+            } else if(action.get(0).equals(SET_SCHEMAS)) {
                 client.setSchemas(action);
-            } else if(action.get(0).equals(setPublicObjectives)) {
+            } else if(action.get(0).equals(SET_PUBLIC_OBJECTIVES)) {
                 client.setPublicObjectives(action);
-            } else if(action.get(0).equals(setToolCards)) {
+            } else if(action.get(0).equals(SET_TOOL_CARDS)) {
                 client.setToolCards(action);
-            } else if(action.get(0).equals(approvedSchema)){
+            } else if(action.get(0).equals(APPROVED_SCHEMA)){
                 client.chooseSchema(action);
-            } else if(action.get(0).equals(setOpponentsSchemas)){
+            } else if(action.get(0).equals(SET_OPPONENTS_SCHEMAS)){
                client.setOpponentsSchemas(action);
-            } else if(action.get(0).equals(startTurn)) {
+            } else if(action.get(0).equals(START_TURN)) {
                 client.startTurn(action);
-            } else if(action.get(0).equals(startRound)) {
+            } else if(action.get(0).equals(START_ROUND)) {
                 client.startRound(action);
-            } else if(action.get(0).equals(setActions)) {
+            } else if(action.get(0).equals(SET_ACTIONS)) {
                 client.setActions(action);
-            } else if(action.get(0).equals(insertDiceAccepted)) {
+            } else if(action.get(0).equals(INSERT_DICE_ACCEPTED)) {
                 client.insertDiceAccepted(action);
-            } else if(action.get(0).equals(setDiceSpace)) {
+            } else if(action.get(0).equals(SET_DICE_SPACE)) {
                 client.setDiceSpace(action);
-            } else if(action.get(0).equals(placeDiceSpace)) {
+            } else if(action.get(0).equals(PLACE_DICE_SPACE)) {
                 //client.placeDiceSpace(action);
-            }else if(action.get(0).equals(placeDiceSpaceError)) {
+            }else if(action.get(0).equals(PLACE_DICE_SPACE_ERROR)) {
                 //client.placeDiceSpaceError(action);
-            } else if(action.get(0).equals(pickDiceSpace)) {
+            } else if(action.get(0).equals(PICK_DICE_SPACE)) {
                 client.pickDiceSpace(action);
-            }else if(action.get(0).equals(pickDiceSpaceError)) {
+            }else if(action.get(0).equals(PICK_DICE_SPACE_ERROR)) {
                 client.pickDiceSpaceError(action);
-            } else if(action.get(0).equals(pickDiceSchema)) {
+            } else if(action.get(0).equals(PICK_DICE_SCHEMA)) {
                 //client.pickDiceSchema(action);
-            } else if(action.get(0).equals(pickDiceSchemaError)) {
+            } else if(action.get(0).equals(PICK_DICE_SCHEMA_ERROR)) {
                 //client.pickDiceSchemaError(action);
-            } else if(action.get(0).equals(placeDiceSchema)) {
+            } else if(action.get(0).equals(PLACE_DICE_SCHEMA)) {
                 client.placeDiceSchema(action);
-            } else if(action.get(0).equals(placeDiceSchemaError)) {
+            } else if(action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
                 client.placeDiceSchemaError(action);
             }
 

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
@@ -12,8 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.endTurn;
-import static it.polimi.ingsw.costants.TimerCostants.LobbyTimerValue;
+import static it.polimi.ingsw.costants.TimerCostants.LOBBY_TIMER_VALUE;
 
 
 public class ViewCLI implements View{
@@ -571,8 +569,8 @@ public class ViewCLI implements View{
 
     public void timerPing(String time) {
         //System.out.println("Caricamento");
-       // for(int i=0;i<(LobbyTimerValue-Integer.parseInt(time))/5;i++) {
-            int percent =(int)(((LobbyTimerValue-Double.parseDouble(time))/LobbyTimerValue)*100);
+       // for(int i=0;i<(LOBBY_TIMER_VALUE-Integer.parseInt(time))/5;i++) {
+            int percent =(int)(((LOBBY_TIMER_VALUE -Double.parseDouble(time))/ LOBBY_TIMER_VALUE)*100);
             System.out.print("\u001B[34m\rLoading:");
             for(int i=0;i<percent;i++)
             {

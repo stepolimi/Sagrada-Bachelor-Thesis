@@ -12,7 +12,7 @@ public class ColourRule implements InsertionRule {
             return true;
         if(toolCardNumber == 2)
             return true;
-        if(sch.getTable(x,y).getC() == dice.getcolour())
+        if(sch.getTable(x,y).getC() == dice.getColour())
             return true;
         return false;
     }

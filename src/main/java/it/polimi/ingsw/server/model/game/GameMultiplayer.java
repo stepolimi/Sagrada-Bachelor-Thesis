@@ -15,9 +15,9 @@ import it.polimi.ingsw.server.timer.TimedComponent;
 import java.util.*;
 
 import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.timerPing;
-import static it.polimi.ingsw.costants.TimerCostants.schemaTimerValue;
-import static it.polimi.ingsw.costants.TimerCostants.schemasTimerPing;
+import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
+import static it.polimi.ingsw.costants.TimerCostants.SCHEMA_TIMER_VALUE;
+import static it.polimi.ingsw.costants.TimerCostants.SCHEMAS_TIMER_PING;
 
 public class GameMultiplayer extends Observable implements TimedComponent {
     private List<Player> players;
@@ -48,7 +48,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         //set one set of 3 Public Objective and one of 3 Tool Cards in the board
         DeckPublicObjective deckPublic = new DeckPublicObjective();
         DeckToolsCard deckTools = new DeckToolsCard();
-        board.setDeckpubl(deckPublic.extract(players.size()));
+        board.setDeckPublic(deckPublic.extract(players.size()));
         board.setDeckTool(deckTools.extract());
 
         //set a private objective and a set of 4 Schemas for each player
@@ -59,11 +59,11 @@ public class GameMultiplayer extends Observable implements TimedComponent {
             p.addObserver(obs);
             p.setPrCard(deckPriv.extract());
             p.setSchemas(deckSchemas.deliver(getBoard().getIndex(p)));
-            board.addPriv(p.getPrCard());
+            board.addPrivate(p.getPrCard());
         }
 
         startingTime = System.currentTimeMillis();
-        schemaTimer = new GameTimer(schemaTimerValue,this);
+        schemaTimer = new GameTimer(SCHEMA_TIMER_VALUE,this);
         timer = new Timer();
         timer.schedule(schemaTimer,0L,5000L);
     }
@@ -84,7 +84,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
 
     public void notifyChanges(String string) {
         List action = new ArrayList();
-        if (string.equals(timerElapsed)) {
+        if (string.equals(TIMER_ELAPSED)) {
             System.out.println("Choosing schema timer elapsed\n"+"---");
             for(Player p: players){
                 if(p.getSchema() == null)
@@ -92,9 +92,9 @@ public class GameMultiplayer extends Observable implements TimedComponent {
             }
             roundManager.setFirstPlayer();
             roundManager.startNewRound();
-        } else if (string.equals(timerPing)) {
-            action.add(schemasTimerPing);
-            action.add(((Long) (TimerCostants.LobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000)).toString());
+        } else if (string.equals(TIMER_PING)) {
+            action.add(SCHEMAS_TIMER_PING);
+            action.add(((Long) (TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000)).toString());
             setChanged();
             notifyObservers(action);
         }

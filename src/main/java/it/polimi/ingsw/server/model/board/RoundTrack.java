@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK;
+import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ROUND_TRACK;
+import static it.polimi.ingsw.server.serverCostants.Costants.TOT_ROUNDS;
+
 public class RoundTrack extends Observable{
     private List<Dice>[] listRounds;
-    private static int totRounds = 10;
+
     public RoundTrack() {
-        listRounds = new ArrayList [totRounds];
-        for(int i = 0;i<totRounds;i++)
+        listRounds = new ArrayList [TOT_ROUNDS];
+        for(int i = 0; i< TOT_ROUNDS; i++)
             listRounds[i]=new ArrayList<Dice>();
     }
 
@@ -22,10 +26,10 @@ public class RoundTrack extends Observable{
     public void insertDices(List<Dice> dices, int nRound) {
         List<String> action = new ArrayList<String>();
         this.listRounds[nRound].addAll(dices);
-        action.add("addRoundTrack");
+        action.add(PLACE_DICE_ROUND_TRACK);
         action.add(((Integer)nRound).toString());
         for(Dice d: dices){
-            action.add(d.getcolour().toString());
+            action.add(d.getColour().toString());
             action.add(((Integer)d.getValue()).toString());
         }
         setChanged();
@@ -35,9 +39,9 @@ public class RoundTrack extends Observable{
     public void insertDice(Dice dice, int nRound) {
         List<String> action = new ArrayList<String>();
         this.listRounds[nRound].add(dice);
-        action.add("addRoundTrack");
+        action.add(PLACE_DICE_ROUND_TRACK);
         action.add(((Integer)nRound).toString());
-        action.add(dice.getcolour().toString());
+        action.add(dice.getColour().toString());
         action.add(((Integer)dice.getValue()).toString());
         setChanged();
         notifyObservers(action);
@@ -48,7 +52,7 @@ public class RoundTrack extends Observable{
         Dice dice;
         dice = this.listRounds[nRound].get(nDice);
         this.listRounds[nRound].remove(nDice);
-        action.add("removeRoundTrack");
+        action.add(PICK_DICE_ROUND_TRACK);
         action.add(((Integer)nRound).toString());
         action.add(((Integer)nDice).toString());
         setChanged();
@@ -60,7 +64,7 @@ public class RoundTrack extends Observable{
     @Override
     public String toString() {
         String str = "";
-        for(int i=0;i<totRounds;i++)
+        for(int i = 0; i< TOT_ROUNDS; i++)
         {
             str+="Round "+(i+1)+"\n";
             if(this.listRounds[i].isEmpty()==false)

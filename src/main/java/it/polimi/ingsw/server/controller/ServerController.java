@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.endTurn;
-import static it.polimi.ingsw.costants.GameCreationMessages.pickDice;
+import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
+import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
 
 public class ServerController implements Observer{
     private Session session;
@@ -32,11 +32,11 @@ public class ServerController implements Observer{
         if(head.equals("Login")) {loginManager((List)action); }
         else if(head.equals("Disconnected")) { logoutManager((List)action); }
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
-        else if(head.equals(pickDice)) {insertDiceManager((List)action); }
+        else if(head.equals(PICK_DICE)) {insertDiceManager((List)action); }
         else if(head.equals("TakeDice")) { takeDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
         else if(head.equals("UseCard")) {useCardManager((List)action); }
-        else if(head.equals(endTurn)) {endTurnManager((List)action); }
+        else if(head.equals(END_TURN)) {endTurnManager((List)action); }
         else{
             view.sendError((String)((List)action).get(1));
         }

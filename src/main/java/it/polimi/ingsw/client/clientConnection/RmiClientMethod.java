@@ -4,15 +4,11 @@ package it.polimi.ingsw.client.clientConnection;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.View;
 
-import javax.swing.*;
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.LoginMessages.loginError;
-import static it.polimi.ingsw.costants.LoginMessages.loginSuccessful;
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN_SUCCESSFUL;
 
 
 public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMethodInterface {
@@ -32,7 +28,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void login(List action)throws RemoteException{
-        if(action.get(0).equals(loginSuccessful)) {
+        if(action.get(0).equals(LOGIN_SUCCESSFUL)) {
             if (action.get(1).equals(v.getName()))
                 v.login((String)action.get(0));
             else

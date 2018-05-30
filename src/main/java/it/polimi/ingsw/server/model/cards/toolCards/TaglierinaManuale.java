@@ -32,7 +32,7 @@ public class TaglierinaManuale extends ToolCard {
 
        Dice d1 = pickDiceFromSchema(x, y, p.getSchema());
 
-       if(placeDiceToSchema(rows, columns, d1, p.getSchema(), numCard)  && d1.getcolour() ==
+       if(placeDiceToSchema(rows, columns, d1, p.getSchema(), numCard)  && d1.getColour() ==
                OneColourRoundTrack(round.getBoard().getRoundTrack(),  i)) {
 
            p.getSchema().removeDice(x, y);
@@ -45,7 +45,7 @@ public class TaglierinaManuale extends ToolCard {
                Dice d2 = pickDiceFromSchema(x2, y2, p.getSchema());
                if (!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), numCard))
                    return false;
-               if (d1.getcolour() == OneColourRoundTrack(round.getBoard().getRoundTrack(), i)) {
+               if (d1.getColour() == OneColourRoundTrack(round.getBoard().getRoundTrack(), i)) {
                    p.getSchema().removeDice(x2, y2);
                    try {
                        p.getSchema().insertDice(rows2, columns2, d2,12);
@@ -82,7 +82,7 @@ public class TaglierinaManuale extends ToolCard {
     public Colour OneColourRoundTrack(RoundTrack roundTrack, int i) {
         boolean flag = false;
         if (roundTrack.getListRounds(i).size() == 1) {
-            return roundTrack.getDice(i, 0).getcolour();
+            return roundTrack.getDice(i, 0).getColour();
 
         } else return null;
 

@@ -27,15 +27,15 @@ public class SetObj extends ObjectiveCard {
             for(int i=0; i < 4; i++){
                 for(int j=0; j<5; j++) {
                     if (sch.getTable(i, j).getDice() != null) {
-                        if (sch.getTable(i, j).getDice().getcolour() == Colour.ANSI_RED)
+                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_RED)
                             count[0]++;
-                        if (sch.getTable(i, j).getDice().getcolour() == Colour.ANSI_BLUE)
+                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_BLUE)
                             count[1]++;
-                        if (sch.getTable(i, j).getDice().getcolour() == Colour.ANSI_GREEN)
+                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_GREEN)
                             count[2]++;
-                        if (sch.getTable(i, j).getDice().getcolour() == Colour.ANSI_PURPLE)
+                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_PURPLE)
                             count[3]++;
-                        if (sch.getTable(i, j).getDice().getcolour() == Colour.ANSI_YELLOW)
+                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_YELLOW)
                             count[4]++;
                     }
                 }

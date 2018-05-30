@@ -33,11 +33,11 @@ public class AdjacentRule implements InsertionRule {
     public boolean adjacentDicesCheck(List <Dice> nearDices, Dice dice){
         for(int i= 1; i < 4; i= i+2 )
             if(nearDices.get(i) != null)
-                if(nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getcolour() == dice.getcolour())
+                if(nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour())
                     return false;
         for(int i = 4; i < 7; i= i+2 )
             if(nearDices.get(i) != null)
-                if(nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getcolour() == dice.getcolour())
+                if(nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour())
                     return false;
         return true;
     }

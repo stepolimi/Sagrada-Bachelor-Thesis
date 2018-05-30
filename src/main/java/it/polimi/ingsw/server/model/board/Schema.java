@@ -76,7 +76,7 @@ public class Schema extends Observable{
     public void testInsertDice(int rows , int columns, Dice d, int tool) throws InsertDiceException{
         List<String> action = new ArrayList<String>();
         if(!rulesManager.checkRules(tool,rows,columns,d,this)) {
-            action.add(placeDiceSchemaError);
+            action.add(PLACE_DICE_SCHEMA_ERROR);
             action.add(player);
             setChanged();
             notifyObservers(action);
@@ -89,11 +89,11 @@ public class Schema extends Observable{
         if(rulesManager.checkRules(tool,rows,columns,d,this)) {                                 //can be useless
             this.isEmpty = false;
             this.table[rows][columns].setDice(d);
-            action.add(placeDiceSchema);
+            action.add(PLACE_DICE_SCHEMA);
             action.add(player);
             action.add(((Integer)rows).toString());
             action.add(((Integer)columns).toString());
-            action.add(d.getcolour().toString());
+            action.add(d.getColour().toString());
             action.add(((Integer)d.getValue()).toString());
             setChanged();
             notifyObservers(action);
@@ -115,7 +115,7 @@ public class Schema extends Observable{
         if(this.table[rows][columns].getDice()!=null) {
             d = this.table[rows][columns].getDice();
             this.table[rows][columns].setDice(null);
-            action.add(pickDiceSchema);
+            action.add(PICK_DICE_SCHEMA);
             action.add(player);
             action.add(((Integer)rows).toString());
             action.add(((Integer)columns).toString());
@@ -123,7 +123,7 @@ public class Schema extends Observable{
             notifyObservers(action);
             return d;
         }
-        action.add(pickDiceSchemaError);
+        action.add(PICK_DICE_SCHEMA_ERROR);
         action.add(player);
         setChanged();
         notifyObservers(action);

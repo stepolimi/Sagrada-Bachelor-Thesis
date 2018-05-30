@@ -9,7 +9,7 @@ import java.net.Socket;
 import java.util.*;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameConstants.setDiceSpace;
+import static it.polimi.ingsw.costants.GameConstants.SET_DICE_SPACE;
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 import static it.polimi.ingsw.costants.LoginMessages.*;
 
@@ -57,12 +57,12 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     public void insertDice(int indexDiceSpace, int row, int column) {
-        out.println(pickDice+"-"+indexDiceSpace+"-"+row+"-"+column);
+        out.println(PICK_DICE +"-"+indexDiceSpace+"-"+row+"-"+column);
         out.flush();
     }
 
     public void sendEndTurn() {
-        out.println(endTurn);
+        out.println(END_TURN);
         out.flush();
     }
 
@@ -90,7 +90,7 @@ public class SocketConnection implements Connection,Runnable {
     // deliver action on GUI or CLI
     public void deliverGI(List<String> action) {
         View v = hand.getView();
-        if(action.get(0).equals(loginSuccessful)) {
+        if(action.get(0).equals(LOGIN_SUCCESSFUL)) {
             if (action.get(1).equals(v.getName())){
                 v.login(action.get(0));
                 v.setNumberPlayer(Integer.parseInt(action.get(2)));
@@ -99,54 +99,54 @@ public class SocketConnection implements Connection,Runnable {
             else
                 v.playerConnected(action.get(1));
         }
-        else if(action.get(0).equals(loginError)) {
+        else if(action.get(0).equals(LOGIN_ERROR)) {
             v.login(action.get(0) + "-" + action.get(1));
-        }else if(action.get(0).equals(logout)){
+        }else if(action.get(0).equals(LOGOUT)){
             v.playerDisconnected(action.get(1));
-        }else if(action.get(0).equals(timerPing)){
+        }else if(action.get(0).equals(TIMER_PING)){
             v.timerPing(action.get(1));
-        }else if(action.get(0).equals(startingGameMsg)) {
+        }else if(action.get(0).equals(STARTING_GAME_MSG)) {
             v.createGame();
-        }else if(action.get(0).equals(setSchemas)) {
+        }else if(action.get(0).equals(SET_SCHEMAS)) {
             v.setSchemas(action.subList(1,5));
-        }else if(action.get(0).equals(setPrivateCard)) {
+        }else if(action.get(0).equals(SET_PRIVATE_CARD)) {
             v.setPrivateCard(action.get(1));
-        }else if(action.get(0).equals(setPublicObjectives)) {
+        }else if(action.get(0).equals(SET_PUBLIC_OBJECTIVES)) {
             v.setPublicObjectives(action.subList(1,4));
-        }else if(action.get(0).equals(setToolCards)) {
+        }else if(action.get(0).equals(SET_TOOL_CARDS)) {
             v.setToolCards(action.subList(1,4));
-        }else if(action.get(0).equals(approvedSchema))
+        }else if(action.get(0).equals(APPROVED_SCHEMA))
         {
             v.chooseSchema(action.get(1));
-        }else if(action.get(0).equals(setOpponentsSchemas))
+        }else if(action.get(0).equals(SET_OPPONENTS_SCHEMAS))
         {
             v.setOpponentsSchemas(action.subList(1,action.size()));
-        }else if(action.get(0).equals(startTurn))
+        }else if(action.get(0).equals(START_TURN))
         {
             v.startTurn(action.get(1));
-        }else if(action.get(0).equals(startRound))
+        }else if(action.get(0).equals(START_ROUND))
         {
             v.startRound();
-        }else if(action.get(0).equals(setActions))
+        }else if(action.get(0).equals(SET_ACTIONS))
         {
             v.setActions(action.subList(1,action.size()));
-        }else if(action.get(0).equals(setDiceSpace))
+        }else if(action.get(0).equals(SET_DICE_SPACE))
         {
             v.setDiceSpace(action.subList(1,action.size()));
         }
-        else if(action.get(0).equals(insertDiceAccepted))
+        else if(action.get(0).equals(INSERT_DICE_ACCEPTED))
         {
             v.insertDiceAccepted();
-        }else if(action.get(0).equals(pickDiceSpace))
+        }else if(action.get(0).equals(PICK_DICE_SPACE))
         {
             v.pickDiceSpace(action.subList(1,action.size()));
-        }else if(action.get(0).equals(pickDiceSpaceError))
+        }else if(action.get(0).equals(PICK_DICE_SPACE_ERROR))
         {
             v.pickDiceSpaceError();
-        }else if(action.get(0).equals(placeDiceSchemaError))
+        }else if(action.get(0).equals(PLACE_DICE_SCHEMA_ERROR))
         {
             v.placeDiceSchemaError();
-        }else if(action.get(0).equals(placeDiceSchema))
+        }else if(action.get(0).equals(PLACE_DICE_SCHEMA))
         {
             v.placeDiceSchema(action.subList(1,action.size()));
         }

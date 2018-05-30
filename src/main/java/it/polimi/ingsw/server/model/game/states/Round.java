@@ -9,12 +9,11 @@ import it.polimi.ingsw.server.timer.TimedComponent;
 import java.util.*;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.startTurn;
-import static it.polimi.ingsw.costants.LoginMessages.timerElapsed;
-import static it.polimi.ingsw.costants.LoginMessages.timerPing;
-import static it.polimi.ingsw.costants.TimerCostants.TurnTimerValue;
-import static it.polimi.ingsw.costants.TimerCostants.turnTimerElapsed;
-import static it.polimi.ingsw.costants.TimerCostants.turnTimerPing;
+import static it.polimi.ingsw.costants.GameCreationMessages.START_TURN;
+import static it.polimi.ingsw.costants.LoginMessages.TIMER_ELAPSED;
+import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
+import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_VALUE;
+import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_PING;
 
 public class Round extends Observable implements TimedComponent {
     private Player firstPlayer;
@@ -63,7 +62,7 @@ public class Round extends Observable implements TimedComponent {
         notifyChanges("newState");
 
         startingTime = System.currentTimeMillis();
-        turnTimer = new GameTimer(TurnTimerValue,this);
+        turnTimer = new GameTimer(TURN_TIMER_VALUE,this);
         timer = new Timer();
         timer.schedule(turnTimer,0L,5000L);
     }
@@ -80,12 +79,12 @@ public class Round extends Observable implements TimedComponent {
             }
             notifyChanges("newState");
             startingTime = System.currentTimeMillis();
-            turnTimer = new GameTimer(TurnTimerValue,this);
+            turnTimer = new GameTimer(TURN_TIMER_VALUE,this);
             timer = new Timer();
             timer.schedule(turnTimer, 0L, 5000L);
         }else{
             System.out.println("can't perform: " + action.get(0) + " now\n" + " ---");
-            notifyChanges(illegalAction);
+            notifyChanges(ILLEGAL_ACTION);
         }
     }
 
@@ -129,37 +128,37 @@ public class Round extends Observable implements TimedComponent {
         List<String> action = new ArrayList<String>();
         if(string.equals("newState")) {
             if (currentState.toString().equals("ExtractDiceState")) {
-                action.add(startRound);
+                action.add(START_ROUND);
                 setChanged();
                 notifyObservers(action);
                 action.clear();
 
-                action.add(startTurn);
+                action.add(START_TURN);
                 action.add(currentPlayer.getNickname());
                 setChanged();
                 notifyObservers(action);
             } else if (currentState.toString().equals("EndTurnState")) {
-                action.add(startTurn);
+                action.add(START_TURN);
                 action.add(currentPlayer.getNickname());
                 setChanged();
                 notifyObservers(action);
             }
             action.clear();
-            action.add(setActions);
+            action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        }else if(string.equals(insertDiceAccepted)){
+        }else if(string.equals(INSERT_DICE_ACCEPTED)){
             action.add(string);
             action.add(currentPlayer.getNickname());
-        }else if(string.equals(illegalAction)){
-            action.add(setActions);
+        }else if(string.equals(ILLEGAL_ACTION)){
+            action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        }else if(string.equals(timerPing)){
-            action.add(turnTimerPing);
+        }else if(string.equals(TIMER_PING)){
+            action.add(TURN_TIMER_PING);
             action.add(currentPlayer.getNickname());
-            action.add(((Long)(TurnTimerValue - (System.currentTimeMillis() - startingTime)/1000)).toString());
-        }else if(string.equals(timerElapsed)){
+            action.add(((Long)(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
+        }else if(string.equals(TIMER_ELAPSED)){
             System.out.println("TurnTimer elapsed\n"+" ---");
             currentPlayer.setConnected(false);
             List list = new ArrayList();

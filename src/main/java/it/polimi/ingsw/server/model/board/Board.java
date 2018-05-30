@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.setOpponentsSchemas;
-import static it.polimi.ingsw.costants.GameCreationMessages.setPublicObjectives;
-import static it.polimi.ingsw.costants.GameCreationMessages.setToolCards;
+import static it.polimi.ingsw.costants.GameCreationMessages.SET_OPPONENTS_SCHEMAS;
+import static it.polimi.ingsw.costants.GameCreationMessages.SET_PUBLIC_OBJECTIVES;
+import static it.polimi.ingsw.costants.GameCreationMessages.SET_TOOL_CARDS;
 
 public class Board extends Observable{
     private List<Player>  playerList;
@@ -73,7 +73,7 @@ public class Board extends Observable{
         return playerList.size();
     }
 
-    public DiceBag getDicebag() { return dicebag;  }
+    public DiceBag getDiceBag() { return dicebag;  }
 
     public void setDiceSpace(List<Dice> dices){
         diceSpace = new DiceSpace();
@@ -85,26 +85,26 @@ public class Board extends Observable{
 
     public List<PrivateObjective> getDeckpriv() { return deckPrivate; }
 
-    public List<ToolCard> getDecktool() { return deckTool; }
+    public List<ToolCard> getDeckTool() { return deckTool; }
 
-    public List<ObjectiveCard> getDeckpubl() { return deckPublic; }
+    public List<ObjectiveCard> getDeckPublic() { return deckPublic; }
 
     public void addSchema(Schema schema){
         this.deckSchemas.add(schema);
         if(deckSchemas.size() == playerList.size())
-            notifyChanges(setOpponentsSchemas);
+            notifyChanges(SET_OPPONENTS_SCHEMAS);
     }
 
-    public void setDeckpubl(List<ObjectiveCard> deck){
+    public void setDeckPublic(List<ObjectiveCard> deck){
         this.deckPublic = deck;
-        notifyChanges(setPublicObjectives);
+        notifyChanges(SET_PUBLIC_OBJECTIVES);
     }
 
-    public void addPriv(PrivateObjective Priv) { this.deckPrivate.add(Priv); }
+    public void addPrivate(PrivateObjective Priv) { this.deckPrivate.add(Priv); }
 
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
-        notifyChanges(setToolCards);
+        notifyChanges(SET_TOOL_CARDS);
     }
 
     public int getConnected(){
@@ -119,13 +119,13 @@ public class Board extends Observable{
     public void notifyChanges(String string){
         List action = new ArrayList();
         action.add(string);
-        if(string.equals(setPublicObjectives))
+        if(string.equals(SET_PUBLIC_OBJECTIVES))
             for(ObjectiveCard o: deckPublic)
                 action.add(o.getName());
-        else if (string.equals(setToolCards))
+        else if (string.equals(SET_TOOL_CARDS))
             for(ToolCard tool: deckTool)
                 action.add(tool.getNum().toString());
-        else if(string.equals(setOpponentsSchemas)){
+        else if(string.equals(SET_OPPONENTS_SCHEMAS)){
             for(Player p: playerList) {
                 action.add(p.getNickname());
                 action.add(p.getSchema().getName());

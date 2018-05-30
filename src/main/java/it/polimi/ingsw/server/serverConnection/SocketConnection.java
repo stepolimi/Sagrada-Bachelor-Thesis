@@ -9,10 +9,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
-import static it.polimi.ingsw.costants.LoginMessages.loginError;
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
 
 public class SocketConnection implements Runnable,Connection {
     Socket s;
@@ -60,7 +59,7 @@ public class SocketConnection implements Runnable,Connection {
             forwardAction(action);
         }else{
             action.clear();
-            action.add(loginError);
+            action.add(LOGIN_ERROR);
             action.add("username");
             sendMessage(action);
         }

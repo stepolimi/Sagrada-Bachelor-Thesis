@@ -8,6 +8,8 @@ import it.polimi.ingsw.server.timer.TimedComponent;
 import java.util.*;
 
 import static it.polimi.ingsw.costants.LoginMessages.*;
+import static it.polimi.ingsw.server.serverCostants.Costants.MAX_PLAYERS;
+import static it.polimi.ingsw.server.serverCostants.Costants.MIN_PLAYERS;
 
 //session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
 //players that will leave the game after his start will be set as "disconnected" but not removed from the game.
@@ -33,34 +35,34 @@ public  class Session extends Observable implements TimedComponent {
             }else
                 for(Player p: lobby) {
                     if (p.getNickname().equals(player)) {
-                        notifyChanges(loginError);
+                        notifyChanges(LOGIN_ERROR);
                         return;
                     }
                 }
-            notifyChanges(loginSuccessful);
+            notifyChanges(LOGIN_SUCCESSFUL);
             lobby.add(new Player(player));
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
-            if(lobby.size() == 2 ) {
+            if(lobby.size() == MIN_PLAYERS ) {
                 startingTime = System.currentTimeMillis();
-                lobbyTimer = new GameTimer(TimerCostants.LobbyTimerValue,this);
+                lobbyTimer = new GameTimer(TimerCostants.LOBBY_TIMER_VALUE,this);
                 timer = new Timer();
                 timer.schedule(lobbyTimer,0L,5000L);
             }
-            else if(lobby.size() == 4){
+            else if(lobby.size() == MAX_PLAYERS){
                 timer.cancel();
-                notifyChanges(lobbyFull);
+                notifyChanges(LOBBY_FULL);
             }
         }
         else {
             for(Player p: lobby){
                 if(p.getNickname().equals(player)){
                     p.setConnected(true);
-                    notifyChanges("WelcomeBack");
+                    notifyChanges(WELCOME_BACK);
                     return ;
                 }
             }
             System.out.println("connection failed: a game is already running\n" + " ---");
-            notifyChanges(loginError);
+            notifyChanges(LOGIN_ERROR);
         }
     }
 
@@ -72,19 +74,19 @@ public  class Session extends Observable implements TimedComponent {
                 if(lobby.get(i).getNickname().equals(player)) {
                     lobby.remove(i);
                 }
-            if(lobby.size() == 1) {
+            if(lobby.size() == MIN_PLAYERS-1) {
                 timer.cancel();
                 startingTime = 0L;
             }
             System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
-            notifyChanges(logout);
+            notifyChanges(LOGOUT);
         }
         else {
             for (Player p : game.getPlayers()) {
                 if (p.getNickname().equals(player)) {
                     p.setConnected(false);
                     System.out.println(player + " disconnected:\n"+ "players still connected: " + game.getBoard().getConnected() + "\n ---" );
-                    notifyChanges(logout);
+                    notifyChanges(LOGOUT);
                 }
             }
         }
@@ -104,37 +106,37 @@ public  class Session extends Observable implements TimedComponent {
     }
 
     public void notifyChanges(String string){
-        if(string.equals(timerElapsed) || string.equals(lobbyFull)) {
+        if(string.equals(TIMER_ELAPSED) || string.equals(LOBBY_FULL)) {
             action.clear();
-            action.add(startingGameMsg);
+            action.add(STARTING_GAME_MSG);
             action.add("partita creata");
             setChanged();
             notifyObservers(action);
             startGame();
-        }else if(string.equals(timerPing)){
+        }else if(string.equals(TIMER_PING)){
             action.clear();
-            action.add(timerPing);
-            action.add(((Long)(TimerCostants.LobbyTimerValue - (System.currentTimeMillis() - startingTime)/1000)).toString());
+            action.add(TIMER_PING);
+            action.add(((Long)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
             setChanged();
             notifyObservers(action);
-        }else if(string.equals(loginError)){
+        }else if(string.equals(LOGIN_ERROR)){
             action.add(string);
             action.add(player);
             action.add("game");
             setChanged();
             notifyObservers(action);
-        }else if(string.equals(logout) ) {
+        }else if(string.equals(LOGOUT) ) {
             action.add(string);
             action.add(player);
             setChanged();
             notifyObservers(action);
-        }else if(string.equals(loginSuccessful)){
+        }else if(string.equals(LOGIN_SUCCESSFUL)){
             action.add(string);
             action.add(player);
             action.add(((Integer)lobby.size()).toString());
             setChanged();
             notifyObservers(action);
-        }else if(string.equals("WelcomeBack")){
+        }else if(string.equals(WELCOME_BACK)){
             action.add(string);
             action.add(player);
             setChanged();

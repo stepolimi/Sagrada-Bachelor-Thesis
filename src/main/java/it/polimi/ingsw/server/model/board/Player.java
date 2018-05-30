@@ -47,11 +47,11 @@ public class Player extends Observable{
                 favour = schema.getDifficult();
                 schema.setPlayer(this);
                 schema.addObserver(obs);
-                notify(approvedSchema);
+                notify(APPROVED_SCHEMA);
                 return;
             }
         }
-        notify(setSchemas);
+        notify(SET_SCHEMAS);
     }
 
     public int getFavour() {
@@ -76,7 +76,7 @@ public class Player extends Observable{
 
     public void setPrCard(PrivateObjective prCard) {
         this.prCard = prCard;
-        notify(setPrivateCard);
+        notify(SET_PRIVATE_CARD);
     }
 
     public int getScore() {
@@ -97,7 +97,7 @@ public class Player extends Observable{
 
     public void setSchemas(List<Schema> schemas){
         this.schemas = schemas;
-        notify(setSchemas);
+        notify(SET_SCHEMAS);
     }
     public List<Schema> getSchemas(){ return schemas; }
 
@@ -125,12 +125,12 @@ public class Player extends Observable{
         List action = new ArrayList();
         action.add(string);
         action.add(nickname);
-        if(string.equals(setSchemas))
+        if(string.equals(SET_SCHEMAS))
             for (Schema s : schemas)
                 action.add(s.getName());
-        else if(string.equals(setPrivateCard))
+        else if(string.equals(SET_PRIVATE_CARD))
             action.add(prCard.getColour());
-        else if(string.equals(approvedSchema))
+        else if(string.equals(APPROVED_SCHEMA))
             action.add(schema.getName());
         setChanged();
         notifyObservers(action);

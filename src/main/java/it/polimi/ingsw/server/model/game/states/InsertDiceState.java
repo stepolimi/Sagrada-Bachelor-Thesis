@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.insertDiceAccepted;
+import static it.polimi.ingsw.costants.GameConstants.INSERT_DICE_ACCEPTED;
 
 public class InsertDiceState implements State {
     private static String state = "InsertDiceState";
@@ -21,7 +21,7 @@ public class InsertDiceState implements State {
         try {
             Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace);
             schema.testInsertDice(rowDiceSchema, columnDiceSchema , dice, round.getUsingTool());
-            round.notifyChanges(insertDiceAccepted);
+            round.notifyChanges(INSERT_DICE_ACCEPTED);
             round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
             schema.insertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());
             round.setInsertedDice(true);

@@ -46,7 +46,7 @@ public class RowsObj extends ObjectiveCard {
     public boolean areDifferent(List<Dice> container, int points) {
         if (points == 6) {
             for (int i = 0, j= 1; i < container.size()-1; i++, j++) {
-                    if (container.get(i).getcolour().equals(container.get(j).getcolour())) {
+                    if (container.get(i).getColour().equals(container.get(j).getColour())) {
                         return false;
 
                     }

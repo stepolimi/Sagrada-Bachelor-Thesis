@@ -44,7 +44,7 @@ public class GameMultiTest {
                 assertTrue(schema != null);
             }
         }
-        assertEquals(3, game.getBoard().getDecktool().size() );
-        assertEquals(3, game.getBoard().getDeckpubl().size() );
+        assertEquals(3, game.getBoard().getDeckTool().size() );
+        assertEquals(3, game.getBoard().getDeckPublic().size() );
     }
 }

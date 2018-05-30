@@ -6,14 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_BAG;
+import static it.polimi.ingsw.server.serverCostants.Costants.TOT_DICES;
+
 public class DiceBag extends Observable{
     private List<Dice> dices;
-    private static int numDices = 90;
 
     public DiceBag() {
         dices = new ArrayList<Dice>();
 
-        for (int i = 0; i < numDices; i++) {
+        for (int i = 0; i < TOT_DICES; i++) {
             if (i < 18) {
                 dices.add(new Dice(Colour.ANSI_GREEN, 0));
             } else if (i < 36) {
@@ -49,11 +51,13 @@ public class DiceBag extends Observable{
     }
 
     public void insertDice(Dice dice) {
+        List<String> action = new ArrayList<String>();
         dice.setValue(0);
         this.dices.add(dice);
 
+        action.add(PLACE_DICE_BAG);
         setChanged();
-        notifyObservers("dado inserito correttamente");
+        notifyObservers(action);
     }
 
     public List <Dice> getDices()
@@ -72,7 +76,7 @@ public class DiceBag extends Observable{
         p=0;
         r=0;
         for(int i=0;i<dices.size();i++)
-            switch(dices.get(i).getcolour())
+            switch(dices.get(i).getColour())
             {
                 case ANSI_RED: r++; break;
                 case ANSI_BLUE: b++; break;

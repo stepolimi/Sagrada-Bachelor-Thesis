@@ -4,12 +4,11 @@ import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.endTurn;
-import static it.polimi.ingsw.costants.GameCreationMessages.pickDice;
-import static it.polimi.ingsw.costants.LoginMessages.loginError;
+import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
+import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
@@ -34,7 +33,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         }else {
             try {
                 action.clear();
-                action.add(loginError);
+                action.add(LOGIN_ERROR);
                 action.add("username");
                 client.login(action);
             } catch (RemoteException e) {
@@ -92,7 +91,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void insertDice(int indexDiceSpace, int row, int column) {
         List action = new ArrayList();
-        action.add(pickDice);
+        action.add(PICK_DICE);
         action.add(((Integer)indexDiceSpace).toString());
         action.add(((Integer)row).toString());
         action.add(((Integer)column).toString());
@@ -101,7 +100,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void sendEndTurn() {
         List action = new ArrayList();
-        action.add(endTurn);
+        action.add(END_TURN);
         virtual.forwardAction(action);
     }
 

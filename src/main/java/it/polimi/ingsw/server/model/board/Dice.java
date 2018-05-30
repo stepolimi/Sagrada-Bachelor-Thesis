@@ -34,7 +34,7 @@ public class Dice {
         return this.value;
     }
 
-    public Colour getcolour()
+    public Colour getColour()
     {
         return this.colour;
     }
@@ -49,8 +49,8 @@ public class Dice {
     }
     public void rollDice()                  //function used to "to launch " a dice
     {
-        int numero =(int) ((Math.random()*6)+1);
-        this.setValue(numero);
+        int number =(int) ((Math.random()*6)+1);
+        this.setValue(number);
     }
     public void dump(){System.out.println(this); }
 }

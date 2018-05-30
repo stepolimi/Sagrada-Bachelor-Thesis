@@ -13,7 +13,7 @@ public class PlaceDiceState implements State {
         else if(action.get(1) == "RoundTrack")
             round.getBoard().getRoundTrack().insertDice(round.getPendingDice(),(Integer)action.get(2));
         else if(action.get(1) == "DiceBag")
-            round.getBoard().getDicebag().insertDice(round.getPendingDice());
+            round.getBoard().getDiceBag().insertDice(round.getPendingDice());
         else if(action.get(1) == "Schema") {
             try {
                 round.getCurrentPlayer().getSchema().

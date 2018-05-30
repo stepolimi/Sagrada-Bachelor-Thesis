@@ -12,7 +12,7 @@ public class ExtractDiceState implements State {
 
     public void execute(Round round, List action){
         Board board = round.getBoard();
-        List<Dice> dices = board.getDicebag().extract(board.numPlayers());
+        List<Dice> dices = board.getDiceBag().extract(board.numPlayers());
         board.setDiceSpace(dices);
         System.out.println("dices extracted\n" + " ---");
 

@@ -15,8 +15,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.startTurn;
-import static it.polimi.ingsw.costants.LoginMessages.loginError;
+import static it.polimi.ingsw.costants.GameCreationMessages.START_TURN;
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
 
 public class VirtualView extends Observable implements Observer{
     private Connected connection;
@@ -46,28 +46,28 @@ public class VirtualView extends Observable implements Observer{
     }
 
     private void sessionHandler(Object action) {
-        if(((List) action).get(0).equals(loginError) )
+        if(((List) action).get(0).equals(LOGIN_ERROR) )
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);
     }
 
     private void roundHandler(Object action) {
-        if(((List) action).get(0).equals(startTurn) || ((List) action).get(0).equals(startRound) )
+        if(((List) action).get(0).equals(START_TURN) || ((List) action).get(0).equals(START_ROUND) )
             connection.forwardMessage((List)action);
         else
             connection.sendMessage((List)action);
     }
 
     private void schemaHandler(Object action) {
-        if(((List) action).get(0).equals(placeDiceSchemaError) )
+        if(((List) action).get(0).equals(PLACE_DICE_SCHEMA_ERROR) )
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);
     }
 
     private void diceSpaceHandler(Object action) {
-        if(((List) action).get(0).equals(pickDiceSpaceError) )
+        if(((List) action).get(0).equals(PICK_DICE_SPACE_ERROR) )
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);
