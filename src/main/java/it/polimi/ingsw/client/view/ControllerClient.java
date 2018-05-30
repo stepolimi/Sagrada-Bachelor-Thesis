@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
@@ -25,6 +26,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 
 public class ControllerClient implements View {
 
@@ -40,6 +43,7 @@ public class ControllerClient implements View {
 
 
 
+    private boolean correctInsertion;
 
     private int indexDiceSpace;
 
@@ -50,13 +54,17 @@ public class ControllerClient implements View {
 
     private List<String> schemasClient;
 
-    private List<String> diceSpaceList;
+
+
+    @FXML
+    GridPane gridPane;
 
     @FXML
     public Text textflow;
 
 
-    
+    @FXML
+    public ImageView endTurn;
 
     @FXML
     private ImageView imageZoomed;
@@ -317,9 +325,11 @@ public class ControllerClient implements View {
             public void run() {
 
 
-               setScene("game");
+                setScene("game");
                Stage stage = (Stage) progressBar.getScene().getWindow();
                stage.close();
+               endTurn.setDisable(true);
+               diceSpace.setDisable(true);
 
 
 
@@ -525,7 +535,7 @@ public class ControllerClient implements View {
             schema1.setImage(image);
             Schema schema = new Schema();
             try {
-                schema = schema.InitSchema(name);
+                schema = schema.InitSchema("SchemaClient/"+name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -587,6 +597,8 @@ public class ControllerClient implements View {
         ImageView imageView = (ImageView) event.getTarget();
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
+        indexDiceSpace = Integer.parseInt(imageView.getId());
+
         ClipboardContent cb = new ClipboardContent();
         cb.putImage(imageView.getImage());
         db.setContent(cb);
@@ -602,11 +614,45 @@ public class ControllerClient implements View {
     }
 
     @FXML
-    void handleImageDropped(DragEvent event) {
+    void handleImageDropped(DragEvent event) throws InterruptedException {
+
+
+
         ImageView imageView = (ImageView) event.getTarget();
 
-        imageView.setImage(event.getDragboard().getImage());
-        event.getDragboard().setContent(null);
+        Node source = ((Node) event.getTarget());
+
+        if (source != schema1) {
+            Node parent;
+            while ((parent = source.getParent()) != gridPane) {
+                source = parent;
+            }
+        }
+        Integer col = gridPane.getColumnIndex(source);
+
+        Integer row = gridPane.getRowIndex(source);
+
+        if (col == null)
+            col = 0;
+
+        if(row == null)
+            row = 0;
+
+        int rowIndex = row;
+        int colIndex = col;
+
+        connection.insertDice(indexDiceSpace, rowIndex, colIndex);
+
+        sleep(600);
+
+        if(correctInsertion) {
+            imageView.setImage(event.getDragboard().getImage());
+            event.getDragboard().setContent(null);
+            diceSpace.setDisable(true);
+        }
+        else{
+            textflow.setText("inserimento non corretto. Riprovare");
+        }
 
 
     }
@@ -639,6 +685,9 @@ public class ControllerClient implements View {
 
     @FXML
     void nextPlayer(MouseEvent event) {
+        endTurn.setDisable(true);
+        diceSpace.setDisable(true);
+        connection.sendEndTurn();
 
     }
 
@@ -654,15 +703,28 @@ public class ControllerClient implements View {
 
 
         else {
+
             textflow.setText("tocca a te!!!!!");
-            diceSpace.setDisable(false);
+            try {
+                sleep(1000);
+                diceSpace.setDisable(false);
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
     public void setActions(List<String> actions) {
-        System.out.println("scegli l'azione da fare: ");
-        for(String string: actions)
-            System.out.println(string);
+        if(!actions.contains("InsertDice"))
+            diceSpace.setDisable(true);
+        else diceSpace.setDisable(false);
+        if(!actions.contains("EndTurn"))
+            endTurn.setDisable(true);
+        else endTurn.setDisable(false);
+
+
     }
 
     public void setDiceSpace(final List<String> dices) {
@@ -711,10 +773,18 @@ public class ControllerClient implements View {
     }
 
     public void insertDiceAccepted() {
+        correctInsertion=true;
+
+
 
     }
 
     public void pickDiceSpace(List action) {
+
+        ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
+
+        imageView.setImage(null);
+
 
     }
 
@@ -727,6 +797,7 @@ public class ControllerClient implements View {
     }
 
     public void placeDiceSchemaError() {
+        correctInsertion=false;
 
     }
 }
