@@ -65,7 +65,7 @@
                                     <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
                                  </image>
                               </ImageView>
-                              <GridPane gridLinesVisible="true" layoutX="88.0" layoutY="457.0" prefHeight="265.0" prefWidth="353.0">
+                              <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="88.0" layoutY="457.0" prefHeight="265.0" prefWidth="353.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -151,22 +151,14 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="153.0" fitWidth="156.0" layoutX="589.0" layoutY="75.0" onMouseClicked="#nextPlayer" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="endTurn" fitHeight="153.0" fitWidth="156.0" layoutX="589.0" layoutY="75.0" onMouseClicked="#nextPlayer" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../assets/image/icon.png" />
+                                    <Image url="@../assets/image/icon%20copia.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Text fill="WHITE" layoutX="605.0" layoutY="139.0" onMouseClicked="#nextPlayer" strokeType="OUTSIDE" strokeWidth="0.0" text="  FINE TURNO" wrappingWidth="187.158203125">
-                                 <font>
-                                    <Font size="33.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Text>
                            </children>
                         </Pane>
                      </content></Tab>
