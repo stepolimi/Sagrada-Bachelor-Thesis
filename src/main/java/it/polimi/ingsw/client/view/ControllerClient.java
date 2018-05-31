@@ -39,6 +39,7 @@ public class ControllerClient implements View {
     public ViewGUI gui;
     public Handler hand;
     public Schema mySchema;
+    public List<Schema> schemas;
 
 
 
@@ -52,7 +53,20 @@ public class ControllerClient implements View {
     public ImageView drop;
 
     Object lock = new Object();
+
     private List<String> schemasClient;
+
+
+    @FXML
+    GridPane schema2;
+
+    @FXML
+    GridPane schema3;
+
+    @FXML
+    GridPane schema4;
+
+
 
 
 
@@ -129,14 +143,6 @@ public class ControllerClient implements View {
     @FXML
     public ImageView schema1;
 
-    @FXML
-    public ImageView schema2;
-
-    @FXML
-    public ImageView schema3;
-
-    @FXML
-    public ImageView schema4;
 
     @FXML
     public ImageView privateCard;
@@ -529,10 +535,16 @@ public class ControllerClient implements View {
 
     Platform.runLater(new Runnable() {
         public void run() {
-            String path = "/assets/image/Schemi/SchemiRemake/";
-            Image image = new Image(path + name + ".png");
-            schema1.setImage(image);
+
             Schema schema = new Schema();
+
+            try {
+                printSchema(gridPane, name);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
             try {
                 schema = schema.InitSchema("SchemaClient/"+name);
             } catch (IOException e) {
@@ -560,6 +572,8 @@ public class ControllerClient implements View {
             List<String> stringList = new ArrayList<String>(schemas);
 
             public void run() {
+
+
                 String path = "/assets/image/Schemi/SchemiRemake/";
 
                 List<Object> schemaImages = new ArrayList<Object>();
@@ -578,8 +592,11 @@ public class ControllerClient implements View {
 
                 for(int i = 0; i< stringList.size(); i = i+2){
                         ((Text)(schemaImages.get(i))).setText(stringList.get(i));
-                        Image image = new Image(path + stringList.get(i+1) +  ".png");
-                        ((ImageView)schemaImages.get(i+1)).setImage(image);
+                    try {
+                        printSchema((GridPane) schemaImages.get(i+1), stringList.get(i+1));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
@@ -828,8 +845,74 @@ public class ControllerClient implements View {
 
                 }
 
+    }
 
+    public void printSchema(GridPane gridPane, String nameSchema) throws IOException {
+
+
+        Schema schema = new Schema();
+        schema = schema.InitSchema("SchemaClient/"+nameSchema);
+
+        int count = 0;
+
+        for(int i = 0; i < 4; i++ ){
+            for(int j = 0; j < 5; j++){
+                ImageView imageView = (ImageView)gridPane.getChildren().get(count);
+                String constrain = schema.getGrid()[i][j].getCostraint();
+                if(!schema.getGrid()[i][j].getCostraint().equals(""))
+                    putConstrain(imageView, constrain);
+                count++;
+                }
+            }
+        }
+
+
+
+
+    public void putConstrain(final ImageView imageView, final String constrain){
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+
+                    String path = "/assets/image/SchemaElement/";
+                    if (constrain.equals("\u001b[32m"))
+                        imageView.setImage(new Image(path + "green.png"));
+                    else if (constrain.equals("\u001b[31m"))
+                        imageView.setImage(new Image(path + "red.png"));
+                    else if (constrain.equals("\u001b[33m"))
+                        imageView.setImage(new Image(path + "yellow.png"));
+
+                    else if (constrain.equals("\u001b[34m"))
+                        imageView.setImage(new Image(path + "blue.png"));
+
+                    else if (constrain.equals("\u001b[35m"))
+                        imageView.setImage(new Image(path + "purple.png"));
+
+                    else if (constrain.equals("1"))
+                        imageView.setImage(new Image(path + "1.png"));
+
+                    else if (constrain.equals("2"))
+                        imageView.setImage(new Image(path + "2.png"));
+
+                    else if (constrain.equals("3"))
+                        imageView.setImage(new Image(path + "3.png"));
+
+                    else if (constrain.equals("4"))
+                        imageView.setImage(new Image(path + "4.png"));
+
+                    else if (constrain.equals("5"))
+                        imageView.setImage(new Image(path + "5.png"));
+
+                    else if (constrain.equals("6"))
+                        imageView.setImage(new Image(path + "6.png"));
+
+            }
+        });
 
 
     }
+
+
+
 }
