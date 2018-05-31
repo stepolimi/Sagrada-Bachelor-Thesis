@@ -122,9 +122,6 @@
                                        <cursor>
                                           <Cursor fx:constant="OPEN_HAND" />
                                        </cursor>
-                                       <image>
-                                          <Image url="@../assets/image/Dice/Green/3.png" />
-                                       </image>
                                     </ImageView>
                                     <ImageView id="1" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" />
                                     <ImageView id="2" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />

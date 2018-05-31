@@ -716,16 +716,18 @@ public class ControllerClient implements View {
     public void startTurn(String name) {
 
 
-        if(!name.equals(nickname.getText()))
+        if (!name.equals(nickname.getText())){
             textflow.setText("turno iniziato, tocca a: " + name);
+            diceSpace.setDisable(true);
 
-
+        }
         else {
 
             textflow.setText("tocca a te!!!!!");
             try {
                 sleep(1000);
                 diceSpace.setDisable(false);
+                endTurn.setDisable(false);
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -734,13 +736,18 @@ public class ControllerClient implements View {
         }
     }
 
-    public void setActions(List<String> actions) {
-        if(!actions.contains("InsertDice"))
-            diceSpace.setDisable(true);
-        else diceSpace.setDisable(false);
-        if(!actions.contains("EndTurn"))
-            endTurn.setDisable(true);
-        else endTurn.setDisable(false);
+    public void setActions(final List<String> actions) {
+      /*  Platform.runLater(new Runnable() {
+            public void run() {
+                if(!actions.contains("InsertDice"))
+                    diceSpace.setDisable(true);
+                else diceSpace.setDisable(false);
+                if(!actions.contains("EndTurn"))
+                    endTurn.setDisable(true);
+                else endTurn.setDisable(false);
+
+            }
+        });*/
 
 
     }
@@ -751,7 +758,7 @@ public class ControllerClient implements View {
 
             public void run() {
                 String path = "/assets/image/Dice";
-                textflow.setText("diceSpace settato");
+                System.out.println("diceSpace settato");
                 ImageView imageView = new ImageView();
                 int j = 0;
                 for (int i = 0; i < stringList.size(); i = i + 2, j++) {
@@ -894,6 +901,7 @@ public class ControllerClient implements View {
 
                 }
 
+                diceSpace.setDisable(true);
     }
 
     public void printSchema(GridPane gridPane, String nameSchema) throws IOException {
