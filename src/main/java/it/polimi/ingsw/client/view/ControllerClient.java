@@ -42,7 +42,7 @@ public class ControllerClient implements View {
     public List<Schema> schemas;
 
 
-
+    List<Object> schemaPlayers;
 
     private boolean correctInsertion;
 
@@ -574,26 +574,30 @@ public class ControllerClient implements View {
             public void run() {
 
 
+
+
                 String path = "/assets/image/Schemi/SchemiRemake/";
 
-                List<Object> schemaImages = new ArrayList<Object>();
-                schemaImages.add(nickname2);
-                schemaImages.add(schema2);
+                schemaPlayers = new ArrayList<Object>();
+                schemaPlayers.add(nickname2);
+                schemaPlayers.add(schema2);
 
-                schemaImages.add(nickname3);
-                schemaImages.add(schema3);
+                schemaPlayers.add(nickname3);
+                schemaPlayers.add(schema3);
 
-                schemaImages.add(nickname4);
-                schemaImages.add(schema4);
+                schemaPlayers.add(nickname4);
+                schemaPlayers.add(schema4);
 
 
                 stringList.remove(stringList.indexOf(nickname.getText())+1);
                 stringList.remove(stringList.indexOf(nickname.getText()));
 
                 for(int i = 0; i< stringList.size(); i = i+2){
-                        ((Text)(schemaImages.get(i))).setText(stringList.get(i));
+                        ((Text)(schemaPlayers.get(i))).setText(stringList.get(i));
+
                     try {
-                        printSchema((GridPane) schemaImages.get(i+1), stringList.get(i+1));
+                        printSchema((GridPane) schemaPlayers.get(i+1), stringList.get(i+1));
+                        ((GridPane)schemaPlayers.get(i+1)).setId(stringList.get(i));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -814,7 +818,52 @@ public class ControllerClient implements View {
 
     }
 
-    public void placeDiceSchema(List action) {
+    public void placeDiceSchema(final List action) {
+
+        Platform.runLater(new Runnable() {
+
+            int row;
+            int column;
+            String path = "/assets/image/Dice";
+            public void run() {
+                for(int i = 1; i < schemaPlayers.size(); i = i + 2 ){
+                    GridPane gridPane = (GridPane)schemaPlayers.get(i);
+                    if(gridPane.getId().equals(action.get(0))) {
+                        row = Integer.parseInt((String) action.get(1));
+                        column = Integer.parseInt((String) action.get(2));
+                        ImageView imageView= (ImageView)getNodeFromGridPane(gridPane, column, row );
+
+
+                        String color = (String) action.get(3);
+                        String number = (String) action.get(4);
+
+                        if (color.equals(("ANSI_BLUE"))) {
+                            imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
+
+                        }
+                        else if (color.equals(("ANSI_RED"))){
+                            imageView.setImage(new Image(path + "/Red/" + number + ".png"));
+                        }
+
+                        else if (color.equals("ANSI_YELLOW")){
+                            imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
+                        }
+
+                        else if (color.equals("ANSI_GREEN")){
+                            imageView.setImage(new Image(path + "/Green/" + number + ".png"));
+                        }
+
+                        else{
+                            imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
+                        }
+                    }
+
+                }
+            }
+        });
+
+
+
 
     }
 
@@ -912,6 +961,23 @@ public class ControllerClient implements View {
 
 
     }
+
+
+    public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
+
+        int count = 0;
+        for (int i = 0; i < 4 ; i++ ) {
+            for(int j= 0; j < 5; j++){
+                Node node= gridPane.getChildren().get(count);
+                if(i == row && j == col)
+                    return node;
+                else count++;
+
+            }
+        }
+        return null;
+    }
+
 
 
 
