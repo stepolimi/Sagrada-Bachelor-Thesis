@@ -47,7 +47,7 @@ public class ControllerClient implements View {
     private boolean correctInsertion;
 
     private int indexDiceSpace;
-
+    private Image dragImage;
     public ImageView drag;
 
     public ImageView drop;
@@ -614,6 +614,7 @@ public class ControllerClient implements View {
     void handleDragDetection(MouseEvent event) {
 
         ImageView imageView = (ImageView) event.getTarget();
+        dragImage = imageView.getImage();
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
         indexDiceSpace = Integer.parseInt(imageView.getId());
@@ -633,45 +634,52 @@ public class ControllerClient implements View {
     }
 
     @FXML void handleImageDropped(DragEvent event) throws InterruptedException {
+    final DragEvent drag = event;
 
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                ImageView imageView = (ImageView) drag.getTarget();
+                Node source = ((Node) drag.getTarget());
 
-        ImageView imageView = (ImageView) event.getTarget();
+                if (source != schema1) {
+                    Node parent;
+                    while ((parent = source.getParent()) != gridPane) {
+                        source = parent;
+                    }
+                }
+                Integer col = gridPane.getColumnIndex(source);
 
-        Node source = ((Node) event.getTarget());
+                Integer row = gridPane.getRowIndex(source);
 
-        if (source != schema1) {
-            Node parent;
-            while ((parent = source.getParent()) != gridPane) {
-                source = parent;
+                if (col == null)
+                    col = 0;
+
+                if(row == null)
+                    row = 0;
+
+                int rowIndex = row;
+                int colIndex = col;
+                synchronized (lock) {
+                connection.insertDice(indexDiceSpace, rowIndex, colIndex);
+
+                    try {
+                        lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if(correctInsertion) {
+                    imageView.setImage(dragImage);
+                }
+                else{
+                    textflow.setText("inserimento non corretto. Riprovare");
+                }
             }
-        }
-        Integer col = gridPane.getColumnIndex(source);
+    });
 
-        Integer row = gridPane.getRowIndex(source);
 
-        if (col == null)
-            col = 0;
-
-        if(row == null)
-            row = 0;
-
-        int rowIndex = row;
-        int colIndex = col;
-
-        connection.insertDice(indexDiceSpace, rowIndex, colIndex);
-        synchronized (lock) {
-            lock.wait();
-        }
-
-        if(correctInsertion) {
-            imageView.setImage(event.getDragboard().getImage());
-            event.getDragboard().setContent(null);
-            diceSpace.setDisable(true);
-        }
-        else{
-            textflow.setText("inserimento non corretto. Riprovare");
-        }
-
+t.start();
 
     }
 
@@ -737,7 +745,7 @@ public class ControllerClient implements View {
     }
 
     public void setActions(final List<String> actions) {
-      /*  Platform.runLater(new Runnable() {
+       Platform.runLater(new Runnable() {
             public void run() {
                 if(!actions.contains("InsertDice"))
                     diceSpace.setDisable(true);
@@ -747,7 +755,7 @@ public class ControllerClient implements View {
                 else endTurn.setDisable(false);
 
             }
-        });*/
+        });
 
 
     }

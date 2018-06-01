@@ -64,12 +64,17 @@ public class RmiConnection implements Connection {
         }
     }
 
-    public void insertDice(int indexDiceSpace, int row, int column) {
-        try {
-            server.insertDice(indexDiceSpace,row,column);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void insertDice(final int indexDiceSpace, final int row, final int column) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    server.insertDice(indexDiceSpace,row,column);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 
     public void sendEndTurn() {
