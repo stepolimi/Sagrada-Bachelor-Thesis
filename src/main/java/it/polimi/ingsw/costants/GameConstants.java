@@ -19,5 +19,5 @@ public class GameConstants {
     public static final String PICK_DICE_ROUND_TRACK_ERROR = "pickDiceRoundTrackError";
     public static final String PLACE_DICE_BAG = "placeDiceBag";
     public static final String INSERT_DICE_ACCEPTED = "insertDiceAccepted";
-
+    public static final int PAINT_ROW=9;
 }

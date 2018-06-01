@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.costants.GameConstants.PAINT_ROW;
 import static it.polimi.ingsw.costants.TimerCostants.LOBBY_TIMER_VALUE;
 
 
@@ -104,8 +105,19 @@ public class ViewCLI implements View{
 
     public void setSchemas(List<String> schemas){
         System.out.println("scrivi il nome dello schema che preferisci tra:");
-        for(String s: schemas)
-            showSchemas(s);
+        HashMap<String,Schema> selSchema = new HashMap<String, Schema>();
+        for(String nameSchema:schemas)
+        {
+            try {
+                selSchema.put(nameSchema,new Schema().InitSchema("SchemaClient/"+nameSchema));
+                selSchema.get(nameSchema).splitImageSchema();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+            showSchemas(selSchema);
+
 
         schemaThread = new Thread(new Runnable() {
             public void run() {
@@ -140,7 +152,8 @@ public class ViewCLI implements View{
     public void insertDiceAccepted() {
 
         this.schemas.get(username).getGrid()[row][column]= diceSpace.get(indexDiceSpace);
-        System.out.println("Dado inserito+"+schemas.get(username));
+        schemas.get(username).splitImageSchema();
+        schemas.get(username).showImage();
     }
 
     public void pickDiceSpace(List action) {
@@ -193,7 +206,7 @@ public class ViewCLI implements View{
 
     public void createSchema() {
         int nCostraint=0;
-        System.out.println("\u001B[34m Hai scelto di creare la tua griglia: \u001B[0m");
+        System.out.println(Colour.ANSI_BLUE.escape()+" Hai scelto di creare la tua griglia: "+Colour.RESET);
         Schema sc = new Schema();
         System.out.println("Scegli il nome della griglia:");
         sc.setName(input.nextLine());
@@ -228,26 +241,26 @@ public class ViewCLI implements View{
         correct = false;
         while (!correct) {
             correct = true;
-            System.out.println("1) colore verde(g) -rosso(r) -blu (b) -giallo (y) -viola (p)");
+            System.out.println("1) colore "+Colour.ANSI_GREEN.escape()+"verde(g)-"+Colour.ANSI_RED.escape()+"rosso(r)-"+Colour.ANSI_BLUE.escape()+"blu(b)-"+Colour.ANSI_YELLOW.escape()+"giallo(y)"+Colour.ANSI_PURPLE.escape()+"-viola(p)"+Colour.RESET);
             System.out.println("2) numero 1-6");
             System.out.println("3) nessuna restrizione (e)");
             costraint = input.nextLine();
             char word = costraint.charAt(0);
             switch (word) {
                 case 'r':
-                    sc.getGrid()[i][j].setCostraint("\u001B[31m");
+                    sc.getGrid()[i][j].setCostraint(Colour.ANSI_RED.escape());
                     break;
                 case 'g':
-                    sc.getGrid()[i][j].setCostraint("\u001B[32m");
+                    sc.getGrid()[i][j].setCostraint(Colour.ANSI_GREEN.escape());
                     break;
                 case 'y':
-                    sc.getGrid()[i][j].setCostraint("\u001B[33m");
+                    sc.getGrid()[i][j].setCostraint(Colour.ANSI_YELLOW.escape());
                     break;
                 case 'b':
-                    sc.getGrid()[i][j].setCostraint("\u001B[34m");
+                    sc.getGrid()[i][j].setCostraint(Colour.ANSI_BLUE.escape());
                     break;
                 case 'p':
-                    sc.getGrid()[i][j].setCostraint("\u001B[35m");
+                    sc.getGrid()[i][j].setCostraint(Colour.ANSI_PURPLE.escape());
                     break;
                 case '1':
                     sc.getGrid()[i][j].setCostraint("1");
@@ -279,7 +292,7 @@ public class ViewCLI implements View{
         if(!sc.nearCostraint(i,j,sc.getGrid()[i][j].getCostraint()))
         {
             correct = false;
-            System.out.println(" \u001B[31m Restrizione già immessa nelle caselle adiacenti \u001B[0m");
+            System.out.println(Colour.ANSI_RED.escape()+" Restrizione già immessa nelle caselle adiacenti "+Colour.RESET);
             System.out.println("Selezionarne un'altra");
         }
         }
@@ -396,7 +409,7 @@ public class ViewCLI implements View{
                 e.printStackTrace();
             }
         }
-        showOpponentsSchemas();
+
     }
 
     public void setNumberPlayer(int nPlayer) {
@@ -405,7 +418,6 @@ public class ViewCLI implements View{
 
     public void startRound() {
         round++;
-        System.out.println("Round"+round);
         if(round == 1) {
             Thread thread = new Thread(new Runnable() {
                 public void run() {
@@ -435,7 +447,9 @@ public class ViewCLI implements View{
     {
         Schema schema = new Schema();
         try {
-            System.out.println(schema.InitSchema("SchemaClient/"+nome).toString());
+            schema = schema.InitSchema("SchemaClient/"+nome);
+            schema.splitImageSchema();
+            schema.showImage();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -451,14 +465,33 @@ public class ViewCLI implements View{
         System.out.println("\n");
     }
 
-    public void showOpponentsSchemas()
+    public void showOpponentsSchemas(HashMap<String,Schema> schema)
     {
-        for(String key:schemas.keySet())
-            if(!key.equals(username))
-            {
-                System.out.println("Giocatore: "+key);
-                System.out.println(schemas.get(key).toString());
+        schema.remove(username);
+        for(String key:schema.keySet()) {
+            schema.get(key).splitImageSchema();
+            schema.get(key).paint[0] = key;
+        }
+            showSchemas(schema);
+         }
+
+    public void showSchemas(HashMap<String,Schema> schema)
+    {
+        for(int i=0;i<PAINT_ROW;i++)
+        {
+            for(String key:schema.keySet()) {
+                System.out.print(schema.get(key).paint[i]);
+                if(i<3 || i>6) {
+                    for (int j = schema.get(key).paint[i].length(); j < 45; j++)
+                        System.out.print(" ");
+                }
+                else {
+                    for (int x = 32; x < 46; x++)
+                        System.out.print(" ");
+                }
             }
+            System.out.println("");
+        }
     }
     public void showPrivateObjective()
     {
@@ -495,8 +528,8 @@ public class ViewCLI implements View{
 
     public void startScene() {
         int choose;
-        System.out.println("\u001B[32m" + "W E L C O M E ");
-        System.out.println("\u001B[0m"+"Prima di cominciare...");
+        System.out.println(Colour.ANSI_GREEN.escape() + "W E L C O M E "+Colour.RESET);
+        System.out.println("Prima di cominciare...");
         while(!correct) {
             try {
                 correct = true;
@@ -531,7 +564,7 @@ public class ViewCLI implements View{
             System.out.println("Scegli il nome dello schema da caricare");
             if(f.list().length==0)
             {
-                System.out.println("\u001B[31m Nessuno schema da caricare \u001B[0m");
+                System.out.println(Colour.ANSI_RED.escape()+" Nessuno schema da caricare "+Colour.RESET);
                 System.out.println("Crearne uno? y per si");
                 if(input.nextLine().equals("y"))
                     createSchema();
@@ -558,11 +591,11 @@ public class ViewCLI implements View{
             System.out.println("La partita inizierà a breve");
             System.out.println("Aspettando altri giocatori...");
         }else if(str.equals("Login_error-username")) {
-            System.out.println("Errore, nickname già in uso");
+            System.out.println(Colour.ANSI_RED.escape()+"Errore, nickname già in uso"+Colour.RESET);
             this.setLogin();
         }else if(str.equals("Login_error-game")) {
-            System.out.println("Errore, partita già in corso");
-            System.out.println("Riprovare più tardi");
+            System.out.println(Colour.ANSI_RED.escape()+"Errore, partita già in corso");
+            System.out.println("Riprovare più tardi"+Colour.RESET);
         }
     }
 
@@ -582,7 +615,7 @@ public class ViewCLI implements View{
         //System.out.println("Caricamento");
        // for(int i=0;i<(LOBBY_TIMER_VALUE-Integer.parseInt(time))/5;i++) {
             int percent =(int)(((LOBBY_TIMER_VALUE -Double.parseDouble(time))/ LOBBY_TIMER_VALUE)*100);
-            System.out.print("\u001B[34m\rLoading:");
+            System.out.print(Colour.ANSI_BLUE.escape()+"\rLoading:");
             for(int i=0;i<percent;i++)
             {
                 System.out.print("▋");
@@ -591,7 +624,7 @@ public class ViewCLI implements View{
             {
                 System.out.print(" ");
             }
-        System.out.print(percent+"%\u001B[0m");
+        System.out.print(percent+"%"+Colour.RESET);
        // }
        // System.out.println("la partita inizierà tra " + time + " secondi\n");
     }
@@ -622,8 +655,11 @@ public class ViewCLI implements View{
 
     public void startTurn(String name)
     {
+        clearScreen();
+        System.out.println(Colour.ANSI_BLUE.escape()+"Round"+round+Colour.RESET);
         System.out.println("Il tuo schema:");
-        System.out.println(schemas.get(username).toString());
+        schemas.get(username).splitImageSchema();
+        schemas.get(username).showImage();
         showDiceSpace();
         if(!name.equals(username)) {
             myTurn = false;
@@ -659,9 +695,10 @@ public class ViewCLI implements View{
                     useToolCard();
                     // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
                     // moves.remove(choose-1);
-                } else if (moves.get(choose - 1).equals("EndTurn"))
+                } else if (moves.get(choose - 1).equals("EndTurn")) {
                     passTurn();
-
+                    clearScreen();
+                }
                 switch (choose - 1) {
                     case 0:
                         showPrivateObjective();
@@ -670,7 +707,7 @@ public class ViewCLI implements View{
                         showPublicObjective();
                         break;
                     case 2:
-                        showOpponentsSchemas();
+                        showOpponentsSchemas((HashMap<String, Schema>) schemas.clone());
                         break;
                     case 3:
                         showToolCard();
@@ -725,7 +762,7 @@ public class ViewCLI implements View{
 
             }catch(NumberFormatException e) {
                 e.printStackTrace();
-                System.out.println("Formato non valido");
+                System.out.println(Colour.ANSI_RED.escape()+"Formato non valido"+Colour.RESET);
             }/*catch(IndexException ex)
             {
                 System.out.println("Indice errato");

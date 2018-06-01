@@ -23,7 +23,7 @@ public class Handler {
         while (!correct) {
             Scanner in = new Scanner(System.in);
             System.out.println("\u001B[33m"+ "|----------------------------|");
-            System.out.println("\u001B[34m" + "  S A G R A D A    G A M E");
+            System.out.println("\u001B[34m" + "  "+Colour.ANSI_GREEN.escape()+"S"+Colour.ANSI_RED.escape()+" A"+Colour.ANSI_BLUE.escape()+" G"+Colour.ANSI_YELLOW.escape()+" R"+Colour.ANSI_PURPLE.escape()+" A"+Colour.ANSI_GREEN.escape()+" D"+Colour.ANSI_RED.escape()+" A "+Colour.ANSI_BLUE.escape()+"   G"+Colour.ANSI_YELLOW.escape()+" A"+Colour.ANSI_PURPLE.escape()+" M"+Colour.ANSI_GREEN.escape()+" E"+Colour.RESET);
             System.out.println("\u001B[33m"+"|----------------------------|");
 
             System.out.println("\u001B[37m"+"Scegli l'interfaccia grafica");

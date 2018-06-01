@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static it.polimi.ingsw.costants.GameConstants.PAINT_ROW;
+
 public class Schema {
     private String name;
     private Dices grid [][];
@@ -13,8 +15,12 @@ public class Schema {
     private final int COLUMNS = 5;
     int difficult;
 
+    public String paint [] = new String[PAINT_ROW];
     public Schema()
     {
+        for(int i=0;i<PAINT_ROW;i++)
+            paint[i] ="";
+
         grid = new Dices[ROWS][COLUMNS];
         for(int i=0;i<ROWS;i++)
         {
@@ -58,29 +64,34 @@ public class Schema {
     {
         return this.grid;
     }
-    @Override
-    public String toString() {
-        String str = "";
-        str += this.name+"\n";
 
-        str+= "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
+    public void splitImageSchema() {
+        paint[1]= this.name;
+
+        paint[2]= "┏-----------------------------┓";
         for(int i=0; i<this.ROWS;i++)
         {
-            str+= "║  ";
+            paint[3+i]= "║  ";
             for(int j=0;j<this.COLUMNS;j++)
             {
-                str+=" "+grid[i][j].toString()+" ";
+                paint[3+i]+=" "+grid[i][j].toString()+" ";
 
             }
-            str+="  ║\n";
-
+            paint[3+i]+="  ║";
         }
-        str+="┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
-        str += "Difficoltà:";
+        paint[7]="┗-----------------------------┛";
+        paint[8]= "Difficoltà:";
         for(int i=0;i<difficult;i++)
-        str+= "*";
-        str+="\n";
-     return str;
+            paint[8]+= "*";
+
+    }
+
+    public void showImage()
+    {
+        for(int i=0;i<PAINT_ROW;i++)
+        {
+            System.out.print(paint[i]+"\n");
+        }
     }
 
     public void setName(String name) {
