@@ -128,9 +128,9 @@
                                     <ImageView id="3" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1" />
                                     <ImageView id="4" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     <ImageView id="5" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                                    <ImageView fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
-                                    <ImageView id="7" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                    <ImageView id="8" fitHeight="67.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                                    <ImageView fitHeight="61.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2" />
+                                    <ImageView id="7" fitHeight="62.0" fitWidth="67.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                    <ImageView id="8" fitHeight="61.0" fitWidth="66.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="OPEN_HAND" />
