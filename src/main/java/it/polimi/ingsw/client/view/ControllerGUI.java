@@ -29,7 +29,7 @@ import java.util.List;
 import static java.lang.Thread.sleep;
 
 
-public class ControllerClient implements View {
+public class ControllerGUI implements View {
 
     public static String text;
     public Button repeatLogin;
@@ -161,7 +161,7 @@ public class ControllerClient implements View {
 
 
 
-    public ControllerClient(Handler hand)
+    public ControllerGUI(Handler hand)
     {
         this.hand = hand;
     }
@@ -737,7 +737,7 @@ public class ControllerClient implements View {
     }
 
     public void setActions(final List<String> actions) {
-      /*  Platform.runLater(new Runnable() {
+      Platform.runLater(new Runnable() {
             public void run() {
                 if(!actions.contains("InsertDice"))
                     diceSpace.setDisable(true);
@@ -747,7 +747,7 @@ public class ControllerClient implements View {
                 else endTurn.setDisable(false);
 
             }
-        });*/
+        });
 
 
     }
@@ -901,7 +901,6 @@ public class ControllerClient implements View {
 
                 }
 
-                diceSpace.setDisable(true);
     }
 
     public void printSchema(GridPane gridPane, String nameSchema) throws IOException {
