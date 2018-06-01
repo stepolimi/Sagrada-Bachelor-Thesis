@@ -614,17 +614,27 @@ public class ViewCLI implements View{
     public void timerPing(String time) {
         //System.out.println("Caricamento");
        // for(int i=0;i<(LOBBY_TIMER_VALUE-Integer.parseInt(time))/5;i++) {
+        Colour colour = null;
             int percent =(int)(((LOBBY_TIMER_VALUE -Double.parseDouble(time))/ LOBBY_TIMER_VALUE)*100);
-            System.out.print(Colour.ANSI_BLUE.escape()+"\rLoading:");
+            System.out.print("\r"+Colour.ColorString("L",Colour.ANSI_GREEN)+Colour.ColorString("o",Colour.ANSI_RED)+Colour.ColorString("a",Colour.ANSI_BLUE)+Colour.ColorString("d",Colour.ANSI_YELLOW)+Colour.ColorString("i",Colour.ANSI_PURPLE)+Colour.ColorString("n",Colour.ANSI_GREEN)+Colour.ColorString("g",Colour.ANSI_BLUE));
             for(int i=0;i<percent;i++)
             {
-                System.out.print("▋");
+                switch(i/20)
+                {
+                    case 0:  colour = Colour.ANSI_GREEN;break;
+                    case 1: colour = Colour.ANSI_RED;break;
+                    case 2:colour = Colour.ANSI_BLUE;break;
+                    case 3: colour = Colour.ANSI_YELLOW;break;
+                    default:colour = Colour.ANSI_PURPLE;
+                }
+
+                System.out.print(Colour.ColorString("▋",colour));
             }
             for(int i=percent;i<100;i++)
             {
                 System.out.print(" ");
             }
-        System.out.print(percent+"%"+Colour.RESET);
+        System.out.print(Colour.ColorString(percent+"%",Colour.ANSI_BLUE));
        // }
        // System.out.println("la partita inizierà tra " + time + " secondi\n");
     }
@@ -649,7 +659,7 @@ public class ViewCLI implements View{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Aspettando la scelta degli altri giocatori...");
+        System.out.println("Aspettando la scelta degli altri giocatori...\n");
     }
 
 

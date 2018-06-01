@@ -1,5 +1,8 @@
 package it.polimi.ingsw.client.view;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,10 +25,18 @@ public class Handler {
         String choose;
         while (!correct) {
             Scanner in = new Scanner(System.in);
+            /*
             System.out.println("\u001B[33m"+ "|----------------------------|");
             System.out.println("\u001B[34m" + "  "+Colour.ANSI_GREEN.escape()+"S"+Colour.ANSI_RED.escape()+" A"+Colour.ANSI_BLUE.escape()+" G"+Colour.ANSI_YELLOW.escape()+" R"+Colour.ANSI_PURPLE.escape()+" A"+Colour.ANSI_GREEN.escape()+" D"+Colour.ANSI_RED.escape()+" A "+Colour.ANSI_BLUE.escape()+"   G"+Colour.ANSI_YELLOW.escape()+" A"+Colour.ANSI_PURPLE.escape()+" M"+Colour.ANSI_GREEN.escape()+" E"+Colour.RESET);
             System.out.println("\u001B[33m"+"|----------------------------|");
+            */
 
+
+            try {
+                displayStartImage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             System.out.println("\u001B[37m"+"Scegli l'interfaccia grafica");
             System.out.println("1 ----> Cli");
             System.out.println("2-----> GUI");
@@ -54,4 +65,32 @@ public class Handler {
     }
 
     public View getView() { return v; }
+
+    public void displayStartImage() throws IOException
+    {
+        final String filePath = "src/main/data/CliImage/startGame.txt";  //import every schema from
+        //json file form /src/main/data/Schema/i.json
+
+        FileReader f;
+        f = new FileReader(filePath);
+        int i=0;
+        BufferedReader b;
+        b = new BufferedReader(f);
+        try {
+            String sc;
+            sc = b.readLine();
+            while(sc!=null)
+            {
+                i++;
+                System.out.println("\u001B[3"+((i%9)+1)+"m"+sc+Colour.RESET);
+                sc = b.readLine();
+
+            }
+
+        }
+        finally {
+            b.close();
+        }
+    }
 }
+

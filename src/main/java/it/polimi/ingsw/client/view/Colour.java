@@ -30,4 +30,8 @@ public enum Colour {
         return escape;
     }
 
+    public static String ColorString(String str,Colour colour)
+    {
+        return colour.escape+str+Colour.RESET;
+    }
 }
