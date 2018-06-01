@@ -21,7 +21,7 @@ public class InsertDiceState implements State {
             int rowDiceSchema = Integer.parseInt((String) action.get(2));
             int columnDiceSchema = Integer.parseInt((String) action.get(3));
             try {
-                Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace);
+                Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace,round.getCurrentPlayer().getNickname());
                 schema.testInsertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());
                 round.notifyChanges(INSERT_DICE_ACCEPTED);
                 round.getBoard().getDiceSpace().removeDice(indexDiceSpace);

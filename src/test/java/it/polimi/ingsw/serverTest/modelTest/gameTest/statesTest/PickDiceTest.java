@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PickDiceTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
-    Round round = new Round(new Player("player 1"),board);
+    Round round = new Round(new Player("player 1"),board,null);
     PickDiceState state = new PickDiceState();
     List action = new ArrayList();
 
