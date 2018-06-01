@@ -2,11 +2,9 @@
 
 package it.polimi.ingsw.server.model.board;
 
-import it.polimi.ingsw.server.exception.NotFoundToolException;
 import it.polimi.ingsw.server.model.cards.objCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -88,14 +86,6 @@ public class Board extends Observable{
     public List<PrivateObjective> getDeckpriv() { return deckPrivate; }
 
     public List<ToolCard> getDeckTool() { return deckTool; }
-
-    public ToolCard getToolCard(int number) throws NotFoundToolException{
-        for(ToolCard card: deckTool){
-            if(card.getNum() == number)
-                return card;
-        }
-        throw new NotFoundToolException();
-    }
 
     public List<ObjectiveCard> getDeckPublic() { return deckPublic; }
 

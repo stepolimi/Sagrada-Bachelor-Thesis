@@ -15,13 +15,12 @@ public class PickDiceState implements State {
             } catch (RemoveDiceException e) {
                 System.out.println("illegal dice removal\n" + " ---");
             }
-        }
-        /*else if(action.get(1) == "RoundTrack")
+        }else if(action.get(1) == "RoundTrack")
             round.setPendingDice(round.getBoard().getRoundTrack().removeDice((Integer)action.get(2),(Integer)action.get(3)));
         else if(action.get(1) == "DiceBag")
             round.setPendingDice(round.getBoard().getDiceBag().takeDice());
         else if(action.get(1) == "Schema")
-            round.setPendingDice(round.getCurrentPlayer().getSchema().removeDice((Integer)action.get(2),(Integer)action.get(3)));*/
+            round.setPendingDice(round.getCurrentPlayer().getSchema().removeDice((Integer)action.get(2),(Integer)action.get(3)));
     }
 
     public String nextState(Round round, List action){ return action.get(0) + "State"; }

@@ -45,7 +45,7 @@ public class TaglierinaManualeTest {
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        round = new Round(player,board,null);
+        round = new Round(player,board);
         virtual.setConnection(new Connected());
         board.setObserver(virtual);
         board.setDiceSpace(new ArrayList<Dice>());

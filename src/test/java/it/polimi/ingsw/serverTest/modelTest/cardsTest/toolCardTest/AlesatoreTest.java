@@ -44,7 +44,7 @@ public class AlesatoreTest  {
          players.add(player2);
          players.add(player3);
          board = new Board(players);
-         round = new Round(player,board,null);
+         round = new Round(player,board);
     }
 
 

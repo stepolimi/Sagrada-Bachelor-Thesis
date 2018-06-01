@@ -1,7 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -24,14 +23,9 @@ public class SchemaTest {
         Dice d = new Dice(Colour.ANSI_YELLOW,6);
         s.insertDice(0,0,d);
         assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
-        try {
-            s.removeDice(0,0);
-            assertTrue(s.getTable(0,0).getDice()==null,"The box is empty");
-            assertTrue(s.removeDice(0,0)==null,"The box is empty");
-        } catch (RemoveDiceException e) {
-            e.printStackTrace();
-        }
-
+        s.removeDice(0,0);
+        assertTrue(s.getTable(0,0).getDice()==null,"The box is empty");
+        assertTrue(s.removeDice(0,0)==null,"The box is empty");
     }
 
 
@@ -52,11 +46,7 @@ public class SchemaTest {
         assertTrue(s.nearDice(0,0).contains(d1),"The die is near");
         assertTrue(s.nearDice(0,0).contains(d2),"The die is near");
         assertTrue(s.nearDice(0,0).contains(d3),"The die is near");
-        try {
-            s.removeDice(1,0);
-        } catch (RemoveDiceException e) {
-            e.printStackTrace();
-        }
+        s.removeDice(1,0);
         assertFalse("The die is not near",s.nearDice(0,0).contains(d3));
 
     }

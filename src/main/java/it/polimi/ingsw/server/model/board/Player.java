@@ -58,8 +58,6 @@ public class Player extends Observable{
         return favour;
     }
 
-    public void decrementFavor(int value) { this.favour -= value;}
-
     public void setFavour(int favour) {
         this.favour = favour;
     }

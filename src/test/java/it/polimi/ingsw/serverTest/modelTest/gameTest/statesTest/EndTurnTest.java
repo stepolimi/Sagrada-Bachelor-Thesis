@@ -34,7 +34,7 @@ public class EndTurnTest {
         board = new Board(players);
         board.setObserver(view);
         view.setConnection(new Connected());
-        round = new Round(players.get(0),board,null);
+        round = new Round(players.get(0),board);
         round.roundInit();
         action.add("PickDice");
         round.execute(action);

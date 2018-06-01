@@ -26,7 +26,6 @@ public class Round extends Observable implements TimedComponent {
     private Dice pendingDice;
     private int usingTool = 0;
     private List<String> legalActions;
-    private RoundManager roundManager;
 
     private boolean usedCard;
     private boolean insertedDice;
@@ -36,8 +35,7 @@ public class Round extends Observable implements TimedComponent {
     private Long startingTime = 0L;
 
 
-    public Round(Player first, Board board,RoundManager roundManager){
-        this.roundManager = roundManager;
+    public Round(Player first, Board board){
         states = new HashMap<String, State>();
         legalActions = new ArrayList<String>();
         firstPlayer = first;
@@ -53,7 +51,6 @@ public class Round extends Observable implements TimedComponent {
         currentState = states.get("ExtractDiceState");
         states.put("InsertDiceState",new InsertDiceState());
         states.put("UseCardState",new UseCardState());
-        states.put("MoveDiceState",new MoveDiceState());
         states.put("RollDiceState",new RollDiceState());
         states.put("ChangeValueState",new ChangeValueState());
         states.put("PickDiceState",new PickDiceState());
@@ -167,12 +164,6 @@ public class Round extends Observable implements TimedComponent {
             List list = new ArrayList();
             list.add("EndTurn");
             execute(list);
-            if(turnNumber == board.getPlayerList().size()*2){
-                board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
-                if(roundManager.getRoundNumber() <=10) {
-                    roundManager.startNewRound();
-                }
-            }
             return;
         }
         setChanged();

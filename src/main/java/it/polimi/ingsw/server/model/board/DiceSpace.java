@@ -35,13 +35,12 @@ public class DiceSpace extends Observable {
         notifyObservers(action);
     }
 
-    public Dice getDice(int index, String player) throws RemoveDiceException{
+    public Dice getDice(int index) throws RemoveDiceException{
         List action = new ArrayList();
         if(index < dices.size() && index >= 0) {
             return dices.get(index);
         }
         action.add(PICK_DICE_SPACE_ERROR);
-        action.add(player);
         setChanged();
         notifyObservers(action);
         throw new RemoveDiceException();

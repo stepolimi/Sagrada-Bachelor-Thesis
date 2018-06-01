@@ -75,58 +75,42 @@ public class ServerController implements Observer{
     }
 
     public void insertDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
     public void takeDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
     public void placeDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
     }
 
 
 
     public void useCardManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
+        if(round == null)
+            round = roundManager.getRound();
+        round.setUsingTool((Integer)action.get(1));
 
 
 
 
-
-
+        round.setUsingTool(0);
     }
 
     public void endTurnManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
+        if(round == null)
+            round = roundManager.getRound();
         round.execute(action);
         if(round.getTurnNumber() == game.getBoard().getPlayerList().size()*2){
-            game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
+            game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber());
             if(roundManager.getRoundNumber() <=10) {
                 roundManager.startNewRound();
                 round = roundManager.getRound();

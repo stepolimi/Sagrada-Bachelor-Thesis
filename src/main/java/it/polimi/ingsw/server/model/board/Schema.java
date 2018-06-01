@@ -17,7 +17,6 @@ package it.polimi.ingsw.server.model.board;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.exception.InsertDiceException;
-import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
@@ -109,24 +108,13 @@ public class Schema extends Observable{
 
     }
 
-    public Dice getDice(int rows, int columns) throws RemoveDiceException{
-        List<String> action = new ArrayList<String>();
-        if(this.table[rows][columns].getDice() == null) {
-            action.add(PICK_DICE_SCHEMA_ERROR);
-            action.add(player);
-            setChanged();
-            notifyObservers(action);
-            throw new RemoveDiceException();
-        }
-        return table[rows][columns].getDice();
-    }
     //it removed dice from rows-colomuns position. it returns null if is already empty
-    public Dice removeDice(int rows,int columns) throws RemoveDiceException{
+    public Dice removeDice(int rows,int columns) {
         List<String> action = new ArrayList<String>();
         Dice d;
-        if(table[rows][columns].getDice() != null) {
-            d = table[rows][columns].getDice();
-            table[rows][columns].setDice(null);
+        if(this.table[rows][columns].getDice()!=null) {
+            d = this.table[rows][columns].getDice();
+            this.table[rows][columns].setDice(null);
             action.add(PICK_DICE_SCHEMA);
             action.add(player);
             action.add(((Integer)rows).toString());
@@ -135,7 +123,11 @@ public class Schema extends Observable{
             notifyObservers(action);
             return d;
         }
-        throw new RemoveDiceException();
+        action.add(PICK_DICE_SCHEMA_ERROR);
+        action.add(player);
+        setChanged();
+        notifyObservers(action);
+        return null;
     }
 
     public List nearDice(int rows,int columns)

@@ -1,13 +1,10 @@
 package it.polimi.ingsw.server.model.board;
 
-import it.polimi.ingsw.server.exception.RemoveDiceException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK;
-import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK_ERROR;
 import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ROUND_TRACK;
 import static it.polimi.ingsw.server.serverCostants.Costants.TOT_ROUNDS;
 
@@ -50,24 +47,17 @@ public class RoundTrack extends Observable{
         notifyObservers(action);
     }
 
-    public Dice removeDice(int nRound,int nDice) throws RemoveDiceException{
+    public Dice removeDice(int nRound,int nDice) {
         List<String> action = new ArrayList<String>();
         Dice dice;
-        if(listRounds[nRound].get(nDice) != null) {
-            dice = listRounds[nRound].get(nDice);
-            listRounds[nRound].remove(nDice);
-            action.add(PICK_DICE_ROUND_TRACK);
-            action.add(((Integer) nRound).toString());
-            action.add(((Integer) nDice).toString());
-            setChanged();
-            notifyObservers(action);
-            return dice;
-        }
-        //todo add current player to add to action or make a different method to test the remove
-        action.add(PICK_DICE_ROUND_TRACK_ERROR);
+        dice = this.listRounds[nRound].get(nDice);
+        this.listRounds[nRound].remove(nDice);
+        action.add(PICK_DICE_ROUND_TRACK);
+        action.add(((Integer)nRound).toString());
+        action.add(((Integer)nDice).toString());
         setChanged();
         notifyObservers(action);
-        throw new RemoveDiceException();
+        return dice;
     }
 
 
@@ -77,7 +67,7 @@ public class RoundTrack extends Observable{
         for(int i = 0; i< TOT_ROUNDS; i++)
         {
             str+="Round "+(i+1)+"\n";
-            if(!this.listRounds[i].isEmpty())
+            if(this.listRounds[i].isEmpty()==false)
             str+= this.listRounds[i].toString()+"\n";
             else
             str+="[empty]\n";

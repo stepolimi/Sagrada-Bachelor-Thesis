@@ -47,7 +47,7 @@ public class RigaTest {
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        round = new Round(player,board,null);
+        round = new Round(player,board);
         board.setObserver(virtual);
         board.setDiceSpace(new ArrayList<Dice>());
 

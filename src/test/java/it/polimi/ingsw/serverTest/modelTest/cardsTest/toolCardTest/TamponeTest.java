@@ -34,7 +34,7 @@ public class TamponeTest {
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        round = new Round(player,board,null);
+        round = new Round(player,board);
         board.setObserver(view);
         view.setConnection(new Connected());
         board.setDiceSpace(new ArrayList<Dice>());
