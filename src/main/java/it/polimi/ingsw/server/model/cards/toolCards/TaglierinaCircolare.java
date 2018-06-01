@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -35,7 +36,12 @@ public class TaglierinaCircolare extends ToolCard {
     }
 
     public Dice switchDice(int roundIndex, int indexDice, Dice d, Round round){
-        Dice trasport = round.getBoard().getRoundTrack().removeDice(roundIndex, indexDice );
+        Dice trasport = null;
+        try {
+            trasport = round.getBoard().getRoundTrack().removeDice(roundIndex, indexDice );
+        } catch (RemoveDiceException e) {
+            e.printStackTrace();
+        }
         round.getBoard().getRoundTrack().insertDice(d, roundIndex );
         return trasport;
     }

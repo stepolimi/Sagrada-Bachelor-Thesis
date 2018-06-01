@@ -53,7 +53,7 @@ public class RoundTest {
     @Test
     void ChangeStateCheck(){
         TestInit();
-        round = new Round(player,board);
+        round = new Round(player,board,null);
         round.roundInit();
 
         //Round switch states correctly
@@ -87,8 +87,8 @@ public class RoundTest {
     @Test
     void ChangeCurrentPlayerCheck (){
         TestInit();
-        round = new Round(player,board);
-        round2 = new Round(player2,board);
+        round = new Round(player,board,null);
+        round2 = new Round(player2,board,null);
         round.roundInit();
         round2.roundInit();
         action.add("EndTurn");

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
@@ -41,10 +42,18 @@ public class Lathekin extends ToolCard{
         }
 
         if(flag){
-            p.getSchema().removeDice(x, y);
+            try {
+                p.getSchema().removeDice(x, y);
+            } catch (RemoveDiceException e) {
+                e.printStackTrace();
+            }
             try {
                 p.getSchema().insertDice(rows, columns, d1,4);
-                p.getSchema().removeDice(x2, y2);
+                try {
+                    p.getSchema().removeDice(x2, y2);
+                } catch (RemoveDiceException e) {
+                    e.printStackTrace();
+                }
                 p.getSchema().insertDice(rows2, columns2 , d2,4);
             } catch (InsertDiceException e) {
                 e.printStackTrace();
