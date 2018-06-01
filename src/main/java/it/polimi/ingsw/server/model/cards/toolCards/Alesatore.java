@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.cards.toolCards;
 
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 
@@ -29,7 +30,11 @@ public class Alesatore extends ToolCard {
         Dice d = pickDiceFromSchema(x, y, p.getSchema());
 
         if(placeDiceToSchema(rows, columns, d, p.getSchema(), 3) == true) {
-            p.getSchema().removeDice(x, y);
+            try {
+                p.getSchema().removeDice(x, y);
+            } catch (RemoveDiceException e) {
+                e.printStackTrace();
+            }
             try {
                 p.getSchema().insertDice(rows, columns, d,3);
             } catch (InsertDiceException e) {

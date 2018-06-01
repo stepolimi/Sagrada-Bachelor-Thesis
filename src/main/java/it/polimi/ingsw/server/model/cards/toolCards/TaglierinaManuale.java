@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
@@ -35,7 +36,11 @@ public class TaglierinaManuale extends ToolCard {
        if(placeDiceToSchema(rows, columns, d1, p.getSchema(), numCard)  && d1.getColour() ==
                OneColourRoundTrack(round.getBoard().getRoundTrack(),  i)) {
 
-           p.getSchema().removeDice(x, y);
+           try {
+               p.getSchema().removeDice(x, y);
+           } catch (RemoveDiceException e) {
+               e.printStackTrace();
+           }
            try {
                p.getSchema().insertDice(rows, columns, d1,12);
            } catch (InsertDiceException e) {
@@ -46,7 +51,11 @@ public class TaglierinaManuale extends ToolCard {
                if (!placeDiceToSchema(rows2, columns2, d2, p.getSchema(), numCard))
                    return false;
                if (d1.getColour() == OneColourRoundTrack(round.getBoard().getRoundTrack(), i)) {
-                   p.getSchema().removeDice(x2, y2);
+                   try {
+                       p.getSchema().removeDice(x2, y2);
+                   } catch (RemoveDiceException e) {
+                       e.printStackTrace();
+                   }
                    try {
                        p.getSchema().insertDice(rows2, columns2, d2,12);
                    } catch (InsertDiceException e) {

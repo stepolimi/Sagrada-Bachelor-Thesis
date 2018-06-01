@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 
+import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.RoundTrack;
@@ -37,9 +38,12 @@ public class RoundTrackTest {
     public void roundtrack_empty(){
         setOfDice();
         trackround.insertDices(listDice, 1);
-        trackround.removeDice(1,1);
-        trackround.removeDice(1,0);
-
+        try {
+            trackround.removeDice(1, 1);
+            trackround.removeDice(1, 0);
+        }catch (RemoveDiceException e) {
+            e.printStackTrace();
+        }
         assertEquals(0, trackround.getListRounds(1).size());
 
     }

@@ -77,8 +77,13 @@ public class RmiServerConnection implements Connection{
                 client.placeDiceSchema(action);
             } else if(action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
                 client.placeDiceSchemaError(action);
+            } else if(action.get(0).equals(PLACE_DICE_ROUND_TRACK)) {
+                //client.placeDiceRoundTrack(action);
+            } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK)) {
+                //client.pickDiceRoundTrack(action);
+            } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR)) {
+                //client.pickDiceRoundTrackError(action);
             }
-
         }catch(RemoteException e) {
             serverMethod.disconnected(this.client);
         }
@@ -86,7 +91,7 @@ public class RmiServerConnection implements Connection{
 
     @Override
     public boolean equals(Object obj) {
-        if(! (obj instanceof RmiServerConnection) )
+        if(! (obj.getClass().equals(RmiServerConnection.class)) )
             return false;
 
         RmiServerConnection cli = (RmiServerConnection) obj;

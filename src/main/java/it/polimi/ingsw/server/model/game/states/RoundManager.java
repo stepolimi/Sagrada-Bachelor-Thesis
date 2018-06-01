@@ -22,7 +22,7 @@ public class RoundManager  {
 
     public void startNewRound() {
         if(roundNum <=10){
-            round = new Round(board.getPlayerList().get(firstPlayerIndex),board);
+            round = new Round(board.getPlayerList().get(firstPlayerIndex),board,this);
             round.addObserver(obs);
             rounds.add(round);
             round.roundInit();
