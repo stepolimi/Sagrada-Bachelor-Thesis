@@ -945,8 +945,23 @@ public class ControllerGUI implements View {
                     else if (constrain.equals("\u001b[35m"))
                         imageView.setImage(new Image(path + "purple.png"));
 
-                    else imageView.setImage(new Image(path + constrain + ".png"));
+                    else if (constrain.equals("1"))
+                        imageView.setImage(new Image(path + "1.png"));
 
+                    else if (constrain.equals("2"))
+                        imageView.setImage(new Image(path + "2.png"));
+
+                    else if (constrain.equals("3"))
+                        imageView.setImage(new Image(path + "3.png"));
+
+                    else if (constrain.equals("4"))
+                        imageView.setImage(new Image(path + "4.png"));
+
+                    else if (constrain.equals("5"))
+                        imageView.setImage(new Image(path + "5.png"));
+
+                    else if (constrain.equals("6"))
+                        imageView.setImage(new Image(path + "6.png"));
 
             }
         });
