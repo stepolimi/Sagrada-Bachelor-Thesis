@@ -12,7 +12,7 @@ public class ViewGUI extends Application {
 
     private Scene scene;
     private Stage stage;
-    private static ControllerGUI controller;
+    private static ControllerClient controller;
     private static Handler hand;
 
     public ViewGUI() {
@@ -36,7 +36,7 @@ public class ViewGUI extends Application {
     }
 
 
-    public void setController(ControllerGUI controller)
+    public void setController(ControllerClient controller)
     {
         this.controller = controller;
     }

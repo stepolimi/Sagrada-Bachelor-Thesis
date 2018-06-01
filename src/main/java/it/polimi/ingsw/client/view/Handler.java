@@ -1,6 +1,10 @@
 package it.polimi.ingsw.client.view;
 
+import java.util.List;
 import java.util.Scanner;
+
+import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class Handler {
     View v;
@@ -36,8 +40,8 @@ public class Handler {
             {
                 String args[]={};
                 ViewGUI gui = new ViewGUI();
-                v = new ControllerGUI(this);
-                gui.setController((ControllerGUI) v);
+                v = new ControllerClient(this);
+                gui.setController((ControllerClient) v);
                 gui.main(args);
                 correct = true;
             }

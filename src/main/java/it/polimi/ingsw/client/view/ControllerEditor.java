@@ -27,7 +27,7 @@ public class ControllerEditor {
     public String id;
     public ImageView nextButton;
 
-    private ControllerGUI controllerGUI;
+    private ControllerClient controllerClient;
 
     private Schema s;
 
