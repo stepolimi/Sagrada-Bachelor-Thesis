@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -55,17 +56,17 @@
                      <content>
                         <Pane prefHeight="820.0" prefWidth="284.0">
                            <children>
-                              <ImageView fitHeight="243.0" fitWidth="220.0" layoutX="203.0" layoutY="240.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="247.0" fitWidth="257.0" layoutX="166.0" layoutY="241.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/pic19.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fitHeight="229.0" fitWidth="307.0" layoutX="140.0" layoutY="493.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="229.0" fitWidth="307.0" layoutX="150.0" layoutY="493.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/Schemi/SchemiRemake/0.png" />
                                  </image>
                               </ImageView>
-                              <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="142.0" layoutY="494.0" prefHeight="227.0" prefWidth="303.0">
+                              <GridPane fx:id="gridPane" gridLinesVisible="true" layoutX="152.0" layoutY="494.0" prefHeight="227.0" prefWidth="303.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -106,7 +107,7 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></ImageView>
-                              <GridPane fx:id="diceSpace" layoutX="242.0" layoutY="277.0" prefHeight="132.0" prefWidth="132.0">
+                              <GridPane fx:id="diceSpace" layoutX="222.0" layoutY="301.0" prefHeight="132.0" prefWidth="132.0">
                                 <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -146,7 +147,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="textflow" layoutX="449.0" layoutY="739.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="257.9830722808838">
+                              <Text fx:id="textflow" layoutX="219.0" layoutY="740.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="369.9830722808838">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -159,6 +160,598 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
+                              <ImageView fitHeight="72.0" fitWidth="585.0" layoutX="1.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/roundtrack.png" />
+                                 </image>
+                              </ImageView>
+                              <GridPane fx:id="roundTrack" layoutX="3.0" layoutY="58.0" prefHeight="185.0" prefWidth="582.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="207.0" minWidth="10.0" prefWidth="207.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="204.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image></ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image></ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image></ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image></ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="3">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="4">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="5">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="5" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="6">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="7" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="7">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="7" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="8" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="8">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="8" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="9" GridPane.rowIndex="1">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="9">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="29.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutX="30.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Blue/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane prefHeight="34.0" prefWidth="26.0" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                                       <children>
+                                          <ImageView fitHeight="28.0" fitWidth="28.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0">
+                                             <image>
+                                                <Image url="@../assets/image/Dice/Yellow/3.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </GridPane>
                            </children>
                         </Pane>
                      </content></Tab>
