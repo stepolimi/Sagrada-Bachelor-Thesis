@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -619,6 +620,7 @@ public class ControllerClient implements View {
 
         indexDiceSpace = Integer.parseInt(imageView.getId());
 
+
         ClipboardContent cb = new ClipboardContent();
         cb.putImage(imageView.getImage());
         db.setContent(cb);
@@ -749,11 +751,19 @@ t.start();
             public void run() {
                 if(!actions.contains("InsertDice"))
                     diceSpace.setDisable(true);
+
                 else diceSpace.setDisable(false);
+
+
                 if(!actions.contains("EndTurn"))
                     endTurn.setDisable(true);
+
+
                 else endTurn.setDisable(false);
 
+                if(!actions.contains("MoveDice"))
+                    gridPane.setDisable(true);
+                else gridPane.setDisable(false);
             }
         });
 
@@ -1017,6 +1027,31 @@ t.start();
         }
         return null;
     }
+
+    @FXML
+    void zoomCursor(MouseEvent event) {
+        Image image = new Image("/assets/image/zoom.png");
+        toolCard1.setCursor(new ImageCursor(image));
+        toolCard2.setCursor(new ImageCursor(image));
+        toolCard3.setCursor(new ImageCursor(image));
+        publObj1.setCursor(new ImageCursor(image));
+        publObj2.setCursor(new ImageCursor(image));
+        publObj3.setCursor(new ImageCursor(image));
+        privateCard.setCursor(new ImageCursor(image));
+
+    }
+
+
+
+
+    @FXML
+    void useToolCard(MouseEvent event) {
+        ImageView tool = (ImageView) event.getSource();
+        connection.useToolCard(Integer.parseInt(tool.getId()));
+
+    }
+
+
 
 
 

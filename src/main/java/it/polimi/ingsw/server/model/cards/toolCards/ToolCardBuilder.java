@@ -20,7 +20,7 @@ public class ToolCardBuilder {
 
     public ToolCard buildToolCard(int n){
         ToolCard toolCard = new ToolCard();
-        final String filePath = "C:\\Users\\stefano\\IdeaProjects\\sagrada_familia\\src\\main\\resources\\toolCard\\ToolCard" + n;
+        final String filePath = "src/main/data/toolCard/ToolCard" + n;
         Gson g = new Gson();
 
         FileReader f = null;
