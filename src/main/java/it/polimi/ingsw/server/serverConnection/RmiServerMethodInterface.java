@@ -14,6 +14,8 @@ public interface RmiServerMethodInterface extends Remote {
     void forwardAction(String action,RmiClientMethodInterface client) throws RemoteException;
     void disconnected(RmiClientMethodInterface client) throws RemoteException;
     void insertDice(int indexDiceSpace, int row, int column) throws RemoteException;
+    void useToolCard(int toolNumber) throws RemoteException;
+    void moveDice(int oldRow,int oldColumn, int newRow, int newColumn) throws RemoteException;
     void sendEndTurn() throws RemoteException;
 
 }

@@ -5,57 +5,38 @@ import it.polimi.ingsw.server.model.cards.toolCards.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static it.polimi.ingsw.server.serverCostants.Costants.DECK_TOOL_CARDS_SIZE;
+import static it.polimi.ingsw.server.serverCostants.Costants.NUM_TOOL_CARDS;
 
 public class DeckToolsCard {
-    private ArrayList<ToolCard> toolCards;
+    private ToolCardBuilder toolCardBuilder;
+    private List<ToolCard> toolCards;
+    private List <Integer> toolCardAvabiles;
 
     public DeckToolsCard(){
         this.toolCards = new ArrayList<ToolCard>();
-
-        Pinza card1= new Pinza();
-        PennelloEglomise card2 = new PennelloEglomise();
-        Alesatore card3= new Alesatore();
-        Lathekin card4= new Lathekin();
-        TaglierinaCircolare card5= new TaglierinaCircolare();
-        PennelloPastaSalda card6= new PennelloPastaSalda();
-        Martelletto card7= new Martelletto();
-        Tenaglia card8= new Tenaglia();
-        Riga card9= new Riga();
-        Tampone card10= new Tampone();
-        Diluente card11=new Diluente();
-        TaglierinaManuale card12= new TaglierinaManuale();
-
-        toolCards.add(card1);
-        toolCards.add(card2);
-        toolCards.add(card3);
-        toolCards.add(card4);
-        toolCards.add(card5);
-        toolCards.add(card6);
-        toolCards.add(card7);
-        toolCards.add(card8);
-        toolCards.add(card9);
-        toolCards.add(card10);
-        toolCards.add(card11);
-        toolCards.add(card12);
-
+        this.toolCardAvabiles = new ArrayList<Integer>();
+        this.toolCardBuilder = ToolCardBuilder.getToolCardBuilder();
+        this.extract();
     }
 
     public List<ToolCard> getToolCards() {
         return toolCards;
     }
 
-    public List extract(){
-        ArrayList <ToolCard> tools = new ArrayList<ToolCard>();
-        int random;
+    public void extract(){
+        Random rand = new Random();
 
-        for (int i=0; i<3; i++) {
-            random = (int) (Math.random() * this.toolCards.size());
-            tools.add(this.toolCards.get(random));
-            this.toolCards.remove(random);
+        for(int i=1;i<= NUM_TOOL_CARDS;i++)
+            toolCardAvabiles.add(i);
 
+        for (int i=0; i<DECK_TOOL_CARDS_SIZE; i++) {
+            int index = rand.nextInt(toolCardAvabiles.size());
+            toolCards.add(toolCardBuilder.buildToolCard(toolCardAvabiles.get(index)));
+            toolCardAvabiles.remove(index);
         }
-
-        return tools;
     }
 
 

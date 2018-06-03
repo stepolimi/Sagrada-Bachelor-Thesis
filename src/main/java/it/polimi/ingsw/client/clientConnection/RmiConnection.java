@@ -77,6 +77,22 @@ public class RmiConnection implements Connection {
         t.start();
     }
 
+    public void useToolCard(int toolNumber){
+        try {
+            server.useToolCard(toolNumber);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) {
+        try {
+            server.moveDice(oldRow,oldColumn,newRow,newColumn);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurn() {
         try {
             server.sendEndTurn();

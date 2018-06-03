@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.model.cards.objCards.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.serverCostants.Costants.DECK_PUBLIC_OBJECTIVES_SIZE;
+
 public class DeckPublicObjective {
     private ArrayList<ObjectiveCard> deckPub;
 
@@ -42,17 +44,12 @@ public class DeckPublicObjective {
         return this.deckPub;
     }
 
-    public List<ObjectiveCard> extract(int nPlayer)
+    public List<ObjectiveCard> extract()
     {
         ArrayList <ObjectiveCard> po = new ArrayList<ObjectiveCard>();
-        int random,nCard;
+        int random;
 
-        if(nPlayer==1)
-            nCard =2;
-        else
-            nCard= 3;
-
-        for(int i=0;i<nCard;i++) {
+        for(int i=0; i< DECK_PUBLIC_OBJECTIVES_SIZE; i++) {
             random = (int) (Math.random()*this.deckPub.size());
             po.add(this.deckPub.get(random));
             this.deckPub.remove(random);

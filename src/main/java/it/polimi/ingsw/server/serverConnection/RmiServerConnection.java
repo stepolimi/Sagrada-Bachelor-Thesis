@@ -54,12 +54,10 @@ public class RmiServerConnection implements Connection{
             } else if(action.get(0).equals(START_TURN)) {
                 client.startTurn(action);
             } else if(action.get(0).equals(START_ROUND)) {
-                client.startRound(action);
+                client.startRound();
             } else if(action.get(0).equals(SET_ACTIONS)) {
                 client.setActions(action);
-            } else if(action.get(0).equals(INSERT_DICE_ACCEPTED)) {
-                client.insertDiceAccepted(action);
-            } else if(action.get(0).equals(SET_DICE_SPACE)) {
+            }  else if(action.get(0).equals(SET_DICE_SPACE)) {
                 client.setDiceSpace(action);
             } else if(action.get(0).equals(PLACE_DICE_SPACE)) {
                 //client.placeDiceSpace(action);
@@ -68,21 +66,31 @@ public class RmiServerConnection implements Connection{
             } else if(action.get(0).equals(PICK_DICE_SPACE)) {
                 client.pickDiceSpace(action);
             }else if(action.get(0).equals(PICK_DICE_SPACE_ERROR)) {
-                client.pickDiceSpaceError(action);
+                client.pickDiceSpaceError();
             } else if(action.get(0).equals(PICK_DICE_SCHEMA)) {
-                //client.pickDiceSchema(action);
+                client.pickDiceSchema(action);
             } else if(action.get(0).equals(PICK_DICE_SCHEMA_ERROR)) {
-                //client.pickDiceSchemaError(action);
+                client.pickDiceSchemaError();
             } else if(action.get(0).equals(PLACE_DICE_SCHEMA)) {
                 client.placeDiceSchema(action);
             } else if(action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
-                client.placeDiceSchemaError(action);
+                client.placeDiceSchemaError();
             } else if(action.get(0).equals(PLACE_DICE_ROUND_TRACK)) {
                 //client.placeDiceRoundTrack(action);
             } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK)) {
                 //client.pickDiceRoundTrack(action);
             } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR)) {
                 //client.pickDiceRoundTrackError(action);
+            } else if(action.get(0).equals(INSERT_DICE_ACCEPTED)) {
+                client.insertDiceAccepted();
+            } else if(action.get(0).equals(PICK_DICE_ACCEPTED)) {
+                client.pickDiceAccepted();
+            } else if(action.get(0).equals(MOVE_DICE_ACCEPTED)) {
+                client.moveDiceAccepted();
+            } else if(action.get(0).equals(USE_TOOL_CARD_ACCEPTED)) {
+                client.useToolCardAccepted();
+            } else if(action.get(0).equals(USE_TOOL_CARD_ERROR)) {
+                client.useToolCardError();
             }
         }catch(RemoteException e) {
             serverMethod.disconnected(this.client);

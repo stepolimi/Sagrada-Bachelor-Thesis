@@ -4,39 +4,39 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.serverCostants.Costants.NUM_SCHEMAS;
+
 public class SetSchemas {
-    private List<Schema> schema ;
+    private List<Schema> schemas ;
     private List <Integer> nSchema;
 
     public SetSchemas(int nPlayers) {
-        nSchema = new ArrayList<Integer>(){};
-
-        for(int i=1;i<13;i++)
-            nSchema.add(i);
-        schema = createSchemas(nPlayers);
+        this.nSchema = new ArrayList<Integer>(){};
+        this.createSchemas(nPlayers);
     }
 
      // take the player's index and returns the set of schemas from which the player will choose one
     public List<Schema> deliver(int nPlayer)
     {
-    return schema.subList(nPlayer*4,nPlayer*4+4);
+    return schemas.subList(nPlayer*4,nPlayer*4+4);
     }
 
-    private List<Schema> createSchemas(int nPlayers){
-        schema = new ArrayList<Schema>();
+    private void createSchemas(int nPlayers){
+        for(int i=1;i<=NUM_SCHEMAS;i++)
+            nSchema.add(i);
+
+        schemas = new ArrayList<Schema>();
         for(int i=0;i<2*nPlayers;i++)
         {
             int random = (int) ( Math.random()*nSchema.size());
             try {
-                schema.add(new Schema().schemaInit(nSchema.get(random)));
-                schema.add(new Schema().schemaInit(nSchema.get(random)+12));
+                schemas.add(new Schema().schemaInit(nSchema.get(random)));
+                schemas.add(new Schema().schemaInit(nSchema.get(random)+12));
                 nSchema.remove(random);
-            }catch(IOException e)
-            {
+            }catch(IOException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return schema;
     }
 
 

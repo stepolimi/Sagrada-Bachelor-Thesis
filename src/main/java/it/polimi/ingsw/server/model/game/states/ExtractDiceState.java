@@ -24,7 +24,7 @@ public class ExtractDiceState implements State {
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
         legalActions.add("InsertDice");
-        legalActions.add("UseCard");
+        legalActions.add("UseToolCard");
         legalActions.add("EndTurn");
         round.setLegalActions(legalActions);
     }

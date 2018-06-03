@@ -57,18 +57,15 @@ public class RoundTest {
         round.roundInit();
 
         //Round switch states correctly
-        action.add("PickDice");
-        round.execute(action);
         assertTrue(round.getCurrentState().toString() == "ExtractDiceState" );
         //action.add("UseCard");
         //round.execute(action);
-        //assertTrue(round.getCurrentState().toString() == "UseCardState");
+        //assertTrue(round.getCurrentState().toString() == "UseToolCardState");
         action.clear();
         action.add("InsertDice");
-        action.add("");
-        action.add(0);
-        action.add(0);
-        action.add(0);
+        action.add("0");
+        action.add("0");
+        action.add("0");
         round.execute(action);
         assertTrue(round.getCurrentState().toString() == "InsertDiceState");
         //action.add("RollDice");

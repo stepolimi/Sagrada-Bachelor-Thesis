@@ -91,7 +91,7 @@ public class Board extends Observable{
 
     public ToolCard getToolCard(int number) throws NotFoundToolException{
         for(ToolCard card: deckTool){
-            if(card.getNum() == number)
+            if(card.getNumber() == number)
                 return card;
         }
         throw new NotFoundToolException();
@@ -134,7 +134,7 @@ public class Board extends Observable{
                 action.add(o.getName());
         else if (string.equals(SET_TOOL_CARDS))
             for(ToolCard tool: deckTool)
-                action.add(tool.getNum().toString());
+                action.add(((Integer)tool.getNumber()).toString());
         else if(string.equals(SET_OPPONENTS_SCHEMAS)){
             for(Player p: playerList) {
                 action.add(p.getNickname());

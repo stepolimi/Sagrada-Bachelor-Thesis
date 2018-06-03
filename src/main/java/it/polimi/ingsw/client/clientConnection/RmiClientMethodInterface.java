@@ -5,27 +5,37 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public interface RmiClientMethodInterface extends Remote{
-    public void updateText(String s) throws RemoteException;
-    public void printText(String s) throws RemoteException;
-    public void login(List action)throws RemoteException;
-    public void playerDisconnected(List action) throws RemoteException;
-    public void timerPing(List action)throws RemoteException;
-    public void createGame()throws RemoteException;
-    public void setSchemas(List action)throws RemoteException;
-    public void setPrivateCard(String privateCard)throws RemoteException;
-    public void setPublicObjectives(List action)throws RemoteException;
-    public void setToolCards(List action)throws RemoteException;
-    public void chooseSchema(List action) throws RemoteException;
-    public void setOpponentsSchemas(List action) throws RemoteException;
-    void startRound(List action) throws RemoteException;
+    void updateText(String s) throws RemoteException;
+    void printText(String s) throws RemoteException;
+    void login(List action)throws RemoteException;
+    void playerDisconnected(List action) throws RemoteException;
+    void timerPing(List action)throws RemoteException;
+    void createGame()throws RemoteException;
+    void setSchemas(List action)throws RemoteException;
+    void setPrivateCard(String privateCard)throws RemoteException;
+    void setPublicObjectives(List action)throws RemoteException;
+    void setToolCards(List action)throws RemoteException;
+    void chooseSchema(List action) throws RemoteException;
+    void setOpponentsSchemas(List action) throws RemoteException;
+    void startRound() throws RemoteException;
     void startTurn(List action) throws RemoteException;
     void setActions(List action) throws RemoteException;
     void setDiceSpace(List action) throws RemoteException;
-    void insertDiceAccepted(List action) throws RemoteException;
+    void insertDiceAccepted() throws RemoteException;
+    void pickDiceAccepted() throws RemoteException;
+    void moveDiceAccepted() throws RemoteException;
 
     void pickDiceSpace(List action) throws RemoteException;
-    void pickDiceSpaceError(List action) throws RemoteException;
+    void pickDiceSpaceError() throws RemoteException;
 
     void placeDiceSchema(List action) throws RemoteException;
-    void placeDiceSchemaError(List action) throws RemoteException;
+    void placeDiceSchemaError() throws RemoteException;
+
+    void pickDiceSchema(List action) throws RemoteException;
+    void pickDiceSchemaError() throws RemoteException;
+
+    void useToolCardAccepted() throws RemoteException;
+    void useToolCardError() throws RemoteException;
+
+
 }

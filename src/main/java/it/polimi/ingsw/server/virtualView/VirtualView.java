@@ -60,7 +60,7 @@ public class VirtualView extends Observable implements Observer{
     }
 
     private void schemaHandler(Object action) {
-        if(((List) action).get(0).equals(PLACE_DICE_SCHEMA_ERROR) )
+        if(((List) action).get(0).equals(PLACE_DICE_SCHEMA_ERROR) ||((List) action).get(0).equals(PICK_DICE_SCHEMA_ERROR)  )
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);

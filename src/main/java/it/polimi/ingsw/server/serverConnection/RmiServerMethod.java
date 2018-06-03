@@ -98,6 +98,24 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void useToolCard(int toolNumber) {
+        List action = new ArrayList();
+        action.add("UseToolCard");
+        action.add(((Integer)toolNumber).toString());
+        virtual.forwardAction(action);
+    }
+
+    public void moveDice(int oldRow,int oldColumn, int newRow, int newColumn){
+        List action = new ArrayList();
+        action.add("MoveDice");
+        action.add(((Integer)oldRow).toString());
+        action.add(((Integer)oldColumn).toString());
+        action.add(((Integer)newRow).toString());
+        action.add(((Integer)newColumn).toString());
+        virtual.forwardAction(action);
+    }
+
+
     public void sendEndTurn() {
         List action = new ArrayList();
         action.add(END_TURN);

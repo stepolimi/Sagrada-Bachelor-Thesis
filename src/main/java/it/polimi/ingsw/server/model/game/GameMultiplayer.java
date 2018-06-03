@@ -48,8 +48,8 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         //set one set of 3 Public Objective and one of 3 Tool Cards in the board
         DeckPublicObjective deckPublic = new DeckPublicObjective();
         DeckToolsCard deckTools = new DeckToolsCard();
-        board.setDeckPublic(deckPublic.extract(players.size()));
-        board.setDeckTool(deckTools.extract());
+        board.setDeckPublic(deckPublic.extract());
+        board.setDeckTool(deckTools.getToolCards());
 
         //set a private objective and a set of 4 Schemas for each player
         DeckPrivateObjective deckPriv = new DeckPrivateObjective();

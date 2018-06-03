@@ -22,7 +22,7 @@ public class DeckObjTest {
 
     @Test
     public void correctExtract(){
-        deckPub= d.extract(3);
+        deckPub= d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
 
@@ -30,7 +30,7 @@ public class DeckObjTest {
 
     @Test
     public void correctExtract2(){
-        deckPub = d.extract(4);
+        deckPub = d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
 
@@ -38,22 +38,12 @@ public class DeckObjTest {
     }
     @Test
     public void correctExtract3(){
-        deckPub = d.extract(4);
+        deckPub = d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
 
 
     }
-
-    @Test
-    public void correctExtract4(){
-        deckPub = d.extract(1);
-        assertEquals(2, deckPub.size());
-        assertEquals(8, d.getDeckPub().size());
-
-
-    }
-
 
 
 

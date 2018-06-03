@@ -816,6 +816,14 @@ t.start();
 
     }
 
+    public void pickDiceAccepted() {
+        //todo piu tardi, sarà per tool non ancora funzionati
+    }
+
+    public void moveDiceAccepted() {
+        //todo
+    }
+
     public void pickDiceSpace(final List action) throws InterruptedException {
 
 
@@ -887,6 +895,22 @@ t.start();
         synchronized (lock) {
             lock.notify();
         }
+    }
+
+    public void pickDiceSchema(List action) {
+        //todo
+    }
+
+    public void pickDiceSchemaError() {
+        //todo
+    }
+
+    public void useToolCardAccepted() {
+        //todo
+    }
+
+    public void useToolCardError() {
+        //todo
     }
 
     public void diceSort() {

@@ -3,7 +3,7 @@ package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.model.game.states.UseCardState;
+import it.polimi.ingsw.server.model.game.states.UseToolCardState;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ public class UseCardTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
     Round round = new Round(new Player("player 1"),board,null);
-    UseCardState state = new UseCardState();
+    UseToolCardState state = new UseToolCardState();
     List action = new ArrayList();
 
     @Test
     public void nameTest(){
-        assertTrue(state.toString() == "UseCardState");
+        assertTrue(state.toString() == "UseToolCardState");
     }
 
     @Test

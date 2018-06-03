@@ -3,6 +3,8 @@
 package it.polimi.ingsw.server.model.board;
 
 
+import it.polimi.ingsw.server.exception.ChangeDiceValueException;
+
 public class Dice {
     private Colour colour;
     private int value;
@@ -39,6 +41,26 @@ public class Dice {
         return this.colour;
     }
 
+    public void rollDice()                  //function used to "to launch " a dice
+    {
+        int number =(int) ((Math.random()*6)+1);
+        this.setValue(number);
+    }
+
+    public int incrementValue() throws ChangeDiceValueException {
+        if(value == 6)
+            throw new ChangeDiceValueException();
+        value ++;
+        return value;
+    }
+
+    public int decrementValue() throws ChangeDiceValueException {
+        if(value == 1)
+            throw new ChangeDiceValueException();
+        value --;
+        return value;
+    }
+
     @Override
     public String toString() {
         if(this!=null) {
@@ -47,11 +69,7 @@ public class Dice {
         }
         return "";
     }
-    public void rollDice()                  //function used to "to launch " a dice
-    {
-        int number =(int) ((Math.random()*6)+1);
-        this.setValue(number);
-    }
+
     public void dump(){System.out.println(this); }
 }
 

@@ -32,11 +32,11 @@ public class ServerController implements Observer{
         if(head.equals("Login")) {loginManager((List)action); }
         else if(head.equals("Disconnected")) { logoutManager((List)action); }
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
-        else if(head.equals(PICK_DICE)) {
-            insertDiceManager((List)action); }
+        else if(head.equals(PICK_DICE)) { insertDiceManager((List)action); }
+        else if(head.equals("MoveDice")) { moveDiceManager((List)action); }
         else if(head.equals("TakeDice")) { takeDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
-        else if(head.equals("UseCard")) {useCardManager((List)action); }
+        else if(head.equals("UseToolCard")) {useCardManager((List)action); }
         else if(head.equals(END_TURN)) {endTurnManager((List)action); }
         else{
             view.sendError((String)((List)action).get(1));
@@ -44,17 +44,17 @@ public class ServerController implements Observer{
 
     }
 
-    public void loginManager(List action){
+    private void loginManager(List action){
         session.joinPlayer((String) action.get(1));
 
     }
 
-    public void logoutManager(List action){
+    private void logoutManager(List action){
         session.removePlayer((String) action.get(1));
 
     }
 
-    public void chooseSchemaManager(List action){
+    private void chooseSchemaManager(List action){
         game = session.getGame();
         roundManager = game.getRoundManager();
         for(Player p: game.getPlayers()){
@@ -74,7 +74,7 @@ public class ServerController implements Observer{
         }
     }
 
-    public void insertDiceManager(List action){
+    private void insertDiceManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -83,7 +83,7 @@ public class ServerController implements Observer{
         round.execute(action);
     }
 
-    public void takeDiceManager(List action){
+    private void moveDiceManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -92,7 +92,16 @@ public class ServerController implements Observer{
         round.execute(action);
     }
 
-    public void placeDiceManager(List action){
+    private void takeDiceManager(List action){
+        if(game == null) {
+            game = session.getGame();
+            roundManager = game.getRoundManager();
+        }
+        round = roundManager.getRound();
+        round.execute(action);
+    }
+
+    private void placeDiceManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -103,7 +112,7 @@ public class ServerController implements Observer{
 
 
 
-    public void useCardManager(List action){
+    private void useCardManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -118,7 +127,7 @@ public class ServerController implements Observer{
 
     }
 
-    public void endTurnManager(List action){
+    private void endTurnManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();

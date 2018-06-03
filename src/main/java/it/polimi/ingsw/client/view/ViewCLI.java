@@ -178,7 +178,6 @@ public class ViewCLI implements View{
     }
 
 
-
     public void setPrivateCard(String colour){
         System.out.println("il tuo obiettivo privato sarà il colore: " + colour + "\n");
         privateObjective = colour;
@@ -705,6 +704,10 @@ public class ViewCLI implements View{
                     useToolCard();
                     // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
                     // moves.remove(choose-1);
+                } else if (moves.get(choose - 1).equals("MoveDice")) {
+                    moveDice();
+                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
+                    // moves.remove(choose-1);
                 } else if (moves.get(choose - 1).equals("EndTurn")) {
                     passTurn();
                     clearScreen();
@@ -795,12 +798,59 @@ public class ViewCLI implements View{
         System.out.println("Scegli la tool card da utilizzare:");
         for(String s:toolCard)
             System.out.println(s);
-            String tool = input.nextLine();
-      //  connection.sendMessage(tool);
-        // connection.useToolCard()
+        int tool = Integer.parseInt(input.nextLine());
+        //connection.sendMessage(tool);
+        connection.useToolCard(tool);
     }
 
+    public void useToolCardAccepted() {
+        System.out.println("bravissimo, però dobbiamo concordare come gestire lo scalare dei favori");
+    }
 
+    public void useToolCardError() {
+        System.out.println("non hai abbastanza favori");
+    }
+
+    int oldRow;
+    int oldColumn;
+    int newRow;
+    int newColumn;
+
+    public void moveDice() {
+        correct = false;
+        System.out.println("Riga da dove vuoi prendere il dado:");
+        oldRow = Integer.parseInt(input.nextLine()) -1;
+        System.out.println("Colonna da dove vuoi prendere il dado:");
+        oldColumn = Integer.parseInt(input.nextLine()) -1;
+        System.out.println("Riga dove vuoi spostare il dado:");
+        newRow = Integer.parseInt(input.nextLine()) -1;
+        System.out.println("Colonna dove vuoi spostare il dado:");
+        newColumn = Integer.parseInt(input.nextLine()) -1;
+        connection.moveDice(oldRow,oldColumn,newRow,newColumn);
+    }
+    //problem: quando togli un dado dallo schema come recuperi la restrizione precedente?
+    public void pickDiceAccepted(){}
+    public void moveDiceAccepted(){
+        this.schemas.get(username).getGrid()[newRow][newColumn] = this.schemas.get(username).getGrid()[oldRow][oldColumn];
+        this.schemas.get(username).getGrid()[oldRow][oldColumn] = new Dices("",0,null);
+        schemas.get(username).splitImageSchema();
+        schemas.get(username).showImage();
+        System.out.println("sei riuscito a spostare il dado, complimenti");
+    }
+
+    Dices pendingDice;
+
+    public void pickDiceSchema(List action){
+        if(!action.get(0).equals(username)){
+            this.schemas.get(action.get(0)).getGrid()[Integer.parseInt((String)action.get(1))][Integer.parseInt((String)action.get(2))] =
+                    new Dices("",0,null);
+
+        }
+    }
+
+    public void pickDiceSchemaError(){
+        System.out.println("non ci sono dadi qui");
+    }
 
     public String getName(){ return this.username;}
 }

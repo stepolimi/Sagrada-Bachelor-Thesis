@@ -1,39 +1,33 @@
 package it.polimi.ingsw.server.model.cards.toolCards;
 
-import it.polimi.ingsw.server.model.board.Dice;
-import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.model.rules.RulesManager;
+import java.util.ArrayList;
+import java.util.List;
 
-public abstract class ToolCard {
+public class ToolCard {
 
     private String name;
-    private String description;
-    private int numCard;
-    private boolean used= false;
+    private int number;
+    private boolean used;
+    private List<List<String>> nextActions;
 
-    public boolean isUsed() {
-        return used;
+    public void setUsed(boolean used) { this.used = used; }
+
+    public boolean isUsed() { return used; }
+
+    public String getName() { return name; }
+
+    public int getNumber() { return number; }
+
+    public List<List<String>> getNextActions() {
+        List<List<String>> copy = new ArrayList<List<String>>();
+        for(List<String> list: nextActions) {
+            ArrayList<String> listCopy = new ArrayList<String>();
+            copy.add(listCopy);
+            for (String string : list)
+                listCopy.add(string);
+
+        }
+        return copy;
     }
 
-    public void setUsed(boolean used) {
-        this.used = used;
-    }
-
-    public boolean placeDiceToSchema(int rows, int columns, Dice d, Schema sch, int num_card) {
-        RulesManager rules = new RulesManager();
-
-        return rules.checkRules(num_card, rows, columns,  d, sch);
-    }
-
-    public Dice pickDiceFromSchema(int x, int y, Schema sch) {
-        return sch.getTable(x, y).getDice();
-
-    }
-
-    public Dice pickFromDiceSpace(int n, Round round) {
-        return round.getBoard().getDiceSpace().getListDice().remove(n);
-    }
-
-    public abstract Integer getNum() ;
 }

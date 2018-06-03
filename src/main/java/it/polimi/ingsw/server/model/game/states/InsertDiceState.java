@@ -24,6 +24,8 @@ public class InsertDiceState implements State {
                 Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace,round.getCurrentPlayer().getNickname());
                 schema.testInsertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());
                 round.notifyChanges(INSERT_DICE_ACCEPTED);
+                if(!round.getNextActions().isEmpty())
+                    round.getNextActions().remove(0);
                 round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
                 schema.insertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());
                 round.setInsertedDice(true);
@@ -43,11 +45,16 @@ public class InsertDiceState implements State {
 
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
-        if(!round.isInsertedDice())
-            legalActions.add("InsertDice");
-        if(!round.isUsedCard())
-            legalActions.add("UseCard");
-        legalActions.add("EndTurn");
+        if(round.getUsingTool() == 0 || round.getNextActions().isEmpty()) {
+            round.setUsingTool(0);
+            if (!round.isInsertedDice())
+                legalActions.add("InsertDice");
+            if(!round.isUsedCard())
+                legalActions.add("UseToolCard");
+            legalActions.add("EndTurn");
+        } else{
+            legalActions.addAll(round.getNextActions().get(0));
+        }
         round.setLegalActions(legalActions);
     }
 

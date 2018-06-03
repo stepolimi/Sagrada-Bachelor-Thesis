@@ -79,7 +79,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.setOpponentsSchemas(action.subList(1,action.size()));
     }
 
-    public void startRound(List action) {
+    public void startRound() {
         v.startRound();
     }
 
@@ -95,8 +95,16 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.setDiceSpace(action.subList(1,action.size()));
     }
 
-    public void insertDiceAccepted(List action) {
+    public void insertDiceAccepted() {
         v.insertDiceAccepted();
+    }
+
+    public void pickDiceAccepted() {
+        v.pickDiceAccepted();
+    }
+
+    public void moveDiceAccepted() {
+        v.moveDiceAccepted();
     }
 
     public void pickDiceSpace(List action) {
@@ -107,7 +115,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         }
     }
 
-    public void pickDiceSpaceError(List action) {
+    public void pickDiceSpaceError() {
         v.pickDiceSpaceError();
     }
 
@@ -115,9 +123,20 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.placeDiceSchema(action.subList(1,action.size()));
     }
 
-    public void placeDiceSchemaError(List action) {
+    public void placeDiceSchemaError() {
         v.placeDiceSchemaError();
     }
 
+    public void pickDiceSchema(List action) {
+        v.pickDiceSchema(action.subList(1,action.size()));
+    }
+
+    public void pickDiceSchemaError() {
+        v.pickDiceSchemaError();
+    }
+
+    public void useToolCardAccepted() { v.useToolCardAccepted(); }
+
+    public void useToolCardError() { v.useToolCardError(); }
 }
 

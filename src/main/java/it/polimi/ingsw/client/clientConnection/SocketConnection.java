@@ -61,6 +61,16 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void useToolCard(int toolNumber) {
+        out.println("UseToolCard" + "-" + toolNumber);
+        out.flush();
+    }
+
+    public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) {
+        out.println("MoveDice" + "-" + oldRow + "-" + oldColumn + "-" + newRow + "-" + newColumn);
+        out.flush();
+    }
+
     public void sendEndTurn() {
         out.println(END_TURN);
         out.flush();
@@ -153,6 +163,24 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals(PLACE_DICE_SCHEMA))
         {
             v.placeDiceSchema(action.subList(1,action.size()));
+        }else if(action.get(0).equals(USE_TOOL_CARD_ACCEPTED))
+        {
+            v.useToolCardAccepted();
+        }else if(action.get(0).equals(USE_TOOL_CARD_ERROR))
+        {
+            v.useToolCardError();
+        }else if(action.get(0).equals(PICK_DICE_ACCEPTED))
+        {
+            v.pickDiceAccepted();
+        }else if(action.get(0).equals(MOVE_DICE_ACCEPTED))
+        {
+            v.moveDiceAccepted();
+        }else if(action.get(0).equals(PICK_DICE_SCHEMA_ERROR))
+        {
+            v.pickDiceSchemaError();
+        }else if(action.get(0).equals(PICK_DICE_SCHEMA))
+        {
+            v.pickDiceSchema(action.subList(1,action.size()));
         }
     }
 }

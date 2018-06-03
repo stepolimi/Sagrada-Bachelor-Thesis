@@ -4,7 +4,6 @@ import java.util.List;
 
 public class RollDiceState implements State{
     private static String state = "RollDiceState";
-    private static String next = "PlaceDiceState";
 
     public void execute(Round round, List action){
 

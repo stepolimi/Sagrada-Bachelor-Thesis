@@ -25,6 +25,7 @@ public class Round extends Observable implements TimedComponent {
     private State currentState ;
     private Dice pendingDice;
     private int usingTool = 0;
+    private List<List<String>> nextActions;
     private List<String> legalActions;
     private RoundManager roundManager;
 
@@ -44,6 +45,7 @@ public class Round extends Observable implements TimedComponent {
         this.board = board;
         usedCard = false;
         insertedDice = false;
+        nextActions = new ArrayList<List<String>>();
     }
 
     public void roundInit(){
@@ -52,7 +54,7 @@ public class Round extends Observable implements TimedComponent {
         states.put("ExtractDiceState",new ExtractDiceState());
         currentState = states.get("ExtractDiceState");
         states.put("InsertDiceState",new InsertDiceState());
-        states.put("UseCardState",new UseCardState());
+        states.put("UseToolCardState",new UseToolCardState());
         states.put("MoveDiceState",new MoveDiceState());
         states.put("RollDiceState",new RollDiceState());
         states.put("ChangeValueState",new ChangeValueState());
@@ -73,13 +75,8 @@ public class Round extends Observable implements TimedComponent {
     public void execute(List action){
         if(legalActions.contains(action.get(0))) {
             timer.cancel();
-            if (usingTool == 0) {
-                currentState = states.get(currentState.nextState(this, action));
-                currentState.execute(this, action);
-            } else {
-                currentState.execute(this, action);
-                currentState = states.get(currentState.nextState(this, action));
-            }
+            currentState = states.get(currentState.nextState(this, action));
+            currentState.execute(this, action);
             notifyChanges("newState");
             startingTime = System.currentTimeMillis();
             turnTimer = new GameTimer(TURN_TIMER_VALUE,this);
@@ -127,6 +124,10 @@ public class Round extends Observable implements TimedComponent {
 
     public void setInsertedDice(boolean insertedDice) { this.insertedDice = insertedDice; }
 
+    public void setNextActions(List<List<String>> nextActions) { this.nextActions = nextActions; }
+
+    public List<List<String>> getNextActions() { return nextActions; }
+
     public void notifyChanges(String string){
         List<String> action = new ArrayList<String>();
         if(string.equals("newState")) {
@@ -150,20 +151,20 @@ public class Round extends Observable implements TimedComponent {
             action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        }else if(string.equals(INSERT_DICE_ACCEPTED)){
-            action.add(string);
-            action.add(currentPlayer.getNickname());
-        }else if(string.equals(ILLEGAL_ACTION)){
+        } else if(string.equals(ILLEGAL_ACTION)){
             action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        }else if(string.equals(TIMER_PING)){
+        } else if(string.equals(TIMER_PING)){
             action.add(TURN_TIMER_PING);
             action.add(currentPlayer.getNickname());
             action.add(((Long)(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
-        }else if(string.equals(TIMER_ELAPSED)){
+        } else if(string.equals(TIMER_ELAPSED)){
             System.out.println("TurnTimer elapsed\n"+" ---");
             currentPlayer.setConnected(false);
+            insertedDice = false;
+            usedCard = false;
+            usingTool = 0;
             List list = new ArrayList();
             list.add("EndTurn");
             execute(list);
@@ -174,6 +175,9 @@ public class Round extends Observable implements TimedComponent {
                 }
             }
             return;
+        } else{             //insertDiceAccepted,pickDiceAccepted,moveDiceAccepted,useToolCardAccepted,UseToolCardError
+            action.add(string);
+            action.add(currentPlayer.getNickname());
         }
         setChanged();
         notifyObservers(action);
