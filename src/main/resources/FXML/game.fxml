@@ -25,42 +25,42 @@
          <children>
             <Pane prefHeight="848.0" prefWidth="507.0">
                <children>
-                  <ImageView fx:id="publObj1" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="38.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="publObj1" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="38.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image></ImageView>
-                  <ImageView fx:id="toolCard2" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="292.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="toolCard2" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="292.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
                         <Image url="@../assets/image/Cards/ToolCard/0.png" />
                      </image></ImageView>
-                  <ImageView fx:id="publObj2" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="292.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="publObj2" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="292.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image></ImageView>
-                  <ImageView fx:id="toolCard1" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="38.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="toolCard1" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="38.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
                         <Image url="@../assets/image/Cards/ToolCard/0.png" />
                      </image></ImageView>
-                  <ImageView fx:id="publObj3" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="548.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="publObj3" fitHeight="234.0" fitWidth="156.0" layoutX="61.0" layoutY="548.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                      <image>
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image></ImageView>
-                  <ImageView fx:id="toolCard3" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="548.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="toolCard3" fitHeight="234.0" fitWidth="156.0" layoutX="271.0" layoutY="548.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -205,7 +205,7 @@
                                        </cursor></ImageView>
                                  </children>
                               </GridPane>
-                              <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="514.0" layoutY="420.0" onMouseClicked="#imageZoom" onMouseEntered="#zoomCursor" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="514.0" layoutY="415.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -392,11 +393,14 @@ public class ControllerClient implements View {
     }
 
     public void setPrivateCard(final String colour){
+
         Platform.runLater(new Runnable() {
             public void run() {
+                Image cursor = new Image("/assets/image/zoom.png");
 
                 Image image = new Image("/assets/image/Cards/PrivateObj/"+ colour + ".png");
                 privateCard.setImage(image);
+                privateCard.setCursor(new ImageCursor(cursor));
             }
         });
     }
@@ -404,17 +408,23 @@ public class ControllerClient implements View {
     public void setPublicObjectives(final List<String> cards){
         Platform.runLater(new Runnable() {
             public void run() {
+                Image cursor = new Image("/assets/image/zoom.png");
+
 
                 String path = new String("/assets/image/Cards/PublicObj/");
 
                 Image image = new Image(path + cards.get(0)+ ".png");
                 publObj1.setImage(image);
+                publObj1.setCursor(new ImageCursor(cursor));
+
 
                 image = new Image(path + cards.get(1)+ ".png");
                 publObj2.setImage(image);
+                publObj2.setCursor(new ImageCursor(cursor));
 
                 image = new Image(path + cards.get(2)+ ".png");
                 publObj3.setImage(image);
+                publObj3.setCursor(new ImageCursor(cursor));
 
 
 
@@ -428,19 +438,26 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
 
+                Image cursor = new Image("/assets/image/zoom.png");
+
+
                 String path = new String("/assets/image/Cards/ToolCard/");
 
                 Image image = new Image(path + cards.get(0)+ ".png");
                 toolCard1.setImage(image);
+                toolCard1.setCursor(new ImageCursor(cursor));
                 use1.setId(cards.get(0));
+
 
                 image = new Image(path + cards.get(1)+ ".png");
                 toolCard2.setImage(image);
+                toolCard2.setCursor(new ImageCursor(cursor));
                 use2.setId(cards.get(1));
 
 
                 image = new Image(path + cards.get(2)+ ".png");
                 toolCard3.setImage(image);
+                toolCard3.setCursor(new ImageCursor(cursor));
                 use3.setId(cards.get(2));
 
 
@@ -1078,23 +1095,6 @@ public class ControllerClient implements View {
         return null;
     }
 
-   /* @FXML
-    void zoomCursor(MouseEvent event) {
-        Image image = new Image("/assets/image/zoom.png");
-        toolCard1.setCursor(new ImageCursor(image));
-        toolCard2.setCursor(new ImageCursor(image));
-        toolCard3.setCursor(new ImageCursor(image));
-        publObj1.setCursor(new ImageCursor(image));
-        publObj2.setCursor(new ImageCursor(image));
-        publObj3.setCursor(new ImageCursor(image));
-        privateCard.setCursor(new ImageCursor(image));
-
-    }*/
-
-    @FXML
-    void zoomCursor(MouseEvent event) {
-
-    }
 
 
     @FXML
