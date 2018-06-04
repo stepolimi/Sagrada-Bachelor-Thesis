@@ -70,7 +70,7 @@
             <ImageView fitHeight="64.0" fitWidth="68.0" onDragDropped="#handleImageDropped" onDragOver="#handleDiceDrag" onMouseClicked="#cancelRestriction" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
          </children>
       </GridPane>
-      <GridPane layoutX="626.0" layoutY="117.0" prefHeight="387.0" prefWidth="135.0" style="-fx-border-color: black;">
+      <GridPane layoutX="626.0" layoutY="121.0" prefHeight="387.0" prefWidth="135.0" style="-fx-border-color: black;">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -192,5 +192,25 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
+      <Text layoutX="14.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Primo Dado: Il primo dado in una casella del bordo o in un angolo." wrappingWidth="497.0000042915344">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="136.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Restrizione di Colore + Numero.">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Dado inserito adiacenti ad un altro dado">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text layoutX="12.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="-Dado ortogonale ad un altro non deve avere lo stesso numero e/o colore. (quindi non puoi inserire la stessa restrizione due volte ortogonalmente)" wrappingWidth="579.1025390625">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
    </children>
 </Pane>
