@@ -38,7 +38,7 @@ public class EndTurnTest {
         round.roundInit();
         action.add("PickDice");
         round.execute(action);
-        assertTrue(state.nextState(round,action).toString().equals( "PickDiceState"));
+        assertTrue(state.nextState(round,action).toString().equals( "DraftDiceState"));
         action.clear();
         action.add("EndTurn");
         round.execute(action);

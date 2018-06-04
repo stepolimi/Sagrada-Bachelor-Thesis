@@ -1,31 +1,38 @@
 package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
+import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.model.board.Dice;
+import it.polimi.ingsw.server.model.board.RoundTrack;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ACCEPTED;
+import static it.polimi.ingsw.costants.GameConstants.SWAP_DICE_ACCEPTED;
 
-public class PlaceDiceState implements State {
-    private static String state = "PlaceDiceState";
+public class SwapDiceState implements State{
+    private static String state = "SwapDiceState";
 
     public void execute(Round round, List action){
-        Schema schema = round.getCurrentPlayer().getSchema();
-        int rowSchema = Integer.parseInt((String) action.get(1));
-        int columnSchema = Integer.parseInt((String) action.get(2));
+        RoundTrack roundTrack = round.getBoard().getRoundTrack();
+        int indexRound = Integer.parseInt((String) action.get(1));
+        int indexDiceRound = Integer.parseInt((String) action.get(2));
         try {
-            schema.testInsertDice(rowSchema, columnSchema, round.getPendingDice(), round.getUsingTool());
-            round.notifyChanges(PLACE_DICE_ACCEPTED);
+            Dice dice = roundTrack.testRemoveDice(indexRound, indexDiceRound,round.getCurrentPlayer().getNickname());
+            roundTrack.insertDice(round.getPendingDice(),indexRound);
+            round.notifyChanges(SWAP_DICE_ACCEPTED);
             round.getNextActions().remove(0);
-            schema.insertDice(rowSchema, columnSchema, round.getPendingDice(), round.getUsingTool());
+            roundTrack.removeDice(indexRound,indexDiceRound);
+            round.setPendingDice(dice);
 
         } catch (InsertDiceException e) {
             System.out.println("illegal dice insertion\n" + " ---");
+        } catch (RemoveDiceException e) {
+            System.out.println("illegal dice removal\n" + " ---");
         }
         giveLegalActions(round);
-    }
+}
 
     public String nextState(Round round, List action){ return action.get(0) + "State"; }
 

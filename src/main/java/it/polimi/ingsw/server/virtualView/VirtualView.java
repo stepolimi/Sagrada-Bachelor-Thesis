@@ -1,9 +1,6 @@
 package it.polimi.ingsw.server.virtualView;
 
-import it.polimi.ingsw.server.model.board.Board;
-import it.polimi.ingsw.server.model.board.DiceSpace;
-import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.board.Schema;
+import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.serverConnection.Connected;
@@ -36,6 +33,7 @@ public class VirtualView extends Observable implements Observer{
         else if (o.getClass() == Player.class) { connection.sendMessage((List)arg); }
         else if (o.getClass() == Schema.class) {schemaHandler(arg);}
         else if (o.getClass() == DiceSpace.class) {diceSpaceHandler(arg);}
+        else if (o.getClass() == RoundTrack.class) {roundTrackHandler(arg);}
     }
 
     public void sendError(String player){
@@ -68,6 +66,13 @@ public class VirtualView extends Observable implements Observer{
 
     private void diceSpaceHandler(Object action) {
         if(((List) action).get(0).equals(PICK_DICE_SPACE_ERROR) )
+            connection.sendMessage((List)action);
+        else
+            connection.forwardMessage((List)action);
+    }
+
+    private void roundTrackHandler(Object action) {
+        if(((List) action).get(0).equals(PICK_DICE_ROUND_TRACK_ERROR) || ((List) action).get(0).equals(PLACE_DICE_ROUND_TRACK_ERROR))
             connection.sendMessage((List)action);
         else
             connection.forwardMessage((List)action);

@@ -9,6 +9,7 @@ public class AdjacentRule implements InsertionRule {
 
     public boolean checkRule(int toolCardNumber, int x, int y, Dice dice, Schema sch){
         List <Dice> nearDices = sch.nearDice(x, y);
+        //devo lasciare spostare il primo dado vicino a un lato
 
         if(sch.isEmpty() == true) {
             if(x == 0 || y == 0 || x == 3 || y == 4)
@@ -17,13 +18,10 @@ public class AdjacentRule implements InsertionRule {
         }
 
         if(toolCardNumber == 9){
-            if(x == 0 || y == 0 || x == 3 || y == 4) {
-                for (Dice d : nearDices)
-                    if (d != null)
-                        return false;
-                return true;
-            }
-            return false;
+            for (Dice d : nearDices)
+                if (d != null)
+                    return false;
+            return true;
         }
 
         return adjacentDicesCheck(nearDices,dice) && nearDicesCheck(nearDices);

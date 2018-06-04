@@ -83,8 +83,8 @@ public class RmiServerConnection implements Connection{
                 //client.pickDiceRoundTrackError(action);
             } else if(action.get(0).equals(INSERT_DICE_ACCEPTED)) {
                 client.insertDiceAccepted();
-            } else if(action.get(0).equals(PICK_DICE_ACCEPTED)) {
-                client.pickDiceAccepted();
+            } else if(action.get(0).equals(DRAFT_DICE_ACCEPTED)) {
+                client.draftDiceAccepted();
             } else if(action.get(0).equals(MOVE_DICE_ACCEPTED)) {
                 client.moveDiceAccepted();
             } else if(action.get(0).equals(USE_TOOL_CARD_ACCEPTED)) {

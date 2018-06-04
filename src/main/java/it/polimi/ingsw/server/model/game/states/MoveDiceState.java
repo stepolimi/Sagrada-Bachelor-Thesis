@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model.board.Schema;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.INSERT_DICE_ACCEPTED;
 import static it.polimi.ingsw.costants.GameConstants.MOVE_DICE_ACCEPTED;
 
 public class MoveDiceState implements State{
@@ -22,7 +21,7 @@ public class MoveDiceState implements State{
         int columnSchema = Integer.parseInt((String)action.get(4));
         Dice dice = null;
         try {
-            dice = round.getCurrentPlayer().getSchema().getDice(oldRowSchema,oldColumnSchema);
+            dice = round.getCurrentPlayer().getSchema().testRemoveDice(oldRowSchema,oldColumnSchema);
             round.getCurrentPlayer().getSchema().removeDice(oldRowSchema,oldColumnSchema);
             schema.testInsertDice(rowSchema, columnSchema , dice, round.getUsingTool());
             round.notifyChanges(MOVE_DICE_ACCEPTED);

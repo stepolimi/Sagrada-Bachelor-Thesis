@@ -22,7 +22,7 @@ public interface RmiClientMethodInterface extends Remote{
     void setActions(List action) throws RemoteException;
     void setDiceSpace(List action) throws RemoteException;
     void insertDiceAccepted() throws RemoteException;
-    void pickDiceAccepted() throws RemoteException;
+    void draftDiceAccepted() throws RemoteException;
     void moveDiceAccepted() throws RemoteException;
 
     void pickDiceSpace(List action) throws RemoteException;

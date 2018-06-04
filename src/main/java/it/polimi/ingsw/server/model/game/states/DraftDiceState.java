@@ -6,17 +6,16 @@ import it.polimi.ingsw.server.model.board.Dice;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ACCEPTED;
+import static it.polimi.ingsw.costants.GameConstants.DRAFT_DICE_ACCEPTED;
 
-public class PickDiceState implements State {
-    private static String state = "PickDiceState";
+public class DraftDiceState implements State {
+    private static String state = "DraftDiceState";
 
     public void execute(Round round, List action){
-        //todo castare a integer come nel primo blocco
         try {
             int indexDiceSpace =Integer.parseInt((String)action.get(1));
             Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace,round.getCurrentPlayer().getNickname());
-            round.notifyChanges(PICK_DICE_ACCEPTED);
+            round.notifyChanges(DRAFT_DICE_ACCEPTED);
             round.getNextActions().remove(0);
             round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
             round.setPendingDice(dice);
