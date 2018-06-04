@@ -829,7 +829,7 @@ public class ViewCLI implements View{
         connection.moveDice(oldRow,oldColumn,newRow,newColumn);
     }
     //problem: quando togli un dado dallo schema come recuperi la restrizione precedente?
-    public void pickDiceAccepted(){}
+    public void draftDiceAccepted(){}
     public void moveDiceAccepted(){
         this.schemas.get(username).getGrid()[newRow][newColumn] = this.schemas.get(username).getGrid()[oldRow][oldColumn];
         this.schemas.get(username).getGrid()[oldRow][oldColumn] = new Dices("",0,null);

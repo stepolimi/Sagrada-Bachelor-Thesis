@@ -100,7 +100,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     }
 
     public void draftDiceAccepted() {
-        v.pickDiceAccepted();
+        v.draftDiceAccepted();
     }
 
     public void moveDiceAccepted() {

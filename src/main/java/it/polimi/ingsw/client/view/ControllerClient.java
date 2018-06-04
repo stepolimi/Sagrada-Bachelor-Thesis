@@ -868,7 +868,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void pickDiceAccepted() {
+    public void draftDiceAccepted() {
         //todo piu tardi, sarà per tool non ancora funzionati
     }
 
