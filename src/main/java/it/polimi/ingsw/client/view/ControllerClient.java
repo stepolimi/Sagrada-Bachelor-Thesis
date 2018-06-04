@@ -8,7 +8,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -37,13 +36,21 @@ public class ControllerClient implements View {
     public Button loginAction;
     public Connection connection;
     public Thread t;
+    public Thread g;
     public ViewGUI gui;
     public Handler hand;
     public Schema mySchema;
     public List<Schema> schemas;
 
+    public boolean isFirst= true;
+
+
+    public int currentTool;
 
     List<Object> schemaPlayers;
+
+    public Integer x1, y1;
+    public Integer x2, y2;
 
     private boolean correctInsertion;
 
@@ -56,6 +63,19 @@ public class ControllerClient implements View {
     Object lock = new Object();
 
     private List<String> schemasClient;
+
+    ImageView imageMoved;
+
+    ImageView schemaCell;
+
+    @FXML
+    private ImageView use1;
+
+    @FXML
+    private ImageView use2;
+
+    @FXML
+    private ImageView use3;
 
 
     @FXML
@@ -103,10 +123,10 @@ public class ControllerClient implements View {
     public Button playButton;
 
     @FXML
-    public Button RMIButton;
+    public ImageView RMIButton;
 
     @FXML
-    public Button SocketButton;
+    public ImageView SocketButton;
 
     @FXML
     public TextField nickname;
@@ -178,8 +198,10 @@ public class ControllerClient implements View {
 
 
     @FXML
-    public void goRMI(ActionEvent actionEvent) {
-        Stage stage = (Stage) RMIButton.getScene().getWindow();
+    public void goRMI(MouseEvent actionEvent) {
+
+        ImageView imageView = (ImageView) actionEvent.getTarget();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         stage.close();
         connection = new RmiConnection(hand);
 
@@ -191,8 +213,10 @@ public class ControllerClient implements View {
 
 
     @FXML
-    public void goSocket(ActionEvent actionEvent) {
-        Stage stage = (Stage) SocketButton.getScene().getWindow();
+    public void goSocket(MouseEvent actionEvent) {
+
+        ImageView imageView = (ImageView) actionEvent.getTarget();
+        Stage stage = (Stage) imageView.getScene().getWindow();
         stage.close();
         try {
             connection = new SocketConnection(hand);
@@ -408,12 +432,16 @@ public class ControllerClient implements View {
 
                 Image image = new Image(path + cards.get(0)+ ".png");
                 toolCard1.setImage(image);
+                use1.setId(cards.get(0));
 
                 image = new Image(path + cards.get(1)+ ".png");
                 toolCard2.setImage(image);
+                use2.setId(cards.get(1));
+
 
                 image = new Image(path + cards.get(2)+ ".png");
                 toolCard3.setImage(image);
+                use3.setId(cards.get(2));
 
 
 
@@ -619,6 +647,7 @@ public class ControllerClient implements View {
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
 
         indexDiceSpace = Integer.parseInt(imageView.getId());
+        gridPane.setDisable(false);
 
 
         ClipboardContent cb = new ClipboardContent();
@@ -635,7 +664,7 @@ public class ControllerClient implements View {
         }
     }
 
-    @FXML void handleImageDropped(DragEvent event) throws InterruptedException {
+    @FXML void handleImageDropped(DragEvent event) {
     final DragEvent drag = event;
 
         Thread t = new Thread(new Runnable() {
@@ -673,6 +702,9 @@ public class ControllerClient implements View {
 
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
+                    gridPane.setDisable(true);
+                    diceSpace.setDisable(true);
+
                 }
                 else{
                     textflow.setText("inserimento non corretto. Riprovare");
@@ -681,7 +713,7 @@ public class ControllerClient implements View {
     });
 
 
-t.start();
+        t.start();
 
     }
 
@@ -715,6 +747,9 @@ t.start();
     void nextPlayer(MouseEvent event) {
         endTurn.setDisable(true);
         diceSpace.setDisable(true);
+        use1.setDisable(true);
+        use2.setDisable(true);
+        use3.setDisable(true);
         connection.sendEndTurn();
 
     }
@@ -734,9 +769,10 @@ t.start();
         else {
 
             textflow.setText("tocca a te!!!!!");
+            diceSpace.setDisable(false);
+
             try {
-                sleep(1000);
-                diceSpace.setDisable(false);
+                sleep(500);
                 endTurn.setDisable(false);
 
             } catch (InterruptedException e) {
@@ -751,15 +787,21 @@ t.start();
             public void run() {
                 if(!actions.contains("InsertDice"))
                     diceSpace.setDisable(true);
-
                 else diceSpace.setDisable(false);
 
-
-                if(!actions.contains("EndTurn"))
+                if(!actions.contains("EndTurn")){
                     endTurn.setDisable(true);
+                    use1.setDisable(true);
+                    use2.setDisable(true);
+                    use3.setDisable(true);
 
-
-                else endTurn.setDisable(false);
+                }
+                else{
+                    endTurn.setDisable(false);
+                    use1.setDisable(false);
+                    use2.setDisable(false);
+                    use3.setDisable(false);
+                }
 
                 if(!actions.contains("MoveDice"))
                     gridPane.setDisable(true);
@@ -908,7 +950,16 @@ t.start();
     }
 
     public void pickDiceSchema(List action) {
-        //todo
+        for(int i = 1; i < schemaPlayers.size(); i = i + 2 ) {
+            GridPane gridPane = (GridPane) schemaPlayers.get(i);
+            if (gridPane.getId().equals(action.get(0))) {
+                int row = Integer.parseInt((String) action.get(1));
+                int column = Integer.parseInt((String) action.get(2));
+                ImageView imageView= (ImageView)getNodeFromGridPane(gridPane, column, row );
+                imageView.setImage(null);
+            }
+        }
+
     }
 
     public void pickDiceSchemaError() {
@@ -916,11 +967,26 @@ t.start();
     }
 
     public void useToolCardAccepted() {
-        //todo
+        Platform.runLater(new Runnable() {
+            public void run() {
+
+                if(currentTool==9) {
+                    diceSpace.setDisable(false);
+
+                }
+
+                textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+
+            }
+        });
     }
 
     public void useToolCardError() {
-        //todo
+        Platform.runLater(new Runnable() {
+            public void run() {
+                textflow.setText("Non puoi usare la carta utensile. Segnalini insufficienti");
+            }
+        });
     }
 
     public void diceSort() {
@@ -943,7 +1009,6 @@ t.start();
 
                 }
 
-                diceSpace.setDisable(true);
     }
 
     public void printSchema(GridPane gridPane, String nameSchema) throws IOException {
@@ -988,23 +1053,8 @@ t.start();
                     else if (constrain.equals("\u001b[35m"))
                         imageView.setImage(new Image(path + "purple.png"));
 
-                    else if (constrain.equals("1"))
-                        imageView.setImage(new Image(path + "1.png"));
-
-                    else if (constrain.equals("2"))
-                        imageView.setImage(new Image(path + "2.png"));
-
-                    else if (constrain.equals("3"))
-                        imageView.setImage(new Image(path + "3.png"));
-
-                    else if (constrain.equals("4"))
-                        imageView.setImage(new Image(path + "4.png"));
-
-                    else if (constrain.equals("5"))
-                        imageView.setImage(new Image(path + "5.png"));
-
-                    else if (constrain.equals("6"))
-                        imageView.setImage(new Image(path + "6.png"));
+                    else
+                        imageView.setImage(new Image(path + constrain + ".png"));
 
             }
         });
@@ -1028,7 +1078,7 @@ t.start();
         return null;
     }
 
-    @FXML
+   /* @FXML
     void zoomCursor(MouseEvent event) {
         Image image = new Image("/assets/image/zoom.png");
         toolCard1.setCursor(new ImageCursor(image));
@@ -1039,20 +1089,130 @@ t.start();
         publObj3.setCursor(new ImageCursor(image));
         privateCard.setCursor(new ImageCursor(image));
 
+    }*/
+
+    @FXML
+    void zoomCursor(MouseEvent event) {
+
     }
 
+
+    @FXML
+
+    void useToolCard(final MouseEvent event) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ImageView tool = (ImageView) event.getSource();
+                int numberTool = Integer.parseInt(tool.getId());
+                currentTool = numberTool;
+                connection.useToolCard(numberTool);
+            }
+        });
+
+
+    }
 
 
 
     @FXML
-    void useToolCard(MouseEvent event) {
-        ImageView tool = (ImageView) event.getSource();
-        connection.useToolCard(Integer.parseInt(tool.getId()));
+    void moveDiceAction(MouseEvent event) {
+
+
+
+       final MouseEvent event1 = event;
+
+
+       Thread t = new Thread(new Runnable() {
+            public void run() {
+                Node source = ((Node) event1.getTarget());
+
+
+
+                if (source != schema1) {
+                    Node parent;
+                    while ((parent = source.getParent()) != gridPane) {
+                        source = parent;
+                    }
+                }
+
+                Integer col = gridPane.getColumnIndex(source);
+
+                Integer row = gridPane.getRowIndex(source);
+
+                if (col == null)
+                    col = 0;
+
+                if(row == null)
+                    row = 0;
+
+
+
+
+                if(x1 == null && y1 == null){
+                    imageMoved = (ImageView) event1.getSource();
+                    x1 = col;
+                    y1 = row;
+                    textflow.setText("Dado Accettato");
+
+                }
+
+                else
+                {
+
+                    schemaCell = (ImageView) event1.getSource();
+
+
+
+                    x2 = col;
+                    y2 = row;
+
+
+
+
+                        connection.moveDice(y1, x1, y2, x2);
+
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (correctInsertion) {
+                            schemaCell.setImage(imageMoved.getImage());
+                            imageMoved.setImage(null);
+                            x2 = null;
+                            y2 = null;
+                            if(currentTool == 4 && isFirst) {
+                                x1 = null;
+                                y1 = null;
+                                textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
+                                isFirst=false;
+
+                            }
+                            else{
+                                x1 = null;
+                                y1 = null;
+                                textflow.setText("Hai usato la Carta Utensile!");
+                                isFirst=true;
+
+                            }
+
+                        } else {
+                        textflow.setText("Errore di piazzamento. Ritenta");
+                        x1 = null;
+                        y1 = null;
+                    }
+
+
+                }
+
+
+            }
+        });
+
+        t.start();
 
     }
-
-
-
 
 
 
