@@ -99,8 +99,8 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.insertDiceAccepted();
     }
 
-    public void pickDiceAccepted() {
-        v.pickDiceAccepted();
+    public void draftDiceAccepted() {
+        v.draftDiceAccepted();
     }
 
     public void moveDiceAccepted() {

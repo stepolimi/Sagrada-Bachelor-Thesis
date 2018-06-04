@@ -109,7 +109,7 @@ public class Schema extends Observable{
 
     }
 
-    public Dice getDice(int rows, int columns) throws RemoveDiceException{
+    public Dice testRemoveDice(int rows, int columns) throws RemoveDiceException{
         List<String> action = new ArrayList<String>();
         if(this.table[rows][columns].getDice() == null) {
             action.add(PICK_DICE_SCHEMA_ERROR);

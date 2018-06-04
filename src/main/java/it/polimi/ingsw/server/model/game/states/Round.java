@@ -58,8 +58,9 @@ public class Round extends Observable implements TimedComponent {
         states.put("MoveDiceState",new MoveDiceState());
         states.put("RollDiceState",new RollDiceState());
         states.put("ChangeValueState",new ChangeValueState());
-        states.put("PickDiceState",new PickDiceState());
+        states.put("DraftDiceState",new DraftDiceState());
         states.put("PlaceDiceState",new PlaceDiceState());
+        states.put("SwapDiceState",new PlaceDiceState());
         states.put("EndTurnState",new EndTurnState());
 
         System.out.println("new round started\n" + " ---");
@@ -175,7 +176,7 @@ public class Round extends Observable implements TimedComponent {
                 }
             }
             return;
-        } else{             //insertDiceAccepted,pickDiceAccepted,moveDiceAccepted,useToolCardAccepted,UseToolCardError
+        } else{             //insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardAccepted,UseToolCardError,SwapDiceAccepted
             action.add(string);
             action.add(currentPlayer.getNickname());
         }

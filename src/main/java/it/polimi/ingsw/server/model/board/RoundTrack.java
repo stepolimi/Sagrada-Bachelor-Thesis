@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.board;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 
 import java.util.ArrayList;
@@ -39,15 +40,36 @@ public class RoundTrack extends Observable{
         notifyObservers(action);
     }
 
-    public void insertDice(Dice dice, int nRound) {
+    public void insertDice(Dice dice, int nRound) throws InsertDiceException{
         List<String> action = new ArrayList<String>();
-        this.listRounds[nRound].add(dice);
-        action.add(PLACE_DICE_ROUND_TRACK);
-        action.add(((Integer)nRound).toString());
-        action.add(dice.getColour().toString());
-        action.add(((Integer)dice.getValue()).toString());
+        if(nRound <TOT_ROUNDS) {
+            this.listRounds[nRound].add(dice);
+            action.add(PLACE_DICE_ROUND_TRACK);
+            action.add(((Integer) nRound).toString());
+            action.add(dice.getColour().toString());
+            action.add(((Integer) dice.getValue()).toString());
+            setChanged();
+            notifyObservers(action);
+            return ;
+        }
+        throw new InsertDiceException();
+    }
+
+    public Dice testRemoveDice(int nRound,int nDice, String player) throws RemoveDiceException{
+        List<String> action = new ArrayList<String>();
+        Dice dice;
+        if(nRound < TOT_ROUNDS) {
+            if (listRounds[nRound].get(nDice) != null) {
+                dice = listRounds[nRound].get(nDice);
+                listRounds[nRound].remove(nDice);
+                return dice;
+            }
+        }
+        action.add(PICK_DICE_ROUND_TRACK_ERROR);
+        action.add(player);
         setChanged();
         notifyObservers(action);
+        throw new RemoveDiceException();
     }
 
     public Dice removeDice(int nRound,int nDice) throws RemoveDiceException{
@@ -63,7 +85,6 @@ public class RoundTrack extends Observable{
             notifyObservers(action);
             return dice;
         }
-        //todo add current player to add to action or make a different method to test the remove
         action.add(PICK_DICE_ROUND_TRACK_ERROR);
         setChanged();
         notifyObservers(action);

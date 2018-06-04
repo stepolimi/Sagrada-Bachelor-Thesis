@@ -24,7 +24,7 @@ public interface View {
     void setActions(List <String> actions);
     void setDiceSpace(List <String> dices);
     void insertDiceAccepted();
-    void pickDiceAccepted();
+    void draftDiceAccepted();
     void moveDiceAccepted();
 
     void pickDiceSpace(List action) throws InterruptedException;

@@ -2,7 +2,7 @@ package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.game.states.PickDiceState;
+import it.polimi.ingsw.server.model.game.states.DraftDiceState;
 import it.polimi.ingsw.server.model.game.states.Round;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +15,12 @@ public class PickDiceTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
     Round round = new Round(new Player("player 1"),board,null);
-    PickDiceState state = new PickDiceState();
+    DraftDiceState state = new DraftDiceState();
     List action = new ArrayList();
 
     @Test
     public void nameTest(){
-        assertTrue(state.toString() == "PickDiceState");
+        assertTrue(state.toString() == "DraftDiceState");
     }
 
     @Test

@@ -169,9 +169,9 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals(USE_TOOL_CARD_ERROR))
         {
             v.useToolCardError();
-        }else if(action.get(0).equals(PICK_DICE_ACCEPTED))
+        }else if(action.get(0).equals(DRAFT_DICE_ACCEPTED))
         {
-            v.pickDiceAccepted();
+            v.draftDiceAccepted();
         }else if(action.get(0).equals(MOVE_DICE_ACCEPTED))
         {
             v.moveDiceAccepted();
