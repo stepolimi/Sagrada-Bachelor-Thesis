@@ -91,6 +91,14 @@ public class RmiServerConnection implements Connection{
                 client.useToolCardAccepted();
             } else if(action.get(0).equals(USE_TOOL_CARD_ERROR)) {
                 client.useToolCardError();
+            }else if(action.get(0).equals("ChangeValueAccepted")) {
+                client.changeValueAccepted();
+            } else if(action.get(0).equals("ChangeValueError")) {
+                client.changeValueError();
+            } else if(action.get(0).equals(PLACE_DICE_ACCEPTED)) {
+                client.placeDiceAccepted();
+            }else if(action.get(0).equals("RollDiceAccepted")) {
+                client.rollDiceAccepted(action);
             }
         }catch(RemoteException e) {
             serverMethod.disconnected(this.client);

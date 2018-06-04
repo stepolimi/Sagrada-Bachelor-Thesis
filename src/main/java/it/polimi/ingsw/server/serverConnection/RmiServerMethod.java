@@ -122,4 +122,34 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void draftDice(int indexDiceSpace)
+    {
+        List action = new ArrayList();
+        action.add("DraftDice");
+        action.add(((Integer)indexDiceSpace).toString());
+        virtual.forwardAction(action);
+    }
+
+    public void placeDice(int row, int column) throws RemoteException {
+        List action = new ArrayList();
+        action.add("PlaceDice");
+        action.add(((Integer)row).toString());
+        action.add(((Integer)column).toString());
+        virtual.forwardAction(action);
+    }
+
+    public void changeValue(String change) throws RemoteException
+    {
+        List action = new ArrayList();
+        action.add("ChangeValue");
+        action.add(change);
+        virtual.forwardAction(action);
+    }
+
+    public void rollDice() throws RemoteException {
+        List action = new ArrayList();
+        action.add("RollDice");
+        virtual.forwardAction(action);
+    }
+
 }

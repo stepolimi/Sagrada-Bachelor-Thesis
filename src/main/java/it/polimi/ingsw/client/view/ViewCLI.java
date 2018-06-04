@@ -35,10 +35,12 @@ public class ViewCLI implements View{
     private int nPlayer;
     private int round;
     private boolean gameRunning;
-    Thread schemaThread ;
-    private static final String operatingSystem = System.getProperty("os.name");
+    private Thread schemaThread ;
+    private Dices pendingDice;
+    private int opVal;
     public ViewCLI()
     {
+        opVal = 0;
         round = 0;
         username = "";
         gameRunning = true;
@@ -698,19 +700,21 @@ public class ViewCLI implements View{
 
                 if (moves.get(choose - 1).equals("InsertDice")) {
                     insertDice();
-                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di inserire un dado
-                    //moves.remove(choose-1);
                 } else if (moves.get(choose - 1).equals("UseToolCard")) {
                     useToolCard();
-                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
-                    // moves.remove(choose-1);
                 } else if (moves.get(choose - 1).equals("MoveDice")) {
                     moveDice();
-                    // se ricevo una risposta positiva dal server allora tolgo dalle azioni la possibilità di utilizzare la toolcard
-                    // moves.remove(choose-1);
+                } else if (moves.get(choose - 1).equals("RollDice")) {
+                    rollDice();
                 } else if (moves.get(choose - 1).equals("EndTurn")) {
                     passTurn();
                     clearScreen();
+                } else if (moves.get(choose - 1).equals("DraftDice")) {
+                    draftDice();
+                } else if (moves.get(choose - 1).equals("PlaceDice")) {
+                    placeDice();
+                }else if (moves.get(choose - 1).equals("ChangeValue")) {
+                    changeValue();
                 }
                 switch (choose - 1) {
                     case 0:
@@ -738,7 +742,64 @@ public class ViewCLI implements View{
         }
     }
 
+    public void rollDice()
+    {
+        System.out.println("Vuoi davvero rollare il dado?");
+        input.nextLine();
+        System.out.println("Era retorico.");
+        System.out.println("Rolliamo sto dado");
+        connection.rollDice();
 
+    }
+    public void changeValue()
+    {
+        System.out.println("Vuoi incrementare(I) o decrementare(D) il dado?" );
+        String choose = input.nextLine();
+        correct = false;
+        while(!correct) {
+            correct = true;
+            if (choose.equals("I"))
+            {
+                opVal = 1;
+                connection.changeValue("Increment");
+
+            }
+
+            else if (choose.equals("D"))
+            {
+                opVal = -1;
+                connection.changeValue("Decrement");
+
+            }
+            else correct = false;
+        }
+    }
+    public void placeDice()
+    {
+        boolean correct= false;
+        while(!correct) {
+            try {
+                System.out.println("Inserisci la riga in cui inserire il dado");
+                row = Integer.parseInt(input.nextLine())-1;
+                System.out.println("Inserisci la colonna in cui inserire il dado");
+                column = Integer.parseInt(input.nextLine())-1;
+                if(row<0 || row>3 || column<0 || column>4)
+                    throw new NumberFormatException();
+                correct = true;
+                connection.sendPlaceDice(row,column);
+            } catch (NumberFormatException ex) {
+                System.out.println("Inserimento non valido");
+                correct = false;
+            }
+        }
+    }
+
+    public void draftDice()
+    {
+        System.out.println("Inserisci l'indice del dado della riserva:(Da 1 a "+diceSpace.size()+")");
+        indexDiceSpace = Integer.parseInt(input.nextLine())-1;
+        connection.sendDraft(indexDiceSpace);
+    }
 
     public void passTurn()
     {
@@ -811,6 +872,28 @@ public class ViewCLI implements View{
         System.out.println("non hai abbastanza favori");
     }
 
+    public void changeValueAccepted() {
+        System.out.println(opVal);
+        pendingDice.setNumber(pendingDice.getNumber()+opVal);
+        System.out.println("Cambiamento valore accettato "+pendingDice);
+    }
+
+    public void changeValueError() {
+        System.out.println("Errore di cambiamento del valore");
+    }
+
+    public void placeDiceAccepted() {
+        System.out.println("Dado inserito correttamente");
+        schemas.get(username).getGrid()[row][column].setNumber(pendingDice.getNumber());
+        schemas.get(username).getGrid()[row][column].setColour(pendingDice.getColour());
+        pendingDice = null;
+    }
+
+    public void rollDiceAccepted(int value) {
+        pendingDice.setNumber(value);
+        System.out.println("Valore del dado "+pendingDice);
+    }
+
     int oldRow;
     int oldColumn;
     int newRow;
@@ -829,16 +912,22 @@ public class ViewCLI implements View{
         connection.moveDice(oldRow,oldColumn,newRow,newColumn);
     }
     //problem: quando togli un dado dallo schema come recuperi la restrizione precedente?
-    public void draftDiceAccepted(){}
+    public void draftDiceAccepted()
+    {
+        System.out.println("Azione accettata");
+        pendingDice = diceSpace.get(indexDiceSpace);
+        System.out.println(pendingDice);
+    }
     public void moveDiceAccepted(){
         this.schemas.get(username).getGrid()[newRow][newColumn] = this.schemas.get(username).getGrid()[oldRow][oldColumn];
-        this.schemas.get(username).getGrid()[oldRow][oldColumn] = new Dices("",0,null);
+        this.schemas.get(username).getGrid()[oldRow][oldColumn].setNumber(0);
+        this.schemas.get(username).getGrid()[oldRow][oldColumn].setColour(null);
+
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
         System.out.println("sei riuscito a spostare il dado, complimenti");
     }
 
-    Dices pendingDice;
 
     public void pickDiceSchema(List action){
         if(!action.get(0).equals(username)){
@@ -853,5 +942,7 @@ public class ViewCLI implements View{
     }
 
     public String getName(){ return this.username;}
+
+
 }
 

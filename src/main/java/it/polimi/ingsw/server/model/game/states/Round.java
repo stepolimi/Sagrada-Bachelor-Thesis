@@ -156,7 +156,11 @@ public class Round extends Observable implements TimedComponent {
             action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        } else if(string.equals(TIMER_PING)){
+        } else if(string.equals("RollDiceAccepted")){
+            action.add(string);
+            action.add(currentPlayer.getNickname());
+            action.add(((Integer)pendingDice.getValue()).toString());
+        }else if(string.equals(TIMER_PING)){
             action.add(TURN_TIMER_PING);
             action.add(currentPlayer.getNickname());
             action.add(((Long)(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
@@ -176,7 +180,7 @@ public class Round extends Observable implements TimedComponent {
                 }
             }
             return;
-        } else{             //insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardAccepted,UseToolCardError,SwapDiceAccepted
+        } else{             //insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardAccepted,UseToolCardError,SwapDiceAccepted,ChangeValueAccepted
             action.add(string);
             action.add(currentPlayer.getNickname());
         }

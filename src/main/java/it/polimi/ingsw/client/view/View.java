@@ -38,4 +38,10 @@ public interface View {
 
     void useToolCardAccepted();
     void useToolCardError();
+
+    void changeValueAccepted();
+    void changeValueError();
+
+    void placeDiceAccepted();
+    void rollDiceAccepted(int value);
 }

@@ -8,6 +8,9 @@ public class RollDiceState implements State{
 
     public void execute(Round round, List action){
         round.getPendingDice().rollDice();
+        round.getNextActions().remove(0);
+        round.notifyChanges("RollDiceAccepted");
+        giveLegalActions(round);
     }
 
     public String nextState(Round round, List action){ return action.get(0) + "State"; }

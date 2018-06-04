@@ -37,5 +37,11 @@ public interface RmiClientMethodInterface extends Remote{
     void useToolCardAccepted() throws RemoteException;
     void useToolCardError() throws RemoteException;
 
+    void changeValueAccepted() throws RemoteException;
+    void changeValueError() throws RemoteException;
+
+    void placeDiceAccepted() throws RemoteException;
+
+    void rollDiceAccepted(List action ) throws RemoteException;
 
 }

@@ -15,8 +15,10 @@ public class ChangeValueState implements State {
             }else if(action.get(1).equals("Decrement"))
                 round.getPendingDice().decrementValue();
             round.getNextActions().remove(0);
+            round.notifyChanges("ChangeValueAccepted");
         }catch (ChangeDiceValueException changeDiceValueException) {
             System.out.println("impossible");
+            round.notifyChanges("ChangeValueError");
         }
         giveLegalActions(round);
     }

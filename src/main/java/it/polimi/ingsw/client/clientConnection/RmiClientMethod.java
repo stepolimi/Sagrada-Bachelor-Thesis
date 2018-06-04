@@ -138,5 +138,21 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     public void useToolCardAccepted() { v.useToolCardAccepted(); }
 
     public void useToolCardError() { v.useToolCardError(); }
+
+    public void changeValueAccepted() throws RemoteException {
+        v.changeValueAccepted();
+    }
+
+    public void changeValueError() throws RemoteException {
+        v.changeValueError();
+    }
+    public void placeDiceAccepted() throws RemoteException
+    {
+        v.placeDiceAccepted();
+    }
+
+    public void rollDiceAccepted(List action) throws RemoteException {
+        v.rollDiceAccepted(Integer.parseInt((String)action.get(1)));
+    }
 }
 

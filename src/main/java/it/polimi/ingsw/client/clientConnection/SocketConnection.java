@@ -71,6 +71,26 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void sendDraft(int indexDiceSpace) {
+        out.println("DraftDice"+"-"+indexDiceSpace);
+        out.flush();
+    }
+
+    public void sendPlaceDice(int row, int column) {
+        out.println("PlaceDice"+"-"+row+"-"+column);
+        out.flush();
+    }
+
+    public void changeValue(String change) {
+        out.println("ChangeValue"+"-"+change);
+        out.flush();
+    }
+
+    public void rollDice() {
+        out.println("RollDice");
+        out.flush();
+    }
+
     public void sendEndTurn() {
         out.println(END_TURN);
         out.flush();
@@ -181,6 +201,18 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals(PICK_DICE_SCHEMA))
         {
             v.pickDiceSchema(action.subList(1,action.size()));
+        }else if(action.get(0).equals(PLACE_DICE_ACCEPTED))
+        {
+            v.placeDiceAccepted();
+        }else if(action.get(0).equals("ChangeValueAccepted"))
+        {
+            v.changeValueAccepted();
+        }else if(action.get(0).equals("ChangeValueError"))
+        {
+            v.changeValueError();
+        }else if(action.get(0).equals("RollDiceAccepted"))
+        {
+            v.rollDiceAccepted(Integer.parseInt(action.get(1)));
         }
     }
 }

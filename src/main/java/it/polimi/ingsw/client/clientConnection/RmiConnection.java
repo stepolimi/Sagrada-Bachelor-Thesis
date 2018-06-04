@@ -93,6 +93,38 @@ public class RmiConnection implements Connection {
         }
     }
 
+    public void sendDraft(int indexDiceSpace) {
+        try {
+            server.draftDice(indexDiceSpace);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendPlaceDice(int row, int column) {
+        try {
+            server.placeDice(row,column);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changeValue(String change) {
+        try {
+            server.changeValue(change);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void rollDice() {
+        try {
+            server.rollDice();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurn() {
         try {
             server.sendEndTurn();

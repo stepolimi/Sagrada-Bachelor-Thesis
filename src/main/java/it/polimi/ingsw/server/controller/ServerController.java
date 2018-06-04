@@ -34,10 +34,12 @@ public class ServerController implements Observer{
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
         else if(head.equals(PICK_DICE)) { insertDiceManager((List)action); }
         else if(head.equals("MoveDice")) { moveDiceManager((List)action); }
-        else if(head.equals("TakeDice")) { takeDiceManager((List)action); }
+        else if(head.equals("DraftDice")) { draftDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
         else if(head.equals("UseToolCard")) {useCardManager((List)action); }
         else if(head.equals(END_TURN)) {endTurnManager((List)action); }
+        else if(head.equals("ChangeValue")) {changeValueManager((List)action); }
+        else if(head.equals("RollDice")) {rollDiceManager((List)action); }
         else{
             view.sendError((String)((List)action).get(1));
         }
@@ -83,6 +85,15 @@ public class ServerController implements Observer{
         round.execute(action);
     }
 
+    private void changeValueManager(List action){
+        if(game == null) {
+            game = session.getGame();
+            roundManager = game.getRoundManager();
+        }
+        round = roundManager.getRound();
+        round.execute(action);
+    }
+
     private void moveDiceManager(List action){
         if(game == null) {
             game = session.getGame();
@@ -92,7 +103,7 @@ public class ServerController implements Observer{
         round.execute(action);
     }
 
-    private void takeDiceManager(List action){
+    private void draftDiceManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -119,12 +130,14 @@ public class ServerController implements Observer{
         }
         round = roundManager.getRound();
         round.execute(action);
-
-
-
-
-
-
+    }
+    private void rollDiceManager(List action){
+        if(game == null) {
+            game = session.getGame();
+            roundManager = game.getRoundManager();
+        }
+        round = roundManager.getRound();
+        round.execute(action);
     }
 
     private void endTurnManager(List action){

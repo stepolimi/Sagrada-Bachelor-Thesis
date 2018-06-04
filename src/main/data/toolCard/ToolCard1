@@ -1,1 +1,1 @@
-{"name":"Grozing Pliers","number":1,"used":false,"nextActions":[["PickDice"],["ChangeValue"],["PlaceDice"]]}
+{"name":"Grozing Pliers","number":1,"used":false,"nextActions":[["DraftDice"],["ChangeValue"],["PlaceDice"]]}

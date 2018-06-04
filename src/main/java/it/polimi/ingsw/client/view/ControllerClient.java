@@ -1006,6 +1006,22 @@ public class ControllerClient implements View {
         });
     }
 
+    public void changeValueAccepted() {
+
+    }
+
+    public void changeValueError() {
+
+    }
+
+    public void placeDiceAccepted() {
+
+    }
+
+    public void rollDiceAccepted(int value) {
+
+    }
+
     public void diceSort() {
 
 

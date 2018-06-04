@@ -11,5 +11,8 @@ public interface Connection {
     void sendEndTurn();
     void useToolCard(int toolNumber);
     void moveDice(int oldRow, int oldColumn, int newRow, int newColumn);
-
+    void sendDraft(int indexDiceSpace);
+    void sendPlaceDice(int row,int column);
+    void changeValue(String change);
+    void rollDice();
 }
