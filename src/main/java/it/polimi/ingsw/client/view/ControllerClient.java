@@ -804,8 +804,22 @@ public class ControllerClient implements View {
     public void setActions(final List<String> actions) {
        Platform.runLater(new Runnable() {
             public void run() {
+
+                if(!actions.contains("UseToolCard"))
+                {
+                    use1.setDisable(true);
+                    use2.setDisable(true);
+                    use3.setDisable(true);
+                }
+
+                else{
+                    use1.setDisable(false);
+                    use2.setDisable(false);
+                    use3.setDisable(false);
+                }
                 if(!actions.contains("InsertDice"))
                     diceSpace.setDisable(true);
+
                 else diceSpace.setDisable(false);
 
                 if(!actions.contains("EndTurn")){
@@ -813,13 +827,13 @@ public class ControllerClient implements View {
                     use1.setDisable(true);
                     use2.setDisable(true);
                     use3.setDisable(true);
+                    gridPane.setDisable(true);
+                    diceSpace.setDisable(true);
 
                 }
                 else{
                     endTurn.setDisable(false);
-                    use1.setDisable(false);
-                    use2.setDisable(false);
-                    use3.setDisable(false);
+
                 }
 
                 if(!actions.contains("MoveDice"))
