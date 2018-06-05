@@ -17,6 +17,13 @@ public class UseToolCardState implements State{
         try {
             card = round.getBoard().getToolCard(Integer.parseInt((String) action.get(1)));
             int favor = round.getCurrentPlayer().getFavour();
+            for(List<String> nextAction: card.getNextActions()) {
+                if (nextAction.contains("DraftDice") || nextAction.contains("InsertDice")) {
+                    if (round.isInsertedDice()) {
+                        throw new NotFoundToolException();
+                    }
+                }
+            }
             if(favor > 1) {
                 if (card.isUsed())
                     round.getCurrentPlayer().decrementFavor(2);

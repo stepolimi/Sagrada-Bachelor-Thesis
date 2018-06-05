@@ -869,7 +869,7 @@ public class ViewCLI implements View{
     }
 
     public void useToolCardError() {
-        System.out.println("non hai abbastanza favori");
+        System.out.println("non hai abbastanza favori o la toolCard selezionata usa azioni non disponibili al momento");
     }
 
     public void changeValueAccepted() {
