@@ -1,1 +1,1 @@
-{"name":"Flux Brush","number":6,"used":false,"nextActions":[["DraftDice"],["RollDice"],["PlaceDice"]]}
+{"name":"Flux Brush","number":6,"used":false,"ignoredRules":[""],"nextActions":[["DraftDice"],["RollDice"],["PlaceDice"]]}

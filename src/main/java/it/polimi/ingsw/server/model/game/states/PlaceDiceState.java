@@ -31,8 +31,8 @@ public class PlaceDiceState implements State {
 
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
-        if(round.getUsingTool() == 0 || round.getNextActions().isEmpty()) {
-            round.setUsingTool(0);
+        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
+            round.setUsingTool(null);
             if (!round.isInsertedDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())

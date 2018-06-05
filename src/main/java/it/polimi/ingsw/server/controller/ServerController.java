@@ -63,7 +63,6 @@ public class ServerController implements Observer{
             if(p.getNickname().equals(action.get(1))) {
                 p.setSchema((String) action.get(2));
                 if(p.getNameSchemas().contains(action.get(2))) {
-                    p.getSchema().setRulesManager(game.getRulesManager());
                     game.getBoard().addSchema(p.getSchema());
                 }
             }

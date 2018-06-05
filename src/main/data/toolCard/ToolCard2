@@ -1,1 +1,1 @@
-{"name":"Eglomise Brush","number":2,"used":false,"nextActions":[["MoveDice"]]}
+{"name":"Eglomise Brush","number":2,"used":false,"ignoredRules":["Colour"],"nextActions":[["MoveDice"]]}

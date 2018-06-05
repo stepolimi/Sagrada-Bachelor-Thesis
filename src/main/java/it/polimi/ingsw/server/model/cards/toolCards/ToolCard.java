@@ -8,6 +8,7 @@ public class ToolCard {
     private String name;
     private int number;
     private boolean used;
+    private List<String> ignoredRules;
     private List<List<String>> nextActions;
 
     public void setUsed(boolean used) { this.used = used; }
@@ -17,6 +18,8 @@ public class ToolCard {
     public String getName() { return name; }
 
     public int getNumber() { return number; }
+
+    public List<String> getIgnoredRules() { return ignoredRules; }
 
     public List<List<String>> getNextActions() {
         List<List<String>> copy = new ArrayList<List<String>>();

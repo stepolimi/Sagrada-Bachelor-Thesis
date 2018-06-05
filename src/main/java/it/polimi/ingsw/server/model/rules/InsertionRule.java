@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 public interface InsertionRule {
 
-    public boolean checkRule(int toolCardNumber, int x, int y, Dice dice, Schema sch);
+    boolean checkRule(int x, int y, Dice dice, Schema sch);
 
-
+    String getRestriction();
 }

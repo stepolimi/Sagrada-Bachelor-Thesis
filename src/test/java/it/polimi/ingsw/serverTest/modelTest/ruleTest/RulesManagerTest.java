@@ -22,25 +22,22 @@ public class RulesManagerTest {
     Dice dice_2 = new Dice(Colour.ANSI_GREEN, 3);
     Dice dice_3 = new Dice(Colour.ANSI_GREEN, 4);
     Dice dice_4 = new Dice(Colour.ANSI_BLUE, 3);
-    RulesManager manager = new RulesManager();
     List<Schema> schemas = new ArrayList<Schema>();
 
     @Test
     public void correctInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema.setRulesManager(new RulesManager());
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());
 
-        assertTrue(manager.checkRules(0,0,0,dice_1, schema));
+        assertTrue(RulesManager.getRulesManager().checkRules(null,0,0,dice_1, schema));
     }
 
     @Test
     public void wrongInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema.setRulesManager(new RulesManager());
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
@@ -48,16 +45,16 @@ public class RulesManagerTest {
         schema.insertDice(0,0,dice_1);
 
         //wrong for EmptyRule
-        assertFalse(manager.checkRules(0,0,0,dice_2, schema));
+        assertFalse(RulesManager.getRulesManager().checkRules(null,0,0,dice_2, schema));
 
         //wrong for NumberRule
-        assertFalse(manager.checkRules(0,0,1,dice_3, schema));
+        assertFalse(RulesManager.getRulesManager().checkRules(null,0,1,dice_3, schema));
 
         //wrong for ColourRule
-        assertFalse(manager.checkRules(0,0,1,dice_4, schema));
+        assertFalse(RulesManager.getRulesManager().checkRules(null,0,1,dice_4, schema));
 
         //wrong for AdjacentRule
-        assertFalse(manager.checkRules(0,0,2,dice_2, schema));
+        assertFalse(RulesManager.getRulesManager().checkRules(null,0,2,dice_2, schema));
     }
 
 

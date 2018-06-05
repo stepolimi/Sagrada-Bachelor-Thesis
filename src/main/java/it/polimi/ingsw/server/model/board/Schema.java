@@ -18,6 +18,7 @@ package it.polimi.ingsw.server.model.board;
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
@@ -38,7 +39,7 @@ public class Schema extends Observable{
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;
     private String player;
-    private RulesManager rulesManager;
+    private int size = 0;
 
     public Schema schemaInit (int n) throws IOException {   //constructs the Schema obj from file
 
@@ -74,9 +75,9 @@ public class Schema extends Observable{
         return table[i][j];
     }
 
-    public void testInsertDice(int rows , int columns, Dice d, int tool) throws InsertDiceException{
+    public void testInsertDice(int rows , int columns, Dice d, ToolCard toolCard) throws InsertDiceException{
         List<String> action = new ArrayList<String>();
-        if(!rulesManager.checkRules(tool,rows,columns,d,this)) {
+        if(!RulesManager.getRulesManager().checkRules(toolCard,rows,columns,d,this)) {
             action.add(PLACE_DICE_SCHEMA_ERROR);
             action.add(player);
             setChanged();
@@ -85,21 +86,19 @@ public class Schema extends Observable{
         }
     }
 
-    public void insertDice(int rows , int columns, Dice d, int tool) throws InsertDiceException {
+    public void insertDice(int rows , int columns, Dice d, ToolCard toolCard) {
         List<String> action = new ArrayList<String>();
-        if(rulesManager.checkRules(tool,rows,columns,d,this)) {                                 //can be useless
-            this.isEmpty = false;
-            this.table[rows][columns].setDice(d);
-            action.add(PLACE_DICE_SCHEMA);
-            action.add(player);
-            action.add(((Integer)rows).toString());
-            action.add(((Integer)columns).toString());
-            action.add(d.getColour().toString());
-            action.add(((Integer)d.getValue()).toString());
-            setChanged();
-            notifyObservers(action);
-        } else
-            throw new InsertDiceException();
+        this.isEmpty = false;
+        size++;
+        this.table[rows][columns].setDice(d);
+        action.add(PLACE_DICE_SCHEMA);
+        action.add(player);
+        action.add(((Integer) rows).toString());
+        action.add(((Integer) columns).toString());
+        action.add(d.getColour().toString());
+        action.add(((Integer) d.getValue()).toString());
+        setChanged();
+        notifyObservers(action);
     }
 
     public void insertDice(int rows , int columns, Dice d)
@@ -120,22 +119,35 @@ public class Schema extends Observable{
         }
         return table[rows][columns].getDice();
     }
-    //it removed dice from rows-colomuns position. it returns null if is already empty
-    public Dice removeDice(int rows,int columns) throws RemoveDiceException{
+    //it removed dice from rows-colomuns position. it throws exception if is already empty
+    public Dice removeDice(int rows,int columns) {
         List<String> action = new ArrayList<String>();
         Dice d;
-        if(table[rows][columns].getDice() != null) {
-            d = table[rows][columns].getDice();
-            table[rows][columns].setDice(null);
-            action.add(PICK_DICE_SCHEMA);
-            action.add(player);
-            action.add(((Integer)rows).toString());
-            action.add(((Integer)columns).toString());
-            setChanged();
-            notifyObservers(action);
-            return d;
-        }
-        throw new RemoveDiceException();
+        size--;
+        if (size == 0)
+            isEmpty = true;
+        d = table[rows][columns].getDice();
+        table[rows][columns].setDice(null);
+        action.add(PICK_DICE_SCHEMA);
+        action.add(player);
+        action.add(((Integer) rows).toString());
+        action.add(((Integer) columns).toString());
+        setChanged();
+        notifyObservers(action);
+        return d;
+    }
+
+    public void silentRemoveDice(int rows,int columns){
+        table[rows][columns].setDice(null);
+        size --;
+        if(size == 0)
+            isEmpty = true;
+    }
+
+    public void silentInsertDice(int rows,int columns, Dice dice){
+        table[rows][columns].setDice(dice);
+        size ++;
+        isEmpty = false;
     }
 
     public List nearDice(int rows,int columns)
@@ -172,10 +184,6 @@ public class Schema extends Observable{
 
     public boolean isEmpty() {
         return isEmpty;
-    }
-
-    public void setRulesManager(RulesManager rulesManager){
-        this.rulesManager = rulesManager;
     }
 
     public void setPlayer(Player player){ this.player = player.getNickname(); }

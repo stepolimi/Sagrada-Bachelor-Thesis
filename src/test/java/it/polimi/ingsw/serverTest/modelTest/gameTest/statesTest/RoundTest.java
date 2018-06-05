@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.model.rules.RulesManager;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoundTest {
@@ -38,7 +36,6 @@ public class RoundTest {
             e.printStackTrace();
         }
         schemas.add(schema);
-        schema.setRulesManager(new RulesManager());
         player.setObserver(view);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());
