@@ -813,14 +813,13 @@ public class ControllerClient implements View {
                     use1.setDisable(true);
                     use2.setDisable(true);
                     use3.setDisable(true);
-                    diceSpace.setDisable(true);
-                    gridPane.setDisable(true);
 
                 }
                 else{
                     endTurn.setDisable(false);
-
-
+                    use1.setDisable(false);
+                    use2.setDisable(false);
+                    use3.setDisable(false);
                 }
 
                 if(!actions.contains("MoveDice"))
@@ -1221,9 +1220,6 @@ public class ControllerClient implements View {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
-                                use1.setDisable(true);
-                                use2.setDisable(true);
-                                use3.setDisable(true);
                                 currentTool = 0;
                                 isFirst=true;
 
