@@ -44,4 +44,11 @@ public interface View {
 
     void placeDiceAccepted();
     void rollDiceAccepted(int value);
+
+    void pickDiceRoundTrack(List action);
+    void pickDiceRoundTrackError();
+
+    void placeDiceRoundTrack(List action);
+
+    void swapDiceAccepted();
 }

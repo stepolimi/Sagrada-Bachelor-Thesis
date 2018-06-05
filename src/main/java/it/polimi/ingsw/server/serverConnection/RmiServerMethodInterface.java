@@ -21,4 +21,5 @@ public interface RmiServerMethodInterface extends Remote {
     void placeDice(int row,int column) throws RemoteException;
     void changeValue(String change) throws RemoteException;
     void rollDice() throws  RemoteException;
+    void swapDice(int numRound,int indexDice) throws  RemoteException;
 }

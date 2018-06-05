@@ -55,28 +55,4 @@ public class MultiSocketServer{
 
 
     }
-
-
-
-
-   /* public void update(Observable o, Object arg) {
-        SocketConnection s = (SocketConnection) arg;
-
-        if(sockets.get(arg).equals(""))
-         sockets.put(s,s.getName());
-        else {
-            sockets.remove(s);
-            System.out.println("Disconnesso"+s.getName());
-            this.publish(s.getName()+" si è disconnesso");
-        }
-    }
-
-    public void publish(String str) {
-        if(!sockets.isEmpty()){
-            for(SocketConnection sock:sockets.keySet())
-                sock.sendMessage(str);
-        }
-    }
-
-    */
 }

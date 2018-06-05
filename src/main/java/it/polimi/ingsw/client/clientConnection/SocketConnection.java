@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.clientConnection;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.View;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -20,14 +22,35 @@ public class SocketConnection implements Connection,Runnable {
     Scanner in;
     Handler hand;  // used to manage graphic
     private boolean stopThread = false;
-
+    private String host;
+    private int port;
     public SocketConnection(Handler hand) throws IOException {
-        socket = new Socket("localhost", 1666);
+        setConnection();
+        System.out.println("host"+host);
+        System.out.println("port"+port);
+        socket = new Socket(host, port);
         out = new PrintWriter(socket.getOutputStream());
         in = new Scanner(socket.getInputStream());
         this.hand = hand;
     }
 
+    public void setConnection() throws IOException
+    {
+        final String filePath = "src/main/resources/DataConnection/dataSocketConnection.txt";  //import every schema from
+        //json file form /src/main/data/Schema/i.json
+        FileReader f;
+        f = new FileReader(filePath);
+        int i=0;
+        BufferedReader b;
+        b = new BufferedReader(f);
+        try {
+            host = b.readLine();
+            port = Integer.parseInt(b.readLine());
+        }
+        finally {
+            b.close();
+        }
+    }
 
     public void sendSchema(String str) {
         String action = "ChooseSchema-";
@@ -88,6 +111,11 @@ public class SocketConnection implements Connection,Runnable {
 
     public void rollDice() {
         out.println("RollDice");
+        out.flush();
+    }
+
+    public void swapDice(int numRound, int indexDice) {
+        out.println("SwapDice"+"-"+numRound+"-"+indexDice);
         out.flush();
     }
 
@@ -213,6 +241,18 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals("RollDiceAccepted"))
         {
             v.rollDiceAccepted(Integer.parseInt(action.get(1)));
+        }else if(action.get(0).equals(PLACE_DICE_ROUND_TRACK))
+        {
+            v.placeDiceRoundTrack(action.subList(1,action.size()));
+        }else if(action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR))
+        {
+            v.pickDiceRoundTrackError();
+        }else if(action.get(0).equals(PICK_DICE_ROUND_TRACK))
+        {
+            v.pickDiceRoundTrack(action.subList(1,action.size()));
+        }else if(action.get(0).equals(SWAP_DICE_ACCEPTED))
+        {
+            v.swapDiceAccepted();
         }
     }
 }

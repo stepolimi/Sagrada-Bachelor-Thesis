@@ -44,4 +44,10 @@ public interface RmiClientMethodInterface extends Remote{
 
     void rollDiceAccepted(List action ) throws RemoteException;
 
+    void swapDiceAccepted() throws RemoteException;
+
+    void pickDiceRoundTrack(List action) throws RemoteException;
+    void pickDiceRoundTrackError() throws RemoteException;
+
+    void placeDiceRoundTrack(List action) throws RemoteException;
 }

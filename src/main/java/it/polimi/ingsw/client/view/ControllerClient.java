@@ -1105,6 +1105,22 @@ public class ControllerClient implements View {
 
     }
 
+    public void pickDiceRoundTrack(List action) {
+
+    }
+
+    public void pickDiceRoundTrackError() {
+
+    }
+
+    public void placeDiceRoundTrack(List action) {
+
+    }
+
+    public void swapDiceAccepted() {
+
+    }
+
     public void diceSort() {
 
 

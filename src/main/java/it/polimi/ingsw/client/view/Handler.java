@@ -11,8 +11,9 @@ import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class Handler {
     View v;
-
+    LoadImage load;
     public Handler() {
+        load = new LoadImage();
         this.setGraphicInterface();
         v.startScene();
         v.setScene("connection");
@@ -25,15 +26,9 @@ public class Handler {
         String choose;
         while (!correct) {
             Scanner in = new Scanner(System.in);
-            /*
-            System.out.println("\u001B[33m"+ "|----------------------------|");
-            System.out.println("\u001B[34m" + "  "+Colour.ANSI_GREEN.escape()+"S"+Colour.ANSI_RED.escape()+" A"+Colour.ANSI_BLUE.escape()+" G"+Colour.ANSI_YELLOW.escape()+" R"+Colour.ANSI_PURPLE.escape()+" A"+Colour.ANSI_GREEN.escape()+" D"+Colour.ANSI_RED.escape()+" A "+Colour.ANSI_BLUE.escape()+"   G"+Colour.ANSI_YELLOW.escape()+" A"+Colour.ANSI_PURPLE.escape()+" M"+Colour.ANSI_GREEN.escape()+" E"+Colour.RESET);
-            System.out.println("\u001B[33m"+"|----------------------------|");
-            */
-
 
             try {
-                displayStartImage();
+                load.displayImage("startGame.txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -66,31 +61,6 @@ public class Handler {
 
     public View getView() { return v; }
 
-    public void displayStartImage() throws IOException
-    {
-        final String filePath = "src/main/data/CliImage/startGame.txt";  //import every schema from
-        //json file form /src/main/data/Schema/i.json
 
-        FileReader f;
-        f = new FileReader(filePath);
-        int i=0;
-        BufferedReader b;
-        b = new BufferedReader(f);
-        try {
-            String sc;
-            sc = b.readLine();
-            while(sc!=null)
-            {
-                i++;
-                System.out.println("\u001B[3"+((i%9)+1)+"m"+sc+Colour.RESET);
-                sc = b.readLine();
-
-            }
-
-        }
-        finally {
-            b.close();
-        }
-    }
 }
 

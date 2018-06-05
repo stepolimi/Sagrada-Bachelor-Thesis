@@ -76,17 +76,19 @@ public class RmiServerConnection implements Connection{
             } else if(action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
                 client.placeDiceSchemaError();
             } else if(action.get(0).equals(PLACE_DICE_ROUND_TRACK)) {
-                //client.placeDiceRoundTrack(action);
+                client.placeDiceRoundTrack(action);
             } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK)) {
-                //client.pickDiceRoundTrack(action);
+                client.pickDiceRoundTrack(action);
             } else if(action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR)) {
-                //client.pickDiceRoundTrackError(action);
+                client.pickDiceRoundTrackError();
             } else if(action.get(0).equals(INSERT_DICE_ACCEPTED)) {
                 client.insertDiceAccepted();
             } else if(action.get(0).equals(DRAFT_DICE_ACCEPTED)) {
                 client.draftDiceAccepted();
             } else if(action.get(0).equals(MOVE_DICE_ACCEPTED)) {
                 client.moveDiceAccepted();
+            }else if(action.get(0).equals(SWAP_DICE_ACCEPTED)) {
+                client.swapDiceAccepted();
             } else if(action.get(0).equals(USE_TOOL_CARD_ACCEPTED)) {
                 client.useToolCardAccepted();
             } else if(action.get(0).equals(USE_TOOL_CARD_ERROR)) {

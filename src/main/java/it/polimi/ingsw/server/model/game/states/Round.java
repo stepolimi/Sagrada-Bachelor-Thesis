@@ -62,7 +62,7 @@ public class Round extends Observable implements TimedComponent {
         states.put("ChangeValueState",new ChangeValueState());
         states.put("DraftDiceState",new DraftDiceState());
         states.put("PlaceDiceState",new PlaceDiceState());
-        states.put("SwapDiceState",new PlaceDiceState());
+        states.put("SwapDiceState",new SwapDiceState());
         states.put("EndTurnState",new EndTurnState());
 
         System.out.println("new round started\n" + " ---");

@@ -33,6 +33,7 @@ public class ServerController implements Observer{
         else if(head.equals("Disconnected")) { logoutManager((List)action); }
         else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
         else if(head.equals(PICK_DICE)) { insertDiceManager((List)action); }
+        else if(head.equals("SwapDice")) { swapDiceManager((List)action); }
         else if(head.equals("MoveDice")) { moveDiceManager((List)action); }
         else if(head.equals("DraftDice")) { draftDiceManager((List)action); }
         else if(head.equals("PlaceDice")) {placeDiceManager((List)action); }
@@ -111,6 +112,15 @@ public class ServerController implements Observer{
         round.execute(action);
     }
 
+    private void swapDiceManager(List action){
+        if(game == null) {
+            game = session.getGame();
+            roundManager = game.getRoundManager();
+        }
+        round = roundManager.getRound();
+        round.execute(action);
+    }
+
     private void placeDiceManager(List action){
         if(game == null) {
             game = session.getGame();
@@ -145,8 +155,7 @@ public class ServerController implements Observer{
             roundManager = game.getRoundManager();
         }
         round = roundManager.getRound();
-        round.execute(action);
-        if(round.getTurnNumber() == game.getBoard().getPlayerList().size()*2){
+        if(round.getTurnNumber() == game.getBoard().getPlayerList().size()*2 -1){
             game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
             if(roundManager.getRoundNumber() <=10) {
                 roundManager.startNewRound();
@@ -155,8 +164,9 @@ public class ServerController implements Observer{
             else{
                 game.endGame();
             }
-
         }
+        else
+            round.execute(action);
     }
 
 }
