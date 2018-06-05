@@ -38,8 +38,10 @@ public class ViewCLI implements View{
     private Thread schemaThread ;
     private Dices pendingDice;
     private int opVal;
+    private LoadImage load;
     public ViewCLI()
     {
+        load = new LoadImage();
         opVal = 0;
         round = 0;
         username = "";
@@ -667,8 +669,12 @@ public class ViewCLI implements View{
     public void startTurn(String name)
     {
         clearScreen();
-        System.out.println(Colour.ANSI_BLUE.escape()+"Round"+round+Colour.RESET);
-        System.out.println("Il tuo schema:");
+        try {
+            load.displayImage("Round"+round+".txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("\nIl tuo schema:");
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
         showDiceSpace();
