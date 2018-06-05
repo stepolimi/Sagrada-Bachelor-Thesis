@@ -715,6 +715,8 @@ public class ViewCLI implements View{
                     placeDice();
                 }else if (moves.get(choose - 1).equals("ChangeValue")) {
                     changeValue();
+                }else if (moves.get(choose - 1).equals("SwapDice")) {
+                    swapDice();
                 }
                 switch (choose - 1) {
                     case 0:
@@ -894,10 +896,58 @@ public class ViewCLI implements View{
         System.out.println("Valore del dado "+pendingDice);
     }
 
+    List<List<Dices>> roundTrack = new ArrayList<List<Dices>>();
+    public void pickDiceRoundTrack(List action) {
+        pendingDice = roundTrack.get(Integer.parseInt((String)action.get(0))).get(Integer.parseInt((String)action.get(1)));
+        roundTrack.get(Integer.parseInt((String)action.get(0))).remove(Integer.parseInt((String)action.get(1)));
+        for(List<Dices> dices:roundTrack) {
+            System.out.println("---------");
+            for (Dices d : dices) {
+                System.out.print(d.toString());
+            }
+            System.out.println("\n");
+        }
+    }
+
+    public void pickDiceRoundTrackError() {
+        System.out.println("errore nel togliere il dado");
+    }
+
+    public void placeDiceRoundTrack(List action) {
+        int roundNumber = Integer.parseInt((String)action.get(0));
+        if(roundNumber > roundTrack.size() -1)
+            roundTrack.add(new ArrayList<Dices>());
+        action.remove(0);
+        for(int i=0; i<action.size(); i+=2){
+            roundTrack.get(roundNumber).add(new Dices("",Integer.parseInt((String)action.get(i+1)),Colour.stringToColour((String)action.get(i))));
+        }
+
+        for(List<Dices> dices:roundTrack) {
+            System.out.println("---------");
+            for (Dices d : dices) {
+                System.out.print(d.toString());
+            }
+            System.out.println("\n");
+        }
+
+    }
+
+    public void swapDiceAccepted() {
+        System.out.println("dado scambiato correttamente");
+    }
+
     int oldRow;
     int oldColumn;
     int newRow;
     int newColumn;
+
+    public void swapDice(){
+        System.out.println("numero del round da dove vuoi prendere il dado");
+        int nRound = Integer.parseInt(input.nextLine()) -1;
+        System.out.println("numero del dado che vuoi prendere dal round");
+        int index = Integer.parseInt(input.nextLine()) -1;
+        connection.swapDice(nRound,index);
+    }
 
     public void moveDice() {
         correct = false;

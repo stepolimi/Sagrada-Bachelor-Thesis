@@ -59,10 +59,12 @@ public class RoundTrack extends Observable{
         List<String> action = new ArrayList<String>();
         Dice dice;
         if(nRound < TOT_ROUNDS) {
-            if (listRounds[nRound].get(nDice) != null) {
-                dice = listRounds[nRound].get(nDice);
-                listRounds[nRound].remove(nDice);
-                return dice;
+            if(listRounds[nRound].size() > nDice) {
+                if (listRounds[nRound].get(nDice) != null) {
+                    dice = listRounds[nRound].get(nDice);
+                    listRounds[nRound].remove(nDice);
+                    return dice;
+                }
             }
         }
         action.add(PICK_DICE_ROUND_TRACK_ERROR);

@@ -129,6 +129,14 @@ public class RmiConnection implements Connection {
         }
     }
 
+    public void swapDice(int numRound, int indexDice) {
+        try {
+            server.swapDice(numRound,indexDice);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurn() {
         try {
             server.sendEndTurn();

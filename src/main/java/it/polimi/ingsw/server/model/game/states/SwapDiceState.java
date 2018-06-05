@@ -21,9 +21,9 @@ public class SwapDiceState implements State{
         try {
             Dice dice = roundTrack.testRemoveDice(indexRound, indexDiceRound,round.getCurrentPlayer().getNickname());
             roundTrack.insertDice(round.getPendingDice(),indexRound);
+            roundTrack.removeDice(indexRound,indexDiceRound);
             round.notifyChanges(SWAP_DICE_ACCEPTED);
             round.getNextActions().remove(0);
-            roundTrack.removeDice(indexRound,indexDiceRound);
             round.setPendingDice(dice);
 
         } catch (InsertDiceException e) {

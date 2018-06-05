@@ -152,4 +152,12 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void swapDice(int numRound, int indexDice) throws RemoteException {
+        List action = new ArrayList();
+        action.add("SwapDice");
+        action.add(((Integer)numRound).toString());
+        action.add(((Integer)indexDice).toString());
+        virtual.forwardAction(action);
+    }
+
 }

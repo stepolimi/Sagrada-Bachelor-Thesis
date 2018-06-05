@@ -15,4 +15,5 @@ public interface Connection {
     void sendPlaceDice(int row,int column);
     void changeValue(String change);
     void rollDice();
+    void swapDice(int numRound,int indexDice);
 }

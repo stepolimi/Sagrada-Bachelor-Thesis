@@ -154,5 +154,21 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     public void rollDiceAccepted(List action) throws RemoteException {
         v.rollDiceAccepted(Integer.parseInt((String)action.get(1)));
     }
+
+    public void swapDiceAccepted() throws RemoteException {
+        v.swapDiceAccepted();
+    }
+
+    public void pickDiceRoundTrack(List action) throws RemoteException {
+        v.pickDiceRoundTrack(action.subList(1,action.size()));
+    }
+
+    public void pickDiceRoundTrackError() throws RemoteException {
+        v.pickDiceRoundTrackError();
+    }
+
+    public void placeDiceRoundTrack(List action) throws RemoteException {
+        v.placeDiceRoundTrack(action.subList(1,action.size()));
+    }
 }
 

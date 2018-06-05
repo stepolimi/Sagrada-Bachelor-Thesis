@@ -91,6 +91,11 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void swapDice(int numRound, int indexDice) {
+        out.println("SwapDice"+"-"+numRound+"-"+indexDice);
+        out.flush();
+    }
+
     public void sendEndTurn() {
         out.println(END_TURN);
         out.flush();
@@ -213,6 +218,18 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals("RollDiceAccepted"))
         {
             v.rollDiceAccepted(Integer.parseInt(action.get(1)));
+        }else if(action.get(0).equals(PLACE_DICE_ROUND_TRACK))
+        {
+            v.placeDiceRoundTrack(action.subList(1,action.size()));
+        }else if(action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR))
+        {
+            v.pickDiceRoundTrackError();
+        }else if(action.get(0).equals(PICK_DICE_ROUND_TRACK))
+        {
+            v.pickDiceRoundTrack(action.subList(1,action.size()));
+        }else if(action.get(0).equals(SWAP_DICE_ACCEPTED))
+        {
+            v.swapDiceAccepted();
         }
     }
 }
