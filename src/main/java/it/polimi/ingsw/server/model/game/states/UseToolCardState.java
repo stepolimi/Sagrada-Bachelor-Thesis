@@ -13,7 +13,7 @@ public class UseToolCardState implements State{
     private static String state = "UseToolCardState";
 
     public void execute(Round round, List action){
-        ToolCard card = null;
+        ToolCard card;
         try {
             card = round.getBoard().getToolCard(Integer.parseInt((String) action.get(1)));
             int favor = round.getCurrentPlayer().getFavour();
@@ -22,7 +22,7 @@ public class UseToolCardState implements State{
                     round.getCurrentPlayer().decrementFavor(2);
                 else
                     round.getCurrentPlayer().decrementFavor(1);
-                round.setUsingTool(Integer.parseInt((String) action.get(1)));
+                round.setUsingTool(card);
                 round.setNextActions(card.getNextActions());
                 round.setUsedCard(true);
                 round.notifyChanges(USE_TOOL_CARD_ACCEPTED);
@@ -32,7 +32,7 @@ public class UseToolCardState implements State{
                     //not enough flavor
                 } else {
                     round.getCurrentPlayer().decrementFavor(1);
-                    round.setUsingTool(Integer.parseInt((String) action.get(1)));
+                    round.setUsingTool(card);
                     round.setNextActions(card.getNextActions());
                     round.setUsedCard(true);
                     round.notifyChanges(USE_TOOL_CARD_ACCEPTED);
@@ -53,8 +53,8 @@ public class UseToolCardState implements State{
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
         System.out.println(round.getNextActions());
-        if(round.getUsingTool() == 0 || round.getNextActions().isEmpty()){
-            round.setUsingTool(0);
+        if(round.getUsingTool() == null || round.getNextActions().isEmpty()){
+            round.setUsingTool(null);
             if(!round.isInsertedDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())

@@ -22,16 +22,18 @@ public class MoveDiceState implements State{
         Dice dice = null;
         try {
             dice = round.getCurrentPlayer().getSchema().testRemoveDice(oldRowSchema,oldColumnSchema);
-            round.getCurrentPlayer().getSchema().removeDice(oldRowSchema,oldColumnSchema);
+            schema.silentRemoveDice(oldRowSchema,oldColumnSchema);
             schema.testInsertDice(rowSchema, columnSchema , dice, round.getUsingTool());
+            schema.silentInsertDice(oldRowSchema,oldColumnSchema,dice);
             round.notifyChanges(MOVE_DICE_ACCEPTED);
             round.getNextActions().remove(0);
+            round.getCurrentPlayer().getSchema().removeDice(oldRowSchema,oldColumnSchema);
             schema.insertDice(rowSchema, columnSchema, dice, round.getUsingTool());
             System.out.println("dice: "+dice.toString()+" moved from: "+oldRowSchema+","+oldColumnSchema+" to: "+rowSchema+","+columnSchema+"\n ---");
         }catch(RemoveDiceException e){
             System.out.println("illegal dice removal\n" + " ---");
         }catch (InsertDiceException e) {
-            round.getCurrentPlayer().getSchema().insertDice(oldRowSchema,oldColumnSchema,dice);
+            schema.silentInsertDice(oldRowSchema,oldColumnSchema,dice);
             System.out.println("illegal dice insertion\n" + " ---");
         }
         giveLegalActions(round);
@@ -42,8 +44,8 @@ public class MoveDiceState implements State{
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
         System.out.println(round.getNextActions());
-        if(round.getUsingTool() == 0 || round.getNextActions().isEmpty()) {
-            round.setUsingTool(0);
+        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
+            round.setUsingTool(null);
             if (!round.isInsertedDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())

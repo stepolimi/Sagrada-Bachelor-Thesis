@@ -25,7 +25,7 @@ public class ExtractDiceTest {
 
     @Test
     public void nextStateTest(){
-        action.add("PickDice");
+        action.add("DraftDice");
         assertTrue(state.nextState(round,action).toString().equals( "DraftDiceState"));
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.game.states;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
+import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.timer.GameTimer;
 import it.polimi.ingsw.server.timer.TimedComponent;
 
@@ -24,7 +25,7 @@ public class Round extends Observable implements TimedComponent {
     private HashMap<String,State> states;
     private State currentState ;
     private Dice pendingDice;
-    private int usingTool = 0;
+    private ToolCard usingTool;
     private List<List<String>> nextActions;
     private List<String> legalActions;
     private RoundManager roundManager;
@@ -38,6 +39,7 @@ public class Round extends Observable implements TimedComponent {
 
 
     public Round(Player first, Board board,RoundManager roundManager){
+        usingTool = null;
         this.roundManager = roundManager;
         states = new HashMap<String, State>();
         legalActions = new ArrayList<String>();
@@ -111,9 +113,9 @@ public class Round extends Observable implements TimedComponent {
 
     public String getCurrentState(){ return currentState.toString();}
 
-    public void setUsingTool(int using){ this.usingTool = using;}
+    public void setUsingTool(ToolCard using){ this.usingTool = using;}
 
-    public int getUsingTool(){return usingTool;}
+    public ToolCard getUsingTool(){return usingTool;}
 
     public void setLegalActions(List<String> legalActions){ this.legalActions = legalActions; }
 
@@ -169,7 +171,7 @@ public class Round extends Observable implements TimedComponent {
             currentPlayer.setConnected(false);
             insertedDice = false;
             usedCard = false;
-            usingTool = 0;
+            usingTool = null;
             List list = new ArrayList();
             list.add("EndTurn");
             execute(list);

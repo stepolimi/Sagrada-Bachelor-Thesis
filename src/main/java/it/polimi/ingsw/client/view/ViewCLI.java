@@ -152,7 +152,7 @@ public class ViewCLI implements View{
     }
 
     public void insertDiceAccepted() {
-
+        diceSpace.get(indexDiceSpace).setCostraint(this.schemas.get(username).getGrid()[row][column].getCostraint());
         this.schemas.get(username).getGrid()[row][column]= diceSpace.get(indexDiceSpace);
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
@@ -919,7 +919,8 @@ public class ViewCLI implements View{
         System.out.println(pendingDice);
     }
     public void moveDiceAccepted(){
-        this.schemas.get(username).getGrid()[newRow][newColumn] = this.schemas.get(username).getGrid()[oldRow][oldColumn];
+        this.schemas.get(username).getGrid()[newRow][newColumn].setNumber(this.schemas.get(username).getGrid()[oldRow][oldColumn].getNumber());
+        this.schemas.get(username).getGrid()[newRow][newColumn].setColour(this.schemas.get(username).getGrid()[oldRow][oldColumn].getColour());
         this.schemas.get(username).getGrid()[oldRow][oldColumn].setNumber(0);
         this.schemas.get(username).getGrid()[oldRow][oldColumn].setColour(null);
 

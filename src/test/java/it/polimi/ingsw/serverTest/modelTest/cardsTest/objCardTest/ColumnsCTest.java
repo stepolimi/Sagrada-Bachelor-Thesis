@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.model.cards.objCards.ColumnsObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.rules.RulesManager;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +19,6 @@ public class ColumnsCTest {
     Schema s = g.fromJson(stringa, Schema.class);
 
     public void insertDice(){
-        s.setRulesManager(new RulesManager());
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);

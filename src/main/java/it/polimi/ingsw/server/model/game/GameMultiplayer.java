@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
 import it.polimi.ingsw.server.model.game.states.RoundManager;
-import it.polimi.ingsw.server.model.rules.RulesManager;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.timer.GameTimer;
@@ -24,7 +23,6 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private Board board;
     private Observer obs;
     private RoundManager roundManager;
-    private RulesManager rulesManager;
     private GameTimer schemaTimer;
     private Timer timer;
     private Long startingTime = 0L;
@@ -34,7 +32,6 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         this.players.addAll(players);
         this.board= new Board(players);
         this.roundManager = new RoundManager(board);
-        this.rulesManager = new RulesManager();
     }
 
     public void setObserver(Observer obs){
@@ -77,8 +74,6 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     public Board getBoard() { return board; }
 
     public RoundManager getRoundManager() { return roundManager; }
-
-    public RulesManager getRulesManager() { return rulesManager; }
 
     public Timer getTimer(){ return timer;}
 

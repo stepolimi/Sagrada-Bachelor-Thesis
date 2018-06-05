@@ -25,6 +25,7 @@ public class SchemaTest {
         s.insertDice(0,0,d);
         assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
         try {
+            s.testRemoveDice(0,0);
             s.removeDice(0,0);
             assertTrue(s.getTable(0,0).getDice()==null,"The box is empty");
             assertTrue(s.removeDice(0,0)==null,"The box is empty");
@@ -53,6 +54,7 @@ public class SchemaTest {
         assertTrue(s.nearDice(0,0).contains(d2),"The die is near");
         assertTrue(s.nearDice(0,0).contains(d3),"The die is near");
         try {
+            s.testRemoveDice(1,0);
             s.removeDice(1,0);
         } catch (RemoveDiceException e) {
             e.printStackTrace();

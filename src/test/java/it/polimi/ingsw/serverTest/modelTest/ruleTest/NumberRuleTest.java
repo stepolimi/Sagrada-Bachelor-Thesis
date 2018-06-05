@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.rules.InsertionRule;
 import it.polimi.ingsw.server.model.rules.NumberRule;
-import it.polimi.ingsw.server.model.rules.RulesManager;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
@@ -27,26 +26,24 @@ public class NumberRuleTest {
     @Test
     public void correctInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema.setRulesManager(new RulesManager());
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());
-        assertTrue(rule.checkRule(0,0,0,dice, schema));
-        assertTrue(rule.checkRule(0,1,1,dice, schema));
-        assertTrue(rule.checkRule(3,1,2,dice, schema));
+        assertTrue(rule.checkRule(0,0,dice, schema));
+        assertTrue(rule.checkRule(1,1,dice, schema));
+//        assertTrue(rule.checkRule(1,2,dice, schema));
     }
 
     @Test
     public void wrongInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema.setRulesManager(new RulesManager());
         schema = schema.schemaInit(24);
         schemas.add(schema);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());
 
-        assertFalse(rule.checkRule(0,1,2,dice, schema));
+        assertFalse(rule.checkRule(1,2,dice, schema));
 
     }
 

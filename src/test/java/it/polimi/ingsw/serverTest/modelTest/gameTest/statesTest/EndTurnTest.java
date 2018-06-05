@@ -36,7 +36,7 @@ public class EndTurnTest {
         view.setConnection(new Connected());
         round = new Round(players.get(0),board,null);
         round.roundInit();
-        action.add("PickDice");
+        action.add("DraftDice");
         round.execute(action);
         assertTrue(state.nextState(round,action).toString().equals( "DraftDiceState"));
         action.clear();
