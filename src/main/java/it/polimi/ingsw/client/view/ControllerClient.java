@@ -185,6 +185,7 @@ public class ControllerClient implements View {
 
     public ControllerClient(Handler hand)
     {
+        currentTool = 0;
         this.hand = hand;
     }
 
@@ -338,7 +339,6 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             String text = time;
             public void run() {
-                System.out.println("la partita inizierà tra " + text + " secondi\n");             //loading bar
                 double seconds = Integer.parseInt(text);
                 double tot = 60.000;
                 double full = 1.000;
@@ -686,6 +686,7 @@ public class ControllerClient implements View {
 
         Thread t = new Thread(new Runnable() {
             public void run() {
+
                 ImageView imageView = (ImageView) drag.getTarget();
                 Node source = ((Node) drag.getTarget());
 
@@ -716,11 +717,11 @@ public class ControllerClient implements View {
                         e.printStackTrace();
                     }
                 }
-
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
+                    textflow.setText("");
 
                 }
                 else{
@@ -729,8 +730,9 @@ public class ControllerClient implements View {
             }
     });
 
+        if(currentTool == 0)
+            t.start();
 
-        t.start();
 
     }
 
@@ -835,7 +837,6 @@ public class ControllerClient implements View {
 
             public void run() {
                 String path = "/assets/image/Dice";
-                System.out.println("diceSpace settato");
                 ImageView imageView = new ImageView();
                 int j = 0;
                 for (int i = 0; i < stringList.size(); i = i + 2, j++) {
@@ -875,7 +876,6 @@ public class ControllerClient implements View {
     }
 
     public void insertDiceAccepted() {
-
         correctInsertion=true;
         synchronized (lock)
         {
@@ -890,7 +890,12 @@ public class ControllerClient implements View {
     }
 
     public void moveDiceAccepted() {
-        //todo
+        correctInsertion=true;
+        synchronized (lock)
+        {
+            lock.notify();
+        }
+
     }
 
     public void pickDiceSpace(final List action) throws InterruptedException {
@@ -1188,11 +1193,13 @@ public class ControllerClient implements View {
                         connection.moveDice(y1, x1, y2, x2);
 
                     try {
-                        sleep(1000);
+                        synchronized (lock){
+                            lock.wait();
+                        }
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
                     if (correctInsertion) {
                             schemaCell.setImage(imageMoved.getImage());
                             imageMoved.setImage(null);
@@ -1209,6 +1216,7 @@ public class ControllerClient implements View {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
+                                currentTool = 0;
                                 isFirst=true;
 
                             }
@@ -1230,6 +1238,9 @@ public class ControllerClient implements View {
 
     }
 
+    @FXML
+    void pickDice(MouseEvent event) {
 
+    }
 
 }

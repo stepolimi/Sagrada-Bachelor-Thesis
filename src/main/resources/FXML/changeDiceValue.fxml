@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="219.0" prefWidth="366.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="268.0" fitWidth="415.0" layoutX="-22.0" layoutY="-21.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/changeDice.jpg" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="146.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifica il tuo dado:" textAlignment="CENTER" wrappingWidth="211.21875">
+         <font>
+            <Font name="Apple SD Gothic Neo Regular" size="24.0" />
+         </font>
+      </Text>
+      <ImageView id="Decrement" fitHeight="101.0" fitWidth="69.0" layoutX="149.0" layoutY="95.0" onMouseClicked="#sendChangeValue" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/minus.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView id="Increment" fitHeight="103.0" fitWidth="69.0" layoutX="286.0" layoutY="94.0" onMouseClicked="#sendChangeValue" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/plus.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <ImageView fitHeight="95.0" fitWidth="69.0" layoutX="217.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/diceee.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>
