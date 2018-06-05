@@ -4,8 +4,6 @@ package it.polimi.ingsw.client.clientConnection;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -85,12 +83,18 @@ public class RmiConnection implements Connection {
         }
     }
 
-    public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) {
-        try {
-            server.moveDice(oldRow,oldColumn,newRow,newColumn);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void moveDice(final int oldRow, final int oldColumn, final int newRow, final int newColumn) {
+        Thread t = new Thread(new Runnable() {
+            public void run() {
+                try {
+                    server.moveDice(oldRow,oldColumn,newRow,newColumn);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+
     }
 
     public void sendDraft(int indexDiceSpace) {
