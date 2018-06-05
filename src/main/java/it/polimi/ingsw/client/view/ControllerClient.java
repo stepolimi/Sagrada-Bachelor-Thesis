@@ -43,6 +43,12 @@ public class ControllerClient implements View {
     public Schema mySchema;
     public List<Schema> schemas;
 
+    public ImageView pendingDice;
+    public String colorMoved;
+    public int numberMoved;
+
+    public List<String> diceExtract;
+
     public boolean isFirst= true;
 
 
@@ -359,8 +365,6 @@ public class ControllerClient implements View {
                setScene("game");
                Stage stage = (Stage) progressBar.getScene().getWindow();
                stage.close();
-               endTurn.setDisable(true);
-               diceSpace.setDisable(true);
 
 
 
@@ -719,8 +723,6 @@ public class ControllerClient implements View {
                 }
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
-                    gridPane.setDisable(true);
-                    diceSpace.setDisable(true);
                     textflow.setText("");
 
                 }
@@ -765,10 +767,7 @@ public class ControllerClient implements View {
     @FXML
     void nextPlayer(MouseEvent event) {
         endTurn.setDisable(true);
-        diceSpace.setDisable(true);
-        use1.setDisable(true);
-        use2.setDisable(true);
-        use3.setDisable(true);
+
         connection.sendEndTurn();
 
     }
@@ -782,78 +781,70 @@ public class ControllerClient implements View {
 
         if (!name.equals(nickname.getText())){
             textflow.setText("turno iniziato, tocca a: " + name);
-            diceSpace.setDisable(true);
 
         }
         else {
 
             textflow.setText("tocca a te!!!!!");
-            diceSpace.setDisable(false);
 
-            try {
-                sleep(500);
-                endTurn.setDisable(false);
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
         }
     }
 
     public void setActions(final List<String> actions) {
-       Platform.runLater(new Runnable() {
+
+        Platform.runLater(new Runnable() {
             public void run() {
-
-                if(!actions.contains("UseToolCard"))
-                {
-                    use1.setDisable(true);
-                    use2.setDisable(true);
-                    use3.setDisable(true);
-                }
-
-                else{
+                if (actions.contains("UseToolCard")) {
                     use1.setDisable(false);
                     use2.setDisable(false);
                     use3.setDisable(false);
                 }
-                if(!actions.contains("InsertDice"))
-                    diceSpace.setDisable(true);
+                if (actions.contains("InsertDice"))
+                 diceSpace.setDisable(false);
 
-                else diceSpace.setDisable(false);
-
-                if(!actions.contains("EndTurn")){
-                    endTurn.setDisable(true);
-                    use1.setDisable(true);
-                    use2.setDisable(true);
-                    use3.setDisable(true);
-                    gridPane.setDisable(true);
-                    diceSpace.setDisable(true);
-
-                }
-                else{
+                if (actions.contains("EndTurn"))
                     endTurn.setDisable(false);
 
-                }
 
-                if(!actions.contains("MoveDice"))
-                    gridPane.setDisable(true);
-                else gridPane.setDisable(false);
+
+                if (actions.contains("MoveDice"))
+                 gridPane.setDisable(false);
+
+
+                if (actions.contains("RollDiceState"))
+                 pendingDice.setDisable(false);
+
+                if (actions.contains("PickDiceState"))
+                 diceSpace.setDisable(false);
+
+                if (actions.contains("PlaceDiceState"))
+                    gridPane.setDisable(false);
+
+
+
             }
         });
+
+
 
 
     }
 
     public void setDiceSpace(final List<String> dices) {
+        diceExtract = new ArrayList<String>();
         Platform.runLater(new Runnable() {
             List<String> stringList = new ArrayList<String>(dices);
+
 
             public void run() {
                 String path = "/assets/image/Dice";
                 ImageView imageView = new ImageView();
                 int j = 0;
                 for (int i = 0; i < stringList.size(); i = i + 2, j++) {
+                    diceExtract.add(stringList.get(i));
+                    diceExtract.add(stringList.get(i + 1));
                     if (stringList.get(i).equals(("ANSI_BLUE"))) {
                         imageView = (ImageView) diceSpace.getChildren().get(j);
                         imageView.setImage(new Image(path + "/Blue/" + (stringList.get(i + 1)) + ".png"));
@@ -900,8 +891,17 @@ public class ControllerClient implements View {
     }
 
     public void draftDiceAccepted() {
-        //todo piu tardi, sarà per tool non ancora funzionati
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if(currentTool==1)
+                    setScene("changeDiceValue");
+                else textflow.setText("Clicca sul dado preso e lancialo!");
+            }
+        });
+
+
     }
+
 
     public void moveDiceAccepted() {
         correctInsertion=true;
@@ -916,8 +916,10 @@ public class ControllerClient implements View {
 
 
                 ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
-
                 imageView.setImage(null);
+                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
+                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
+
 
                 sleep(500);
 
@@ -926,6 +928,8 @@ public class ControllerClient implements View {
 
 
     public void pickDiceSpaceError() {
+
+        textflow.setText("Errore nel prendere il dado!");
 
     }
 
@@ -999,17 +1003,16 @@ public class ControllerClient implements View {
     }
 
     public void pickDiceSchemaError() {
-        //todo
+        pendingDice.setImage(null);
+
+        textflow.setText("non ci sono dadi qui");
+
+
     }
 
     public void useToolCardAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-
-                if(currentTool==9) {
-                    diceSpace.setDisable(false);
-
-                }
 
                 textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
 
@@ -1027,17 +1030,78 @@ public class ControllerClient implements View {
 
     public void changeValueAccepted() {
 
+        Platform.runLater(new Runnable() {
+            public void run() {
+                textflow.setText("hai cambiato valore! Ora inseriscilo!");
+                String path = "/assets/image/Dice";
+                if (colorMoved.equals(("ANSI_BLUE"))) {
+                    pendingDice.setImage(new Image(path + "/Blue/" + numberMoved + ".png"));
+
+                }
+                else if (colorMoved.equals(("ANSI_RED"))){
+                    pendingDice.setImage(new Image(path + "/Red/" + numberMoved + ".png"));
+                }
+
+                else if (colorMoved.equals("ANSI_YELLOW")){
+                    pendingDice.setImage(new Image(path + "/Yellow/" + numberMoved + ".png"));
+                }
+
+                else if (colorMoved.equals("ANSI_GREEN")){
+                    pendingDice.setImage(new Image(path + "/Green/" + numberMoved + ".png"));
+                }
+
+                else{
+                    pendingDice.setImage(new Image(path + "/Purple/" + numberMoved + ".png"));
+                }
+
+            }
+        });
+
     }
 
     public void changeValueError() {
+        textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
+        setScene("changeDiceValue");
 
     }
 
     public void placeDiceAccepted() {
+        correctInsertion=true;
+        synchronized (lock)
+        {
+            lock.notify();
+        }
 
     }
 
-    public void rollDiceAccepted(int value) {
+    public void rollDiceAccepted(final int value) {
+    Platform.runLater(new Runnable() {
+        public void run() {
+            String path = "/assets/image/Dice";
+
+            textflow.setText("Dado tirato! Ora piazzalo");
+            if (colorMoved.equals(("ANSI_BLUE"))) {
+                pendingDice.setImage(new Image(path + "/Blue/" + value + ".png"));
+
+            }
+            else if (colorMoved.equals(("ANSI_RED"))){
+                pendingDice.setImage(new Image(path + "/Red/" + value + ".png"));
+            }
+
+            else if (colorMoved.equals("ANSI_YELLOW")){
+                pendingDice.setImage(new Image(path + "/Yellow/" + value + ".png"));
+            }
+
+            else if (colorMoved.equals("ANSI_GREEN")){
+                pendingDice.setImage(new Image(path + "/Green/" + value + ".png"));
+            }
+
+            else{
+                pendingDice.setImage(new Image(path + "/Purple/" + value + ".png"));
+            }
+        }
+    });
+
 
     }
 
@@ -1150,8 +1214,7 @@ public class ControllerClient implements View {
 
 
     @FXML
-    void moveDiceAction(MouseEvent event) {
-
+    void moveDiceAction(final MouseEvent event) {
 
 
        final MouseEvent event1 = event;
@@ -1159,6 +1222,7 @@ public class ControllerClient implements View {
 
        Thread t = new Thread(new Runnable() {
             public void run() {
+
                 Node source = ((Node) event1.getTarget());
 
 
@@ -1181,6 +1245,20 @@ public class ControllerClient implements View {
                     row = 0;
 
 
+                if(currentTool==1 || currentTool == 6){
+                    connection.sendPlaceDice(row, col);
+                    try {
+                        synchronized (lock){
+                            lock.wait();
+                        }
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
 
 
                 if(x1 == null && y1 == null){
@@ -1200,6 +1278,7 @@ public class ControllerClient implements View {
 
                     x2 = col;
                     y2 = row;
+
 
 
 
@@ -1257,8 +1336,48 @@ public class ControllerClient implements View {
     }
 
     @FXML
-    void pickDice(MouseEvent event) {
+    void RollDice(MouseEvent event) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                connection.rollDice();
+            }
+        });
 
     }
 
-}
+    @FXML
+    void sendChangeValue(MouseEvent event) {
+        ImageView imageView = (ImageView)event.getTarget();
+        if(imageView.getId().equals("Decrement"))
+            numberMoved--;
+        else numberMoved++;
+            connection.changeValue(imageView.getId());
+
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        stage.close();
+
+
+    }
+
+    @FXML
+    void pickDice(final MouseEvent event) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if (currentTool == 1 || currentTool == 6) {
+                    pendingDice = (ImageView) event.getTarget();
+                    colorMoved = diceExtract.get(2 * indexDiceSpace);
+                    numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+
+
+                    connection.sendDraft(indexDiceSpace);
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+    }

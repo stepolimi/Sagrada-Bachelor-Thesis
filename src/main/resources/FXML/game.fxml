@@ -98,7 +98,7 @@
                      <content>
                         <Pane prefHeight="820.0" prefWidth="284.0">
                            <children>
-                              <ImageView fitHeight="247.0" fitWidth="257.0" layoutX="166.0" layoutY="241.0" opacity="0.69" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="247.0" fitWidth="257.0" layoutX="166.0" layoutY="241.0" opacity="0.43" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/pic19.png" />
                                  </image>
@@ -497,7 +497,10 @@
                                     </AnchorPane>
                                  </children>
                               </GridPane>
-                              <ImageView id="4" fx:id="pendingDice" fitHeight="40.0" fitWidth="40.0" layoutX="437.0" layoutY="395.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" onMouseClicked="#pickDice" pickOnBounds="true" preserveRatio="true" />
+                              <ImageView id="4" fx:id="pendingDice" fitHeight="40.0" fitWidth="40.0" layoutX="437.0" layoutY="395.0" onDragDetected="#handleDragDetection" onDragDone="#handleDragDone" onMouseClicked="#RollDice" pickOnBounds="true" preserveRatio="true">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></ImageView>
                            </children>
                         </Pane>
                      </content></Tab>
