@@ -1201,14 +1201,18 @@ public class ControllerClient implements View {
                         e.printStackTrace();
                     }
                     if (correctInsertion) {
-                            schemaCell.setImage(imageMoved.getImage());
+
+                        schemaCell.setImage(imageMoved.getImage());
+                        if(!schemaCell.equals(imageMoved))
                             imageMoved.setImage(null);
-                            x2 = null;
+
+                        x2 = null;
                             y2 = null;
                             if(currentTool == 4 && isFirst) {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
+
                                 isFirst=false;
 
                             }
