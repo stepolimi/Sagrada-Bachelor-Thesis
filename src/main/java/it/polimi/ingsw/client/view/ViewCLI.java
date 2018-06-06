@@ -39,6 +39,10 @@ public class ViewCLI implements View{
     private Dices pendingDice;
     private int opVal;
     private LoadImage load;
+    private int oldRow;
+    private int oldColumn;
+    private int newRow;
+    private int newColumn;
     public ViewCLI()
     {
         load = new LoadImage();
@@ -438,6 +442,7 @@ public class ViewCLI implements View{
         moves.add("Mostra gli obiettivi pubblici");
         moves.add("Mostra schemi avversari");
         moves.add("Mostra le tool card");
+        moves.add("Mostra la RoundTrack");
         if(actions == null)
             return;
         for(String action: actions)
@@ -737,6 +742,9 @@ public class ViewCLI implements View{
                     case 3:
                         showToolCard();
                         break;
+                    case 4:
+                        showRoundTrack();
+                        break;
                     default: correct = false;
                 }
 
@@ -747,6 +755,15 @@ public class ViewCLI implements View{
                // System.out.println("Errore divinooooo");
                 correct= false;
             }
+        }
+    }
+
+    public void showRoundTrack()
+    {
+        for(int i=0;i<roundTrack.size();i++)
+        {
+            System.out.println("Round"+(i+1));
+            System.out.println(roundTrack.get(i));
         }
     }
 
@@ -873,11 +890,11 @@ public class ViewCLI implements View{
     }
 
     public void useToolCardAccepted() {
-        System.out.println("bravissimo, però dobbiamo concordare come gestire lo scalare dei favori");
+        System.out.println("Carta utilizzata!");
     }
 
     public void useToolCardError() {
-        System.out.println("non hai abbastanza favori o la toolCard selezionata usa azioni non disponibili al momento");
+        System.out.println("Non hai abbastanza favori oppure non è permesso l'azione svolta dalla toolCard");
     }
 
     public void changeValueAccepted() {
@@ -906,17 +923,10 @@ public class ViewCLI implements View{
     public void pickDiceRoundTrack(List action) {
         pendingDice = roundTrack.get(Integer.parseInt((String)action.get(0))).get(Integer.parseInt((String)action.get(1)));
         roundTrack.get(Integer.parseInt((String)action.get(0))).remove(Integer.parseInt((String)action.get(1)));
-        for(List<Dices> dices:roundTrack) {
-            System.out.println("---------");
-            for (Dices d : dices) {
-                System.out.print(d.toString());
-            }
-            System.out.println("\n");
-        }
     }
 
     public void pickDiceRoundTrackError() {
-        System.out.println("errore nel togliere il dado");
+        System.out.println("Errore,dado non trovato");
     }
 
     public void placeDiceRoundTrack(List action) {
@@ -927,43 +937,32 @@ public class ViewCLI implements View{
         for(int i=0; i<action.size(); i+=2){
             roundTrack.get(roundNumber).add(new Dices("",Integer.parseInt((String)action.get(i+1)),Colour.stringToColour((String)action.get(i))));
         }
-
-        for(List<Dices> dices:roundTrack) {
-            System.out.println("---------");
-            for (Dices d : dices) {
-                System.out.print(d.toString());
-            }
-            System.out.println("\n");
-        }
-
     }
 
     public void swapDiceAccepted() {
-        System.out.println("dado scambiato correttamente");
+        System.out.println("Dado scambiato correttamente");
     }
 
-    int oldRow;
-    int oldColumn;
-    int newRow;
-    int newColumn;
+
 
     public void swapDice(){
-        System.out.println("numero del round da dove vuoi prendere il dado");
+        System.out.println("Inserisci il numero del round da cui prendere il dado");
         int nRound = Integer.parseInt(input.nextLine()) -1;
-        System.out.println("numero del dado che vuoi prendere dal round");
+        System.out.println(roundTrack.get(nRound));
+        System.out.println("Inserisci il numero del dado che vuoi prendere dalla RoundTrack");
         int index = Integer.parseInt(input.nextLine()) -1;
         connection.swapDice(nRound,index);
     }
 
     public void moveDice() {
         correct = false;
-        System.out.println("Riga da dove vuoi prendere il dado:");
+        System.out.println("Inserisci l'indice della riga da cui prendere il dado:");
         oldRow = Integer.parseInt(input.nextLine()) -1;
-        System.out.println("Colonna da dove vuoi prendere il dado:");
+        System.out.println("Inserisci l'indice della colonna da cui prendere il dado:");
         oldColumn = Integer.parseInt(input.nextLine()) -1;
-        System.out.println("Riga dove vuoi spostare il dado:");
+        System.out.println("Inserisci l'indice della riga in cui spostare il dado:");
         newRow = Integer.parseInt(input.nextLine()) -1;
-        System.out.println("Colonna dove vuoi spostare il dado:");
+        System.out.println("Inserisci l'indice della colonna in cui spostare il dado:");
         newColumn = Integer.parseInt(input.nextLine()) -1;
         connection.moveDice(oldRow,oldColumn,newRow,newColumn);
     }
@@ -982,7 +981,7 @@ public class ViewCLI implements View{
 
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
-        System.out.println("sei riuscito a spostare il dado, complimenti");
+        System.out.println("Dado spostato oorrettamente");
     }
 
 
@@ -995,7 +994,7 @@ public class ViewCLI implements View{
     }
 
     public void pickDiceSchemaError(){
-        System.out.println("non ci sono dadi qui");
+        System.out.println("Dado non trovato");
     }
 
     public String getName(){ return this.username;}
