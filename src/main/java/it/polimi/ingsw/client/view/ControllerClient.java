@@ -43,7 +43,6 @@ public class ControllerClient implements View {
     public Schema mySchema;
     public List<Schema> schemas;
 
-    public ImageView pendingDice;
     public String colorMoved;
     public int numberMoved;
 
@@ -53,6 +52,8 @@ public class ControllerClient implements View {
 
 
     public int currentTool;
+
+    public boolean decrement;
 
     List<Object> schemaPlayers;
 
@@ -74,6 +75,10 @@ public class ControllerClient implements View {
     ImageView imageMoved;
 
     ImageView schemaCell;
+
+    @FXML
+    public ImageView pendingDice;
+
 
     @FXML
     private ImageView use1;
@@ -666,7 +671,6 @@ public class ControllerClient implements View {
         ImageView imageView = (ImageView) event.getTarget();
         dragImage = imageView.getImage();
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-
         indexDiceSpace = Integer.parseInt(imageView.getId());
         gridPane.setDisable(false);
 
@@ -685,8 +689,9 @@ public class ControllerClient implements View {
         }
     }
 
-    @FXML void handleImageDropped(DragEvent event) {
-    final DragEvent drag = event;
+    @FXML
+    void handleImageDropped(DragEvent event) {
+        final DragEvent drag = event;
 
         Thread t = new Thread(new Runnable() {
             public void run() {
@@ -724,6 +729,8 @@ public class ControllerClient implements View {
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
                     textflow.setText("");
+                    gridPane.setDisable(true);
+                    diceSpace.setDisable(true);
 
                 }
                 else{
@@ -732,8 +739,9 @@ public class ControllerClient implements View {
             }
     });
 
-        if(currentTool == 0)
+        if(currentTool == 0 || currentTool== 9)
             t.start();
+
 
 
     }
@@ -767,7 +775,12 @@ public class ControllerClient implements View {
     @FXML
     void nextPlayer(MouseEvent event) {
         endTurn.setDisable(true);
-
+        use1.setDisable(true);
+        use2.setDisable(true);
+        use3.setDisable(true);
+        gridPane.setDisable(true);
+        diceSpace.setDisable(true);
+        pendingDice.setDisable(true);
         connection.sendEndTurn();
 
     }
@@ -781,6 +794,13 @@ public class ControllerClient implements View {
 
         if (!name.equals(nickname.getText())){
             textflow.setText("turno iniziato, tocca a: " + name);
+            endTurn.setDisable(true);
+            use1.setDisable(true);
+            use2.setDisable(true);
+            use3.setDisable(true);
+            gridPane.setDisable(true);
+            diceSpace.setDisable(true);
+            pendingDice.setDisable(true);
 
         }
         else {
@@ -793,6 +813,8 @@ public class ControllerClient implements View {
     }
 
     public void setActions(final List<String> actions) {
+        for(int i = 0 ; i< actions.size(); i++)
+            System.out.println(actions.get(i));
 
         Platform.runLater(new Runnable() {
             public void run() {
@@ -801,8 +823,10 @@ public class ControllerClient implements View {
                     use2.setDisable(false);
                     use3.setDisable(false);
                 }
-                if (actions.contains("InsertDice"))
-                 diceSpace.setDisable(false);
+                if (actions.contains("InsertDice")) {
+                    diceSpace.setDisable(false);
+                    currentTool = 0;
+                }
 
                 if (actions.contains("EndTurn"))
                     endTurn.setDisable(false);
@@ -819,7 +843,7 @@ public class ControllerClient implements View {
                 if (actions.contains("PickDiceState"))
                  diceSpace.setDisable(false);
 
-                if (actions.contains("PlaceDiceState"))
+                if (actions.contains("PlaceDice"))
                     gridPane.setDisable(false);
 
 
@@ -895,7 +919,10 @@ public class ControllerClient implements View {
             public void run() {
                 if(currentTool==1)
                     setScene("changeDiceValue");
-                else textflow.setText("Clicca sul dado preso e lancialo!");
+                else {
+                    pendingDice.setDisable(false);
+                    textflow.setText("Clicca sul dado preso e lancialo!");
+                }
             }
         });
 
@@ -921,7 +948,7 @@ public class ControllerClient implements View {
                 diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
 
 
-                sleep(500);
+                sleep(300);
 
                 diceSort();
     }
@@ -983,10 +1010,18 @@ public class ControllerClient implements View {
     }
 
     public void placeDiceSchemaError() {
-        correctInsertion=false;
-        synchronized (lock) {
-            lock.notify();
-        }
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if(currentTool == 1 || currentTool == 6) {
+                    textflow.setText("Inserimento non corretto. Riprovare");
+                }
+                correctInsertion=false;
+                synchronized (lock) {
+                    lock.notify();
+                }
+            }
+        });
+
     }
 
     public void pickDiceSchema(List action) {
@@ -1032,7 +1067,11 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
+                if(decrement)
+                    numberMoved--;
+                else numberMoved++;
                 textflow.setText("hai cambiato valore! Ora inseriscilo!");
+                gridPane.setDisable(false);
                 String path = "/assets/image/Dice";
                 if (colorMoved.equals(("ANSI_BLUE"))) {
                     pendingDice.setImage(new Image(path + "/Blue/" + numberMoved + ".png"));
@@ -1053,24 +1092,51 @@ public class ControllerClient implements View {
                 else{
                     pendingDice.setImage(new Image(path + "/Purple/" + numberMoved + ".png"));
                 }
-
+                diceSpace.setDisable(true);
+                pendingDice.setDisable(true);
             }
         });
 
     }
 
     public void changeValueError() {
-        textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
-        setScene("changeDiceValue");
+        Platform.runLater(new Runnable() {
+            public void run() {
+                textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                setScene("changeDiceValue");
 
+            }
+        });
     }
 
     public void placeDiceAccepted() {
-        correctInsertion=true;
-        synchronized (lock)
-        {
-            lock.notify();
-        }
+        Platform.runLater(new Runnable() {
+            public void run() {
+                if (currentTool == 1 || currentTool == 6) {
+                    schemaCell.setImage(pendingDice.getImage());
+                    pendingDice.setImage(null);
+                    textflow.setText("Hai usato correttamente la Carta Utensile!");
+                    currentTool = 0;
+                    gridPane.setDisable(true);
+                    diceSpace.setDisable(true);
+                    pendingDice.setDisable(true);
+                    use1.setDisable(true);
+                    use2.setDisable(true);
+                    use3.setDisable(true);
+                } else {
+                    correctInsertion = true;
+                    synchronized (lock) {
+                        lock.notify();
+                    }
+                }
+            }
+        });
+
 
     }
 
@@ -1099,7 +1165,11 @@ public class ControllerClient implements View {
             else{
                 pendingDice.setImage(new Image(path + "/Purple/" + value + ".png"));
             }
+            pendingDice.setDisable(true);
+            diceSpace.setDisable(true);
         }
+
+
     });
 
 
@@ -1262,88 +1332,77 @@ public class ControllerClient implements View {
 
 
                 if(currentTool==1 || currentTool == 6){
+                    schemaCell = (ImageView)event1.getTarget();
                     connection.sendPlaceDice(row, col);
-                    try {
-                        synchronized (lock){
-                            lock.wait();
-                        }
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-
+                    return;
                 }
 
 
-                if(x1 == null && y1 == null){
-                    imageMoved = (ImageView) event1.getSource();
-                    x1 = col;
-                    y1 = row;
-                    textflow.setText("Dado Accettato");
-
-                }
-
-                else
-                {
-
-                    schemaCell = (ImageView) event1.getSource();
+                else {
 
 
 
-                    x2 = col;
-                    y2 = row;
+                    if (x1 == null && y1 == null) {
+                        imageMoved = (ImageView) event1.getSource();
+                        x1 = col;
+                        y1 = row;
+                        textflow.setText("Dado Accettato");
+
+                    } else {
+
+                        schemaCell = (ImageView) event1.getSource();
 
 
-
+                        x2 = col;
+                        y2 = row;
 
 
                         connection.moveDice(y1, x1, y2, x2);
 
-                    try {
-                        synchronized (lock){
-                            lock.wait();
+                        try {
+                            synchronized (lock) {
+                                lock.wait();
+                            }
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
+                        if (correctInsertion) {
 
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (correctInsertion) {
+                            schemaCell.setImage(imageMoved.getImage());
+                            if (!schemaCell.equals(imageMoved))
+                                imageMoved.setImage(null);
 
-                        schemaCell.setImage(imageMoved.getImage());
-                        if(!schemaCell.equals(imageMoved))
-                            imageMoved.setImage(null);
-
-                        x2 = null;
+                            x2 = null;
                             y2 = null;
-                            if(currentTool == 4 && isFirst) {
+                            if (currentTool == 4 && isFirst) {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
 
-                                isFirst=false;
+                                isFirst = false;
 
-                            }
-                            else{
+                            } else {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
+                                use1.setDisable(true);
+                                use2.setDisable(true);
+                                use3.setDisable(true);
+                                gridPane.setDisable(true);
                                 currentTool = 0;
-                                isFirst=true;
+                                isFirst = true;
 
                             }
 
                         } else {
-                        textflow.setText("Errore di piazzamento. Ritenta");
-                        x1 = null;
-                        y1 = null;
+                            textflow.setText("Errore di piazzamento. Ritenta");
+                            x1 = null;
+                            y1 = null;
+                        }
+
                     }
-
-
                 }
-
-
             }
         });
 
@@ -1362,15 +1421,22 @@ public class ControllerClient implements View {
     }
 
     @FXML
-    void sendChangeValue(MouseEvent event) {
-        ImageView imageView = (ImageView)event.getTarget();
-        if(imageView.getId().equals("Decrement"))
-            numberMoved--;
-        else numberMoved++;
-            connection.changeValue(imageView.getId());
+    void sendChangeValue(final MouseEvent event) {
 
-        Stage stage = (Stage) imageView.getScene().getWindow();
-        stage.close();
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ImageView imageView = (ImageView)event.getTarget();
+                if(imageView.getId().equals("Decrement"))
+                    decrement = true;
+                else decrement = false;
+                connection.changeValue(imageView.getId());
+
+                Stage stage = (Stage) imageView.getScene().getWindow();
+                stage.close();
+
+
+            }
+        });
 
 
     }
@@ -1380,7 +1446,8 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 if (currentTool == 1 || currentTool == 6) {
-                    pendingDice = (ImageView) event.getTarget();
+                    indexDiceSpace = Integer.parseInt(((ImageView)event.getTarget()).getId());
+                    pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                     colorMoved = diceExtract.get(2 * indexDiceSpace);
                     numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
 
