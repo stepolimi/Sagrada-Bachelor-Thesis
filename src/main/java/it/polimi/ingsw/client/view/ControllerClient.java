@@ -3,6 +3,9 @@ package it.polimi.ingsw.client.view;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +25,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,6 +46,8 @@ public class ControllerClient implements View {
     public Handler hand;
     public Schema mySchema;
     public List<Schema> schemas;
+
+    RotateTransition rt;
 
     public String colorMoved;
     public int numberMoved;
@@ -1067,6 +1073,8 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
+
+
                 if(decrement)
                     numberMoved--;
                 else numberMoved++;
@@ -1143,6 +1151,9 @@ public class ControllerClient implements View {
     public void rollDiceAccepted(final int value) {
     Platform.runLater(new Runnable() {
         public void run() {
+
+            
+
             String path = "/assets/image/Dice";
 
             textflow.setText("Dado tirato! Ora piazzalo");
@@ -1411,9 +1422,15 @@ public class ControllerClient implements View {
     }
 
     @FXML
-    void RollDice(MouseEvent event) {
+    void RollDice(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
+                ImageView diceRolling = (ImageView)event.getTarget();
+                rt = new RotateTransition(Duration.millis(3000), diceRolling);
+                rt.setByAngle(360);
+                rt.setCycleCount(Animation.INDEFINITE);
+                rt.setInterpolator(Interpolator.LINEAR);
+                rt.play();
                 connection.rollDice();
             }
         });
@@ -1450,6 +1467,12 @@ public class ControllerClient implements View {
                     pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                     colorMoved = diceExtract.get(2 * indexDiceSpace);
                     numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+
+                    RotateTransition rt = new RotateTransition(Duration.millis(3000), pendingDice);
+                    rt.setByAngle(360);
+                    rt.setCycleCount(Animation.INDEFINITE);
+                    rt.setInterpolator(Interpolator.LINEAR);
+                    rt.play();
 
 
                     connection.sendDraft(indexDiceSpace);
