@@ -20,6 +20,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -46,6 +47,11 @@ public class ControllerClient implements View {
     public Handler hand;
     public Schema mySchema;
     public List<Schema> schemas;
+
+
+    public Integer roundNumber;
+    public Integer roundIndex;
+
 
     RotateTransition rt;
 
@@ -81,6 +87,8 @@ public class ControllerClient implements View {
     ImageView imageMoved;
 
     ImageView schemaCell;
+
+    public ImageView roundDice;
 
     @FXML
     public ImageView pendingDice;
@@ -194,6 +202,9 @@ public class ControllerClient implements View {
 
     @FXML
     public GridPane diceSpace;
+
+    @FXML
+    public GridPane roundTrack;
 
 
 
@@ -755,7 +766,7 @@ public class ControllerClient implements View {
     @FXML
     void handleDragDone(DragEvent event) {
         ImageView imageView = (ImageView) event.getTarget();
-
+        gridPane.setDisable(true);
         if(!(event.getDragboard().hasImage()))
             imageView.setImage(null);
 
@@ -787,6 +798,7 @@ public class ControllerClient implements View {
         gridPane.setDisable(true);
         diceSpace.setDisable(true);
         pendingDice.setDisable(true);
+        roundTrack.setDisable(true);
         connection.sendEndTurn();
 
     }
@@ -851,6 +863,9 @@ public class ControllerClient implements View {
 
                 if (actions.contains("PlaceDice"))
                     gridPane.setDisable(false);
+
+                if(actions.contains("SwapDice"))
+                    roundTrack.setDisable(false);
 
 
 
@@ -923,12 +938,15 @@ public class ControllerClient implements View {
     public void draftDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
+                pendingDice.setDisable(false);
+
                 if(currentTool==1)
                     setScene("changeDiceValue");
-                else {
-                    pendingDice.setDisable(false);
+                else if(currentTool == 6)
                     textflow.setText("Clicca sul dado preso e lancialo!");
-                }
+                else if(currentTool == 5)
+                    textflow.setText("Ora scegli il dado dal tracciato di Round");
+
             }
         });
 
@@ -956,7 +974,7 @@ public class ControllerClient implements View {
 
                 sleep(300);
 
-                diceSort();
+                diceSpaceSort();
     }
 
 
@@ -1018,7 +1036,7 @@ public class ControllerClient implements View {
     public void placeDiceSchemaError() {
         Platform.runLater(new Runnable() {
             public void run() {
-                if(currentTool == 1 || currentTool == 6) {
+                if(currentTool == 1 || currentTool == 6 || currentTool == 5) {
                     textflow.setText("Inserimento non corretto. Riprovare");
                 }
                 correctInsertion=false;
@@ -1054,7 +1072,7 @@ public class ControllerClient implements View {
     public void useToolCardAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-
+            //todo: one descripton for every tool card
                 textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
 
             }
@@ -1125,7 +1143,7 @@ public class ControllerClient implements View {
     public void placeDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-                if (currentTool == 1 || currentTool == 6) {
+                if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
                     schemaCell.setImage(pendingDice.getImage());
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato correttamente la Carta Utensile!");
@@ -1186,23 +1204,73 @@ public class ControllerClient implements View {
 
     }
 
-    public void pickDiceRoundTrack(List action) {
+    public void pickDiceRoundTrack(final List action) {
+        Platform.runLater(new Runnable() {
+            public void run() {
 
+                int round = Integer.parseInt((String) action.get(0));
+                int roundIndex = Integer.parseInt((String) action.get(1));
+                getRoundCell(round, roundIndex).setImage(null);
+                diceRoundTrackSort(round);
+            }
+        });
     }
 
     public void pickDiceRoundTrackError() {
+        textflow.setText("Errore. Dado non trovato. Riprova!");
 
     }
 
-    public void placeDiceRoundTrack(List action) {
+    public void placeDiceRoundTrack(final List action) {
+
+       Platform.runLater(new Runnable() {
+           public void run() {
+               int round = Integer.parseInt(((String)action.get(0)));
+
+               String path = "/assets/image/Dice";
+
+               for (int i = 1; i < action.size(); i = i + 2) {
+
+
+                   if (action.get(i).equals(("ANSI_BLUE"))) {
+
+                       getLastRoundCell(round).setImage(new Image(path + "/Blue/" + action.get(i + 1) + ".png"));
+
+                   } else if (action.get(i).equals(("ANSI_RED"))) {
+                       getLastRoundCell(round).setImage(new Image(path + "/Red/" + action.get(i + 1) + ".png"));
+                   } else if (action.get(i).equals("ANSI_YELLOW")) {
+                       getLastRoundCell(round).setImage(new Image(path + "/Yellow/" + action.get(i + 1) + ".png"));
+                   } else if (action.get(i).equals("ANSI_GREEN")) {
+                       getLastRoundCell(round).setImage(new Image(path + "/Green/" + action.get(i + 1) + ".png"));
+                   } else {
+                       getLastRoundCell(round).setImage(new Image(path + "/Purple/" + action.get(i + 1) + ".png"));
+
+                   }
+               }
+           }
+       });
 
     }
 
     public void swapDiceAccepted() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
+                pendingDice.setImage(roundDice.getImage());
+
+                roundTrack.setDisable(true);
+                diceSpace.setDisable(true);
+                use1.setDisable(true);
+                use2.setDisable(true);
+                use3.setDisable(true);
+                gridPane.setDisable(true);
+
+            }
+        });
 
     }
 
-    public void diceSort() {
+    public void diceSpaceSort() {
 
 
                 List<Image> dice = new ArrayList<Image>();
@@ -1221,6 +1289,49 @@ public class ControllerClient implements View {
                     imageView.setImage(dice.get(i));
 
                 }
+
+    }
+
+
+
+    public void diceRoundTrackSort(int round) {
+
+
+        int index = 3 * round;
+        List<Image> dice = new ArrayList<Image>();
+        ImageView imageView;
+        AnchorPane anchorPane;
+        try {
+            sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                imageView = (ImageView) anchorPane.getChildren().get(j);
+                if (imageView.getImage() != null){
+                    dice.add(imageView.getImage());
+                    imageView.setImage(null);
+                }
+            }
+        }
+        int count = 0;
+
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                if(count < dice.size()) {
+                    imageView = (ImageView) anchorPane.getChildren().get(j);
+                    imageView.setImage(dice.get(count));
+                    count++;
+                }
+                else break;
+
+            }
+        }
 
     }
 
@@ -1342,7 +1453,7 @@ public class ControllerClient implements View {
                     row = 0;
 
 
-                if(currentTool==1 || currentTool == 6){
+                if(currentTool==1 || currentTool == 6 || currentTool == 5){
                     schemaCell = (ImageView)event1.getTarget();
                     connection.sendPlaceDice(row, col);
                     return;
@@ -1462,7 +1573,7 @@ public class ControllerClient implements View {
     void pickDice(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
-                if (currentTool == 1 || currentTool == 6) {
+                if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
                     indexDiceSpace = Integer.parseInt(((ImageView)event.getTarget()).getId());
                     pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                     colorMoved = diceExtract.get(2 * indexDiceSpace);
@@ -1481,9 +1592,101 @@ public class ControllerClient implements View {
         });
     }
 
+    @FXML
+    void pickRoundTrack(final MouseEvent event) {
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                roundDice = new ImageView();
+                Node source = ((Node) event.getTarget());
+                ImageView imageView = (ImageView)event.getTarget();
+                roundDice.setImage(imageView.getImage());
+
+                roundNumber = roundTrack.getColumnIndex(source);
+                roundIndex = Integer.parseInt((source).getId());
+
+                if (roundNumber == null)
+                    roundNumber = 0;
 
 
 
 
+                connection.swapDice(roundNumber, roundIndex);
+
+
+
+            }
+        });
 
     }
+
+    public ImageView getDiceRoundTrackCell(int round) {
+
+        int index = 3 * round;
+        AnchorPane anchorPane;
+
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                if (((ImageView) anchorPane.getChildren().get(j)).getImage() == null)
+                    return (ImageView) anchorPane.getChildren().get(j);
+            }
+        }
+
+        return null;
+
+    }
+
+    public void cleanRound(int round){
+
+        int index = 3 * round;
+        AnchorPane anchorPane;
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                ((ImageView) anchorPane.getChildren().get(j)).setImage(null);
+            }
+        }
+
+    }
+
+    public ImageView getLastRoundCell(int round) {
+
+
+        int index = 3 * round;
+        AnchorPane anchorPane;
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
+                if (imageView.getImage()==null)
+                    return imageView;
+            }
+        }
+        return null;
+
+    }
+
+
+    public ImageView getRoundCell(int round, int roundIndex) {
+
+
+        int index = 3 * round;
+        AnchorPane anchorPane;
+        int count= 0;
+        for (int i = 0; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+            for (int j = 0; j < 4; j++) {
+                ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
+                if(count == roundIndex)
+                    return imageView;
+                else count ++;
+            }
+        }
+        return null;
+
+    }
+
+
+
+}
