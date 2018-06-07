@@ -1608,8 +1608,8 @@ public class ControllerClient implements View {
 
         int index = 3 * round;
         AnchorPane anchorPane;
-        for (int i = 0; i < 3; i++) {
-            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
+        for (int i = index; i < 3; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4; j++) {
                 ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
                 if (imageView.getImage()==null)
