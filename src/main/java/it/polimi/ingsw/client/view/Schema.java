@@ -102,7 +102,7 @@ public class Schema {
         this.difficult = difficult;
     }
 
-    public boolean nearCostraint(int rows,int columns,String costraint)
+    public boolean nearConstraint(int rows, int columns, String costraint)
     {
         if(costraint.equals(""))
             return true;
@@ -123,7 +123,7 @@ public class Schema {
     {
 
         try {
-            if(grid[rows][columns].getCostraint().equals(costraint))
+            if(grid[rows][columns].getConstraint().equals(costraint))
               return false;
         }catch (ArrayIndexOutOfBoundsException e) {
             return true;

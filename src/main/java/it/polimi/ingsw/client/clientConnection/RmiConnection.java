@@ -20,7 +20,7 @@ public class RmiConnection implements Connection {
         Handler hand; // used to manage graphic
         private String host;
         private int port;
-        public RmiConnection(Handler hand)
+        public RmiConnection(Handler hand) throws RemoteException
         {
             this.hand= hand;
             try {
@@ -32,9 +32,7 @@ public class RmiConnection implements Connection {
                 Registry registry = LocateRegistry.getRegistry(host,port);
                 client = new RmiClientMethod(hand);
                 server = (RmiServerMethodInterface) registry.lookup("RmiServerMethodInterface");
-            }catch(RemoteException e){
-                System.out.println(e.getMessage());
-            } catch(NotBoundException e3){
+                } catch(NotBoundException e3){
                 System.out.println(e3.getMessage());
             }
 

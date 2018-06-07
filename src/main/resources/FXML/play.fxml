@@ -6,7 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="383.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="130.0" prefWidth="383.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" >
    <children>
       <ImageView fitHeight="187.0" fitWidth="386.0" layoutX="-1.0" pickOnBounds="true" preserveRatio="true">
          <image>

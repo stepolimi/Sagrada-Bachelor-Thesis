@@ -26,18 +26,16 @@ public class SocketConnection implements Connection,Runnable {
     private int port;
     public SocketConnection(Handler hand) throws IOException {
         setConnection();
-        System.out.println("host"+host);
-        System.out.println("port"+port);
         socket = new Socket(host, port);
         out = new PrintWriter(socket.getOutputStream());
         in = new Scanner(socket.getInputStream());
         this.hand = hand;
+
     }
 
     public void setConnection() throws IOException
     {
         final String filePath = "src/main/resources/DataConnection/dataSocketConnection.txt";  //import every schema from
-        //json file form /src/main/data/Schema/i.json
         FileReader f;
         f = new FileReader(filePath);
         int i=0;

@@ -64,8 +64,8 @@ public class ControllerEditor {
             rowIndex = 0;
 
 
-        if(s.nearCostraint(rowIndex, colIndex, getConstrain(id))) {
-            s.getGrid()[rowIndex][colIndex].setCostraint(getConstrain(id));
+        if(s.nearConstraint(rowIndex, colIndex, getConstrain(id))) {
+            s.getGrid()[rowIndex][colIndex].setConstraint(getConstrain(id));
             imageView.setImage(dragEvent.getDragboard().getImage());
             dragEvent.getDragboard().setContent(null);
 
@@ -155,7 +155,7 @@ public class ControllerEditor {
         if(rowIndex == null)
             rowIndex = 0;
 
-        s.getGrid()[rowIndex][colIndex].setCostraint("");
+        s.getGrid()[rowIndex][colIndex].setConstraint("");
         constrain--;
 
     }

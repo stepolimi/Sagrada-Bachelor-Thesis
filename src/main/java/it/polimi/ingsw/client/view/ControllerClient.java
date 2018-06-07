@@ -29,6 +29,7 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -233,7 +234,11 @@ public class ControllerClient implements View {
         ImageView imageView = (ImageView) actionEvent.getTarget();
         Stage stage = (Stage) imageView.getScene().getWindow();
         stage.close();
-        connection = new RmiConnection(hand);
+        try {
+            connection = new RmiConnection(hand);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
         setScene("login");
@@ -1313,8 +1318,8 @@ public class ControllerClient implements View {
         for(int i = 0; i < 4; i++ ){
             for(int j = 0; j < 5; j++){
                 ImageView imageView = (ImageView)gridPane.getChildren().get(count);
-                String constrain = schema.getGrid()[i][j].getCostraint();
-                if(!schema.getGrid()[i][j].getCostraint().equals(""))
+                String constrain = schema.getGrid()[i][j].getConstraint();
+                if(!schema.getGrid()[i][j].getConstraint().equals(""))
                     putConstrain(imageView, constrain);
                 count++;
                 }

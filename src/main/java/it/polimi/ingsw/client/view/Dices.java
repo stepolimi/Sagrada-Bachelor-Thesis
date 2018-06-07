@@ -42,11 +42,11 @@ public class Dices {
         return str;
     }
 
-    public String getCostraint() {
+    public String getConstraint() {
         return costraint;
     }
 
-    public void setCostraint(String costraint) {
+    public void setConstraint(String costraint) {
         this.costraint = costraint;
     }
 
