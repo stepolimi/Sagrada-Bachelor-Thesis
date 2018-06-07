@@ -373,8 +373,6 @@ public class ControllerClient implements View {
                 double result = full - seconds / tot;
                 progressBar.setProgress(result);
             }
-
-
                           }
             );
 
@@ -387,8 +385,6 @@ public class ControllerClient implements View {
                setScene("game");
                Stage stage = (Stage) progressBar.getScene().getWindow();
                stage.close();
-
-
 
             }
         });
@@ -404,6 +400,7 @@ public class ControllerClient implements View {
 
                 Image image = new Image(path + schemas.get(0) + ".png");
                 schemaA.setImage(image);
+
 
                 image = new Image(path + schemas.get(1) + ".png");
                 schemaB.setImage(image);
@@ -451,9 +448,7 @@ public class ControllerClient implements View {
                 image = new Image(path + cards.get(2)+ ".png");
                 publObj3.setImage(image);
                 publObj3.setCursor(new ImageCursor(cursor));
-
-
-
+                
             }
         });
 
@@ -791,14 +786,7 @@ public class ControllerClient implements View {
 
     @FXML
     void nextPlayer(MouseEvent event) {
-        endTurn.setDisable(true);
-        use1.setDisable(true);
-        use2.setDisable(true);
-        use3.setDisable(true);
-        gridPane.setDisable(true);
-        diceSpace.setDisable(true);
-        pendingDice.setDisable(true);
-        roundTrack.setDisable(true);
+        disableAll();
         connection.sendEndTurn();
 
     }
@@ -812,20 +800,11 @@ public class ControllerClient implements View {
 
         if (!name.equals(nickname.getText())){
             textflow.setText("turno iniziato, tocca a: " + name);
-            endTurn.setDisable(true);
-            use1.setDisable(true);
-            use2.setDisable(true);
-            use3.setDisable(true);
-            gridPane.setDisable(true);
-            diceSpace.setDisable(true);
-            pendingDice.setDisable(true);
-
+            disableAll();
         }
         else {
 
             textflow.setText("tocca a te!!!!!");
-
-
 
         }
     }
@@ -837,9 +816,7 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 if (actions.contains("UseToolCard")) {
-                    use1.setDisable(false);
-                    use2.setDisable(false);
-                    use3.setDisable(false);
+                    disableTool(false);
                 }
                 if (actions.contains("InsertDice")) {
                     diceSpace.setDisable(false);
@@ -867,13 +844,8 @@ public class ControllerClient implements View {
                 if(actions.contains("SwapDice"))
                     roundTrack.setDisable(false);
 
-
-
             }
         });
-
-
-
 
     }
 
@@ -1151,9 +1123,7 @@ public class ControllerClient implements View {
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
                     pendingDice.setDisable(true);
-                    use1.setDisable(true);
-                    use2.setDisable(true);
-                    use3.setDisable(true);
+                    disableTool(true);
                 } else {
                     correctInsertion = true;
                     synchronized (lock) {
@@ -1260,10 +1230,7 @@ public class ControllerClient implements View {
 
                 roundTrack.setDisable(true);
                 diceSpace.setDisable(true);
-                use1.setDisable(true);
-                use2.setDisable(true);
-                use3.setDisable(true);
-                gridPane.setDisable(true);
+                disableTool(true);
 
             }
         });
@@ -1508,9 +1475,7 @@ public class ControllerClient implements View {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
-                                use1.setDisable(true);
-                                use2.setDisable(true);
-                                use3.setDisable(true);
+                                disableTool(true);
                                 gridPane.setDisable(true);
                                 currentTool = 0;
                                 isFirst = true;
@@ -1637,18 +1602,6 @@ public class ControllerClient implements View {
 
     }
 
-    public void cleanRound(int round){
-
-        int index = 3 * round;
-        AnchorPane anchorPane;
-        for (int i = 0; i < 3; i++) {
-            anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
-            for (int j = 0; j < 4; j++) {
-                ((ImageView) anchorPane.getChildren().get(j)).setImage(null);
-            }
-        }
-
-    }
 
     public ImageView getLastRoundCell(int round) {
 
@@ -1685,6 +1638,21 @@ public class ControllerClient implements View {
         }
         return null;
 
+    }
+
+    public void disableTool(boolean bool){
+        use1.setDisable(bool);
+        use1.setDisable(bool);
+        use2.setDisable(bool);
+    }
+
+    public void disableAll(){
+        endTurn.setDisable(true);
+        disableTool(true);
+        gridPane.setDisable(true);
+        diceSpace.setDisable(true);
+        pendingDice.setDisable(true);
+        roundTrack.setDisable(true);
     }
 
 
