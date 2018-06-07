@@ -242,8 +242,11 @@
                                     <Cursor fx:constant="OPEN_HAND" />
                                  </cursor>
                               </GridPane>
-                              <ImageView fitHeight="32.0" fitWidth="27.0" layoutX="144.0" layoutY="728.0" pickOnBounds="true" preserveRatio="true" />
-                              <Text fx:id="nFavour" layoutX="173.0" layoutY="743.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x 5" wrappingWidth="63.30474853515625">
+                              <ImageView fitHeight="25.0" fitWidth="23.0" layoutX="378.0" layoutY="723.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/favour.png" />
+                                 </image></ImageView>
+                              <Text fx:id="nFavour" layoutX="406.0" layoutY="741.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x 5" wrappingWidth="63.30474853515625">
                                  <font>
                                     <Font size="24.0" />
                                  </font>
