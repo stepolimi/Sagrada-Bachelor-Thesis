@@ -9,9 +9,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="728.0" fitWidth="1066.0" layoutX="-40.0" layoutY="-33.0" opacity="0.63" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="2028.0" fitWidth="1101.0" layoutX="-70.0" layoutY="-759.0" opacity="0.44" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/image/alldice.jpg" />
+            <Image url="@../assets/image/chooschema.png" />
          </image>
       </ImageView>
       <Text layoutX="128.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="496.42626953125">
