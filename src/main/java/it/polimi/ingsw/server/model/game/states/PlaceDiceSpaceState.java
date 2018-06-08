@@ -1,25 +1,18 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.exception.ChangeDiceValueException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeValueState implements State {
-    private static String state = "ChangeValueState";
+import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_SPACE_ACCEPTED;
+
+public class PlaceDiceSpaceState implements State {
+    private static String state = "PlaceDiceSpaceState";
 
     public void execute(Round round, List action){
-        try {
-            if (action.get(1).equals("Increment")) {
-                round.getPendingDice().incrementValue();
-            }else if(action.get(1).equals("Decrement"))
-                round.getPendingDice().decrementValue();
-            round.getNextActions().remove(0);
-            round.notifyChanges("ChangeValueAccepted");
-        }catch (ChangeDiceValueException changeDiceValueException) {
-            System.out.println("impossible to increment/decrement the dice's value");
-            round.notifyChanges("ChangeValueError");
-        }
+        round.getBoard().getDiceSpace().insertDice(round.getPendingDice());
+        round.setPendingDice(null);
+        round.notifyChanges(PLACE_DICE_SPACE_ACCEPTED);
+        round.getNextActions().remove(0);
         giveLegalActions(round);
     }
 

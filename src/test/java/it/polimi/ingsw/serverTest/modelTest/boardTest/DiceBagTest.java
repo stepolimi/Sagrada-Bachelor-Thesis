@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
+import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.DiceBag;
 import org.junit.jupiter.api.Test;
@@ -83,7 +84,11 @@ public class DiceBagTest {
         Dice dice = db.takeDice();
         assertFalse(fullSetup(db));
 
-        dice.setValue(2);
+        try {
+            dice.setValue(2);
+        } catch (ChangeDiceValueException e) {
+            e.printStackTrace();
+        }
         db.insertDice(dice);
         assertTrue(fullSetup(db));
     }

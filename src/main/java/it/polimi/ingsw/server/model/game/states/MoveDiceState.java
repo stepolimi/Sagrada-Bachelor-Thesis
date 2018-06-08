@@ -22,6 +22,13 @@ public class MoveDiceState implements State{
         Dice dice = null;
         try {
             dice = round.getCurrentPlayer().getSchema().testRemoveDice(oldRowSchema,oldColumnSchema);
+            if(round.getUsingTool().getRestrictions().containsKey("colour") && round.getUsingTool().getRestrictions().get("colour").equals("same") ){
+                if(!round.getBoard().getRoundTrack().containsColour(dice.getColour()) || (round.getMovedDiceColour()!= null && round.getMovedDiceColour() != dice.getColour())){
+                    round.notifyChanges("moveDiceError");
+                    throw new RemoveDiceException();
+                }
+                round.setMovedDiceColour(dice.getColour());
+            }
             schema.silentRemoveDice(oldRowSchema,oldColumnSchema);
             schema.testInsertDice(rowSchema, columnSchema , dice, round.getUsingTool());
             schema.silentInsertDice(oldRowSchema,oldColumnSchema,dice);
@@ -46,13 +53,15 @@ public class MoveDiceState implements State{
         System.out.println(round.getNextActions());
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
             round.setUsingTool(null);
-            if (!round.isInsertedDice())
+            if (!round.isInsertedDice() || round.hasBonusInsertDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())
                 legalActions.add("UseToolCard");
             legalActions.add("EndTurn");
         } else{
             legalActions.addAll(round.getNextActions().get(0));
+            if(legalActions.contains("InsertDice") && round.isInsertedDice())
+                legalActions.remove("InsertDice");
         }
         round.setLegalActions(legalActions);
     }

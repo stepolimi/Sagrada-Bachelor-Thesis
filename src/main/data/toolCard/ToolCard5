@@ -1,1 +1,1 @@
-{"name":"Lens Cutter","number":5,"used":false,"ignoredRules":[""],"nextActions":[["DraftDice"],["SwapDice"],["PlaceDice"]]}
+{"name":"Lens Cutter","number":5,"used":false,"ignoredRules":[""],"specialEffects":[""],"restrictions":{"action":"DraftDice","roundTrack": "notEmpty"},"nextActions":[["DraftDice","CancelUseToolCard"],["SwapDice"],["PlaceDice","PlaceDiceSpace"]]}

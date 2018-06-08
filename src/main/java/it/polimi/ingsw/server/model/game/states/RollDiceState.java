@@ -20,13 +20,15 @@ public class RollDiceState implements State{
         System.out.println(round.getNextActions());
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
             round.setUsingTool(null);
-            if (!round.isInsertedDice())
+            if (!round.isInsertedDice() || round.hasBonusInsertDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())
                 legalActions.add("UseToolCard");
             legalActions.add("EndTurn");
         } else{
             legalActions.addAll(round.getNextActions().get(0));
+            if(legalActions.contains("InsertDice") && round.isInsertedDice())
+                legalActions.remove("InsertDice");
         }
         round.setLegalActions(legalActions);
     }

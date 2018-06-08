@@ -60,6 +60,9 @@ public class Player extends Observable{
 
     public void decrementFavor(int value) { this.favour -= value;}
 
+    public void incrementFavor(int value) { this.favour += value;}
+
+
     public void setFavour(int favour) {
         this.favour = favour;
     }

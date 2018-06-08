@@ -5,20 +5,17 @@ import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeValueState implements State {
-    private static String state = "ChangeValueState";
+public class ChooseValueState implements State {
+    private static String state = "ChooseValueState";
 
     public void execute(Round round, List action){
         try {
-            if (action.get(1).equals("Increment")) {
-                round.getPendingDice().incrementValue();
-            }else if(action.get(1).equals("Decrement"))
-                round.getPendingDice().decrementValue();
+            round.getPendingDice().setValue(Integer.parseInt((String)action.get(1)));
             round.getNextActions().remove(0);
-            round.notifyChanges("ChangeValueAccepted");
+            round.notifyChanges("chooseValueAccepted");
         }catch (ChangeDiceValueException changeDiceValueException) {
-            System.out.println("impossible to increment/decrement the dice's value");
-            round.notifyChanges("ChangeValueError");
+            System.out.println("impossible to set this value");
+            round.notifyChanges("chooseValueError");
         }
         giveLegalActions(round);
     }

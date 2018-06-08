@@ -1,1 +1,1 @@
-{"name":"Copper Foil Burnisher","number":3,"used":false,"ignoredRules":["Number"],"nextActions":[["MoveDice"]]}
+{"name":"Copper Foil Burnisher","number":3,"used":false,"ignoredRules":["Number"],"specialEffects":[""],"restrictions":{"schema": "notEmpty"},"nextActions":[["MoveDice","CancelUseToolCard"]]}

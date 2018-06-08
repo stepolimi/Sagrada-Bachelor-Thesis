@@ -10,8 +10,7 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
-//other tests
+//testing ONLY the correct calculus of score  IGNORING restriction of the current schema.
 
 public class PrivateCardTest {
 
@@ -49,10 +48,9 @@ public class PrivateCardTest {
 
         insertDice();
 
-
         PrivateObjective card = new PrivateObjective().PrivateInit(4);
         card.dump();
-        assertEquals(2, card.ScoreCard(s));
+        assertEquals(6, card.ScoreCard(s));
     }
 
     @Test

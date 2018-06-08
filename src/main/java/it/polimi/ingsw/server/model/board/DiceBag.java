@@ -9,7 +9,7 @@ import java.util.Observable;
 import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_BAG;
 import static it.polimi.ingsw.server.serverCostants.Costants.TOT_DICES;
 
-public class DiceBag extends Observable{
+public class DiceBag{
     private List<Dice> dices;
 
     public DiceBag() {
@@ -34,7 +34,6 @@ public class DiceBag extends Observable{
     }
 
     public List<Dice> extract(int nPlayer) {
-        // qua bisogna lanciare un'eccezione
         if (2 * nPlayer + 1 > dices.size())
             return null;
 
@@ -51,13 +50,8 @@ public class DiceBag extends Observable{
     }
 
     public void insertDice(Dice dice) {
-        List<String> action = new ArrayList<String>();
-        dice.setValue(0);
+        dice.resetValue();
         this.dices.add(dice);
-
-        action.add(PLACE_DICE_BAG);
-        setChanged();
-        notifyObservers(action);
     }
 
     public List <Dice> getDices()

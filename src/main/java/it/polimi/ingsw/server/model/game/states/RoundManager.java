@@ -22,14 +22,21 @@ public class RoundManager  {
 
     public void startNewRound() {
         if(roundNum <=10){
-            round = new Round(board.getPlayerList().get(firstPlayerIndex),board,this);
+            boolean playerConnected = false;
+            do{
+                if(board.getPlayerList().get(firstPlayerIndex).isConnected()) {
+                    round = new Round(board.getPlayerList().get(firstPlayerIndex), board, this);
+                    playerConnected = true;
+                }
+                if(firstPlayerIndex < board.numPlayers()-1)
+                    firstPlayerIndex ++;
+                else
+                    firstPlayerIndex = 0;
+            }while (!playerConnected);
+
             round.addObserver(obs);
             rounds.add(round);
             round.roundInit();
-            if(firstPlayerIndex < board.numPlayers()-1)
-                firstPlayerIndex ++;
-            else
-                firstPlayerIndex = 0;
             roundNum ++;
         }
     }

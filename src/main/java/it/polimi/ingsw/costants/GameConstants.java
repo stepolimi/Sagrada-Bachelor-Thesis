@@ -25,5 +25,6 @@ public class GameConstants {
     public static final String DRAFT_DICE_ACCEPTED = "draftDiceAccepted";
     public static final String PLACE_DICE_ACCEPTED = "placeDiceAccepted";
     public static final String SWAP_DICE_ACCEPTED = "swapDiceAccepted";
+    public static final String PLACE_DICE_SPACE_ACCEPTED = "placeDiceSpaceAccepted";
     public static final int PAINT_ROW=9;
 }

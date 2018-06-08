@@ -1,1 +1,1 @@
-{"name":"Tap Wheel","number":12,"used":false,"ignoredRules":[""],"nextActions":[[""]]}
+{"name":"Tap Wheel","number":12,"used":false,"ignoredRules":[""],"specialEffects":[""],"restrictions":{"colour": "same","roundTrack": "notEmpty","schema": "notEmpty"},"nextActions":[["MoveDice","CancelUseToolCard"],["MoveDice","InsertDice","EndTurn"]]}

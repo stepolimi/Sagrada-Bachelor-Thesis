@@ -1,1 +1,1 @@
-{"name":"Grinding Stone","number":10,"used":false,"ignoredRules":[""],"nextActions":[[""]]}
+{"name":"Grinding Stone","number":10,"used":false,"ignoredRules":[""],"specialEffects":[""],"restrictions":{"action":"DraftDice"},"nextActions":[["DraftDice","CancelUseToolCard"],["FlipDice"],["PlaceDice","PlaceDiceSpace"]]}

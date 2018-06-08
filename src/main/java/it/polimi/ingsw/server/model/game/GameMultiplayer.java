@@ -82,8 +82,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         if (string.equals(TIMER_ELAPSED)) {
             System.out.println("Choosing schema timer elapsed\n"+"---");
             for(Player p: players){
-                if(p.getSchema() == null)
+                if(p.getSchema() == null) {
                     p.setSchema(p.getSchemas().get(0).getName());
+                    board.addSchema(p.getSchema());
+                }
             }
             roundManager.setFirstPlayer();
             roundManager.startNewRound();

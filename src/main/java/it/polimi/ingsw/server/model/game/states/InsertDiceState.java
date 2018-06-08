@@ -28,7 +28,10 @@ public class InsertDiceState implements State {
                     round.getNextActions().remove(0);
                 round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
                 schema.insertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());
-                round.setInsertedDice(true);
+                if(!round.isInsertedDice())
+                    round.setInsertedDice(true);
+                else
+                    round.setBonusInsertDice(false);
                 System.out.println("dice inserted\n" + " ---" + dice.toString());
             } catch (RemoveDiceException e) {
                 System.out.println("illegal dice removal\n" + " ---");
@@ -47,13 +50,15 @@ public class InsertDiceState implements State {
         List<String> legalActions = new ArrayList<String>();
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
             round.setUsingTool(null);
-            if (!round.isInsertedDice())
+            if (!round.isInsertedDice() || round.hasBonusInsertDice())
                 legalActions.add("InsertDice");
             if(!round.isUsedCard())
                 legalActions.add("UseToolCard");
             legalActions.add("EndTurn");
         } else{
             legalActions.addAll(round.getNextActions().get(0));
+            if(legalActions.contains("InsertDice") && round.isInsertedDice())
+                legalActions.remove("InsertDice");
         }
         round.setLegalActions(legalActions);
     }

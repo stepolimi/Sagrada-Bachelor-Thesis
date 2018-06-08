@@ -26,39 +26,43 @@ public class Dice {
     }
 
     // setta il valore del dado
-    public void setValue(int value)
-    {
-        this.value = value;
-    }           //used to set value after a dice launch
+    public void setValue(int value) throws ChangeDiceValueException{
+        if(value > 0 && value < 7)
+            this.value = value;
+        else
+            throw new ChangeDiceValueException();
+    }
     // restituisce il valore del dado
     public int getValue()
     {
         return this.value;
     }
 
+    public void resetValue(){ this.value = 0; }
+
     public Colour getColour()
     {
         return this.colour;
     }
 
-    public void rollDice()                  //function used to "to launch " a dice
-    {
-        int number =(int) ((Math.random()*6)+1);
-        this.setValue(number);
+    public void rollDice() {                 //function used to "to launch " a dice
+        value =(int) ((Math.random()*6)+1);
     }
 
-    public int incrementValue() throws ChangeDiceValueException {
+    public void flipDice() {
+        value = 7 - value;
+    }
+
+    public void incrementValue() throws ChangeDiceValueException {
         if(value == 6)
             throw new ChangeDiceValueException();
         value ++;
-        return value;
     }
 
-    public int decrementValue() throws ChangeDiceValueException {
+    public void decrementValue() throws ChangeDiceValueException {
         if(value == 1)
             throw new ChangeDiceValueException();
         value --;
-        return value;
     }
 
     @Override

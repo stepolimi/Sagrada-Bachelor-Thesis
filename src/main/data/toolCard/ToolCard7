@@ -1,1 +1,1 @@
-{"name":"Glazing Hammer","number":7,"used":false,"ignoredRules":[""],"nextActions":[[""]]}
+{"name":"Glazing Hammer","number":7,"used":false,"ignoredRules":[""],"specialEffects":[""],"restrictions":{"turn":"second","beforeAction":"InsertDice"},"nextActions":[["RollDiceSpace","CancelUseToolCard"]]}

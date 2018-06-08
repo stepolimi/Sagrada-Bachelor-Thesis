@@ -93,6 +93,17 @@ public class RoundTrack extends Observable{
         throw new RemoveDiceException();
     }
 
+    public boolean containsColour(Colour colour){
+        for(List<Dice> round: listRounds)
+            for(Dice dice: round)
+                if(dice.getColour() == colour)
+                    return true;
+        return false;
+    }
+
+    public boolean isEmpty(){
+        return listRounds[0].isEmpty();
+    }
 
     @Override
     public String toString() {

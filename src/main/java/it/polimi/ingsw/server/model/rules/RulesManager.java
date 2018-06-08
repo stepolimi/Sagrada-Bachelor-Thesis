@@ -18,6 +18,7 @@ public class RulesManager {
         rules.add(new ColourRule());
         rules.add(new NumberRule());
         rules.add(new EmptyRule());
+        rules.add(new DicesRule());
     }
 
     public static RulesManager getRulesManager(){

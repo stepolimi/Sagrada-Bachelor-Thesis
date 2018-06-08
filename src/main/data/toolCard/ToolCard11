@@ -1,1 +1,1 @@
-{"name":"Flux Remover","number":11,"used":false,"ignoredRules":[""],"nextActions":[[""]]}
+{"name":"Flux Remover","number":11,"used":false,"ignoredRules":[""],"specialEffects":[""],"restrictions":{"action":"DraftDice"},"nextActions":[["DraftDice","CancelUseToolCard"],["SwapDiceBag"],["ChooseValue"],["PlaceDice","PlaceDiceSpace"]]}

@@ -150,7 +150,7 @@ public class Schema extends Observable{
         isEmpty = false;
     }
 
-    public List nearDice(int rows,int columns)
+    public List<Dice> nearDice(int rows,int columns)
     {
 
         List<Dice> nearDice = new ArrayList<Dice>(9);

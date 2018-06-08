@@ -2,7 +2,7 @@
 
 package it.polimi.ingsw.server.model.board;
 
-import it.polimi.ingsw.server.exception.NotFoundToolException;
+import it.polimi.ingsw.server.exception.UseToolException;
 import it.polimi.ingsw.server.model.cards.objCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
@@ -41,7 +41,6 @@ public class Board extends Observable{
     public void setObserver(Observer obs) {
         this.obs = obs;
         roundTrack.addObserver(obs);
-        dicebag.addObserver(obs);
     }
 
     public List<Player> getPlayerList() {
@@ -89,12 +88,12 @@ public class Board extends Observable{
 
     public List<ToolCard> getDeckTool() { return deckTool; }
 
-    public ToolCard getToolCard(int number) throws NotFoundToolException{
+    public ToolCard getToolCard(int number) throws UseToolException {
         for(ToolCard card: deckTool){
             if(card.getNumber() == number)
                 return card;
         }
-        throw new NotFoundToolException();
+        throw new UseToolException();
     }
 
     public List<ObjectiveCard> getDeckPublic() { return deckPublic; }

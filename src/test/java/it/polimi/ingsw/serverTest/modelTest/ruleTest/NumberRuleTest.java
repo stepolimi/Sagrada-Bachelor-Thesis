@@ -32,7 +32,6 @@ public class NumberRuleTest {
         player.setSchema(schema.getName());
         assertTrue(rule.checkRule(0,0,dice, schema));
         assertTrue(rule.checkRule(1,1,dice, schema));
-//        assertTrue(rule.checkRule(1,2,dice, schema));
     }
 
     @Test
@@ -44,7 +43,6 @@ public class NumberRuleTest {
         player.setSchema(schema.getName());
 
         assertFalse(rule.checkRule(1,2,dice, schema));
-
     }
 
 

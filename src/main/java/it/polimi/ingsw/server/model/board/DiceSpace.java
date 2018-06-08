@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.board;
 
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 
 import java.util.ArrayList;
@@ -60,6 +61,19 @@ public class DiceSpace extends Observable {
             return d;
         }
         throw new RemoveDiceException();
+    }
+
+    public void rollDices(){
+        List<String> action = new ArrayList<String>();
+        for(Dice dice: dices)
+            dice.rollDice();
+        action.add(SET_DICE_SPACE);
+        for(Dice d: dices){
+            action.add(d.getColour().toString());
+            action.add(((Integer)d.getValue()).toString());
+        }
+        setChanged();
+        notifyObservers(action);
     }
 
     @Override

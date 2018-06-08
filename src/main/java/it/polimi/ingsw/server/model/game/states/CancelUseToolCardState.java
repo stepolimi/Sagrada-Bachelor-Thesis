@@ -1,25 +1,17 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.exception.ChangeDiceValueException;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeValueState implements State {
-    private static String state = "ChangeValueState";
+public class CancelUseToolCardState implements State{
+    private static String state = "CancelUseToolCardState";
 
     public void execute(Round round, List action){
-        try {
-            if (action.get(1).equals("Increment")) {
-                round.getPendingDice().incrementValue();
-            }else if(action.get(1).equals("Decrement"))
-                round.getPendingDice().decrementValue();
-            round.getNextActions().remove(0);
-            round.notifyChanges("ChangeValueAccepted");
-        }catch (ChangeDiceValueException changeDiceValueException) {
-            System.out.println("impossible to increment/decrement the dice's value");
-            round.notifyChanges("ChangeValueError");
-        }
+        round.getNextActions().clear();
+        round.getCurrentPlayer().incrementFavor(round.getFavorsDecremented());
+        round.getUsingTool().setUsed(round.getCardWasUsed());
+        round.setUsedCard(false);
+        round.notifyChanges("cancelUseToolCardAccepted");
         giveLegalActions(round);
     }
 
@@ -44,4 +36,5 @@ public class ChangeValueState implements State {
 
     @Override
     public String toString (){return state; }
+
 }
