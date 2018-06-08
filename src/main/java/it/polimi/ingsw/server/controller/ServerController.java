@@ -41,6 +41,9 @@ public class ServerController implements Observer{
         else if(head.equals(END_TURN)) {endTurnManager((List)action); }
         else if(head.equals("ChangeValue")) {changeValueManager((List)action); }
         else if(head.equals("RollDice")) {rollDiceManager((List)action); }
+        else if(head.equals("CancelUseToolCard")) {rollDiceManager((List)action); }
+        else if(head.equals("FlipDice")) {rollDiceManager((List)action); }
+        else if(head.equals("PlaceDiceSpace")) {rollDiceManager((List)action); }
         else{
             view.sendError((String)((List)action).get(1));
         }

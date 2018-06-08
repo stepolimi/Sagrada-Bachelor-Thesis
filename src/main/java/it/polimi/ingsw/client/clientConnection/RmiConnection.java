@@ -161,7 +161,31 @@ public class RmiConnection implements Connection {
             }
         }
 
-        public void sendEndTurn() {
+    public void cancelUseToolCard() {
+        try {
+            server.cancelUseToolCard();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void flipDice() {
+        try {
+            server.flipDice();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void placeDiceSpace() {
+        try {
+            server.placeDiceSpace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendEndTurn() {
             try {
                 server.sendEndTurn();
             } catch (RemoteException e) {

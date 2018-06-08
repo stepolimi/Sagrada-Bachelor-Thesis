@@ -1051,7 +1051,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void useToolCardAccepted() {
+    public void useToolCardAccepted(int favor) {
         Platform.runLater(new Runnable() {
             public void run() {
             //todo: one descripton for every tool card
@@ -1244,6 +1244,22 @@ public class ControllerClient implements View {
 
             }
         });
+
+    }
+
+    public void cancelUseToolCardAccepted(int favor) {
+
+    }
+
+    public void flipDiceAccepted(int value) {
+
+    }
+
+    public void placeDiceSpaceAccepted() {
+
+    }
+
+    public void placeDiceSpace(List action) {
 
     }
 

@@ -160,4 +160,23 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void cancelUseToolCard() throws RemoteException {
+        List action = new ArrayList();
+        action.add("CancelUseToolCard");
+        virtual.forwardAction(action);
+    }
+
+    public void flipDice() throws RemoteException {
+        List action = new ArrayList();
+        action.add("FlipDice");
+        virtual.forwardAction(action);
+    }
+
+    public void placeDiceSpace() throws RemoteException {
+        List action = new ArrayList();
+        action.add("PlaceDiceSpace");
+        virtual.forwardAction(action);
+    }
+
+
 }

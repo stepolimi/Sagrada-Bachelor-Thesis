@@ -759,6 +759,12 @@ public class ViewCLI implements View{
                     changeValue();
                 }else if (moves.get(choose - 1).equals("SwapDice")) {
                     swapDice();
+                }else if (moves.get(choose - 1).equals("CancelUseToolCard")) {
+                    cancelToolCard();
+                }else if (moves.get(choose - 1).equals("FlipDice")) {
+                    flipDice();
+                }else if (moves.get(choose - 1).equals("PlaceDiceSpace")) {
+                    placeDiceSpace();
                 }
                 switch (choose - 1) {
                     case 0:
@@ -795,6 +801,14 @@ public class ViewCLI implements View{
         }
     }
 
+    public void placeDiceSpace()
+    {
+        connection.placeDiceSpace();
+    }
+    public void cancelToolCard()
+    {
+        connection.cancelUseToolCard();
+    }
     public void showMyschema()
     {
         schemas.get(username).splitImageSchema();
@@ -918,8 +932,8 @@ public class ViewCLI implements View{
         connection.useToolCard(tool);
     }
 
-    public void useToolCardAccepted() {
-        System.out.println("Carta utilizzata!");
+    public void useToolCardAccepted(int favor) {
+        System.out.println("Carta utilizzata! Favori rimanenti"+favor);
     }
 
     public void useToolCardError() {
@@ -970,6 +984,24 @@ public class ViewCLI implements View{
 
     public void swapDiceAccepted() {
         System.out.println("Dado scambiato correttamente");
+    }
+
+    public void cancelUseToolCardAccepted(int favor) {
+        System.out.println("Azione annullata,favori rimanenti "+favor);
+    }
+
+    public void flipDiceAccepted(int value) {
+        System.out.println("Dado flippato");
+        pendingDice.setNumber(value);
+    }
+
+    public void placeDiceSpaceAccepted() {
+        System.out.println("Dado inserito correttamente");
+    }
+
+    public void placeDiceSpace(List action) {
+        diceSpace.add(new Dices("",Integer.parseInt((String)action.get(1)),Colour.stringToColour((String)action.get(0))));
+        System.out.println(diceSpace);
     }
 
     public void swapDice(){
@@ -1042,5 +1074,10 @@ public class ViewCLI implements View{
 
     public String getName(){ return this.username;}
 
+    public void flipDice()
+    {
+        System.out.println("Flippa 'sto dado");
+        connection.flipDice();
+    }
 }
 

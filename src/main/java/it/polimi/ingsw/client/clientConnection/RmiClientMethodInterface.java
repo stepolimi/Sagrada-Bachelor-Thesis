@@ -34,7 +34,7 @@ public interface RmiClientMethodInterface extends Remote{
     void pickDiceSchema(List action) throws RemoteException;
     void pickDiceSchemaError() throws RemoteException;
 
-    void useToolCardAccepted() throws RemoteException;
+    void useToolCardAccepted(List action) throws RemoteException;
     void useToolCardError() throws RemoteException;
 
     void changeValueAccepted() throws RemoteException;
@@ -50,4 +50,12 @@ public interface RmiClientMethodInterface extends Remote{
     void pickDiceRoundTrackError() throws RemoteException;
 
     void placeDiceRoundTrack(List action) throws RemoteException;
+
+    void flipDiceAccepted(List action) throws RemoteException;
+
+    void cancelUseToolCardAccepted(List action) throws RemoteException;
+
+    void placeDiceSpace(List action) throws RemoteException;
+
+    void placeDiceSpaceAccepted() throws RemoteException;
 }

@@ -30,7 +30,6 @@ public class SocketConnection implements Connection,Runnable {
         out = new PrintWriter(socket.getOutputStream());
         in = new Scanner(socket.getInputStream());
         this.hand = hand;
-
     }
 
     public void setConnection() throws IOException
@@ -117,8 +116,23 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void cancelUseToolCard() {
+        out.println("CancelUseToolCard");
+        out.flush();
+    }
+
     public void sendEndTurn() {
         out.println(END_TURN);
+        out.flush();
+    }
+    public void flipDice()
+    {
+        out.println("FlipDice");
+        out.flush();
+    }
+
+    public void placeDiceSpace() {
+        out.println("PlaceDiceSpace");
         out.flush();
     }
 
@@ -211,7 +225,7 @@ public class SocketConnection implements Connection,Runnable {
             v.placeDiceSchema(action.subList(1,action.size()));
         }else if(action.get(0).equals(USE_TOOL_CARD_ACCEPTED))
         {
-            v.useToolCardAccepted();
+            v.useToolCardAccepted(Integer.parseInt(action.get(1)));
         }else if(action.get(0).equals(USE_TOOL_CARD_ERROR))
         {
             v.useToolCardError();
@@ -251,6 +265,18 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals(SWAP_DICE_ACCEPTED))
         {
             v.swapDiceAccepted();
+        }else if(action.get(0).equals("cancelUseToolCardAccepted"))
+        {
+            v.cancelUseToolCardAccepted(Integer.parseInt(action.get(1)));
+        }else if(action.get(0).equals("flipDiceAccepted"))
+        {
+            v.flipDiceAccepted(Integer.parseInt(action.get(1)));
+        }else if(action.get(0).equals("placeDiceSpace"))
+        {
+            v.placeDiceSpace(action.subList(1,action.size()));
+        }else if(action.get(0).equals("placeDiceSpaceAccepted"))
+        {
+            v.placeDiceSpaceAccepted();
         }
     }
 }

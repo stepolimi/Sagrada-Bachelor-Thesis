@@ -16,4 +16,7 @@ public interface Connection {
     void changeValue(String change);
     void rollDice();
     void swapDice(int numRound,int indexDice);
+    void cancelUseToolCard();
+    void flipDice();
+    void placeDiceSpace();
 }

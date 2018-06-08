@@ -10,7 +10,6 @@ public class GameConstants {
     public static final String PLACE_DICE_SCHEMA = "placeDiceSchema";
     public static final String PLACE_DICE_SCHEMA_ERROR = "placeDiceSchemaError";
     public static final String PLACE_DICE_SPACE = "placeDiceSpace";
-    public static final String PLACE_DICE_SPACE_ERROR = "placeDiceSpaceError";
     public static final String PICK_DICE_SPACE = "pickDiceSpace";
     public static final String PICK_DICE_SPACE_ERROR = "pickDiceSpaceError";
     public static final String PLACE_DICE_ROUND_TRACK = "placeDiceRoundTrack";

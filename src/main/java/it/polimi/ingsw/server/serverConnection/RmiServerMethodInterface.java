@@ -22,4 +22,7 @@ public interface RmiServerMethodInterface extends Remote {
     void changeValue(String change) throws RemoteException;
     void rollDice() throws  RemoteException;
     void swapDice(int numRound,int indexDice) throws  RemoteException;
+    void cancelUseToolCard() throws RemoteException;
+    void flipDice() throws RemoteException;
+    void placeDiceSpace() throws RemoteException;
 }

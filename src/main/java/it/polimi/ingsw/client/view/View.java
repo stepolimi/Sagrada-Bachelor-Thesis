@@ -36,7 +36,7 @@ public interface View {
     void pickDiceSchema(List action);
     void pickDiceSchemaError();
 
-    void useToolCardAccepted();
+    void useToolCardAccepted(int favor);
     void useToolCardError();
 
     void changeValueAccepted();
@@ -51,4 +51,12 @@ public interface View {
     void placeDiceRoundTrack(List action);
 
     void swapDiceAccepted();
+
+    void cancelUseToolCardAccepted(int favor);
+
+    void flipDiceAccepted(int value);
+
+    void placeDiceSpaceAccepted();
+
+    void placeDiceSpace(List action);
 }

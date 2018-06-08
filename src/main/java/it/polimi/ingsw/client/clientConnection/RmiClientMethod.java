@@ -130,7 +130,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.pickDiceSchemaError();
     }
 
-    public void useToolCardAccepted() { v.useToolCardAccepted(); }
+    public void useToolCardAccepted(List action) throws RemoteException { v.useToolCardAccepted(Integer.parseInt((String)action.get(1))); }
 
     public void useToolCardError() { v.useToolCardError(); }
 
@@ -165,5 +165,24 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     public void placeDiceRoundTrack(List action) throws RemoteException {
         v.placeDiceRoundTrack(action.subList(1,action.size()));
     }
+
+    public void flipDiceAccepted(List action) throws RemoteException {
+        v.flipDiceAccepted(Integer.parseInt((String)action.get(1)));
+    }
+
+    public void cancelUseToolCardAccepted(List action) throws RemoteException {
+        v.cancelUseToolCardAccepted(Integer.parseInt((String)action.get(1)));
+    }
+    public void placeDiceSpace(List action) throws RemoteException
+    {
+        v.placeDiceSpace(action.subList(1,action.size()));
+    }
+    public void placeDiceSpaceAccepted() throws  RemoteException
+    {
+        v.placeDiceSpaceAccepted();
+    }
+
+
 }
+
 
