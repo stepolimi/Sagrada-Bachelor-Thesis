@@ -1078,12 +1078,14 @@ public class ControllerClient implements View {
 
             //todo: one descripton for every tool card
 
-                    textflow.setText("Ora lancia i dadi della riserva!");
-                    connection.rollDice();
-                    disableTool(true);
+                    if(currentTool==7) {
+                        textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi");
+                    }
+                    else {
 
-                    textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
-                    nFavour.setText(" x" + favor);
+                        textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+                        nFavour.setText(" x" + favor);
+                    }
 
 
     }
@@ -1493,9 +1495,16 @@ public class ControllerClient implements View {
             public void run() {
                 ImageView tool = (ImageView) event.getSource();
                 int numberTool = Integer.parseInt(tool.getId());
-                currentTool = numberTool;
-                connection.useToolCard(numberTool);
                 iconTool.setVisible(true);
+
+                if(currentTool == 7){
+                    connection.rollDiceSpace();
+                }
+                else {
+                    currentTool = numberTool;
+                    connection.useToolCard(numberTool);
+                }
+
             }
         });
 

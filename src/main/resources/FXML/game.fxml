@@ -754,9 +754,9 @@
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor></ImageView>
-                              <Text fx:id="textflow" layoutX="486.0" layoutY="592.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
+                              <Text fx:id="textflow" layoutX="486.0" layoutY="562.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
                                  <font>
-                                    <Font name="Apple Chancery" size="20.0" />
+                                    <Font name="Apple Chancery" size="18.0" />
                                  </font>
                               </Text>
                               <ImageView fx:id="iconTool" fitHeight="41.0" fitWidth="38.0" layoutX="549.0" layoutY="673.0" pickOnBounds="true" preserveRatio="true">
