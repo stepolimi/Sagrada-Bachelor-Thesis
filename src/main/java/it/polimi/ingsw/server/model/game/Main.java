@@ -16,7 +16,7 @@ import java.util.Observer;
 public class Main {
     public static void main(String[] args){
         Observer virtual = new VirtualView();
-        Session session =new Session();
+        Session session = new Session();
         ServerController controller = new ServerController(session,(VirtualView)virtual);
         session.setObserver(virtual);
         session.addObserver(virtual);

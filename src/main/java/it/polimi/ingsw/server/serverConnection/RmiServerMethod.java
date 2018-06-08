@@ -178,5 +178,11 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void rollDiceSpace() throws RemoteException {
+        List action = new ArrayList();
+        action.add("RollDiceSpace");
+        virtual.forwardAction(action);
+    }
+
 
 }

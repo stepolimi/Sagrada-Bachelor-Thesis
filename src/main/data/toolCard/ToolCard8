@@ -1,1 +1,1 @@
-{"name":"Running Pliers","number":8,"used":false,"ignoredRules":[""],"specialEffects":["skipNextTurn","bonusInsertDice"],"restrictions":{"turn":"first"},"nextActions":[[""]]}
+{"name":"Running Pliers","number":8,"used":false,"ignoredRules":[""],"specialEffects":["skipNextTurn","bonusInsertDice"],"restrictions":{"turn":"first"},"nextActions":[]}

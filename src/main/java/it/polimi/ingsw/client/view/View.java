@@ -59,4 +59,6 @@ public interface View {
     void placeDiceSpaceAccepted();
 
     void placeDiceSpace(List action);
+
+    void rollDiceSpaceAccepted(List action);
 }

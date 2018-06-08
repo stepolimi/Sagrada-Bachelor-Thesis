@@ -58,4 +58,6 @@ public interface RmiClientMethodInterface extends Remote{
     void placeDiceSpace(List action) throws RemoteException;
 
     void placeDiceSpaceAccepted() throws RemoteException;
+
+    void rollDiceSpaceAccepted(List action) throws RemoteException;
 }

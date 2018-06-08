@@ -182,6 +182,11 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.placeDiceSpaceAccepted();
     }
 
+    public void rollDiceSpaceAccepted(List action) throws RemoteException {
+        v.rollDiceSpaceAccepted(action.subList(1,action.size()));
+    }
+
+
 
 }
 

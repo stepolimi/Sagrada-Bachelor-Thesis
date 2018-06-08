@@ -185,6 +185,14 @@ public class RmiConnection implements Connection {
         }
     }
 
+    public void rollDiceSpace() {
+        try {
+            server.rollDiceSpace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurn() {
             try {
                 server.sendEndTurn();

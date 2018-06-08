@@ -25,4 +25,5 @@ public interface RmiServerMethodInterface extends Remote {
     void cancelUseToolCard() throws RemoteException;
     void flipDice() throws RemoteException;
     void placeDiceSpace() throws RemoteException;
+    void rollDiceSpace() throws RemoteException;
 }

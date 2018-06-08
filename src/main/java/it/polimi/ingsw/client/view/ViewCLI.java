@@ -765,6 +765,8 @@ public class ViewCLI implements View{
                     flipDice();
                 }else if (moves.get(choose - 1).equals("PlaceDiceSpace")) {
                     placeDiceSpace();
+                }else if (moves.get(choose - 1).equals("RollDiceSpace")) {
+                    rollDiceSpace();
                 }
                 switch (choose - 1) {
                     case 0:
@@ -801,6 +803,11 @@ public class ViewCLI implements View{
         }
     }
 
+    public void rollDiceSpace()
+    {
+        System.out.println("Rolliamo 'sti dadi");
+        connection.rollDiceSpace();
+    }
     public void placeDiceSpace()
     {
         connection.placeDiceSpace();
@@ -997,10 +1004,16 @@ public class ViewCLI implements View{
 
     public void placeDiceSpaceAccepted() {
         System.out.println("Dado inserito correttamente");
+        pendingDice = null;
     }
 
     public void placeDiceSpace(List action) {
         diceSpace.add(new Dices("",Integer.parseInt((String)action.get(1)),Colour.stringToColour((String)action.get(0))));
+        System.out.println(diceSpace);
+    }
+
+    public void rollDiceSpaceAccepted(List action) {
+        System.out.println("Abbiamo rollato 'sti dadi");
         System.out.println(diceSpace);
     }
 

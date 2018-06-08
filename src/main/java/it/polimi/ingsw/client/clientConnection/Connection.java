@@ -19,4 +19,5 @@ public interface Connection {
     void cancelUseToolCard();
     void flipDice();
     void placeDiceSpace();
+    void rollDiceSpace();
 }

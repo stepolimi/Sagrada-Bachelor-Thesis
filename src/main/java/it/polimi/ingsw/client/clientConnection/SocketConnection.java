@@ -136,6 +136,11 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void rollDiceSpace() {
+        out.println("RollDiceSpace");
+        out.flush();
+    }
+
     public void stopRunning() {
         stopThread = true;
     }
@@ -277,6 +282,9 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals("placeDiceSpaceAccepted"))
         {
             v.placeDiceSpaceAccepted();
+        }else if(action.get(0).equals("rollDiceSpaceAccepted"))
+        {
+            v.rollDiceSpaceAccepted(action.subList(1,action.size()));
         }
     }
 }

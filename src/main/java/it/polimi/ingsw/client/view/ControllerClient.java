@@ -1331,6 +1331,10 @@ public class ControllerClient implements View {
 
     }
 
+    public void rollDiceSpaceAccepted(List action) {
+
+    }
+
     public void diceSpaceSort() {
 
 
