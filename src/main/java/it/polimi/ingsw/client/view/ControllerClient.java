@@ -1,6 +1,4 @@
-package it.polimi.ingsw.client.view;
-
-import it.polimi.ingsw.client.clientConnection.Connection;
+package it.polimi.ingsw.client.view;import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
 import javafx.animation.Animation;
@@ -35,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+
+;
 
 
 public class ControllerClient implements View {
@@ -115,6 +115,8 @@ public class ControllerClient implements View {
     @FXML
     GridPane schema4;
 
+    @FXML
+    ImageView iconTool;
 
 
 
@@ -243,6 +245,8 @@ public class ControllerClient implements View {
 
 
         setScene("login");
+        loginAction.setDefaultButton(true);
+
 
 
     }
@@ -264,6 +268,7 @@ public class ControllerClient implements View {
 
 
         setScene("login");
+        loginAction.setDefaultButton(true);
 
 
     }
@@ -508,18 +513,20 @@ public class ControllerClient implements View {
 
         Stage stage= new Stage();
         Pane p = null;
+
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
             loader.setLocation(getClass().getResource("/FXML/"+ src +".fxml"));
             p = loader.load();
+
             // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
-        stage.setTitle("SAGRADA GAME");
+        stage.setTitle("Sagrada");
         Image image = new Image("/assets/image/icon.png");
         stage.getIcons().add(image);
         stage.setResizable(false);
@@ -797,6 +804,7 @@ public class ControllerClient implements View {
     @FXML
     void nextPlayer(MouseEvent event) {
         disableAll();
+
         connection.sendEndTurn();
 
     }
@@ -1065,6 +1073,8 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 textflow.setText("Non puoi usare la carta utensile. Segnalini insufficienti");
+                iconTool.setVisible(false);
+
             }
         });
     }
@@ -1128,7 +1138,8 @@ public class ControllerClient implements View {
                 if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
                     schemaCell.setImage(pendingDice.getImage());
                     pendingDice.setImage(null);
-                    textflow.setText("Hai usato correttamente la Carta Utensile!");
+                    textflow.setText("Hai usato la Carta Utensile!");
+                    iconTool.setVisible(false);
                     currentTool = 0;
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
@@ -1390,6 +1401,7 @@ public class ControllerClient implements View {
                 int numberTool = Integer.parseInt(tool.getId());
                 currentTool = numberTool;
                 connection.useToolCard(numberTool);
+                iconTool.setVisible(true);
             }
         });
 
@@ -1485,6 +1497,8 @@ public class ControllerClient implements View {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
+                                iconTool.setVisible(false);
+
                                 disableTool(true);
                                 gridPane.setDisable(true);
                                 currentTool = 0;
@@ -1618,7 +1632,7 @@ public class ControllerClient implements View {
 
         int index = 3 * round;
         AnchorPane anchorPane;
-        for (int i = index; i < 3; i++) {
+        for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4; j++) {
                 ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
