@@ -762,6 +762,7 @@ public class ControllerClient implements View {
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
                     textflow.setText("");
+
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
 
@@ -1074,20 +1075,23 @@ public class ControllerClient implements View {
     }
 
     public void useToolCardAccepted(final int favor) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-            //todo: one descripton for every tool card
-                textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
-                nFavour.setText(" x"+ favor);
 
-            }
-        });
+            //todo: one descripton for every tool card
+
+                    textflow.setText("Ora lancia i dadi della riserva!");
+                    connection.rollDice();
+                    disableTool(true);
+
+                    textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+                    nFavour.setText(" x" + favor);
+
+
     }
 
     public void useToolCardError() {
         Platform.runLater(new Runnable() {
             public void run() {
-                textflow.setText("Non puoi usare la carta utensile. Segnalini insufficienti");
+                textflow.setText("Non puoi usare la carta utensile ora!");
                 iconTool.setVisible(false);
 
             }
@@ -1262,6 +1266,7 @@ public class ControllerClient implements View {
                 textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
                 pendingDice.setImage(roundDice.getImage());
 
+
                 roundTrack.setDisable(true);
                 diceSpace.setDisable(true);
                 disableTool(true);
@@ -1287,6 +1292,7 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 rollDiceAccepted(value);
+                diceChanged = true;
             }
         });
 
@@ -1300,7 +1306,12 @@ public class ControllerClient implements View {
     public void placeDiceSpaceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
+                textflow.setText("Non hai usato la carta utensile!");
+                diceSpace.setDisable(true);
                 pendingDice.setImage(null);
+                diceChanged = false;
+                diceExtract.add(colorMoved);
+                diceExtract.add(String.valueOf(numberMoved));
             }
         });
 
@@ -1312,13 +1323,13 @@ public class ControllerClient implements View {
                 String path = "/assets/image/Dice";
                 if (action.get(0).equals(("ANSI_BLUE"))) {
 
-                    getLastCellDicespace().setImage(new Image(path + "/Blue/" + action.get( 1) + ".png"));
+                    getLastCellDicespace().setImage(new Image(path + "/Blue/" + action.get(1) + ".png"));
 
-                } else if (action.get(1).equals(("ANSI_RED"))) {
+                } else if (action.get(0).equals(("ANSI_RED"))) {
                     getLastCellDicespace().setImage(new Image(path + "/Red/" + action.get(1) + ".png"));
-                } else if (action.get(1).equals("ANSI_YELLOW")) {
+                } else if (action.get(0).equals("ANSI_YELLOW")) {
                     getLastCellDicespace().setImage(new Image(path + "/Yellow/" + action.get(1) + ".png"));
-                } else if (action.get(1).equals("ANSI_GREEN")) {
+                } else if (action.get(0).equals("ANSI_GREEN")) {
                     getLastCellDicespace().setImage(new Image(path + "/Green/" + action.get(1) + ".png"));
                 } else {
                     getLastCellDicespace().setImage(new Image(path + "/Purple/" + action.get(1) + ".png"));
@@ -1331,7 +1342,13 @@ public class ControllerClient implements View {
 
     }
 
-    public void rollDiceSpaceAccepted(List action) {
+    public void rollDiceSpaceAccepted(final List action) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                setDiceSpace(action);
+
+            }
+        });
 
     }
 
@@ -1643,23 +1660,22 @@ public class ControllerClient implements View {
     void pickDice(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
+                if (currentTool != 0) {
+                    RotateTransition rt = new RotateTransition(Duration.millis(3000), pendingDice);
+                    rt.setByAngle(360);
+                    rt.setCycleCount(Animation.INDEFINITE);
+                    rt.setInterpolator(Interpolator.LINEAR);
+                    rt.play();
+                    if (currentTool == 1 || currentTool == 6 || currentTool == 5 || (currentTool == 10 && !diceChanged)) {
+                        pendingDice.setImage(((ImageView) event.getTarget()).getImage());
+                        indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
+                        colorMoved = diceExtract.get(2 * indexDiceSpace);
+                        numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+                        connection.sendDraft(indexDiceSpace);
+                    } else if (currentTool == 10 && diceChanged)
+                        connection.placeDiceSpace();
 
-                indexDiceSpace = Integer.parseInt(((ImageView)event.getTarget()).getId());
-                pendingDice.setImage(((ImageView) event.getTarget()).getImage());
-                colorMoved = diceExtract.get(2 * indexDiceSpace);
-                numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
-                RotateTransition rt = new RotateTransition(Duration.millis(3000), pendingDice);
-                rt.setByAngle(360);
-                rt.setCycleCount(Animation.INDEFINITE);
-                rt.setInterpolator(Interpolator.LINEAR);
-                rt.play();
-                if (currentTool == 1 || currentTool == 6 || currentTool == 5 || (currentTool == 10 && !diceChanged)) {
-
-                    connection.sendDraft(indexDiceSpace);
                 }
-                else if(currentTool == 10 && diceChanged)
-                    connection.placeDiceSpace();
-
             }
         });
     }
@@ -1774,7 +1790,7 @@ public class ControllerClient implements View {
         ImageView imageView = null;
         for(int i = 0; i < 9; i++){
            imageView = (ImageView) diceSpace.getChildren().get(i);
-           if(imageView==null)
+           if(imageView.getImage() == null)
                return imageView;
         }
         return imageView;
