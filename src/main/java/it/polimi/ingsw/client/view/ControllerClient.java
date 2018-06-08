@@ -23,6 +23,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -388,6 +389,10 @@ public class ControllerClient implements View {
             public void run() {
 
                setScene("game");
+               Font ea =
+                        Font.loadFont(getClass()
+                                .getResourceAsStream("/fonts/EA.ttf"), 20);
+               textflow.setFont(ea);
                Stage stage = (Stage) progressBar.getScene().getWindow();
                stage.close();
 
