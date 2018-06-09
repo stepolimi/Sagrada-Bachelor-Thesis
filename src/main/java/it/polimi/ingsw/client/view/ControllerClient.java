@@ -1589,7 +1589,7 @@ public class ControllerClient implements View {
 
                             x2 = null;
                             y2 = null;
-                            if (currentTool == 4 && isFirst) {
+                            if ((currentTool == 4 && isFirst) || (currentTool == 12 && isFirst)) {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
