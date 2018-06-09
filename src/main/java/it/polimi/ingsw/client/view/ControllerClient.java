@@ -574,16 +574,13 @@ public class ControllerClient implements View {
     }
 
     public void startScene() {
-
     }
-
 
 
     public void QuitPaneAction(ActionEvent actionEvent) {
         setNotice("QuitPane");
 
     }
-
 
     public void disconnectAction (ActionEvent actionEvent){
 
@@ -645,10 +642,8 @@ public class ControllerClient implements View {
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
 
-
         }
     });
-
 
 
     }
@@ -660,9 +655,6 @@ public class ControllerClient implements View {
             List<String> stringList = new ArrayList<String>(schemas);
 
             public void run() {
-
-
-
 
                 String path = "/assets/image/Schemi/SchemiRemake/";
 
@@ -691,11 +683,9 @@ public class ControllerClient implements View {
                     }
                 }
 
-
             }
         });
 
-        
     }
 
     @FXML
@@ -706,7 +696,6 @@ public class ControllerClient implements View {
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
         indexDiceSpace = Integer.parseInt(imageView.getId());
         gridPane.setDisable(false);
-
 
         ClipboardContent cb = new ClipboardContent();
         cb.putImage(imageView.getImage());
@@ -776,8 +765,6 @@ public class ControllerClient implements View {
         if(currentTool == 0 || currentTool== 9)
             t.start();
 
-
-
     }
 
     @FXML
@@ -787,11 +774,7 @@ public class ControllerClient implements View {
         if(!(event.getDragboard().hasImage()))
             imageView.setImage(null);
 
-
-
     }
-
-
 
 
     public void setNumberPlayer(int nPlayer) {
@@ -850,7 +833,6 @@ public class ControllerClient implements View {
                     endTurn.setDisable(false);
 
 
-
                 if (actions.contains("MoveDice"))
                  gridPane.setDisable(false);
 
@@ -887,7 +869,6 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             List<String> stringList = new ArrayList<String>(dices);
 
-
             public void run() {
                 String path = "/assets/image/Dice";
                 ImageView imageView = new ImageView();
@@ -895,38 +876,18 @@ public class ControllerClient implements View {
                 for (int i = 0; i < stringList.size(); i = i + 2, j++) {
                     diceExtract.add(stringList.get(i));
                     diceExtract.add(stringList.get(i + 1));
-                    if (stringList.get(i).equals(("ANSI_BLUE"))) {
-                        imageView = (ImageView) diceSpace.getChildren().get(j);
-                        imageView.setImage(new Image(path + "/Blue/" + (stringList.get(i + 1)) + ".png"));
+                    imageView = (ImageView) diceSpace.getChildren().get(j);
+                    String color = stringList.get(i);
+                    String number = stringList.get(i+1);
 
-                    }
-                    else if (stringList.get(i).equals(("ANSI_RED"))){
-                        imageView = (ImageView) diceSpace.getChildren().get(j);
-                        imageView.setImage(new Image(path + "/Red/" + (stringList.get(i + 1)) + ".png"));
-                    }
+                    setDice(imageView, color, number);
 
-                    else if (stringList.get(i).equals("ANSI_YELLOW")){
-                        imageView = (ImageView) diceSpace.getChildren().get(j);
-                        imageView.setImage(new Image(path + "/Yellow/" + (stringList.get(i + 1)) + ".png"));
-                    }
-
-                    else if (stringList.get(i).equals("ANSI_GREEN")){
-                        imageView = (ImageView) diceSpace.getChildren().get(j);
-                        imageView.setImage(new Image(path + "/Green/" + (stringList.get(i + 1)) + ".png"));
-                    }
-
-                    else{
-                        imageView = (ImageView) diceSpace.getChildren().get(j);
-                        imageView.setImage(new Image(path + "/Purple/" + (stringList.get(i + 1)) + ".png"));
-                    }
 
                 }
 
 
             }
         });
-
-
 
     }
 
@@ -937,24 +898,26 @@ public class ControllerClient implements View {
             lock.notify();
         }
 
-
     }
 
     public void draftDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
                 pendingDice.setDisable(false);
+                diceChanged=true;
 
-                if(currentTool==1)
+                if(currentTool==1){
                     setScene("changeDiceValue");
-                else if(currentTool == 6)
+                }
+                else if(currentTool == 6){
                     textflow.setText("Clicca sul dado preso e lancialo!");
-                else if(currentTool == 5)
+                }
+                else if(currentTool == 5) {
                     textflow.setText("Ora scegli il dado dal tracciato di Round");
 
+                }
             }
         });
-
 
     }
 
@@ -978,7 +941,6 @@ public class ControllerClient implements View {
 
 
                 sleep(300);
-
                 diceSpaceSort();
     }
 
@@ -1007,33 +969,14 @@ public class ControllerClient implements View {
 
                         String color = (String) action.get(3);
                         String number = (String) action.get(4);
+                        setDice(imageView, color, number);
 
-                        if (color.equals(("ANSI_BLUE"))) {
-                            imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
 
-                        }
-                        else if (color.equals(("ANSI_RED"))){
-                            imageView.setImage(new Image(path + "/Red/" + number + ".png"));
-                        }
-
-                        else if (color.equals("ANSI_YELLOW")){
-                            imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
-                        }
-
-                        else if (color.equals("ANSI_GREEN")){
-                            imageView.setImage(new Image(path + "/Green/" + number + ".png"));
-                        }
-
-                        else{
-                            imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
-                        }
                     }
 
                 }
             }
         });
-
-
 
 
     }
@@ -1071,22 +1014,21 @@ public class ControllerClient implements View {
 
         textflow.setText("non ci sono dadi qui");
 
-
     }
 
     public void useToolCardAccepted(final int favor) {
 
             //todo: one descripton for every tool card
 
-                    if(currentTool==7) {
+        iconTool.setVisible(false);
+
+        if(currentTool==7) {
                         textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi");
                     }
                     else {
-
                         textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
                         nFavour.setText(" x" + favor);
                     }
-
 
     }
 
@@ -1094,7 +1036,7 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 textflow.setText("Non puoi usare la carta utensile ora!");
-                iconTool.setVisible(false);
+                iconTool.setVisible(true);
 
             }
         });
@@ -1110,27 +1052,13 @@ public class ControllerClient implements View {
                     numberMoved--;
                 else numberMoved++;
                 textflow.setText("hai cambiato valore! Ora inseriscilo!");
+                diceChanged=true;
+
                 gridPane.setDisable(false);
                 String path = "/assets/image/Dice";
-                if (colorMoved.equals(("ANSI_BLUE"))) {
-                    pendingDice.setImage(new Image(path + "/Blue/" + numberMoved + ".png"));
 
-                }
-                else if (colorMoved.equals(("ANSI_RED"))){
-                    pendingDice.setImage(new Image(path + "/Red/" + numberMoved + ".png"));
-                }
+                setDice(pendingDice, colorMoved, numberMoved);
 
-                else if (colorMoved.equals("ANSI_YELLOW")){
-                    pendingDice.setImage(new Image(path + "/Yellow/" + numberMoved + ".png"));
-                }
-
-                else if (colorMoved.equals("ANSI_GREEN")){
-                    pendingDice.setImage(new Image(path + "/Green/" + numberMoved + ".png"));
-                }
-
-                else{
-                    pendingDice.setImage(new Image(path + "/Purple/" + numberMoved + ".png"));
-                }
                 pendingDice.setDisable(true);
             }
         });
@@ -1159,6 +1087,7 @@ public class ControllerClient implements View {
                     schemaCell.setImage(pendingDice.getImage());
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato la Carta Utensile!");
+                    diceChanged=false;
                     iconTool.setVisible(true);
                     currentTool = 0;
                     gridPane.setDisable(true);
@@ -1174,7 +1103,6 @@ public class ControllerClient implements View {
             }
         });
 
-
     }
 
     public void rollDiceAccepted(final int value) {
@@ -1184,30 +1112,13 @@ public class ControllerClient implements View {
             
 
             String path = "/assets/image/Dice";
+            diceChanged=true;
+
 
             textflow.setText("Dado tirato! Ora piazzalo");
-            if (colorMoved.equals(("ANSI_BLUE"))) {
-                pendingDice.setImage(new Image(path + "/Blue/" + value + ".png"));
-
-            }
-            else if (colorMoved.equals(("ANSI_RED"))){
-                pendingDice.setImage(new Image(path + "/Red/" + value + ".png"));
-            }
-
-            else if (colorMoved.equals("ANSI_YELLOW")){
-                pendingDice.setImage(new Image(path + "/Yellow/" + value + ".png"));
-            }
-
-            else if (colorMoved.equals("ANSI_GREEN")){
-                pendingDice.setImage(new Image(path + "/Green/" + value + ".png"));
-            }
-
-            else{
-                pendingDice.setImage(new Image(path + "/Purple/" + value + ".png"));
-            }
+            setDice(pendingDice, colorMoved, value);
             pendingDice.setDisable(true);
         }
-
 
     });
 
@@ -1240,22 +1151,12 @@ public class ControllerClient implements View {
                String path = "/assets/image/Dice";
 
                for (int i = 1; i < action.size(); i = i + 2) {
+                   String color = (String) action.get(i);
+                   String number = (String) action.get(i+1);
+                   ImageView imageView = getLastRoundCell(round);
+                   setDice(imageView, color, number);
 
 
-                   if (action.get(i).equals(("ANSI_BLUE"))) {
-
-                       getLastRoundCell(round).setImage(new Image(path + "/Blue/" + action.get(i + 1) + ".png"));
-
-                   } else if (action.get(i).equals(("ANSI_RED"))) {
-                       getLastRoundCell(round).setImage(new Image(path + "/Red/" + action.get(i + 1) + ".png"));
-                   } else if (action.get(i).equals("ANSI_YELLOW")) {
-                       getLastRoundCell(round).setImage(new Image(path + "/Yellow/" + action.get(i + 1) + ".png"));
-                   } else if (action.get(i).equals("ANSI_GREEN")) {
-                       getLastRoundCell(round).setImage(new Image(path + "/Green/" + action.get(i + 1) + ".png"));
-                   } else {
-                       getLastRoundCell(round).setImage(new Image(path + "/Purple/" + action.get(i + 1) + ".png"));
-
-                   }
                }
            }
        });
@@ -1266,6 +1167,7 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
+                diceChanged=true;
                 pendingDice.setImage(roundDice.getImage());
 
 
@@ -1286,7 +1188,6 @@ public class ControllerClient implements View {
             }
         });
 
-
     }
 
     public void flipDiceAccepted(final int value) {
@@ -1297,11 +1198,6 @@ public class ControllerClient implements View {
                 diceChanged = true;
             }
         });
-
-
-
-
-
 
     }
 
@@ -1323,21 +1219,10 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 String path = "/assets/image/Dice";
-                if (action.get(0).equals(("ANSI_BLUE"))) {
-
-                    getLastCellDicespace().setImage(new Image(path + "/Blue/" + action.get(1) + ".png"));
-
-                } else if (action.get(0).equals(("ANSI_RED"))) {
-                    getLastCellDicespace().setImage(new Image(path + "/Red/" + action.get(1) + ".png"));
-                } else if (action.get(0).equals("ANSI_YELLOW")) {
-                    getLastCellDicespace().setImage(new Image(path + "/Yellow/" + action.get(1) + ".png"));
-                } else if (action.get(0).equals("ANSI_GREEN")) {
-                    getLastCellDicespace().setImage(new Image(path + "/Green/" + action.get(1) + ".png"));
-                } else {
-                    getLastCellDicespace().setImage(new Image(path + "/Purple/" + action.get(1) + ".png"));
-
-                }
-
+                ImageView imageView = getLastCellDicespace();
+                String color = (String) action.get(0);
+                String value = (String) action.get(1);
+                setDice(imageView, color, value);
 
             }
         });
@@ -1347,6 +1232,7 @@ public class ControllerClient implements View {
     public void rollDiceSpaceAccepted(final List action) {
         Platform.runLater(new Runnable() {
             public void run() {
+
                 setDiceSpace(action);
 
             }
@@ -1355,7 +1241,6 @@ public class ControllerClient implements View {
     }
 
     public void diceSpaceSort() {
-
 
                 List<Image> dice = new ArrayList<Image>();
                 ImageView imageView;
@@ -1375,7 +1260,6 @@ public class ControllerClient implements View {
                 }
 
     }
-
 
 
     public void diceRoundTrackSort(int round) {
@@ -1439,8 +1323,6 @@ public class ControllerClient implements View {
         }
 
 
-
-
     public void putConstrain(final ImageView imageView, final String constrain){
 
         Platform.runLater(new Runnable() {
@@ -1467,7 +1349,6 @@ public class ControllerClient implements View {
             }
         });
 
-
     }
 
 
@@ -1486,8 +1367,6 @@ public class ControllerClient implements View {
         return null;
     }
 
-
-
     @FXML
 
     void useToolCard(final MouseEvent event) {
@@ -1495,7 +1374,6 @@ public class ControllerClient implements View {
             public void run() {
                 ImageView tool = (ImageView) event.getSource();
                 int numberTool = Integer.parseInt(tool.getId());
-                iconTool.setVisible(false);
 
                 if(currentTool == 7){
                     connection.rollDiceSpace();
@@ -1510,7 +1388,6 @@ public class ControllerClient implements View {
 
 
     }
-
 
 
     @FXML
@@ -1555,7 +1432,6 @@ public class ControllerClient implements View {
                 else {
 
 
-
                     if (x1 == null && y1 == null) {
                         imageMoved = (ImageView) event1.getSource();
                         x1 = col;
@@ -1566,10 +1442,8 @@ public class ControllerClient implements View {
 
                         schemaCell = (ImageView) event1.getSource();
 
-
                         x2 = col;
                         y2 = row;
-
 
                         connection.moveDice(y1, x1, y2, x2);
 
@@ -1658,10 +1532,8 @@ public class ControllerClient implements View {
                 Stage stage = (Stage) imageView.getScene().getWindow();
                 stage.close();
 
-
             }
         });
-
 
     }
 
@@ -1675,13 +1547,13 @@ public class ControllerClient implements View {
                     rt.setCycleCount(Animation.INDEFINITE);
                     rt.setInterpolator(Interpolator.LINEAR);
                     rt.play();
-                    if (currentTool == 1 || currentTool == 6 || currentTool == 5 || (currentTool == 10 && !diceChanged)) {
+                    if ((currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10 )&& !diceChanged) {
                         pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                         indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
                         colorMoved = diceExtract.get(2 * indexDiceSpace);
                         numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
                         connection.sendDraft(indexDiceSpace);
-                    } else if (currentTool == 10 && diceChanged)
+                    } else if (diceChanged)
                         connection.placeDiceSpace();
 
                 }
@@ -1705,12 +1577,7 @@ public class ControllerClient implements View {
                 if (roundNumber == null)
                     roundNumber = 0;
 
-
-
-
                 connection.swapDice(roundNumber, roundIndex);
-
-
 
             }
         });
@@ -1787,7 +1654,6 @@ public class ControllerClient implements View {
         roundTrack.setDisable(true);
     }
 
-
     @FXML
     public void cancelTool(MouseEvent event) {
         textflow.setText("");
@@ -1805,6 +1671,26 @@ public class ControllerClient implements View {
         return imageView;
     }
 
+    public void setDice(ImageView imageView, String color, Object number ){
 
+        String path = "/assets/image/Dice";
+
+
+        if (color.equals(("ANSI_BLUE"))) {
+
+            getLastCellDicespace().setImage(new Image(path + "/Blue/" + number + ".png"));
+
+        } else if (color.equals(("ANSI_RED"))) {
+            imageView.setImage(new Image(path + "/Red/" + number + ".png"));
+        } else if (color.equals("ANSI_YELLOW")) {
+            imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
+        } else if (color.equals("ANSI_GREEN")) {
+            imageView.setImage(new Image(path + "/Green/" + number + ".png"));
+        } else {
+            imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
+
+        }
+
+    }
 
 }
