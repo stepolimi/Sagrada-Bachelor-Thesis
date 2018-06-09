@@ -16,7 +16,7 @@ public class CoupleSetObj extends ObjectiveCard {
     }
 
     @Override
-    public int ScoreCard(Schema sch) {
+    public int scoreCard(Schema sch) {
 
         int count1 = 0;
         int count2 = 0;

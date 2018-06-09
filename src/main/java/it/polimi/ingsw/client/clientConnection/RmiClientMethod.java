@@ -19,7 +19,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         this.v = hand.getView();
     }
 
-    public void updateText(String s) throws RemoteException {}
+    public void updateText(String s) {}
 
     public void printText(String str) {
         /*List action = new ArrayList();
@@ -27,7 +27,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         System.out.println(str);*/
     }
 
-    public void login(List action)throws RemoteException{
+    public void login(List action){
         if(action.get(0).equals(LOGIN_SUCCESSFUL)) {
             if (action.get(1).equals(v.getName()))
                 v.login((String)action.get(0));
@@ -41,28 +41,28 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.playerDisconnected((String)action.get(1));
     }
 
-    public void timerPing(List action)throws RemoteException{
+    public void timerPing(List action){
         v.timerPing((String)action.get(1));
     }
 
-    public void createGame()throws RemoteException{
+    public void createGame(){
         v.createGame();
     }
 
-    public void setSchemas(List action)throws RemoteException{
+    public void setSchemas(List action){
         v.setSchemas(action.subList(1,action.size()));
 
     }
 
-    public void setPrivateCard(String privateCard)throws RemoteException{
+    public void setPrivateCard(String privateCard){
         v.setPrivateCard(privateCard);
     }
 
-    public void setPublicObjectives(List action)throws RemoteException{
+    public void setPublicObjectives(List action){
         v.setPublicObjectives(action.subList(1,action.size()));
     }
 
-    public void setToolCards(List action)throws RemoteException{
+    public void setToolCards(List action){
         v.setToolCards(action.subList(1,action.size()));
     }
     public void chooseSchema(List action)
@@ -70,7 +70,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.chooseSchema((String)action.get(1));
     }
 
-    public void setOpponentsSchemas(List action) throws RemoteException {
+    public void setOpponentsSchemas(List action){
         v.setOpponentsSchemas(action.subList(1,action.size()));
     }
 
@@ -130,62 +130,70 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.pickDiceSchemaError();
     }
 
-    public void useToolCardAccepted(List action) throws RemoteException { v.useToolCardAccepted(Integer.parseInt((String)action.get(1))); }
+    public void useToolCardAccepted(List action){ v.useToolCardAccepted(Integer.parseInt((String)action.get(1))); }
 
     public void useToolCardError() { v.useToolCardError(); }
 
-    public void changeValueAccepted() throws RemoteException {
+    public void changeValueAccepted() {
         v.changeValueAccepted();
     }
 
-    public void changeValueError() throws RemoteException {
+    public void changeValueError() {
         v.changeValueError();
     }
-    public void placeDiceAccepted() throws RemoteException
-    {
+    public void placeDiceAccepted() {
         v.placeDiceAccepted();
     }
 
-    public void rollDiceAccepted(List action) throws RemoteException {
+    public void rollDiceAccepted(List action) {
         v.rollDiceAccepted(Integer.parseInt((String)action.get(1)));
     }
 
-    public void swapDiceAccepted() throws RemoteException {
+    public void swapDiceAccepted(){
         v.swapDiceAccepted();
     }
 
-    public void pickDiceRoundTrack(List action) throws RemoteException {
+    public void pickDiceRoundTrack(List action) {
         v.pickDiceRoundTrack(action.subList(1,action.size()));
     }
 
-    public void pickDiceRoundTrackError() throws RemoteException {
+    public void pickDiceRoundTrackError() {
         v.pickDiceRoundTrackError();
     }
 
-    public void placeDiceRoundTrack(List action) throws RemoteException {
+    public void placeDiceRoundTrack(List action) {
         v.placeDiceRoundTrack(action.subList(1,action.size()));
     }
 
-    public void flipDiceAccepted(List action) throws RemoteException {
+    public void flipDiceAccepted(List action){
         v.flipDiceAccepted(Integer.parseInt((String)action.get(1)));
     }
 
-    public void cancelUseToolCardAccepted(List action) throws RemoteException {
+    public void cancelUseToolCardAccepted(List action){
         v.cancelUseToolCardAccepted(Integer.parseInt((String)action.get(1)));
     }
-    public void placeDiceSpace(List action) throws RemoteException
-    {
+    public void placeDiceSpace(List action) {
         v.placeDiceSpace(action.subList(1,action.size()));
     }
-    public void placeDiceSpaceAccepted() throws  RemoteException
-    {
+    public void placeDiceSpaceAccepted() {
         v.placeDiceSpaceAccepted();
     }
 
-    public void rollDiceSpaceAccepted(List action) throws RemoteException {
+    public void rollDiceSpaceAccepted(List action){
         v.rollDiceSpaceAccepted(action.subList(1,action.size()));
     }
 
+    public void swapDiceBagAccepted(List action){
+        v.swapDiceBagAccepted(action.subList(1,action.size()));
+    }
+
+    public void chooseValueAccepted(){
+        v.chooseValueAccepted();
+    }
+
+    public void chooseValueError(){
+        v.chooseValueError();
+    }
 
 
 }

@@ -44,6 +44,7 @@ public class ViewCLI implements View{
     private int oldColumn;
     private int newRow;
     private int newColumn;
+    private int diceValue;
     public ViewCLI()
     {
         load = new LoadImage();
@@ -767,6 +768,10 @@ public class ViewCLI implements View{
                     placeDiceSpace();
                 }else if (moves.get(choose - 1).equals("RollDiceSpace")) {
                     rollDiceSpace();
+                }else if (moves.get(choose - 1).equals("SwapDiceBag")) {
+                    swapDiceBag();
+                }else if (moves.get(choose - 1).equals("ChooseValue")) {
+                    chooseValue();
                 }
                 switch (choose - 1) {
                     case 0:
@@ -1017,6 +1022,21 @@ public class ViewCLI implements View{
         System.out.println(diceSpace);
     }
 
+    public void swapDiceBagAccepted(List action) {
+        pendingDice.setColour(Colour.stringToColour((String)action.get(0)));
+        pendingDice.setNumber(Integer.parseInt((String)action.get(1)));
+        System.out.println("valore nuovo dado: " + pendingDice);
+    }
+
+    public void chooseValueAccepted() {
+        pendingDice.setNumber(diceValue);
+        System.out.println("valore del dado cambiato: " + pendingDice.getNumber());
+    }
+
+    public void chooseValueError() {
+        System.out.println("errore nel cambiamento del valore del dado");
+    }
+
     public void swapDice(){
         correct = false;
         while(!correct) {
@@ -1091,6 +1111,17 @@ public class ViewCLI implements View{
     {
         System.out.println("Flippa 'sto dado");
         connection.flipDice();
+    }
+
+    public void swapDiceBag(){
+        System.out.println("Lo swappo tutto 'sto dado");
+        connection.swapDiceBag();
+    }
+
+    public void chooseValue(){
+        System.out.println("Scegli il valore dal dado: ");
+        diceValue = Integer.parseInt(input.nextLine());
+        connection.chooseValue(diceValue);
     }
 }
 

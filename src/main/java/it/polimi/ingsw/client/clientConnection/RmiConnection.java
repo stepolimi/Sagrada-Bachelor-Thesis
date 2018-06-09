@@ -193,6 +193,22 @@ public class RmiConnection implements Connection {
         }
     }
 
+    public void swapDiceBag() {
+        try {
+            server.swapDiceBag();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chooseValue(int value) {
+        try {
+            server.chooseValue(value);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendEndTurn() {
             try {
                 server.sendEndTurn();

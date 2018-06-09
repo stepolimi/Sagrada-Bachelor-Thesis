@@ -12,21 +12,21 @@ public class DiagonalObj extends ObjectiveCard {
         this.description = description;
     }
     @Override
-    public int ScoreCard(Schema sch) {
+    public int scoreCard(Schema sch) {
         int score = 0;
         boolean flag = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 if (sch.getTable(i, j).getDice() != null) {
                     if((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i + 1, j + 1).getDice() != null) {
-                        if ((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i, j).getDice().getColour()
-                                == sch.getTable(i + 1, j + 1).getDice().getColour()) {
+                        if ((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i, j).getDice().getColour() ==
+                                sch.getTable(i + 1, j + 1).getDice().getColour()) {
                             score++;
                             flag = true;
                         }
                 if((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i - 1, j + 1).getDice() != null){
-                        if ((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i, j).getDice().getColour()
-                                == sch.getTable(i - 1, j + 1).getDice().getColour()) {
+                        if ((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i, j).getDice().getColour() ==
+                                sch.getTable(i - 1, j + 1).getDice().getColour()) {
                             score++;
                             flag = true;
                         }

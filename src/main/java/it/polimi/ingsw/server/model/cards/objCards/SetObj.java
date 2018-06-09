@@ -19,7 +19,7 @@ public class SetObj extends ObjectiveCard {
 
 
     @Override
-    public int ScoreCard(Schema sch) {
+    public int scoreCard(Schema sch) {
         int count[];
         count = new int[6];
 

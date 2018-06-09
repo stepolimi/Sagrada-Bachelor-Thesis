@@ -45,6 +45,8 @@ public class ServerController implements Observer{
         else if(head.equals("FlipDice")) {rollDiceManager((List)action); }
         else if(head.equals("PlaceDiceSpace")) {rollDiceManager((List)action); }
         else if(head.equals("RollDiceSpace")) {rollDiceManager((List)action); }
+        else if(head.equals("SwapDiceBag")) {rollDiceManager((List)action); }
+        else if(head.equals("ChooseValue")) {rollDiceManager((List)action); }
         else{
             view.sendError((String)((List)action).get(1));
         }

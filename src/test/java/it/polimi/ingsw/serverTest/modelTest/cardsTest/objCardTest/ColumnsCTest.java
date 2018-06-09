@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//test verify the right calcolus of ScoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
+//test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
 
 public class ColumnsCTest {
 
@@ -52,7 +52,7 @@ public class ColumnsCTest {
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 5);
         card.dump();
-        assertEquals(10, card.ScoreCard(s), "score correct");
+        assertEquals(10, card.scoreCard(s), "score correct");
 
 
 
@@ -63,7 +63,7 @@ public class ColumnsCTest {
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 4);
         card.dump();
-        assertEquals(8, card.ScoreCard(s), "score correct");
+        assertEquals(8, card.scoreCard(s), "score correct");
 
 
     }
@@ -74,6 +74,6 @@ public class ColumnsCTest {
         ColumnsObj card = new ColumnsObj("card", "description", 4);
         card.dump();
 
-        assertEquals(0, card.ScoreCard(s), "result is 0");
+        assertEquals(0, card.scoreCard(s), "result is 0");
     }
 }

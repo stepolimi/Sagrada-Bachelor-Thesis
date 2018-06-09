@@ -141,6 +141,16 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void swapDiceBag() {
+        out.println("SwapDiceBag");
+        out.flush();
+    }
+
+    public void chooseValue(int chooseValue) {
+        out.println("ChooseValue"+"-"+chooseValue);
+        out.flush();
+    }
+
     public void stopRunning() {
         stopThread = true;
     }
@@ -285,6 +295,15 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals("rollDiceSpaceAccepted"))
         {
             v.rollDiceSpaceAccepted(action.subList(1,action.size()));
+        }else if(action.get(0).equals("swapDiceBagAccepted"))
+        {
+            v.swapDiceBagAccepted(action.subList(1,action.size()));
+        }else if(action.get(0).equals("chooseValueAccepted"))
+        {
+            v.chooseValueAccepted();
+        }else if(action.get(0).equals("chooseValueError"))
+        {
+            v.chooseValueError();
         }
     }
 }

@@ -20,4 +20,6 @@ public interface Connection {
     void flipDice();
     void placeDiceSpace();
     void rollDiceSpace();
+    void swapDiceBag();
+    void chooseValue(int chooseValue);
 }

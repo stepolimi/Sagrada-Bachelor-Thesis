@@ -1240,6 +1240,18 @@ public class ControllerClient implements View {
 
     }
 
+    public void swapDiceBagAccepted(List action) {
+        //todo
+    }
+
+    public void chooseValueAccepted() {
+        //todo
+    }
+
+    public void chooseValueError() {
+        //todo
+    }
+
     public void diceSpaceSort() {
 
                 List<Image> dice = new ArrayList<Image>();

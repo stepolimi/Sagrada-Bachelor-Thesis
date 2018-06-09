@@ -19,7 +19,7 @@ public class ColumnsObj extends ObjectiveCard {
     }
 
     @Override
-    public int ScoreCard(Schema sch) {
+    public int scoreCard(Schema sch) {
 
         int score = 0;
 
@@ -29,10 +29,9 @@ public class ColumnsObj extends ObjectiveCard {
                 if(sch.getTable(i,j).getDice() != null)
                     container.add(sch.getTable(i,j).getDice());
             }
-
             if(this.areDifferent(container, this.points) && container.size() == 4) {
                 score = score + this.points;
-                container.clear();;
+                container.clear();
             }
         }
 
@@ -43,15 +42,15 @@ public class ColumnsObj extends ObjectiveCard {
     public boolean areDifferent(List<Dice> container, int points) {
         if (points == 5) {
             for (int i = 0, j= 1; i < container.size()-1; i++, j++) {
-                    if (container.get(i).getColour().equals(container.get(j).getColour()))
-                        return false;
+                if (container.get(i).getColour().equals(container.get(j).getColour()))
+                    return false;
             }
             return true;
         }
         else if (points == 4){
             for (int i = 0, j= 1; i < container.size()-1; i++, j++) {
-                    if (container.get(i).getValue() == (container.get(j).getValue())) {
-                        return false;
+                if (container.get(i).getValue() == (container.get(j).getValue())) {
+                    return false;
                     }
             }
             return true;

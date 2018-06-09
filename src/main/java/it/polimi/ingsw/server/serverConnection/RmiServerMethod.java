@@ -122,15 +122,14 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
-    public void draftDice(int indexDiceSpace)
-    {
+    public void draftDice(int indexDiceSpace) {
         List action = new ArrayList();
         action.add("DraftDice");
         action.add(((Integer)indexDiceSpace).toString());
         virtual.forwardAction(action);
     }
 
-    public void placeDice(int row, int column) throws RemoteException {
+    public void placeDice(int row, int column) {
         List action = new ArrayList();
         action.add("PlaceDice");
         action.add(((Integer)row).toString());
@@ -138,21 +137,20 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
-    public void changeValue(String change) throws RemoteException
-    {
+    public void changeValue(String change) {
         List action = new ArrayList();
         action.add("ChangeValue");
         action.add(change);
         virtual.forwardAction(action);
     }
 
-    public void rollDice() throws RemoteException {
+    public void rollDice() {
         List action = new ArrayList();
         action.add("RollDice");
         virtual.forwardAction(action);
     }
 
-    public void swapDice(int numRound, int indexDice) throws RemoteException {
+    public void swapDice(int numRound, int indexDice){
         List action = new ArrayList();
         action.add("SwapDice");
         action.add(((Integer)numRound).toString());
@@ -160,27 +158,40 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
-    public void cancelUseToolCard() throws RemoteException {
+    public void cancelUseToolCard() {
         List action = new ArrayList();
         action.add("CancelUseToolCard");
         virtual.forwardAction(action);
     }
 
-    public void flipDice() throws RemoteException {
+    public void flipDice()  {
         List action = new ArrayList();
         action.add("FlipDice");
         virtual.forwardAction(action);
     }
 
-    public void placeDiceSpace() throws RemoteException {
+    public void placeDiceSpace() {
         List action = new ArrayList();
         action.add("PlaceDiceSpace");
         virtual.forwardAction(action);
     }
 
-    public void rollDiceSpace() throws RemoteException {
+    public void rollDiceSpace() {
         List action = new ArrayList();
         action.add("RollDiceSpace");
+        virtual.forwardAction(action);
+    }
+
+    public void swapDiceBag() {
+        List action = new ArrayList();
+        action.add("SwapDiceBag");
+        virtual.forwardAction(action);
+    }
+
+    public void chooseValue(int value) {
+        List action = new ArrayList();
+        action.add("ChooseValue");
+        action.add(((Integer)value).toString());
         virtual.forwardAction(action);
     }
 

@@ -211,6 +211,11 @@ public class Round extends Observable implements TimedComponent {
             action.add(string);
             action.add(currentPlayer.getNickname());
             action.add(((Integer)pendingDice.getValue()).toString());
+        }else if(string.equals("swapDiceBagAccepted")){
+            action.add(string);
+            action.add(currentPlayer.getNickname());
+            action.add(pendingDice.getColour().toString());
+            action.add(((Integer)pendingDice.getValue()).toString());
         }else if(string.equals(USE_TOOL_CARD_ACCEPTED) || string.equals("cancelUseToolCardAccepted")){
             action.add(string);
             action.add(currentPlayer.getNickname());

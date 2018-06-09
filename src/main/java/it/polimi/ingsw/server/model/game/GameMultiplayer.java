@@ -2,9 +2,11 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.costants.TimerCostants;
 import it.polimi.ingsw.server.model.board.SetSchemas;
+import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
+import it.polimi.ingsw.server.model.cards.objCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.game.states.RoundManager;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
@@ -66,8 +68,17 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     }
 
     public void endGame(){
-        setChanged();
-        notifyObservers();
+        System.out.println("calcolo punteggio");
+        List<Integer> scores = new ArrayList<Integer>();
+        for(Player player: board.getPlayerList()){
+            if(player.isConnected()){
+                scores.add(player.getPrCard().ScoreCard(player.getSchema()));
+            }
+
+        }
+        for(ObjectiveCard objective: board.getDeckPublic()){
+            
+        }
     }
     public List<Player> getPlayers() { return players; }
 

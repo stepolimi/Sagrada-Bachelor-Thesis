@@ -107,6 +107,12 @@ public class RmiServerConnection implements Connection{
                 client.placeDiceSpaceAccepted();
             }else if(action.get(0).equals("rollDiceSpaceAccepted")) {
                 client.rollDiceSpaceAccepted(action);
+            }else if(action.get(0).equals("swapDiceBagAccepted")) {
+                client.swapDiceBagAccepted(action);
+            }else if(action.get(0).equals("chooseValueAccepted")) {
+                client.chooseValueAccepted();
+            }else if(action.get(0).equals("chooseValueError")) {
+                client.chooseValueError();
             }
         }catch(RemoteException e) {
             serverMethod.disconnected(this.client);
