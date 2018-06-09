@@ -1311,19 +1311,23 @@ public class ControllerClient implements View {
             e.printStackTrace();
         }
 
-
-        for (int i = index; i < 3 + index ; i++) {
-            anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
-            for (int j = 0; j < 4; j++) {
-                imageView = (ImageView) anchorPane.getChildren().get(j);
-                if (imageView.getImage() != null){
-                    dice.add(imageView.getImage());
-                    imageView.setImage(null);
-                }
-            }
-        }
         int count = 0;
 
+        for (int i = index; i < 3 + index && count < 9; i++) {
+            anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
+            for (int j = 0; j < 4 && count < 9; j++, count++) {
+                imageView = (ImageView) anchorPane.getChildren().get(j);
+                    if (imageView.getImage() != null) {
+                        dice.add(imageView.getImage());
+                        imageView.setImage(null);
+                        count ++;
+                    }
+
+
+            }
+        }
+
+        count = 0;
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
             for (int j = 0; j < 4; j++) {
@@ -1609,12 +1613,11 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                roundDice = new ImageView();
-                Node source = ((Node) event.getTarget());
-                ImageView imageView = (ImageView)event.getTarget();
-                roundDice.setImage(imageView.getImage());
+                roundDice = (ImageView)event.getTarget();
+                Node source = ((Node) event.getSource());
+                Node source2 = source.getParent();
 
-                roundNumber = roundTrack.getColumnIndex(source);
+                roundNumber = GridPane.getColumnIndex(source2);
                 roundIndex = Integer.parseInt((source).getId());
 
                 if (roundNumber == null)
@@ -1653,7 +1656,7 @@ public class ControllerClient implements View {
 
         int index = 3 * round;
         AnchorPane anchorPane;
-        int count= 0;
+        int count = 0;
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4; j++) {
