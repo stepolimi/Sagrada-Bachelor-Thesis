@@ -1159,7 +1159,7 @@ public class ControllerClient implements View {
                     schemaCell.setImage(pendingDice.getImage());
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato la Carta Utensile!");
-                    iconTool.setVisible(false);
+                    iconTool.setVisible(true);
                     currentTool = 0;
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
@@ -1495,7 +1495,7 @@ public class ControllerClient implements View {
             public void run() {
                 ImageView tool = (ImageView) event.getSource();
                 int numberTool = Integer.parseInt(tool.getId());
-                iconTool.setVisible(true);
+                iconTool.setVisible(false);
 
                 if(currentTool == 7){
                     connection.rollDiceSpace();
