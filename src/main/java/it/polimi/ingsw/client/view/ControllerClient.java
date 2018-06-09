@@ -915,6 +915,8 @@ public class ControllerClient implements View {
                     textflow.setText("Ora scegli il dado dal tracciato di Round");
 
                 }
+                else  if(currentTool == 11)
+                    textflow.setText("Ora clicca sul dado per sostituire il dado con uno del sacchetto!");
             }
         });
 
@@ -1021,9 +1023,11 @@ public class ControllerClient implements View {
 
         iconTool.setVisible(false);
 
-        if(currentTool==7) {
-            textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi");
+        if(currentTool==7 ) {
+            textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
         }
+
+
         else {
             textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
             nFavour.setText(" x" + favor);
@@ -1045,7 +1049,7 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                
+
                 if(decrement)
                     numberMoved--;
                 else numberMoved++;
@@ -1081,12 +1085,13 @@ public class ControllerClient implements View {
     public void placeDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-                if (currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10 ) {
+                if (currentTool == 1 || currentTool == 6 || currentTool == 5
+                        || currentTool == 10 || currentTool == 11) {
                     schemaCell.setImage(pendingDice.getImage());
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato la Carta Utensile!");
                     diceChanged=false;
-                    iconTool.setVisible(true);
+                    iconTool.setVisible(false);
                     currentTool = 0;
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
@@ -1238,15 +1243,36 @@ public class ControllerClient implements View {
 
     }
 
-    public void swapDiceBagAccepted(List action) {
+    public void swapDiceBagAccepted(final List action) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                colorMoved=(String) action.get(0);
+                numberMoved= Integer.parseInt((String)action.get(1));
+                setDice(pendingDice, (String) action.get(0), action.get(1));
+                setScene("chooseDiceNumber");
+            }
+        });
 
     }
 
     public void chooseValueAccepted() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                setDice(pendingDice, colorMoved, numberMoved);
+                textflow.setText("Hai cambiato correttamente il dado! Ora inseriscilo!");
+
+            }
+        });
 
     }
 
     public void chooseValueError() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                textflow.setText("Azione non corretta. Riprova!");
+                setScene("chooseDiceNumber");
+            }
+        });
 
     }
 
@@ -1388,6 +1414,8 @@ public class ControllerClient implements View {
                 if(currentTool == 7){
                     connection.rollDiceSpace();
                 }
+                else if(currentTool == 11)
+                    connection.swapDiceBag();
                 else {
                     currentTool = numberTool;
                     connection.useToolCard(numberTool);
@@ -1432,7 +1460,8 @@ public class ControllerClient implements View {
                     row = 0;
 
 
-                if(currentTool==1 || currentTool == 6 || currentTool == 5 || currentTool == 10){
+                if(currentTool==1 || currentTool == 6 || currentTool == 5 || currentTool == 10
+                        || currentTool == 11){
                     schemaCell = (ImageView)event1.getTarget();
                     connection.sendPlaceDice(row, col);
                     return;
@@ -1477,6 +1506,7 @@ public class ControllerClient implements View {
                                 x1 = null;
                                 y1 = null;
                                 textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
+                                diceChanged = false;
 
                                 isFirst = false;
 
@@ -1485,7 +1515,7 @@ public class ControllerClient implements View {
                                 y1 = null;
                                 textflow.setText("Hai usato la Carta Utensile!");
                                 iconTool.setVisible(false);
-
+                                diceChanged = false;
                                 disableTool(true);
                                 gridPane.setDisable(true);
                                 currentTool = 0;
@@ -1523,6 +1553,8 @@ public class ControllerClient implements View {
                 }
                 else if(currentTool == 10)
                     connection.flipDice();
+                else if(currentTool == 11)
+                    connection.swapDiceBag();
             }
         });
 
@@ -1557,7 +1589,8 @@ public class ControllerClient implements View {
                     rt.setCycleCount(Animation.INDEFINITE);
                     rt.setInterpolator(Interpolator.LINEAR);
                     rt.play();
-                    if ((currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10 )&& !diceChanged) {
+                    if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
+                            currentTool == 10 || currentTool == 11 )&& !diceChanged) {
                         pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                         indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
                         colorMoved = diceExtract.get(2 * indexDiceSpace);
@@ -1690,7 +1723,17 @@ public class ControllerClient implements View {
 
 
     @FXML
-    void chooseNumber(MouseEvent event) {
+    void chooseNumber(final MouseEvent event) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ImageView imageView = (ImageView)event.getTarget();
+                Stage stage = (Stage) imageView.getScene().getWindow();
+                stage.close();
+                numberMoved = Integer.parseInt((String) imageView.getId());
+                connection.chooseValue(numberMoved);
+            }
+        });
+
 
     }
 
