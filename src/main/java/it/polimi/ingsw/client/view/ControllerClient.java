@@ -1204,7 +1204,10 @@ public class ControllerClient implements View {
             public void run() {
                 textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
                 diceChanged=true;
+
                 pendingDice.setImage(roundDice.getImage());
+
+
 
 
                 roundTrack.setDisable(true);
@@ -1584,7 +1587,8 @@ public class ControllerClient implements View {
                 }
             }
         });
-        if(((ImageView)event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)))
+        if(((ImageView)event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
+                (currentTool == 5))
             t.start();
 
     }
@@ -1658,9 +1662,14 @@ public class ControllerClient implements View {
     @FXML
     void pickRoundTrack(final MouseEvent event) {
 
+
         Platform.runLater(new Runnable() {
             public void run() {
-                roundDice = (ImageView)event.getTarget();
+
+
+                ImageView imageView = (ImageView)event.getTarget();
+                roundDice = new ImageView();
+                roundDice.setImage(imageView.getImage());
                 Node source = ((Node) event.getSource());
                 Node source2 = source.getParent();
 
