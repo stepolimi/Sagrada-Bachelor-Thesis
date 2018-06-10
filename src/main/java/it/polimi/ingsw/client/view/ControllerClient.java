@@ -235,6 +235,7 @@ public class ControllerClient implements View {
         currentTool = 0;
         this.hand = hand;
         diceChanged = false;
+        diceExtract = new ArrayList<String>();
     }
 
 
@@ -954,18 +955,22 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
-                imageView.setImage(null);
-                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
-                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
+                if (currentTool == 7)
+                    return;
+                else {
+                    ImageView imageView = (ImageView) diceSpace.getChildren().get(Integer.parseInt((String) action.get(0)));
+                    imageView.setImage(null);
+                    diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
+                    diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
 
 
-                try {
-                    sleep(300);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    try {
+                        sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    diceSpaceSort();
                 }
-                diceSpaceSort();
             }
         });
 
@@ -1264,7 +1269,6 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
 
-                setDiceSpace(action);
                 textflow.setText("Hai utilizzato la Carta Utensile! Ora puoi inserire un dado");
                 iconTool.setVisible(false);
 
