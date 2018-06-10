@@ -1345,24 +1345,34 @@ public class ControllerClient implements View {
 
     }
 
-    public void printSchema(GridPane gridPane, String nameSchema) throws IOException {
+    public void printSchema(final GridPane gridPane, final String nameSchema) throws IOException {
 
+        Platform.runLater(new Runnable() {
+            public void run() {
+                Schema schema = new Schema();
+                try {
+                    schema = schema.InitSchema("SchemaClient/"+nameSchema);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-        Schema schema = new Schema();
-        schema = schema.InitSchema("SchemaClient/"+nameSchema);
+                int count = 0;
 
-        int count = 0;
-
-        for(int i = 0; i < 4; i++ ){
-            for(int j = 0; j < 5; j++){
-                ImageView imageView = (ImageView)gridPane.getChildren().get(count);
-                imageView.setId("");
-                String constrain = schema.getGrid()[i][j].getConstraint();
-                if(!schema.getGrid()[i][j].getConstraint().equals(""))
-                    putConstrain(imageView, constrain);
-                count++;
+                for(int i = 0; i < 4; i++ ){
+                    for(int j = 0; j < 5; j++){
+                        ImageView imageView = (ImageView)gridPane.getChildren().get(count);
+                        imageView.setId("");
+                        String constrain = schema.getGrid()[i][j].getConstraint();
+                        if(!schema.getGrid()[i][j].getConstraint().equals(""))
+                            putConstrain(imageView, constrain);
+                        count++;
+                    }
+                }
             }
-        }
+        });
+
+
+
     }
 
 
@@ -1746,5 +1756,5 @@ public class ControllerClient implements View {
 
     }
 
-    
+
 }
