@@ -750,6 +750,7 @@ public class ControllerClient implements View {
                 }
                 if(correctInsertion) {
                     imageView.setImage(dragImage);
+                    imageView.setId("full");
                     textflow.setText("");
 
                     gridPane.setDisable(true);
@@ -1088,6 +1089,7 @@ public class ControllerClient implements View {
                 if (currentTool == 1 || currentTool == 6 || currentTool == 5
                         || currentTool == 10 || currentTool == 11) {
                     schemaCell.setImage(pendingDice.getImage());
+                    schemaCell.setId("full");
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato la Carta Utensile!");
                     diceChanged=false;
@@ -1354,6 +1356,7 @@ public class ControllerClient implements View {
         for(int i = 0; i < 4; i++ ){
             for(int j = 0; j < 5; j++){
                 ImageView imageView = (ImageView)gridPane.getChildren().get(count);
+                imageView.setId("");
                 String constrain = schema.getGrid()[i][j].getConstraint();
                 if(!schema.getGrid()[i][j].getConstraint().equals(""))
                     putConstrain(imageView, constrain);
@@ -1501,8 +1504,11 @@ public class ControllerClient implements View {
                         if (correctInsertion) {
 
                             schemaCell.setImage(imageMoved.getImage());
-                            if (!schemaCell.equals(imageMoved))
+                            schemaCell.setId("full");
+                            if (!schemaCell.equals(imageMoved)) {
                                 imageMoved.setImage(null);
+                                imageMoved.setId("");
+                            }
 
                             x2 = null;
                             y2 = null;
@@ -1528,7 +1534,7 @@ public class ControllerClient implements View {
                             }
 
                         } else {
-                            textflow.setText("Errore di piazzamento. Ritenta");
+                            textflow.setText("Errore di piazzamento. Clicca sul dado e riposizionalo");
                             x1 = null;
                             y1 = null;
                         }
@@ -1537,8 +1543,8 @@ public class ControllerClient implements View {
                 }
             }
         });
-
-        t.start();
+        if(((ImageView)event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)))
+            t.start();
 
     }
 
@@ -1737,6 +1743,31 @@ public class ControllerClient implements View {
             }
         });
 
+
+    }
+
+    public boolean isEmpty(ImageView imageView){
+        String path = "/assets/image/SchemaElement/";
+
+
+        if(imageView.getImage() ==  null)
+            return true;
+
+        if(imageView.getImage() != (new Image(path + "blue.png")) &&
+                imageView.getImage() != (new Image(path + "purple.png")) &&
+                imageView.getImage() != (new Image(path + "red.png")) &&
+                imageView.getImage() != (new Image(path + "yellow.png")) &&
+                imageView.getImage() != (new Image(path + "green.png")) &&
+                imageView.getImage() != (new Image(path + "1.png")) &&
+                imageView.getImage() != (new Image(path + "2.png")) &&
+                imageView.getImage() != (new Image(path + "3.png")) &&
+                imageView.getImage() != (new Image(path + "4.png")) &&
+                imageView.getImage() != (new Image(path + "5.png")) &&
+                imageView.getImage() != (new Image(path + "6.png")) &&
+                imageView.getImage() != null)
+            return false;
+
+        else return false;
 
     }
 
