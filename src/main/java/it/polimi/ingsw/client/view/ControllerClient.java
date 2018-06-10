@@ -1746,30 +1746,5 @@ public class ControllerClient implements View {
 
     }
 
-    public boolean isEmpty(ImageView imageView){
-        String path = "/assets/image/SchemaElement/";
-
-
-        if(imageView.getImage() ==  null)
-            return true;
-
-        if(imageView.getImage() != (new Image(path + "blue.png")) &&
-                imageView.getImage() != (new Image(path + "purple.png")) &&
-                imageView.getImage() != (new Image(path + "red.png")) &&
-                imageView.getImage() != (new Image(path + "yellow.png")) &&
-                imageView.getImage() != (new Image(path + "green.png")) &&
-                imageView.getImage() != (new Image(path + "1.png")) &&
-                imageView.getImage() != (new Image(path + "2.png")) &&
-                imageView.getImage() != (new Image(path + "3.png")) &&
-                imageView.getImage() != (new Image(path + "4.png")) &&
-                imageView.getImage() != (new Image(path + "5.png")) &&
-                imageView.getImage() != (new Image(path + "6.png")) &&
-                imageView.getImage() != null)
-            return false;
-
-        else return false;
-
-    }
-
-
+    
 }
