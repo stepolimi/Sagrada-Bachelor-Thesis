@@ -90,6 +90,9 @@ public class ControllerClient implements View {
 
     ImageView schemaCell;
 
+    @FXML
+    public GridPane schemaConstrain;
+
     public ImageView roundDice;
 
     @FXML
@@ -113,10 +116,19 @@ public class ControllerClient implements View {
     GridPane schema2;
 
     @FXML
+    GridPane constrain2;
+
+    @FXML
     GridPane schema3;
 
     @FXML
+    GridPane constrain3;
+
+    @FXML
     GridPane schema4;
+
+    @FXML
+    GridPane constrain4;
 
     @FXML
     ImageView iconTool;
@@ -624,7 +636,7 @@ public class ControllerClient implements View {
                 Schema schema = new Schema();
 
                 try {
-                    printSchema(gridPane, name);
+                    printSchema(schemaConstrain, name);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -660,13 +672,13 @@ public class ControllerClient implements View {
 
                 schemaPlayers = new ArrayList<Object>();
                 schemaPlayers.add(nickname2);
-                schemaPlayers.add(schema2);
+                schemaPlayers.add(constrain2);
 
                 schemaPlayers.add(nickname3);
-                schemaPlayers.add(schema3);
+                schemaPlayers.add(constrain3);
 
                 schemaPlayers.add(nickname4);
-                schemaPlayers.add(schema4);
+                schemaPlayers.add(constrain4);
 
 
                 stringList.remove(stringList.indexOf(nickname.getText())+1);
@@ -682,6 +694,10 @@ public class ControllerClient implements View {
                         e.printStackTrace();
                     }
                 }
+
+
+
+
 
             }
         });
@@ -865,11 +881,12 @@ public class ControllerClient implements View {
     }
 
     public void setDiceSpace(final List<String> dices) {
-        diceExtract = new ArrayList<String>();
         Platform.runLater(new Runnable() {
             List<String> stringList = new ArrayList<String>(dices);
 
             public void run() {
+                diceExtract = new ArrayList<String>();
+
                 String path = "/assets/image/Dice";
                 ImageView imageView = new ImageView();
                 int j = 0;
@@ -933,17 +950,26 @@ public class ControllerClient implements View {
 
     }
 
-    public void pickDiceSpace(final List action) throws InterruptedException {
+    public void pickDiceSpace(final List action) {
+
+        Platform.runLater(new Runnable() {
+            public void run() {
+                ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
+                imageView.setImage(null);
+                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
+                diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
 
 
-        ImageView imageView= (ImageView)diceSpace.getChildren().get(Integer.parseInt((String)action.get(0)));
-        imageView.setImage(null);
-        diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
-        diceExtract.remove((Integer.parseInt((String)action.get(0))*2));
+                try {
+                    sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                diceSpaceSort();
+            }
+        });
 
 
-        sleep(300);
-        diceSpaceSort();
     }
 
 
@@ -1239,6 +1265,8 @@ public class ControllerClient implements View {
             public void run() {
 
                 setDiceSpace(action);
+                textflow.setText("Hai utilizzato la Carta Utensile! Ora puoi inserire un dado");
+                iconTool.setVisible(false);
 
             }
         });
@@ -1345,7 +1373,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void printSchema(final GridPane gridPane, final String nameSchema) throws IOException {
+    public void printSchema(final GridPane schemaConstrain, final String nameSchema) throws IOException {
 
         Platform.runLater(new Runnable() {
             public void run() {
@@ -1360,8 +1388,7 @@ public class ControllerClient implements View {
 
                 for(int i = 0; i < 4; i++ ){
                     for(int j = 0; j < 5; j++){
-                        ImageView imageView = (ImageView)gridPane.getChildren().get(count);
-                        imageView.setId("");
+                        ImageView imageView = (ImageView)schemaConstrain.getChildren().get(count);
                         String constrain = schema.getGrid()[i][j].getConstraint();
                         if(!schema.getGrid()[i][j].getConstraint().equals(""))
                             putConstrain(imageView, constrain);
