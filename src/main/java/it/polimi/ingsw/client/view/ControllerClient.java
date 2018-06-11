@@ -1588,7 +1588,7 @@ public class ControllerClient implements View {
             }
         });
         if(((ImageView)event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
-                (currentTool == 5))
+                (currentTool == 5) || (currentTool ==10))
             t.start();
 
     }
