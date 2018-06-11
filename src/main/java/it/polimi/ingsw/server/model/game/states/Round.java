@@ -107,6 +107,8 @@ public class Round extends Observable implements TimedComponent {
         }
     }
 
+    public Timer getTimer() { return timer; }
+
     public Player getCurrentPlayer(){ return currentPlayer; }
 
     public void setCurrentPlayer(Player player){ this.currentPlayer= player; }
@@ -235,8 +237,8 @@ public class Round extends Observable implements TimedComponent {
                 pendingDice = null;
             }
             if(turnNumber == board.getPlayerList().size()*2 -1){
-                board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
                 if(roundManager.getRoundNumber() <=10) {
+                    board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
                     roundManager.startNewRound();
                 }
                 return;

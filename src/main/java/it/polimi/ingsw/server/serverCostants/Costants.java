@@ -9,4 +9,7 @@ public class Costants {
     public static final int NUM_SCHEMAS = 12;
     public static final int DECK_TOOL_CARDS_SIZE = 3;
     public static final int DECK_PUBLIC_OBJECTIVES_SIZE = 3;
+    public static final int ROWS_SCHEMA = 4;
+    public static final int COLUMNS_SCHEMA = 5;
+    public static final int MAX_SCHEMA_DICES = 20;
 }

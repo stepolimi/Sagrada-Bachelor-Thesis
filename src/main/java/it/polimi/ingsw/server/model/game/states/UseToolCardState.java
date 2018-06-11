@@ -101,7 +101,6 @@ public class UseToolCardState implements State{
 
     private void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<String>();
-        System.out.println(round.getNextActions());
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()){
             round.setUsingTool(null);
             if(!round.isInsertedDice() || round.hasBonusInsertDice())

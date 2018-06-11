@@ -47,11 +47,11 @@ public class Player extends Observable{
                 favour = schema.getDifficult();
                 schema.setPlayer(this);
                 schema.addObserver(obs);
-                notify(APPROVED_SCHEMA);
+                notifyChanges(APPROVED_SCHEMA);
                 return;
             }
         }
-        notify(SET_SCHEMAS);
+        notifyChanges(SET_SCHEMAS);
     }
 
     public int getFavour() {
@@ -81,7 +81,7 @@ public class Player extends Observable{
 
     public void setPrCard(PrivateObjective prCard) {
         this.prCard = prCard;
-        notify(SET_PRIVATE_CARD);
+        notifyChanges(SET_PRIVATE_CARD);
     }
 
     public int getScore() {
@@ -90,6 +90,7 @@ public class Player extends Observable{
 
     public void setScore(int score) {
         this.score = score;
+        notifyChanges("setScore");
     }
 
     public boolean isMyTurn() {
@@ -102,7 +103,7 @@ public class Player extends Observable{
 
     public void setSchemas(List<Schema> schemas){
         this.schemas = schemas;
-        notify(SET_SCHEMAS);
+        notifyChanges(SET_SCHEMAS);
     }
     public List<Schema> getSchemas(){ return schemas; }
 
@@ -126,7 +127,7 @@ public class Player extends Observable{
         System.out.println(this);
     }
 
-    public void notify(String string){
+    public void notifyChanges(String string){
         List action = new ArrayList();
         action.add(string);
         action.add(nickname);
@@ -137,6 +138,8 @@ public class Player extends Observable{
             action.add(prCard.getColour());
         else if(string.equals(APPROVED_SCHEMA))
             action.add(schema.getName());
+        else if(string.equals("setScore"))
+            action.add(((Integer)score).toString());
         setChanged();
         notifyObservers(action);
     }

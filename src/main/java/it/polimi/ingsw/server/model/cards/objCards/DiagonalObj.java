@@ -1,47 +1,48 @@
 package it.polimi.ingsw.server.model.cards.objCards;
 
+import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
+
+import java.util.List;
 
 public class DiagonalObj extends ObjectiveCard {
 
     private String name;
     private String description;
+    private int [] diagonals = new int[4];
 
     public DiagonalObj(String name, String description) {
         this.name = name;
         this.description = description;
+        diagonals[0] = 0;
+        diagonals[1] = 2;
+        diagonals[2] = 5;
+        diagonals[3] = 7;
     }
     @Override
     public int scoreCard(Schema sch) {
         int score = 0;
-        boolean flag = false;
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 if (sch.getTable(i, j).getDice() != null) {
-                    if((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i + 1, j + 1).getDice() != null) {
-                        if ((j + 1 < 5) && (i + 1 < 4) && sch.getTable(i, j).getDice().getColour() ==
-                                sch.getTable(i + 1, j + 1).getDice().getColour()) {
-                            score++;
-                            flag = true;
-                        }
-                if((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i - 1, j + 1).getDice() != null){
-                        if ((i - 1 > 0) && (j + 1 < 4) && sch.getTable(i, j).getDice().getColour() ==
-                                sch.getTable(i - 1, j + 1).getDice().getColour()) {
-                            score++;
-                            flag = true;
-                        }
-                        if (flag) {
-                            score++;
-                            flag = false;
-                        }
-                    }
+                    score += checkNearDices(sch.nearDice(i,j),sch.getTable(i,j).getDice());
+
                 }
-            }
 
             }
         }
-
+        System.out.println("diagonal objective score: " + score);
         return score;
+    }
+
+    private int checkNearDices(List<Dice> dices,Dice dice) {
+        for (int index : diagonals)
+            if (dices.get(index) != null)
+                if (dices.get(index).getColour() == dice.getColour()) {
+                    return 1;
+                }
+        return 0;
     }
 
     @Override

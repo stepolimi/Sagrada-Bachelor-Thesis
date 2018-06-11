@@ -162,8 +162,9 @@ public class ServerController implements Observer{
         }
         round = roundManager.getRound();
         if(round.getTurnNumber() == game.getBoard().getPlayerList().size()*2 -1){
-            game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
-            if(roundManager.getRoundNumber() <=10) {
+            round.getTimer().cancel();
+            if(roundManager.getRoundNumber() <10) {
+                game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
                 roundManager.startNewRound();
                 round = roundManager.getRound();
             }

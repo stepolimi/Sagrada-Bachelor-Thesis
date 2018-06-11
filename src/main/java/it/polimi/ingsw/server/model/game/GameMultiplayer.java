@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.costants.TimerCostants;
+import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.SetSchemas;
-import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
@@ -19,6 +19,7 @@ import static it.polimi.ingsw.costants.LoginMessages.*;
 import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
 import static it.polimi.ingsw.costants.TimerCostants.SCHEMA_TIMER_VALUE;
 import static it.polimi.ingsw.costants.TimerCostants.SCHEMAS_TIMER_PING;
+import static it.polimi.ingsw.server.serverCostants.Costants.MAX_SCHEMA_DICES;
 
 public class GameMultiplayer extends Observable implements TimedComponent {
     private List<Player> players;
@@ -69,15 +70,40 @@ public class GameMultiplayer extends Observable implements TimedComponent {
 
     public void endGame(){
         System.out.println("calcolo punteggio");
-        List<Integer> scores = new ArrayList<Integer>();
+        Player winner = null;
+
+        calculateScores();
+
+        for(Player player: board.getPlayerList()) {
+            if (player.isConnected()) {
+                if(winner == null)
+                    winner = player;
+                else{
+                    if(player.getScore() > winner.getScore())
+                        winner = player;
+                }
+            }
+        }
+        System.out.println("the winner is: " + winner.getNickname());
+
+    }
+
+    private void calculateScores (){
         for(Player player: board.getPlayerList()){
             if(player.isConnected()){
-                scores.add(player.getPrCard().ScoreCard(player.getSchema()));
+                int score;
+                Schema schema = player.getSchema();
+
+                score = player.getPrCard().scoreCard(schema);
+                for(ObjectiveCard objective: board.getDeckPublic())
+                    score += objective.scoreCard(schema);
+                score -= MAX_SCHEMA_DICES - schema.getSize();
+                score += player.getFavour();
+
+                player.setScore(score);
+                System.out.println("score of " + player.getNickname() + " is " + score);
             }
 
-        }
-        for(ObjectiveCard objective: board.getDeckPublic()){
-            
         }
     }
     public List<Player> getPlayers() { return players; }
