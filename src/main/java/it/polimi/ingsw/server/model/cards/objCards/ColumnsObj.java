@@ -3,8 +3,10 @@ package it.polimi.ingsw.server.model.cards.objCards;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static it.polimi.ingsw.server.serverCostants.Costants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.serverCostants.Costants.ROWS_SCHEMA;
 
 public class ColumnsObj extends ObjectiveCard {
 
@@ -20,43 +22,37 @@ public class ColumnsObj extends ObjectiveCard {
 
     @Override
     public int scoreCard(Schema sch) {
-
         int score = 0;
+        List<Dice> container;
 
-        List<Dice> container = new ArrayList<Dice>();
-        for(int j=0; j < 5; j++){
-            for(int i=0; i < 4; i++){
-                if(sch.getTable(i,j).getDice() != null)
-                    container.add(sch.getTable(i,j).getDice());
-            }
-            if(this.areDifferent(container, this.points) && container.size() == 4) {
-                score = score + this.points;
-                container.clear();
-            }
+        for(int j=0; j < COLUMNS_SCHEMA; j++){
+            container = sch.getDicesInColumn(j);
+            if (points == 5 && noColourDuplicates(container) && container.size() == ROWS_SCHEMA)
+                score += this.points;
+
+            else if (points == 4 && noNumberDuplicates(container) && container.size() == ROWS_SCHEMA)
+                score += this.points;
         }
 
+        System.out.println("column objective score: " + score);
         return score;
     }
 
 
-    public boolean areDifferent(List<Dice> container, int points) {
-        if (points == 5) {
-            for (int i = 0, j= 1; i < container.size()-1; i++, j++) {
+    private boolean noColourDuplicates(List<Dice> container) {
+        for (int i = 0; i < container.size() - 1; i++)
+            for (int j = i + 1; j < container.size(); j++)
                 if (container.get(i).getColour().equals(container.get(j).getColour()))
                     return false;
-            }
-            return true;
-        }
-        else if (points == 4){
-            for (int i = 0, j= 1; i < container.size()-1; i++, j++) {
-                if (container.get(i).getValue() == (container.get(j).getValue())) {
-                    return false;
-                    }
-            }
-            return true;
-        }
+        return true;
+    }
 
-        else return false;
+    private boolean noNumberDuplicates(List<Dice> container) {
+        for (int i = 0; i < container.size() - 1; i++)
+            for (int j = i + 1; j < container.size(); j++)
+                if (container.get(i).getValue() == (container.get(j).getValue()))
+                    return false;
+        return true;
     }
 
     @Override

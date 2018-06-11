@@ -13,8 +13,9 @@ public class EndTurnState implements State {
         round.setMovedDiceColour(null);
         do {
             if(round.getTurnNumber() == round.getBoard().getPlayerList().size()*2 -1){
-                round.getBoard().getRoundTrack().insertDices(round.getBoard().getDiceSpace().getListDice(),round.getRoundManager().getRoundNumber() - 1);
-                if(round.getRoundManager().getRoundNumber() <=10) {
+                round.getTimer().cancel();
+                if(round.getRoundManager().getRoundNumber() <10) {
+                    round.getBoard().getRoundTrack().insertDices(round.getBoard().getDiceSpace().getListDice(),round.getRoundManager().getRoundNumber() - 1);
                     round.getRoundManager().startNewRound();
                 }
                 return;

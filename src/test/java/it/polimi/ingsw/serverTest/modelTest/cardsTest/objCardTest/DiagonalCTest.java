@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
@@ -15,16 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DiagonalCTest {
 
 
-    Gson g = new Gson();
-    String stringa = "{\"name\":\"Kaleidoscopic Dream\",\"difficult\":4,\"table\":[[{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":1,\"full\":false}],[{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":5,\"full\":false},{\"number\":0,\"full\":false},{\"number\":4,\"full\":false}],[{\"number\":3,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_RED\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false}],[{\"number\":2,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false}]]}";
-    Schema s = g.fromJson(stringa,Schema.class);
+    Schema s = new Schema();
 
     public void insertDice1(){
+        try {
+            s = s.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Dice d1 = new Dice(Colour.ANSI_GREEN,1);
         Dice d2 = new Dice(Colour.ANSI_GREEN,2);
         Dice d3 = new Dice(Colour.ANSI_GREEN,3);
         Dice d4 = new Dice(Colour.ANSI_GREEN,4);
-        Dice d5= new Dice(Colour.ANSI_YELLOW,5);
+        Dice d5 = new Dice(Colour.ANSI_YELLOW,5);
         Dice d6 = new Dice(Colour.ANSI_YELLOW,6);
         Dice d7 = new Dice(Colour.ANSI_YELLOW,1);
         Dice d8 = new Dice(Colour.ANSI_YELLOW,2);
@@ -47,13 +52,15 @@ public class DiagonalCTest {
     }
 
     public void insertDice2(){
+        try {
+            s = s.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Dice d1 = new Dice(Colour.ANSI_GREEN,1);
         Dice d2 = new Dice(Colour.ANSI_GREEN,2);
         Dice d3 = new Dice(Colour.ANSI_GREEN,3);
         Dice d4 = new Dice(Colour.ANSI_GREEN,4);
-
-
-
 
 
         s.insertDice(1,1,d1);
@@ -71,12 +78,17 @@ public class DiagonalCTest {
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
         card.dump();
 
-        assertEquals(5, card.scoreCard(s), "Result Correct");
+        assertEquals(6, card.scoreCard(s), "Result Correct");
 
     }
 
     @Test
     public void nullScore(){
+        try {
+            s = s.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
         card.dump();
@@ -86,7 +98,7 @@ public class DiagonalCTest {
     }
 
     @Test
-    void CorrectScore2() throws  Exception{
+    void CorrectScore2() {
 
         insertDice2();
 

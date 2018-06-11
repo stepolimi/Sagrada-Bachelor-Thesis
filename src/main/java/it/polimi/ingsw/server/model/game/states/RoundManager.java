@@ -21,7 +21,7 @@ public class RoundManager  {
     }
 
     public void startNewRound() {
-        if(roundNum <=10){
+        if(roundNum <10){
             boolean playerConnected = false;
             do{
                 if(board.getPlayerList().get(firstPlayerIndex).isConnected()) {

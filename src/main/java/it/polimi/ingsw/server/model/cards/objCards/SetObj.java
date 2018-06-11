@@ -1,9 +1,12 @@
 package it.polimi.ingsw.server.model.cards.objCards;
 
 import it.polimi.ingsw.server.model.board.Colour;
+import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.Arrays;
+
+import static it.polimi.ingsw.server.serverCostants.Costants.MAX_SCHEMA_DICES;
 
 public class SetObj extends ObjectiveCard {
 
@@ -20,57 +23,55 @@ public class SetObj extends ObjectiveCard {
 
     @Override
     public int scoreCard(Schema sch) {
-        int count[];
-        count = new int[6];
+        int[] count;
+        int min = MAX_SCHEMA_DICES;
 
-        if(points == 4){
-            for(int i=0; i < 4; i++){
-                for(int j=0; j<5; j++) {
-                    if (sch.getTable(i, j).getDice() != null) {
-                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_RED)
-                            count[0]++;
-                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_BLUE)
-                            count[1]++;
-                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_GREEN)
-                            count[2]++;
-                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_PURPLE)
-                            count[3]++;
-                        if (sch.getTable(i, j).getDice().getColour() == Colour.ANSI_YELLOW)
-                            count[4]++;
-                    }
-                }
-            }
-            System.out.println(Arrays.toString(count));
+        count = new int[points +1];
+        for (Dice dice : sch.getDices()){
+            if (points == 4)
+                colourCounter(count,dice);
 
-            return 4*Math.min(count[0], Math.min(count[1], Math.min(count[2], Math.min(count[3],
-                    Math.min(count[4], count[4])))));
+            else if (points == 5)
+                valueCounter(count,dice);
+
+            else
+                return 0;
         }
-        else if (points == 5) {
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 5; j++) {
-                    if (sch.getTable(i, j).getDice() != null) {
-                        if (sch.getTable(i, j).getDice().getValue() == 1)
-                            count[0]++;
-                        if (sch.getTable(i, j).getDice().getValue() == 2)
-                            count[1]++;
-                        if (sch.getTable(i, j).getDice().getValue() == 3)
-                            count[2]++;
-                        if (sch.getTable(i, j).getDice().getValue() == 4)
-                            count[3]++;
-                        if (sch.getTable(i, j).getDice().getValue() == 5)
-                            count[4]++;
-                        if (sch.getTable(i, j).getDice().getValue() == 6)
-                            count[5]++;
-                    }
-                }
-            }
-            System.out.println(Arrays.toString(count));
 
+        System.out.println(Arrays.toString(count));
+        for(int i: count)
+            if(i < min)
+                min = i;
+        System.out.println("set objective score: " + points * min);
+        return points * min;
+    }
 
-            return 5 * Math.min(count[0], Math.min(count[1], Math.min(count[2], Math.min(count[3],
-                    Math.min(count[4], count[5])))));
-        }
-        else return 0;
+    private void colourCounter(int[]count , Dice dice){
+        if (dice.getColour() == Colour.ANSI_RED)
+            count[0]++;
+        else if (dice.getColour() == Colour.ANSI_BLUE)
+            count[1]++;
+        else if (dice.getColour() == Colour.ANSI_GREEN)
+            count[2]++;
+        else if (dice.getColour() == Colour.ANSI_PURPLE)
+            count[3]++;
+        else if (dice.getColour() == Colour.ANSI_YELLOW)
+            count[4]++;
+    }
+
+    private void valueCounter(int[]count , Dice dice){
+        if (dice.getValue() == 1)
+            count[0]++;
+        else if (dice.getValue() == 2)
+            count[1]++;
+        else if (dice.getValue() == 3)
+            count[2]++;
+        else if (dice.getValue() == 4)
+            count[3]++;
+        else if (dice.getValue() == 5)
+            count[4]++;
+        else if (dice.getValue() == 6)
+            count[5]++;
     }
 
     @Override

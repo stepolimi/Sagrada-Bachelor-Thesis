@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.cards.objCards;
 
+import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 public class CoupleSetObj extends ObjectiveCard {
@@ -17,24 +18,21 @@ public class CoupleSetObj extends ObjectiveCard {
 
     @Override
     public int scoreCard(Schema sch) {
-
         int count1 = 0;
         int count2 = 0;
 
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                if(sch.getTable(i,j).getDice() != null) {
-                    if (sch.getTable(i, j).getDice().getValue() == this.a)
-                        count1++;
-                    else if (sch.getTable(i, j).getDice().getValue() == this.b)
-                        count2++;
-                }
-            }
+        for(Dice dice: sch.getDices()) {
+            if (dice.getValue() == this.a)
+                count1 ++;
+            else if (dice.getValue() == this.b)
+                count2 ++;
         }
-        if (count1 < count2)
+        if (count1 < count2) {
+            System.out.println("couple set objective score: " + 2*count1);
             return 2 * count1;
-
-        else return 2 * count2;
+        }
+        System.out.println("couple set objective score: " + 2*count2);
+        return 2 * count2;
     }
 
     @Override

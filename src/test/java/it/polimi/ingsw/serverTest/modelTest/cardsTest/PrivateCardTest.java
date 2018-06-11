@@ -14,11 +14,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PrivateCardTest {
 
-    Gson g = new Gson();
-    String stringa = "{\"name\":\"Kaleidoscopic Dream\",\"difficult\":4,\"table\":[[{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":1,\"full\":false}],[{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":5,\"full\":false},{\"number\":0,\"full\":false},{\"number\":4,\"full\":false}],[{\"number\":3,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_RED\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false}],[{\"number\":2,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false}]]}";
-    Schema s = g.fromJson(stringa, Schema.class);
+    Schema s = new Schema();
 
     public void insertDice(){
+        try {
+            s = s.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);
@@ -50,15 +53,19 @@ public class PrivateCardTest {
 
         PrivateObjective card = new PrivateObjective().PrivateInit(4);
         card.dump();
-        assertEquals(6, card.ScoreCard(s));
+        assertEquals(6, card.scoreCard(s));
     }
 
     @Test
     public void null_score() throws IOException {
-
+        try {
+            s = s.schemaInit(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         PrivateObjective card = new PrivateObjective().PrivateInit(4);
         card.dump();
-        assertEquals(0, card.ScoreCard(s), "result is 0");
+        assertEquals(0, card.scoreCard(s), "result is 0");
 
     }
 }

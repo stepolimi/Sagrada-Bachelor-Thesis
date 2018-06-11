@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
 
@@ -166,7 +167,7 @@ public class Schema extends Observable{
 
     // sfrutto il fatto che se si va fuori dai contorni mi viene generata un'eccezione per mettere la casella corrispondente a null
     // riesco a uniformare il codice senza gestire ogni singolo caso (bordo,spigolo)
-    public Dice checkNearDice(int rows,int columns)
+    private Dice checkNearDice(int rows,int columns)
     {
         Dice d=null;
         try {
@@ -178,6 +179,34 @@ public class Schema extends Observable{
         return d;
     }
 
+    public List<Dice> getDices(){
+        List<Dice> dices = new ArrayList<Dice>();
+        for(int i=0; i < 4; i++)
+            for (int j = 0; j < 5; j++)
+                if (table[i][j].getDice() != null)
+                    dices.add(table[i][j].getDice());
+
+        return dices;
+    }
+
+    public List<Dice> getDicesInRow(int x){
+        List<Dice> dices = new ArrayList<Dice>();
+        for (int j = 0; j < 5; j++)
+            if (table[x][j].getDice() != null)
+                dices.add(table[x][j].getDice());
+
+        return dices;
+    }
+
+    public List<Dice> getDicesInColumn(int y){
+        List<Dice> dices = new ArrayList<Dice>();
+        for (int i = 0; i < 4; i++)
+            if (table[i][y].getDice() != null)
+                dices.add(table[i][y].getDice());
+
+        return dices;
+    }
+
     public String getName() {
         return name;
     }
@@ -187,6 +216,8 @@ public class Schema extends Observable{
     }
 
     public void setPlayer(Player player){ this.player = player.getNickname(); }
+
+    public int getSize(){ return this.size;}
 
 
     @Override

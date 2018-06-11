@@ -40,7 +40,7 @@ public class PrivateObjective {
         return sch;
     }
 
-    public int ScoreCard(Schema sch){
+    public int scoreCard(Schema sch){
         int score = 0;
         for(int i=0; i<4; i++){
             for(int j=0; j<5; j++){
