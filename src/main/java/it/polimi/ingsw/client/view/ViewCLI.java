@@ -450,17 +450,49 @@ public class ViewCLI implements View{
 
     // used to set legal action
     public void setActions(List<String> actions) {
+        String move= "";
         moves.clear();
         moves.add("Mostra l'obiettivo privato");
         moves.add("Mostra gli obiettivi pubblici");
         moves.add("Mostra schemi avversari");
-        moves.add("Mostra le tool card");
-        moves.add("Mostra la RoundTrack");
+        moves.add("Mostra le carte utensili");
+        moves.add("Mostra il tracciato dei round");
         moves.add("Mostra il tuo schema");
         if(actions == null)
             return;
-        for(String action: actions)
-            moves.add(action);
+        for(String action: actions) {
+            move = action;
+            if (action.equals("InsertDice"))
+                move = "Inserisci un dado";
+            else if(action.equals("DraftDice"))
+                move = "Prendi un dado dalla riserva";
+            else if(action.equals("CancelUseToolCard"))
+                move = "Annulla uso della carta utensile";
+            else if(action.equals("UseToolCard"))
+                move ="Utilizza la carta utensile";
+            else if(action.equals("EndTurn"))
+                move = "Passa il turno";
+            else if(action.equals("RollDice"))
+                move ="Tira il dado";
+            else if(action.equals("PlaceDice"))
+                move ="Piazza il dado";
+            else if(action.equals("RollDiceSpace"))
+                move ="Tira i dadi della riserva";
+            else if(action.equals("MoveDice"))
+                move ="Muovi il dado";
+            else if(action.equals("FlipDice"))
+                move = "Gira il dado sulla faccia opposta";
+           else if(action.equals("SwapDice"))
+                move = "Scambia il dado con un dado nel tracciato dei round";
+            else if(action.equals("PlaceDiceSpace"))
+                move = "Lascia il dado nella riserva";
+            else if(action.equals("SwapDiceBag"))
+                move = "Pesca un dado dalla borsa dei dadi";
+            else if(action.equals("ChangeValue"))
+                move = "Aumenta/Diminuisci il valore del dado di 1";
+
+            moves.add(move);
+        }
         showMoves();
     }
 
@@ -519,9 +551,39 @@ public class ViewCLI implements View{
 
     public void showToolCard()
     {
-        System.out.println("Le toolcard sono:");
+        System.out.println("Le carte utensili sono:");
         for(String tool:toolCard)
-            System.out.println(tool);
+            try {
+                switch (Integer.parseInt(tool)) {
+                    case 1:
+                        System.out.println(Colour.colorString("1)Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scelto di 1",Colour.ANSI_YELLOW));
+                        break;
+                    case 2: System.out.println(Colour.colorString("2)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore",Colour.ANSI_YELLOW));
+                        break;
+                    case 3: System.out.println(Colour.colorString("3)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di valore",Colour.ANSI_YELLOW));
+                        break;
+                    case 4: System.out.println(Colour.colorString("4)Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento",Colour.ANSI_YELLOW));
+                        break;
+                    case 5: System.out.println(Colour.colorString("5)Dopo aver scelto un dado,scambia quel dado con un dado sul tracciato dei round",Colour.ANSI_YELLOW));
+                        break;
+                    case 6: System.out.println(Colour.colorString("6)Dopo aver scelto un dado, tira nuovamente quel dado",Colour.ANSI_YELLOW));
+                        break;
+                    case 7: System.out.println(Colour.colorString("7)Tira nuovamente tutti i dadi della riserva",Colour.ANSI_YELLOW));
+                        break;
+                    case 8: System.out.println(Colour.colorString("8)Dopo il tuo primo turno scegli immediatamente un altro dado",Colour.ANSI_YELLOW));
+                        break;
+                    case 9: System.out.println(Colour.colorString("9)Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente a un altro dado",Colour.ANSI_YELLOW));
+                        break;
+                    case 10: System.out.println(Colour.colorString("10)Dopo aver scelto un dado, giralo sulla faccia opposta",Colour.ANSI_YELLOW));
+                        break;
+                    case 11: System.out.println(Colour.colorString("11)Dopo aver scelto un dado, riponilo nel sacchetto, poi pescane uno dal sacchetto",Colour.ANSI_YELLOW));
+                        break;
+                    default: System.out.println(Colour.colorString("12)Muovi fino a due dadi dello stesso coore di un solo dado sul tracciato dei round",Colour.ANSI_YELLOW));
+                }
+            }catch(NumberFormatException e)
+            {
+                System.out.println(Colour.colorString("Errore con la visualizzazione della carta utensile",Colour.ANSI_RED));
+            }
     }
 
     public void showMoves()
@@ -535,7 +597,7 @@ public class ViewCLI implements View{
     public void showRoundTrack()
     {
         if(roundTrack.size()==0)
-            System.out.println(Colour.colorString("Round track vuota",Colour.ANSI_RED));
+            System.out.println(Colour.colorString("Tracciato dei round vuoto",Colour.ANSI_RED));
 
         for(int i=0;i<roundTrack.size();i++)
         {
@@ -742,35 +804,35 @@ public class ViewCLI implements View{
                 if(choose>moves.size() || choose<1)
                     throw new WrongInputException();
 
-                if (moves.get(choose - 1).equals("InsertDice")) {
+                if (moves.get(choose - 1).equals("Inserisci un dado")) { // insert Dice
                     insertDice();
-                } else if (moves.get(choose - 1).equals("UseToolCard")) {
+                } else if (moves.get(choose - 1).equals("Utilizza la carta utensile")) { // UseToolCard
                     useToolCard();
-                } else if (moves.get(choose - 1).equals("MoveDice")) {
+                } else if (moves.get(choose - 1).equals("Muovi il dado")) {  // moveDice
                     moveDice();
-                } else if (moves.get(choose - 1).equals("RollDice")) {
+                } else if (moves.get(choose - 1).equals("Tira il dado")) {    //Roll dice
                     rollDice();
-                } else if (moves.get(choose - 1).equals("EndTurn")) {
+                } else if (moves.get(choose - 1).equals("Passa il turno")) {  // end turn
                     passTurn();
-                } else if (moves.get(choose - 1).equals("DraftDice")) {
+                } else if (moves.get(choose - 1).equals("Prendi un dado dalla riserva")) {   // draftDice
                     draftDice();
-                } else if (moves.get(choose - 1).equals("PlaceDice")) {
+                } else if (moves.get(choose - 1).equals("Piazza il dado")) {  // placeDice
                     placeDice();
-                }else if (moves.get(choose - 1).equals("ChangeValue")) {
+                }else if (moves.get(choose - 1).equals("Aumenta/Diminuisci il valore del dado di 1")) { // ChangeValue
                     changeValue();
-                }else if (moves.get(choose - 1).equals("SwapDice")) {
+                }else if (moves.get(choose - 1).equals("Scambia il dado con un dado nel tracciato dei round")) { // swap dice
                     swapDice();
-                }else if (moves.get(choose - 1).equals("CancelUseToolCard")) {
+                }else if (moves.get(choose - 1).equals("Annulla uso della carta utensile")) { // cancelUseToolCard
                     cancelToolCard();
-                }else if (moves.get(choose - 1).equals("FlipDice")) {
+                }else if (moves.get(choose - 1).equals("Gira il dado sulla faccia opposta")) {
                     flipDice();
-                }else if (moves.get(choose - 1).equals("PlaceDiceSpace")) {
+                }else if (moves.get(choose - 1).equals("Lascia il dado nella riserva")) { // PlaceDiceSpace
                     placeDiceSpace();
-                }else if (moves.get(choose - 1).equals("RollDiceSpace")) {
+                }else if (moves.get(choose - 1).equals("Tira i dadi della riserva")) { // RollDiceSpace
                     rollDiceSpace();
-                }else if (moves.get(choose - 1).equals("SwapDiceBag")) {
+                }else if (moves.get(choose - 1).equals("Pesca un dado dalla borsa dei dadi")) { //SwapDiceBag
                     swapDiceBag();
-                }else if (moves.get(choose - 1).equals("ChooseValue")) {
+                }else if (moves.get(choose - 1).equals("ChooseValue")) { // chooseValue
                     chooseValue();
                 }
                 switch (choose - 1) {
@@ -1014,12 +1076,11 @@ public class ViewCLI implements View{
 
     public void placeDiceSpace(List action) {
         diceSpace.add(new Dices("",Integer.parseInt((String)action.get(1)),Colour.stringToColour((String)action.get(0))));
-        System.out.println(diceSpace);
     }
 
     public void rollDiceSpaceAccepted(List action) {
         System.out.println("Abbiamo rollato 'sti dadi");
-        System.out.println(diceSpace);
+        showDiceSpace();
     }
 
     public void swapDiceBagAccepted(List action) {
@@ -1051,6 +1112,9 @@ public class ViewCLI implements View{
             }catch(NumberFormatException e)
             {
                 System.out.println(Colour.colorString("Parametro non valido",Colour.ANSI_RED));
+                correct = false;
+            }catch(IndexOutOfBoundsException ex) {
+                System.out.println("Indice non valido");
                 correct = false;
             }
         }

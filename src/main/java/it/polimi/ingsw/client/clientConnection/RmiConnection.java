@@ -55,17 +55,23 @@ public class RmiConnection implements Connection {
         }
     }
 
-        public void sendSchema(String str) {
-            try {
-                List action = new ArrayList();
-                action.add("ChooseSchema");
-                action.add(hand.getView().getName());
-                action.add(str);
-                server.forwardAction(action,client);
-            }catch(RemoteException e)
-            {
-                System.out.println(e.getMessage());
-            }
+        public void sendSchema(final String str) {
+            Thread t = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        List action = new ArrayList();
+                        action.add("ChooseSchema");
+                        action.add(hand.getView().getName());
+                        action.add(str);
+                        server.forwardAction(action,client);
+                    }catch(RemoteException e)
+                    {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            });
+            t.start();
+
         }
 
         public void login(String nickname) {
