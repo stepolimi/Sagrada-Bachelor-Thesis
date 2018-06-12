@@ -834,6 +834,7 @@ public class ControllerClient implements View {
     }
 
     public void setActions(final List<String> actions) {
+
         for(int i = 0 ; i< actions.size(); i++)
             System.out.println(actions.get(i));
         Platform.runLater(new Runnable() {
@@ -841,30 +842,39 @@ public class ControllerClient implements View {
                 if (actions.contains("UseToolCard")) {
                     disableTool(false);
                 }
-                if (actions.contains("InsertDice")) {
+
+                else disableTool(true);
+
+
+                if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
+                        actions.contains("PlaceDiceSpace")) {
                     diceSpace.setDisable(false);
-                    currentTool = 0;
+                    if (actions.contains("InsertDice"))
+                        currentTool = 0;
                 }
+                else diceSpace.setDisable(true);
+
+
 
                 if (actions.contains("EndTurn"))
                     endTurn.setDisable(false);
+                else disableAll();
 
 
-                if (actions.contains("MoveDice"))
+                if(actions.contains("MoveDice") || actions.contains("PlaceDice"))
                     gridPane.setDisable(false);
+                else  gridPane.setDisable(true);
 
 
-                if (actions.contains("RollDiceState"))
+                if (actions.contains("RollDiceState") || actions.contains("FlipDice"))
                     pendingDice.setDisable(false);
+                else pendingDice.setDisable(true);
 
-                if (actions.contains("PickDiceState"))
-                    diceSpace.setDisable(false);
 
-                if (actions.contains("PlaceDice"))
-                    gridPane.setDisable(false);
 
                 if(actions.contains("SwapDice"))
                     roundTrack.setDisable(false);
+                else roundTrack.setDisable(true);
 
                 if(actions.contains("CancelUseToolCard")) {
                     cancelButton.setVisible(true);
@@ -874,8 +884,12 @@ public class ControllerClient implements View {
                     cancelButton.setVisible(false);
                     cancelButton.setDisable(true);
                 }
-                if(actions.contains("PlaceDiceSpace"))
-                    diceSpace.setDisable(false);
+                if(actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
+                        || actions.contains("MoveDice") || actions.contains("PlaceDice") ||
+                        actions.contains("PickDiceState") || actions.contains("PlaceDiceSpace"))
+                    iconTool.setVisible(true);
+                else iconTool.setVisible(false);
+
             }
         });
 
@@ -921,7 +935,6 @@ public class ControllerClient implements View {
     public void draftDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-                pendingDice.setDisable(false);
                 diceChanged=true;
 
                 if(currentTool==1){
@@ -1057,6 +1070,7 @@ public class ControllerClient implements View {
 
         if(currentTool==7 ) {
             textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
+            disableTool(false);
         }
 
 
@@ -1088,12 +1102,10 @@ public class ControllerClient implements View {
                 textflow.setText("hai cambiato valore! Ora inseriscilo!");
                 diceChanged=true;
 
-                gridPane.setDisable(false);
                 String path = "/assets/image/Dice";
 
                 setDice(pendingDice, colorMoved, numberMoved);
 
-                pendingDice.setDisable(true);
             }
         });
 
@@ -1126,10 +1138,6 @@ public class ControllerClient implements View {
                     diceChanged=false;
                     iconTool.setVisible(false);
                     currentTool = 0;
-                    gridPane.setDisable(true);
-                    diceSpace.setDisable(true);
-                    pendingDice.setDisable(true);
-                    disableTool(true);
                 } else {
                     correctInsertion = true;
                     synchronized (lock) {
@@ -1153,7 +1161,6 @@ public class ControllerClient implements View {
 
                 textflow.setText("Dado tirato! Ora piazzalo");
                 setDice(pendingDice, colorMoved, value);
-                pendingDice.setDisable(true);
             }
 
         });
@@ -1210,8 +1217,6 @@ public class ControllerClient implements View {
 
 
 
-                roundTrack.setDisable(true);
-                diceSpace.setDisable(true);
                 disableTool(true);
 
             }
@@ -1244,7 +1249,6 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 textflow.setText("Non hai usato la carta utensile!");
-                diceSpace.setDisable(true);
                 pendingDice.setImage(null);
                 diceChanged = false;
                 diceExtract.add(colorMoved);
@@ -1571,7 +1575,6 @@ public class ControllerClient implements View {
                                 iconTool.setVisible(false);
                                 diceChanged = false;
                                 disableTool(true);
-                                gridPane.setDisable(true);
                                 currentTool = 0;
                                 isFirst = true;
 
