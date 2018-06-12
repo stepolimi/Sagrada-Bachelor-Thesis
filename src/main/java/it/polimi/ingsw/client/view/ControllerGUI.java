@@ -37,7 +37,7 @@ import static java.lang.Thread.sleep;
 ;
 
 
-public class ControllerClient implements View {
+public class ControllerGUI implements View {
 
     public static String text;
     public Button repeatLogin;
@@ -62,7 +62,7 @@ public class ControllerClient implements View {
 
     public List<String> diceExtract;
 
-    public boolean isFirst= true;
+    public boolean isFirst = true;
 
 
     public int currentTool;
@@ -132,8 +132,6 @@ public class ControllerClient implements View {
 
     @FXML
     ImageView iconTool;
-
-
 
 
     @FXML
@@ -226,12 +224,7 @@ public class ControllerClient implements View {
     public GridPane roundTrack;
 
 
-
-
-
-
-    public ControllerClient(Handler hand)
-    {
+    public ControllerGUI(Handler hand) {
         currentTool = 0;
         this.hand = hand;
         diceChanged = false;
@@ -239,13 +232,9 @@ public class ControllerClient implements View {
     }
 
 
-
-
     public void setMySchema(Schema mySchema) {
         this.mySchema = mySchema;
     }
-
-
 
 
     @FXML
@@ -263,7 +252,6 @@ public class ControllerClient implements View {
 
         setScene("login");
         loginAction.setDefaultButton(true);
-
 
 
     }
@@ -291,7 +279,6 @@ public class ControllerClient implements View {
     }
 
 
-
     public void playAction(ActionEvent actionEvent) {
 
         Stage stage = (Stage) playButton.getScene().getWindow();
@@ -316,15 +303,12 @@ public class ControllerClient implements View {
     }
 
 
-
     public void captureNickname(ActionEvent actionEvent) {
 
-        if(getName().equals("")) {
+        if (getName().equals("")) {
             setNotice("nickname_empty");
 
-        }
-
-        else if(getName().length() > 8)
+        } else if (getName().length() > 8)
             setNotice("nickname_empty");
 
         else {
@@ -349,10 +333,9 @@ public class ControllerClient implements View {
     }
 
 
-
     public void login(String src) {
 
-        text=src;
+        text = src;
         Platform.runLater(new Runnable() {
             public void run() {
                 if (text.equals("Welcome")) {
@@ -364,9 +347,7 @@ public class ControllerClient implements View {
 
                 } else if (text.equals("Login_error-username")) {
                     setNotice("nickname_error");
-                }
-
-                else if (text.equals("Login_error-game"))
+                } else if (text.equals("Login_error-game"))
                     setNotice("TooManyPlayers");
 
             }
@@ -374,18 +355,18 @@ public class ControllerClient implements View {
         });
     }
 
-    public void playerConnected(final String name){
+    public void playerConnected(final String name) {
         Platform.runLater(new Runnable() {
             public void run() {
-                waitingMessage.setText(name+  " si è aggiunto alla lobby......\n");
+                waitingMessage.setText(name + " si è aggiunto alla lobby......\n");
             }
         });
     }
 
-    public void playerDisconnected(final String name){
+    public void playerDisconnected(final String name) {
         Platform.runLater(new Runnable() {
             public void run() {
-                waitingMessage.setText(name+  " si è disconnesso........\n");
+                waitingMessage.setText(name + " si è disconnesso........\n");
             }
         });
     }
@@ -394,6 +375,7 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             String text = time;
+
             public void run() {
                 double seconds = Integer.parseInt(text);
                 double tot = 60.000;
@@ -406,7 +388,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void createGame(){
+    public void createGame() {
         Platform.runLater(new Runnable() {
             public void run() {
 
@@ -422,7 +404,7 @@ public class ControllerClient implements View {
         });
     }
 
-    public void setSchemas(final List<String> schemas){
+    public void setSchemas(final List<String> schemas) {
         this.schemasClient = new ArrayList<String>(schemas);
         Platform.runLater(new Runnable() {
             public void run() {
@@ -447,20 +429,20 @@ public class ControllerClient implements View {
 
     }
 
-    public void setPrivateCard(final String colour){
+    public void setPrivateCard(final String colour) {
 
         Platform.runLater(new Runnable() {
             public void run() {
                 Image cursor = new Image("/assets/image/zoom.png");
 
-                Image image = new Image("/assets/image/Cards/PrivateObj/"+ colour + ".png");
+                Image image = new Image("/assets/image/Cards/PrivateObj/" + colour + ".png");
                 privateCard.setImage(image);
                 privateCard.setCursor(new ImageCursor(cursor));
             }
         });
     }
 
-    public void setPublicObjectives(final List<String> cards){
+    public void setPublicObjectives(final List<String> cards) {
         Platform.runLater(new Runnable() {
             public void run() {
                 Image cursor = new Image("/assets/image/zoom.png");
@@ -468,16 +450,16 @@ public class ControllerClient implements View {
 
                 String path = new String("/assets/image/Cards/PublicObj/");
 
-                Image image = new Image(path + cards.get(0)+ ".png");
+                Image image = new Image(path + cards.get(0) + ".png");
                 publObj1.setImage(image);
                 publObj1.setCursor(new ImageCursor(cursor));
 
 
-                image = new Image(path + cards.get(1)+ ".png");
+                image = new Image(path + cards.get(1) + ".png");
                 publObj2.setImage(image);
                 publObj2.setCursor(new ImageCursor(cursor));
 
-                image = new Image(path + cards.get(2)+ ".png");
+                image = new Image(path + cards.get(2) + ".png");
                 publObj3.setImage(image);
                 publObj3.setCursor(new ImageCursor(cursor));
 
@@ -486,7 +468,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void setToolCards(final List<String> cards){
+    public void setToolCards(final List<String> cards) {
 
         Platform.runLater(new Runnable() {
             public void run() {
@@ -496,23 +478,22 @@ public class ControllerClient implements View {
 
                 String path = new String("/assets/image/Cards/ToolCard/");
 
-                Image image = new Image(path + cards.get(0)+ ".png");
+                Image image = new Image(path + cards.get(0) + ".png");
                 toolCard1.setImage(image);
                 toolCard1.setCursor(new ImageCursor(cursor));
                 use1.setId(cards.get(0));
 
 
-                image = new Image(path + cards.get(1)+ ".png");
+                image = new Image(path + cards.get(1) + ".png");
                 toolCard2.setImage(image);
                 toolCard2.setCursor(new ImageCursor(cursor));
                 use2.setId(cards.get(1));
 
 
-                image = new Image(path + cards.get(2)+ ".png");
+                image = new Image(path + cards.get(2) + ".png");
                 toolCard3.setImage(image);
                 toolCard3.setCursor(new ImageCursor(cursor));
                 use3.setId(cards.get(2));
-
 
 
                 System.out.println("\n");
@@ -526,15 +507,15 @@ public class ControllerClient implements View {
         this.hand = hand;
     }
 
-    public void setScene(String src)  {
+    public void setScene(String src) {
 
-        Stage stage= new Stage();
+        Stage stage = new Stage();
         Pane p = null;
 
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
-            loader.setLocation(getClass().getResource("/FXML/"+ src +".fxml"));
+            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
             p = loader.load();
 
             // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
@@ -551,7 +532,7 @@ public class ControllerClient implements View {
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
-                if(connection!= null)
+                if (connection != null)
                     connection.disconnect();
 
                 Platform.exit();
@@ -562,14 +543,14 @@ public class ControllerClient implements View {
 
     }
 
-    public void setNotice(String src)  {
+    public void setNotice(String src) {
 
-        Stage stage= new Stage();
+        Stage stage = new Stage();
         Pane p = null;
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
-            loader.setLocation(getClass().getResource("/FXML/"+ src +".fxml"));
+            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
             p = loader.load();
             // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
@@ -595,7 +576,7 @@ public class ControllerClient implements View {
 
     }
 
-    public void disconnectAction (ActionEvent actionEvent){
+    public void disconnectAction(ActionEvent actionEvent) {
 
         connection.disconnect();
 
@@ -603,31 +584,19 @@ public class ControllerClient implements View {
         System.exit(0);
     }
 
-    public void quitPannel (ActionEvent actionEvent){
+    public void quitPannel(ActionEvent actionEvent) {
         Stage stage = (Stage) closeButton.getScene().getWindow();
         stage.close();
 
     }
 
     @FXML
-    void sendSchema1(MouseEvent event) {
-        connection.sendSchema(schemasClient.get(0));
+    void sendSchema(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getTarget();
+
+        connection.sendSchema(schemasClient.get(Integer.parseInt(imageView.getId())));
     }
 
-    @FXML
-    void sendSchema2(MouseEvent event) {
-        connection.sendSchema(schemasClient.get(1));
-    }
-
-    @FXML
-    void sendSchema3(MouseEvent event) {
-        connection.sendSchema(schemasClient.get(2));
-    }
-
-    @FXML
-    void sendSchema4(MouseEvent event) {
-        connection.sendSchema(schemasClient.get(3));
-    }
 
     public void chooseSchema(final String name) {
 
@@ -644,12 +613,12 @@ public class ControllerClient implements View {
 
 
                 try {
-                    schema = schema.InitSchema("SchemaClient/"+name);
+                    schema = schema.InitSchema("SchemaClient/" + name);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
-                nFavour.setText("x "+ schema.difficult);
+                nFavour.setText("x " + schema.difficult);
 
 
                 Stage stage = (Stage) schemaA.getScene().getWindow();
@@ -682,22 +651,19 @@ public class ControllerClient implements View {
                 schemaPlayers.add(constrain4);
 
 
-                stringList.remove(stringList.indexOf(nickname.getText())+1);
+                stringList.remove(stringList.indexOf(nickname.getText()) + 1);
                 stringList.remove(stringList.indexOf(nickname.getText()));
 
-                for(int i = 0; i< stringList.size(); i = i+2){
-                    ((Text)(schemaPlayers.get(i))).setText(stringList.get(i));
+                for (int i = 0; i < stringList.size(); i = i + 2) {
+                    ((Text) (schemaPlayers.get(i))).setText(stringList.get(i));
 
                     try {
-                        printSchema((GridPane) schemaPlayers.get(i+1), stringList.get(i+1));
-                        ((GridPane)schemaPlayers.get(i+1)).setId(stringList.get(i));
+                        printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
+                        ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-
-
-
 
 
             }
@@ -723,7 +689,7 @@ public class ControllerClient implements View {
 
     @FXML
     void handleDiceDrag(DragEvent event) {
-        if(event.getDragboard().hasImage()) {
+        if (event.getDragboard().hasImage()) {
             event.acceptTransferModes(TransferMode.ANY);
         }
     }
@@ -751,7 +717,7 @@ public class ControllerClient implements View {
                 if (col == null)
                     col = 0;
 
-                if(row == null)
+                if (row == null)
                     row = 0;
 
                 int rowIndex = row;
@@ -765,7 +731,7 @@ public class ControllerClient implements View {
                         e.printStackTrace();
                     }
                 }
-                if(correctInsertion) {
+                if (correctInsertion) {
                     imageView.setImage(dragImage);
                     imageView.setId("full");
                     textflow.setText("");
@@ -773,14 +739,13 @@ public class ControllerClient implements View {
                     gridPane.setDisable(true);
                     diceSpace.setDisable(true);
 
-                }
-                else{
+                } else {
                     textflow.setText("inserimento non corretto. Riprovare");
                 }
             }
         });
 
-        if(currentTool == 0 || currentTool== 9)
+        if (currentTool == 0 || currentTool == 9)
             t.start();
 
     }
@@ -789,7 +754,7 @@ public class ControllerClient implements View {
     void handleDragDone(DragEvent event) {
         ImageView imageView = (ImageView) event.getTarget();
         gridPane.setDisable(true);
-        if(!(event.getDragboard().hasImage()))
+        if (!(event.getDragboard().hasImage()))
             imageView.setImage(null);
 
     }
@@ -822,11 +787,10 @@ public class ControllerClient implements View {
     public void startTurn(String name) {
 
 
-        if (!name.equals(nickname.getText())){
+        if (!name.equals(nickname.getText())) {
             textflow.setText("turno iniziato, tocca a: " + name);
             disableAll();
-        }
-        else {
+        } else {
 
             textflow.setText("tocca a te!!!!!");
 
@@ -835,15 +799,13 @@ public class ControllerClient implements View {
 
     public void setActions(final List<String> actions) {
 
-        for(int i = 0 ; i< actions.size(); i++)
+        for (int i = 0; i < actions.size(); i++)
             System.out.println(actions.get(i));
         Platform.runLater(new Runnable() {
             public void run() {
                 if (actions.contains("UseToolCard")) {
                     disableTool(false);
-                }
-
-                else disableTool(true);
+                } else disableTool(true);
 
 
                 if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
@@ -851,9 +813,7 @@ public class ControllerClient implements View {
                     diceSpace.setDisable(false);
                     if (actions.contains("InsertDice"))
                         currentTool = 0;
-                }
-                else diceSpace.setDisable(true);
-
+                } else diceSpace.setDisable(true);
 
 
                 if (actions.contains("EndTurn"))
@@ -861,9 +821,9 @@ public class ControllerClient implements View {
                 else disableAll();
 
 
-                if(actions.contains("MoveDice") || actions.contains("PlaceDice"))
+                if (actions.contains("MoveDice") || actions.contains("PlaceDice"))
                     gridPane.setDisable(false);
-                else  gridPane.setDisable(true);
+                else gridPane.setDisable(true);
 
 
                 if (actions.contains("RollDiceState") || actions.contains("FlipDice"))
@@ -871,20 +831,18 @@ public class ControllerClient implements View {
                 else pendingDice.setDisable(true);
 
 
-
-                if(actions.contains("SwapDice"))
+                if (actions.contains("SwapDice"))
                     roundTrack.setDisable(false);
                 else roundTrack.setDisable(true);
 
-                if(actions.contains("CancelUseToolCard")) {
+                if (actions.contains("CancelUseToolCard")) {
                     cancelButton.setVisible(true);
                     cancelButton.setDisable(false);
-                }
-                else {
+                } else {
                     cancelButton.setVisible(false);
                     cancelButton.setDisable(true);
                 }
-                if(actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
+                if (actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
                         || actions.contains("MoveDice") || actions.contains("PlaceDice") ||
                         actions.contains("PickDiceState") || actions.contains("PlaceDiceSpace"))
                     iconTool.setVisible(true);
@@ -910,7 +868,7 @@ public class ControllerClient implements View {
                     diceExtract.add(stringList.get(i + 1));
                     imageView = (ImageView) diceSpace.getChildren().get(j);
                     String color = stringList.get(i);
-                    String number = stringList.get(i+1);
+                    String number = stringList.get(i + 1);
 
                     setDice(imageView, color, number);
 
@@ -924,9 +882,8 @@ public class ControllerClient implements View {
     }
 
     public void insertDiceAccepted() {
-        correctInsertion=true;
-        synchronized (lock)
-        {
+        correctInsertion = true;
+        synchronized (lock) {
             lock.notify();
         }
 
@@ -935,19 +892,16 @@ public class ControllerClient implements View {
     public void draftDiceAccepted() {
         Platform.runLater(new Runnable() {
             public void run() {
-                diceChanged=true;
+                diceChanged = true;
 
-                if(currentTool==1){
+                if (currentTool == 1) {
                     setScene("changeDiceValue");
-                }
-                else if(currentTool == 6){
+                } else if (currentTool == 6) {
                     textflow.setText("Clicca sul dado preso e lancialo!");
-                }
-                else if(currentTool == 5) {
+                } else if (currentTool == 5) {
                     textflow.setText("Ora scegli il dado dal tracciato di Round");
 
-                }
-                else  if(currentTool == 11)
+                } else if (currentTool == 11)
                     textflow.setText("Ora clicca sul dado per sostituire il dado con uno del sacchetto!");
             }
         });
@@ -956,9 +910,8 @@ public class ControllerClient implements View {
 
 
     public void moveDiceAccepted() {
-        correctInsertion=true;
-        synchronized (lock)
-        {
+        correctInsertion = true;
+        synchronized (lock) {
             lock.notify();
         }
 
@@ -1004,13 +957,14 @@ public class ControllerClient implements View {
             int row;
             int column;
             String path = "/assets/image/Dice";
+
             public void run() {
-                for(int i = 1; i < schemaPlayers.size(); i = i + 2 ){
-                    GridPane gridPane = (GridPane)schemaPlayers.get(i);
-                    if(gridPane.getId().equals(action.get(0))) {
+                for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
+                    GridPane gridPane = (GridPane) schemaPlayers.get(i);
+                    if (gridPane.getId().equals(action.get(0))) {
                         row = Integer.parseInt((String) action.get(1));
                         column = Integer.parseInt((String) action.get(2));
-                        ImageView imageView= (ImageView)getNodeFromGridPane(gridPane, column, row );
+                        ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
 
 
                         String color = (String) action.get(3);
@@ -1030,10 +984,10 @@ public class ControllerClient implements View {
     public void placeDiceSchemaError() {
         Platform.runLater(new Runnable() {
             public void run() {
-                if(currentTool == 1 || currentTool == 6 || currentTool == 5) {
+                if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
                     textflow.setText("Inserimento non corretto. Riprovare");
                 }
-                correctInsertion=false;
+                correctInsertion = false;
                 synchronized (lock) {
                     lock.notify();
                 }
@@ -1043,12 +997,12 @@ public class ControllerClient implements View {
     }
 
     public void pickDiceSchema(List action) {
-        for(int i = 1; i < schemaPlayers.size(); i = i + 2 ) {
+        for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
             GridPane gridPane = (GridPane) schemaPlayers.get(i);
             if (gridPane.getId().equals(action.get(0))) {
                 int row = Integer.parseInt((String) action.get(1));
                 int column = Integer.parseInt((String) action.get(2));
-                ImageView imageView= (ImageView)getNodeFromGridPane(gridPane, column, row );
+                ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
                 imageView.setImage(null);
             }
         }
@@ -1068,13 +1022,10 @@ public class ControllerClient implements View {
 
         iconTool.setVisible(false);
 
-        if(currentTool==7 ) {
+        if (currentTool == 7) {
             textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
             disableTool(false);
-        }
-
-
-        else {
+        } else {
             textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
             nFavour.setText(" x" + favor);
         }
@@ -1096,11 +1047,11 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
 
-                if(decrement)
+                if (decrement)
                     numberMoved--;
                 else numberMoved++;
                 textflow.setText("hai cambiato valore! Ora inseriscilo!");
-                diceChanged=true;
+                diceChanged = true;
 
                 String path = "/assets/image/Dice";
 
@@ -1135,7 +1086,7 @@ public class ControllerClient implements View {
                     schemaCell.setId("full");
                     pendingDice.setImage(null);
                     textflow.setText("Hai usato la Carta Utensile!");
-                    diceChanged=false;
+                    diceChanged = false;
                     iconTool.setVisible(false);
                     currentTool = 0;
                 } else {
@@ -1154,9 +1105,8 @@ public class ControllerClient implements View {
             public void run() {
 
 
-
                 String path = "/assets/image/Dice";
-                diceChanged=true;
+                diceChanged = true;
 
 
                 textflow.setText("Dado tirato! Ora piazzalo");
@@ -1189,13 +1139,13 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                int round = Integer.parseInt(((String)action.get(0)));
+                int round = Integer.parseInt(((String) action.get(0)));
 
                 String path = "/assets/image/Dice";
 
                 for (int i = 1; i < action.size(); i = i + 2) {
                     String color = (String) action.get(i);
-                    String number = (String) action.get(i+1);
+                    String number = (String) action.get(i + 1);
                     ImageView imageView = getLastRoundCell(round);
                     setDice(imageView, color, number);
 
@@ -1210,11 +1160,9 @@ public class ControllerClient implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
-                diceChanged=true;
+                diceChanged = true;
 
                 pendingDice.setImage(roundDice.getImage());
-
-
 
 
                 disableTool(true);
@@ -1227,7 +1175,7 @@ public class ControllerClient implements View {
     public void cancelUseToolCardAccepted(final int favor) {
         Platform.runLater(new Runnable() {
             public void run() {
-                nFavour.setText(" x"+ favor);
+                nFavour.setText(" x" + favor);
 
             }
         });
@@ -1287,8 +1235,8 @@ public class ControllerClient implements View {
     public void swapDiceBagAccepted(final List action) {
         Platform.runLater(new Runnable() {
             public void run() {
-                colorMoved=(String) action.get(0);
-                numberMoved= Integer.parseInt((String)action.get(1));
+                colorMoved = (String) action.get(0);
+                numberMoved = Integer.parseInt((String) action.get(1));
                 setDice(pendingDice, (String) action.get(0), action.get(1));
                 setScene("chooseDiceNumber");
             }
@@ -1322,15 +1270,15 @@ public class ControllerClient implements View {
         List<Image> dice = new ArrayList<Image>();
         ImageView imageView;
 
-        for(int i = 0; i < 9;i++){
+        for (int i = 0; i < 9; i++) {
             imageView = (ImageView) diceSpace.getChildren().get(i);
-            if(imageView.getImage() != null) {
+            if (imageView.getImage() != null) {
                 dice.add(imageView.getImage());
                 imageView.setImage(null);
             }
         }
 
-        for(int i = 0; i < dice.size(); i++){
+        for (int i = 0; i < dice.size(); i++) {
             imageView = (ImageView) diceSpace.getChildren().get(i);
             imageView.setImage(dice.get(i));
 
@@ -1358,11 +1306,11 @@ public class ControllerClient implements View {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4 && count < 9; j++, count++) {
                 imageView = (ImageView) anchorPane.getChildren().get(j);
-                    if (imageView.getImage() != null) {
-                        dice.add(imageView.getImage());
-                        imageView.setImage(null);
-                        count ++;
-                    }
+                if (imageView.getImage() != null) {
+                    dice.add(imageView.getImage());
+                    imageView.setImage(null);
+                    count++;
+                }
 
 
             }
@@ -1372,12 +1320,11 @@ public class ControllerClient implements View {
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
             for (int j = 0; j < 4; j++) {
-                if(count < dice.size()) {
+                if (count < dice.size()) {
                     imageView = (ImageView) anchorPane.getChildren().get(j);
                     imageView.setImage(dice.get(count));
                     count++;
-                }
-                else break;
+                } else break;
 
             }
         }
@@ -1390,18 +1337,18 @@ public class ControllerClient implements View {
             public void run() {
                 Schema schema = new Schema();
                 try {
-                    schema = schema.InitSchema("SchemaClient/"+nameSchema);
+                    schema = schema.InitSchema("SchemaClient/" + nameSchema);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 int count = 0;
 
-                for(int i = 0; i < 4; i++ ){
-                    for(int j = 0; j < 5; j++){
-                        ImageView imageView = (ImageView)schemaConstrain.getChildren().get(count);
+                for (int i = 0; i < 4; i++) {
+                    for (int j = 0; j < 5; j++) {
+                        ImageView imageView = (ImageView) schemaConstrain.getChildren().get(count);
                         String constrain = schema.getGrid()[i][j].getConstraint();
-                        if(!schema.getGrid()[i][j].getConstraint().equals(""))
+                        if (!schema.getGrid()[i][j].getConstraint().equals(""))
                             putConstrain(imageView, constrain);
                         count++;
                     }
@@ -1410,11 +1357,10 @@ public class ControllerClient implements View {
         });
 
 
-
     }
 
 
-    public void putConstrain(final ImageView imageView, final String constrain){
+    public void putConstrain(final ImageView imageView, final String constrain) {
 
         Platform.runLater(new Runnable() {
             public void run() {
@@ -1446,10 +1392,10 @@ public class ControllerClient implements View {
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 
         int count = 0;
-        for (int i = 0; i < 4 ; i++ ) {
-            for(int j= 0; j < 5; j++){
-                Node node= gridPane.getChildren().get(count);
-                if(i == row && j == col)
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                Node node = gridPane.getChildren().get(count);
+                if (i == row && j == col)
                     return node;
                 else count++;
 
@@ -1459,17 +1405,15 @@ public class ControllerClient implements View {
     }
 
     @FXML
-
     void useToolCard(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
                 ImageView tool = (ImageView) event.getSource();
                 int numberTool = Integer.parseInt(tool.getId());
 
-                if(currentTool == 7){
+                if (currentTool == 7) {
                     connection.rollDiceSpace();
-                }
-                else if(currentTool == 11)
+                } else if (currentTool == 11)
                     connection.swapDiceBag();
                 else {
                     currentTool = numberTool;
@@ -1496,7 +1440,6 @@ public class ControllerClient implements View {
                 Node source = ((Node) event1.getTarget());
 
 
-
                 if (source != schema1) {
                     Node parent;
                     while ((parent = source.getParent()) != gridPane) {
@@ -1511,19 +1454,16 @@ public class ControllerClient implements View {
                 if (col == null)
                     col = 0;
 
-                if(row == null)
+                if (row == null)
                     row = 0;
 
 
-                if(currentTool==1 || currentTool == 6 || currentTool == 5 || currentTool == 10
-                        || currentTool == 11){
-                    schemaCell = (ImageView)event1.getTarget();
+                if (currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10
+                        || currentTool == 11) {
+                    schemaCell = (ImageView) event1.getTarget();
                     connection.sendPlaceDice(row, col);
                     return;
-                }
-
-
-                else {
+                } else {
 
 
                     if (x1 == null && y1 == null) {
@@ -1590,8 +1530,8 @@ public class ControllerClient implements View {
                 }
             }
         });
-        if(((ImageView)event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
-                (currentTool == 5) || (currentTool ==10))
+        if (((ImageView) event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
+                (currentTool == 5) || (currentTool == 10))
             t.start();
 
     }
@@ -1606,12 +1546,11 @@ public class ControllerClient implements View {
                 rt.setCycleCount(Animation.INDEFINITE);
                 rt.setInterpolator(Interpolator.LINEAR);
                 rt.play();
-                if(currentTool == 6) {
+                if (currentTool == 6) {
                     connection.rollDice();
-                }
-                else if(currentTool == 10)
+                } else if (currentTool == 10)
                     connection.flipDice();
-                else if(currentTool == 11)
+                else if (currentTool == 11)
                     connection.swapDiceBag();
             }
         });
@@ -1623,8 +1562,8 @@ public class ControllerClient implements View {
 
         Platform.runLater(new Runnable() {
             public void run() {
-                ImageView imageView = (ImageView)event.getTarget();
-                if(imageView.getId().equals("Decrement"))
+                ImageView imageView = (ImageView) event.getTarget();
+                if (imageView.getId().equals("Decrement"))
                     decrement = true;
                 else decrement = false;
                 connection.changeValue(imageView.getId());
@@ -1648,7 +1587,7 @@ public class ControllerClient implements View {
                     rt.setInterpolator(Interpolator.LINEAR);
                     rt.play();
                     if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
-                            currentTool == 10 || currentTool == 11 )&& !diceChanged) {
+                            currentTool == 10 || currentTool == 11) && !diceChanged) {
                         pendingDice.setImage(((ImageView) event.getTarget()).getImage());
                         indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
                         colorMoved = diceExtract.get(2 * indexDiceSpace);
@@ -1670,7 +1609,7 @@ public class ControllerClient implements View {
             public void run() {
 
 
-                ImageView imageView = (ImageView)event.getTarget();
+                ImageView imageView = (ImageView) event.getTarget();
                 roundDice = new ImageView();
                 roundDice.setImage(imageView.getImage());
                 Node source = ((Node) event.getSource());
@@ -1690,8 +1629,6 @@ public class ControllerClient implements View {
     }
 
 
-
-
     public ImageView getLastRoundCell(int round) {
 
 
@@ -1701,7 +1638,7 @@ public class ControllerClient implements View {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4; j++) {
                 ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
-                if (imageView.getImage()==null)
+                if (imageView.getImage() == null)
                     return imageView;
             }
         }
@@ -1720,22 +1657,22 @@ public class ControllerClient implements View {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
             for (int j = 0; j < 4; j++) {
                 ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
-                if(count == roundIndex)
+                if (count == roundIndex)
                     return imageView;
-                else count ++;
+                else count++;
             }
         }
         return null;
 
     }
 
-    public void disableTool(boolean bool){
+    public void disableTool(boolean bool) {
         use1.setDisable(bool);
         use1.setDisable(bool);
         use2.setDisable(bool);
     }
 
-    public void disableAll(){
+    public void disableAll() {
         endTurn.setDisable(true);
         disableTool(true);
         gridPane.setDisable(true);
@@ -1751,17 +1688,17 @@ public class ControllerClient implements View {
     }
 
     @FXML
-    public ImageView getLastCellDicespace(){
+    public ImageView getLastCellDicespace() {
         ImageView imageView = null;
-        for(int i = 0; i < 9; i++){
+        for (int i = 0; i < 9; i++) {
             imageView = (ImageView) diceSpace.getChildren().get(i);
-            if(imageView.getImage() == null)
+            if (imageView.getImage() == null)
                 return imageView;
         }
         return imageView;
     }
 
-    public void setDice(ImageView imageView, String color, Object number ){
+    public void setDice(ImageView imageView, String color, Object number) {
 
         String path = "/assets/image/Dice";
 
@@ -1788,7 +1725,7 @@ public class ControllerClient implements View {
     void chooseNumber(final MouseEvent event) {
         Platform.runLater(new Runnable() {
             public void run() {
-                ImageView imageView = (ImageView)event.getTarget();
+                ImageView imageView = (ImageView) event.getTarget();
                 Stage stage = (Stage) imageView.getScene().getWindow();
                 stage.close();
                 numberMoved = Integer.parseInt((String) imageView.getId());
