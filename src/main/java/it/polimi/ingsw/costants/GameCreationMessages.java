@@ -1,6 +1,8 @@
 package it.polimi.ingsw.costants;
 
 public class GameCreationMessages {
+    private GameCreationMessages() {};
+
     public static final String SET_PRIVATE_CARD = "setPrivateCard";
     public static final String SET_SCHEMAS = "setSchemas";
     public static final String SET_PUBLIC_OBJECTIVES = "setPublicObjectives";
@@ -12,4 +14,5 @@ public class GameCreationMessages {
     public static final String START_TURN = "startTurn";
     public static final String END_TURN ="EndTurn";
     public static final String PICK_DICE = "InsertDice";
+
 }

@@ -7,35 +7,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeckPrivateObjective {
-    private ArrayList<PrivateObjective> deckPriv;
+    private ArrayList<PrivateObjective> privateObjectives;
 
 
     public DeckPrivateObjective() {
-        this.deckPriv = new ArrayList<PrivateObjective>();
+        privateObjectives = new ArrayList<PrivateObjective>();
 
-        for(int i = 1; i < 6; i++){
-            PrivateObjective p = new PrivateObjective();
+        for (int i = 1; i < 6; i++) {
             try {
-               this.deckPriv.add(new PrivateObjective().PrivateInit(i));
+                privateObjectives.add(new PrivateObjective().privateInit(i));
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-
     }
 
-    public List<PrivateObjective> getDeckPriv(){
-        return this.deckPriv;
+    public List<PrivateObjective> getDeckPrivate() {
+        return privateObjectives;
     }
 
-    public PrivateObjective extract()
-    {
+    public PrivateObjective extract() {
         PrivateObjective po;
         int random;
-        random = (int) ( Math.random() * deckPriv.size())  ;
-        po = this.deckPriv.get(random);
-        deckPriv.remove(random);
+        random = (int) (Math.random() * privateObjectives.size());
+        po = this.privateObjectives.get(random);
+        privateObjectives.remove(random);
         return po;
     }
 }

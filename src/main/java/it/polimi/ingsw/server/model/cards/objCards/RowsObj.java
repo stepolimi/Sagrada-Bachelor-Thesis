@@ -2,11 +2,10 @@ package it.polimi.ingsw.server.model.cards.objCards;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Costants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.serverCostants.Costants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
 
 public class RowsObj extends ObjectiveCard {
     private String name;
@@ -18,12 +17,13 @@ public class RowsObj extends ObjectiveCard {
         this.description = description;
         this.points = points;
     }
+
     @Override
     public int scoreCard(Schema sch) {
         int score = 0;
         List<Dice> container;
 
-        for(int i=0; i < ROWS_SCHEMA; i++){
+        for (int i = 0; i < ROWS_SCHEMA; i++) {
             container = sch.getDicesInRow(i);
             if (points == 6 && noColourDuplicates(container) && container.size() == COLUMNS_SCHEMA)
                 score += this.points;
@@ -35,7 +35,6 @@ public class RowsObj extends ObjectiveCard {
         System.out.println("row objective score: " + score);
         return score;
     }
-
 
     private boolean noColourDuplicates(List<Dice> container) {
         for (int i = 0; i < container.size() - 1; i++)
@@ -54,21 +53,22 @@ public class RowsObj extends ObjectiveCard {
     }
 
     @Override
-    public String getName(){ return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }
 
-    public void dump(){
+    public void dump() {
         System.out.println(this);
     }
-
 
 }
 

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.objCards.DiagonalObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DiagonalCTest {
 
 
-    Schema s = new Schema();
+    private Schema s;
 
     public void insertDice1(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,21 +39,21 @@ public class DiagonalCTest {
 
 
 
-        s.insertDice(0,0,d1);
-        s.insertDice(0,2,d2);
-        s.insertDice(0,4,d3);
-        s.insertDice(1,1,d4);
-        s.insertDice(1,3,d5);
-        s.insertDice(2,0,d6);
-        s.insertDice(2,2,d7);
-        s.insertDice(2,4,d8);
-        s.insertDice(3,1,d9);
-        s.insertDice(3,3,d10);
+        s.silentInsertDice(0,0,d1);
+        s.silentInsertDice(0,2,d2);
+        s.silentInsertDice(0,4,d3);
+        s.silentInsertDice(1,1,d4);
+        s.silentInsertDice(1,3,d5);
+        s.silentInsertDice(2,0,d6);
+        s.silentInsertDice(2,2,d7);
+        s.silentInsertDice(2,4,d8);
+        s.silentInsertDice(3,1,d9);
+        s.silentInsertDice(3,3,d10);
     }
 
     public void insertDice2(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,10 +63,10 @@ public class DiagonalCTest {
         Dice d4 = new Dice(Colour.ANSI_GREEN,4);
 
 
-        s.insertDice(1,1,d1);
-        s.insertDice(2, 0, d2);
-        s.insertDice(2,2,d3);
-        s.insertDice(3,1,d4);
+        s.silentInsertDice(1,1,d1);
+        s.silentInsertDice(2, 0, d2);
+        s.silentInsertDice(2,2,d3);
+        s.silentInsertDice(3,1,d4);
 
     }
 
@@ -85,7 +85,7 @@ public class DiagonalCTest {
     @Test
     public void nullScore(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }

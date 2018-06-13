@@ -18,9 +18,9 @@ public class ToolCardBuilder {
         return instance;
     }
 
-    public ToolCard buildToolCard(int n){
+    public static ToolCard buildToolCard(int n){
         ToolCard toolCard = new ToolCard();
-        final String filePath = "src/main/data/toolCard/ToolCard" + 7;
+        final String filePath = "src/main/data/toolCard/ToolCard" + n;
         Gson g = new Gson();
 
         FileReader f = null;

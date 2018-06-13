@@ -22,7 +22,7 @@ public class SchemaTest {
     {
         s = g.fromJson(sch,Schema.class);
         Dice d = new Dice(Colour.ANSI_YELLOW,6);
-        s.insertDice(0,0,d);
+        s.silentInsertDice(0,0,d);
         assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
         try {
             s.testRemoveDice(0,0);
@@ -46,9 +46,9 @@ public class SchemaTest {
         Dice d2 = new Dice(Colour.ANSI_BLUE,6);
         Dice d3 = new Dice(Colour.ANSI_PURPLE,3);
 
-        s.insertDice(0,1,d1);
-        s.insertDice(1,1,d2);
-        s.insertDice(1,0,d3);
+        s.silentInsertDice(0,1,d1);
+        s.silentInsertDice(1,1,d2);
+        s.silentInsertDice(1,0,d3);
 
         assertTrue(s.nearDice(0,0).contains(d1),"The die is near");
         assertTrue(s.nearDice(0,0).contains(d2),"The die is near");
@@ -79,14 +79,14 @@ public class SchemaTest {
         Dice d7 = new Dice(Colour.ANSI_BLUE,2);
         Dice d8 = new Dice(Colour.ANSI_RED,1);
 
-        s.insertDice(0,0,d1);
-        s.insertDice(0,1,d2);
-        s.insertDice(0,2,d3);
-        s.insertDice(1,0,d4);
-        s.insertDice(1,2,d5);
-        s.insertDice(2,0,d6);
-        s.insertDice(2,1,d7);
-        s.insertDice(2,2,d8);
+        s.silentInsertDice(0,0,d1);
+        s.silentInsertDice(0,1,d2);
+        s.silentInsertDice(0,2,d3);
+        s.silentInsertDice(1,0,d4);
+        s.silentInsertDice(1,2,d5);
+        s.silentInsertDice(2,0,d6);
+        s.silentInsertDice(2,1,d7);
+        s.silentInsertDice(2,2,d8);
 
         nearDice = s.nearDice(1,1);
 

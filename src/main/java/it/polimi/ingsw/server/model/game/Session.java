@@ -8,8 +8,8 @@ import it.polimi.ingsw.server.timer.TimedComponent;
 import java.util.*;
 
 import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.server.serverCostants.Costants.MAX_PLAYERS;
-import static it.polimi.ingsw.server.serverCostants.Costants.MIN_PLAYERS;
+import static it.polimi.ingsw.server.serverCostants.Constants.MAX_PLAYERS;
+import static it.polimi.ingsw.server.serverCostants.Constants.MIN_PLAYERS;
 
 //session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
 //players that will leave the game after his start will be set as "disconnected" but not removed from the game.
@@ -21,14 +21,12 @@ public  class Session extends Observable implements TimedComponent {
     private Timer timer;
     private Long startingTime = 0L;
     private Observer obs;
-    private List<String> action ;
     private String player;
 
     public void setObserver (Observer obs){ this.obs = obs; }
 
     public void joinPlayer(String player) {
         this.player = player;
-        action = new ArrayList<String>();
         if(game == null) {
             if (lobby == null) {
                 lobby = new ArrayList<Player>();
@@ -51,12 +49,13 @@ public  class Session extends Observable implements TimedComponent {
             else if(lobby.size() == MAX_PLAYERS){
                 timer.cancel();
                 notifyChanges(LOBBY_FULL);
+                startGame();
             }
         }
         else {
-            for(Player p: lobby){
+            for(Player p: game.getPlayers()){
                 if(p.getNickname().equals(player)){
-                    p.setConnected(true);
+                    game.reconnectPlayer(p);
                     notifyChanges(WELCOME_BACK);
                     return ;
                 }
@@ -68,7 +67,6 @@ public  class Session extends Observable implements TimedComponent {
 
     public void removePlayer(String player){
         this.player = player;
-        action = new ArrayList<String>();
         if(game == null) {
             for(int i=0; i<lobby.size(); i++)
                 if(lobby.get(i).getNickname().equals(player)) {
@@ -78,7 +76,7 @@ public  class Session extends Observable implements TimedComponent {
                 timer.cancel();
                 startingTime = 0L;
             }
-            System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
+            System.out.println(player + " disconnected:\n" + "players in lobby: \n" + lobby.size() + " ---");
             notifyChanges(LOGOUT);
         }
         else {
@@ -105,42 +103,38 @@ public  class Session extends Observable implements TimedComponent {
         System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
     }
 
+    public void timerElapsed() {
+        notifyChanges(TIMER_ELAPSED);
+        startGame();
+
+    }
     public void notifyChanges(String string){
+        List<String> action = new ArrayList<String>();
+
         if(string.equals(TIMER_ELAPSED) || string.equals(LOBBY_FULL)) {
-            action.clear();
             action.add(STARTING_GAME_MSG);
             action.add("partita creata");
-            setChanged();
-            notifyObservers(action);
-            startGame();
         }else if(string.equals(TIMER_PING)){
-            action.clear();
             action.add(TIMER_PING);
             action.add(((Long)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
-            setChanged();
-            notifyObservers(action);
         }else if(string.equals(LOGIN_ERROR)){
             action.add(string);
             action.add(player);
             action.add("game");
-            setChanged();
-            notifyObservers(action);
         }else if(string.equals(LOGOUT) ) {
             action.add(string);
             action.add(player);
-            setChanged();
-            notifyObservers(action);
         }else if(string.equals(LOGIN_SUCCESSFUL)){
             action.add(string);
             action.add(player);
             action.add(((Integer)lobby.size()).toString());
-            setChanged();
-            notifyObservers(action);
         }else if(string.equals(WELCOME_BACK)){
             action.add(string);
             action.add(player);
-            setChanged();
-            notifyObservers(action);
         }
+        setChanged();
+        notifyObservers(action);
     }
+
+
 }

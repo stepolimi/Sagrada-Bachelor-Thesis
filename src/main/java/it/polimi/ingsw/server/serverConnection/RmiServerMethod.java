@@ -6,9 +6,14 @@ import it.polimi.ingsw.server.virtualView.VirtualView;
 import java.rmi.RemoteException;
 import java.util.*;
 
+import static it.polimi.ingsw.costants.GameConstants.*;
 import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
 import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
+import static it.polimi.ingsw.costants.LoginMessages.DISCONNECTED;
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN;
 import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
+import static it.polimi.ingsw.server.serverCostants.Constants.DRAFT_DICE;
+import static it.polimi.ingsw.server.serverCostants.Constants.USE_TOOL_CARD;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
@@ -24,7 +29,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         // controllerò se non ci sono username uguali
         RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
-        action.add("Login");
+        action.add(LOGIN);
         action.add(name);
         System.out.println(name + "'s trying to connect with rmi:");
         if(connection.checkUsername(name)) {
@@ -67,7 +72,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
-    public void forwardAction(String str,RmiClientMethodInterface client) throws RemoteException {
+    public void forwardAction(String str,RmiClientMethodInterface client) {
         if(clients.containsKey(client)) {
             ArrayList action = new ArrayList();
             StringTokenizer token = new StringTokenizer(str);
@@ -83,7 +88,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         String name = connection.remove(c);
         if(name != null) {
             List action = new ArrayList();
-            action.add("Disconnected");
+            action.add(DISCONNECTED);
             action.add(name);
             virtual.forwardAction(action);
         }
@@ -100,14 +105,14 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void useToolCard(int toolNumber) {
         List action = new ArrayList();
-        action.add("UseToolCard");
+        action.add(USE_TOOL_CARD);
         action.add(((Integer)toolNumber).toString());
         virtual.forwardAction(action);
     }
 
     public void moveDice(int oldRow,int oldColumn, int newRow, int newColumn){
         List action = new ArrayList();
-        action.add("MoveDice");
+        action.add(MOVE_DICE);
         action.add(((Integer)oldRow).toString());
         action.add(((Integer)oldColumn).toString());
         action.add(((Integer)newRow).toString());
@@ -124,14 +129,14 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void draftDice(int indexDiceSpace) {
         List action = new ArrayList();
-        action.add("DraftDice");
+        action.add(DRAFT_DICE);
         action.add(((Integer)indexDiceSpace).toString());
         virtual.forwardAction(action);
     }
 
     public void placeDice(int row, int column) {
         List action = new ArrayList();
-        action.add("PlaceDice");
+        action.add(PLACE_DICE);
         action.add(((Integer)row).toString());
         action.add(((Integer)column).toString());
         virtual.forwardAction(action);
@@ -139,20 +144,20 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void changeValue(String change) {
         List action = new ArrayList();
-        action.add("ChangeValue");
+        action.add(CHANGE_VALUE);
         action.add(change);
         virtual.forwardAction(action);
     }
 
     public void rollDice() {
         List action = new ArrayList();
-        action.add("RollDice");
+        action.add(ROLL_DICE);
         virtual.forwardAction(action);
     }
 
     public void swapDice(int numRound, int indexDice){
         List action = new ArrayList();
-        action.add("SwapDice");
+        action.add(SWAP_DICE);
         action.add(((Integer)numRound).toString());
         action.add(((Integer)indexDice).toString());
         virtual.forwardAction(action);
@@ -160,44 +165,45 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void cancelUseToolCard() {
         List action = new ArrayList();
-        action.add("CancelUseToolCard");
+        action.add(CANCEL_USE_TOOL_CARD);
         virtual.forwardAction(action);
     }
 
     public void flipDice()  {
         List action = new ArrayList();
-        action.add("FlipDice");
+        action.add(FLIP_DICE);
         virtual.forwardAction(action);
     }
 
     public void placeDiceSpace() {
         List action = new ArrayList();
-        action.add("PlaceDiceSpace");
+        action.add(PLACE_DICE_SPACE);
         virtual.forwardAction(action);
     }
 
     public void rollDiceSpace() {
         List action = new ArrayList();
-        action.add("RollDiceSpace");
+        action.add(ROLL_DICE_SPACE);
         virtual.forwardAction(action);
     }
 
     public void swapDiceBag() {
         List action = new ArrayList();
-        action.add("SwapDiceBag");
+        action.add(SWAP_DICE_BAG);
         virtual.forwardAction(action);
     }
 
     public void chooseValue(int value) {
         List action = new ArrayList();
-        action.add("ChooseValue");
+        action.add(CHOOSE_VALUE);
         action.add(((Integer)value).toString());
         virtual.forwardAction(action);
     }
 
-    public void sendCustomSchema(String schema) throws RemoteException {
+    public void sendCustomSchema(String schema, String name) {
         List action = new ArrayList();
-        action.add("CustomSchema");
+        action.add(CUSTOM_SCHEMA);
+        action.add(name);
         action.add(schema);
         virtual.forwardAction(action);
     }

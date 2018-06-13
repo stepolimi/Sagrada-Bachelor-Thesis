@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -32,7 +33,7 @@ public class PlayerTest {
     public Schema schemaInit(int n){
         Schema schema = new Schema();
         try {
-            schema = schema.schemaInit(n);
+            schema = buildSchema(n);
         }catch(Exception e){
             System.out.println(e);
         }
@@ -41,7 +42,7 @@ public class PlayerTest {
     public PrivateObjective objectiveInit(){
         PrivateObjective objective = new PrivateObjective();
         try{
-            objective.PrivateInit(2);
+            objective.privateInit(2);
         }catch (Exception e){
             System.out.println(e);
         }

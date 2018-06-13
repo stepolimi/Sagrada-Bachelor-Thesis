@@ -4,12 +4,10 @@ package it.polimi.ingsw.server.model.board;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 
-import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_BAG;
-import static it.polimi.ingsw.server.serverCostants.Costants.TOT_DICES;
+import static it.polimi.ingsw.server.serverCostants.Constants.TOT_DICES;
 
-public class DiceBag{
+public class DiceBag {
     private List<Dice> dices;
 
     public DiceBag() {
@@ -34,11 +32,12 @@ public class DiceBag{
     }
 
     public List<Dice> extract(int nPlayer) {
-        if (2 * nPlayer + 1 > dices.size())
-            return null;
-
         List<Dice> extra = new ArrayList<Dice>();
         int nDice = 2 * nPlayer + 1;
+
+        if (2 * nPlayer + 1 > dices.size())
+            return extra;
+
         for (int i = 0; i < nDice; i++) {
             int casual = (int) (Math.random() * this.dices.size());
             dices.get(casual).rollDice();
@@ -54,49 +53,53 @@ public class DiceBag{
         this.dices.add(dice);
     }
 
-    public List <Dice> getDices()
-    {
+    public List<Dice> getDices() {
         return this.dices;
     }
 
     @Override
     public String toString() {
-        String str="";
-        str+= "dices in the dicebag:" + dices.size() + "\n";
-        int g,y,b,p,r;
-        g=0;
-        y=0;
-        b=0;
-        p=0;
-        r=0;
-        for(int i=0;i<dices.size();i++)
-            switch(dices.get(i).getColour())
-            {
-                case ANSI_RED: r++; break;
-                case ANSI_BLUE: b++; break;
-                case ANSI_GREEN: g++; break;
-                case ANSI_PURPLE: p++; break;
-                default: y++;
+        String str = "";
+        str += "dices in the dicebag:" + dices.size() + "\n";
+        int g = 0;
+        int y = 0;
+        int b = 0;
+        int p = 0;
+        int r = 0;
+
+        for (Dice dice : dices)
+            switch (dice.getColour()) {
+                case ANSI_RED:
+                    r++;
+                    break;
+                case ANSI_BLUE:
+                    b++;
+                    break;
+                case ANSI_GREEN:
+                    g++;
+                    break;
+                case ANSI_PURPLE:
+                    p++;
+                    break;
+                default:
+                    y++;
             }
-        str+= "Red:"+r+"\nGreen:"+g+"\nYellow:"+y+"\nBlue:"+b+"\nPurple:"+p ;
-         return str;
+        str += "Red:" + r + "\nGreen:" + g + "\nYellow:" + y + "\nBlue:" + b + "\nPurple:" + p;
+        return str;
     }
 
-    public Dice takeDice()
-    {
+    public Dice takeDice() {
         Dice d;
         int random = (int) (Math.random() * this.dices.size());
-        d= dices.get(random);
+        d = dices.get(random);
         dices.remove(random);
         d.rollDice();
-       return d;
+        return d;
     }
-    public void dump()
-    {
+
+    public void dump() {
         System.out.println(this);
     }
-
-
 
 
 }

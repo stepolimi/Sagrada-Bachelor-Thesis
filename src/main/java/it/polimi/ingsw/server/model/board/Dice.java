@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 public class Dice {
     private Colour colour;
     private int value;
-    public static final String[] faces = {
+    private static final String[] faces = {
 
             "\u2680",
             "\u2681",
@@ -17,22 +17,19 @@ public class Dice {
             "\u2684",
             "\u2685"
     };
-
-    public Dice(Colour colour, int value) //constructor of a single dice wit a colour and the value 0 if the dice is
-                                            //not launched yet. every dice has ALWAYS a colour
-    {
+    //constructor of a single dice with a colour and the value 0. If the dice is not launched yet. every dice has always a colour
+    public Dice(Colour colour, int value) {
         this.colour = colour;
         this.value = value;
     }
 
-    // setta il valore del dado
     public void setValue(int value) throws ChangeDiceValueException{
         if(value > 0 && value < 7)
             this.value = value;
         else
             throw new ChangeDiceValueException();
     }
-    // restituisce il valore del dado
+
     public int getValue()
     {
         return this.value;

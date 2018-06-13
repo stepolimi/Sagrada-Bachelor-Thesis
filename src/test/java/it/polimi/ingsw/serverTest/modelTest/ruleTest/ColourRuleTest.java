@@ -13,20 +13,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ColourRuleTest {
-    Schema schema = new Schema();
-    Player player = new Player("player 1");
-    Dice dice = new Dice(Colour.ANSI_BLUE, 4);
-    InsertionRule rule = new ColourRule();
-    List<Schema> schemas = new ArrayList<Schema>();
+    private Schema schema;
+    private Player player = new Player("player 1");
+    private Dice dice = new Dice(Colour.ANSI_BLUE, 4);
+    private InsertionRule rule = new ColourRule();
+    private List<Schema> schemas = new ArrayList<Schema>();
 
     @Test
     public void correctInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema = schema.schemaInit(24);
+        schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());
@@ -39,7 +40,7 @@ public class ColourRuleTest {
     @Test
     public void wrongInsertion() throws IOException {
         player.setObserver(new VirtualView());
-        schema = schema.schemaInit(24);
+        schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
         player.setSchema(schema.getName());

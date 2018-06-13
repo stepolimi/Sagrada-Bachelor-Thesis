@@ -91,29 +91,35 @@ public class RmiServerConnection implements Connection{
                 client.useToolCardAccepted(action);
             } else if (action.get(0).equals(USE_TOOL_CARD_ERROR)) {
                 client.useToolCardError();
-            } else if (action.get(0).equals("ChangeValueAccepted")) {
+            } else if (action.get(0).equals(CHANGE_VALUE_ACCEPTED)) {
                 client.changeValueAccepted();
-            } else if (action.get(0).equals("ChangeValueError")) {
+            } else if (action.get(0).equals(CHANGE_VALUE_ERROR)) {
                 client.changeValueError();
             } else if (action.get(0).equals(PLACE_DICE_ACCEPTED)) {
                 client.placeDiceAccepted();
-            } else if (action.get(0).equals("RollDiceAccepted")) {
+            } else if (action.get(0).equals(ROLL_DICE_ACCEPTED)) {
                 client.rollDiceAccepted(action);
-            } else if (action.get(0).equals("cancelUseToolCardAccepted")) {
+            } else if (action.get(0).equals(CANCEL_USE_TOOL_CARD_ACCEPTED)) {
                 client.cancelUseToolCardAccepted(action);
-            } else if(action.get(0).equals("flipDiceAccepted")) {
+            } else if(action.get(0).equals(FLIP_DICE_ACCEPTED)) {
                 client.flipDiceAccepted(action);
-            }else if(action.get(0).equals("placeDiceSpaceAccepted")) {
+            }else if(action.get(0).equals(PLACE_DICE_SPACE_ACCEPTED)) {
                 client.placeDiceSpaceAccepted();
-            }else if(action.get(0).equals("rollDiceSpaceAccepted")) {
+            }else if(action.get(0).equals(ROLL_DICE_SPACE_ACCEPTED)) {
                 client.rollDiceSpaceAccepted(action);
-            }else if(action.get(0).equals("swapDiceBagAccepted")) {
+            }else if(action.get(0).equals(SWAP_DICE_BAG_ACCEPTED)) {
                 client.swapDiceBagAccepted(action);
-            }else if(action.get(0).equals("chooseValueAccepted")) {
+            }else if(action.get(0).equals(CHOOSE_VALUE_ACCEPTED)) {
                 client.chooseValueAccepted();
-            }else if(action.get(0).equals("chooseValueError")) {
+            }else if(action.get(0).equals(CHOOSE_VALUE_ERROR)) {
                 client.chooseValueError();
+            }else if(action.get(0).equals(APPROVED_SCHEMA_CUSTOM)) {
+                client.schemaCustomAccepted(action);  //invio il nome dello schema
+            }else if(action.get(0).equals(SET_OPPONENTS_CUSTOM_SCHEMAS)) {
+                client.setOpponentsCustomSchemas(action);    //player-json
             }
+
+
         }catch(RemoteException e) {
             serverMethod.disconnected(this.client);
         }

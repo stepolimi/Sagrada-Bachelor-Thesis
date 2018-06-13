@@ -28,5 +28,5 @@ public interface RmiServerMethodInterface extends Remote {
     void rollDiceSpace() throws RemoteException;
     void swapDiceBag() throws RemoteException;
     void chooseValue(int value) throws RemoteException;
-    void sendCustomSchema(String schema) throws RemoteException;
+    void sendCustomSchema(String schema,String name) throws RemoteException;
 }

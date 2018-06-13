@@ -7,18 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.serverCostants.Costants.DECK_TOOL_CARDS_SIZE;
-import static it.polimi.ingsw.server.serverCostants.Costants.NUM_TOOL_CARDS;
+import static it.polimi.ingsw.server.model.cards.toolCards.ToolCardBuilder.buildToolCard;
+import static it.polimi.ingsw.server.serverCostants.Constants.DECK_TOOL_CARDS_SIZE;
+import static it.polimi.ingsw.server.serverCostants.Constants.NUM_TOOL_CARDS;
 
 public class DeckToolsCard {
-    private ToolCardBuilder toolCardBuilder;
     private List<ToolCard> toolCards;
-    private List <Integer> toolCardAvabiles;
+    private List<Integer> toolCardsAvailable;
 
-    public DeckToolsCard(){
+    public DeckToolsCard() {
         this.toolCards = new ArrayList<ToolCard>();
-        this.toolCardAvabiles = new ArrayList<Integer>();
-        this.toolCardBuilder = ToolCardBuilder.getToolCardBuilder();
+        this.toolCardsAvailable = new ArrayList<Integer>();
         this.extract();
     }
 
@@ -26,16 +25,16 @@ public class DeckToolsCard {
         return toolCards;
     }
 
-    public void extract(){
+    public void extract() {
         Random rand = new Random();
 
-        for(int i=1;i<= NUM_TOOL_CARDS;i++)
-            toolCardAvabiles.add(i);
+        for (int i = 1; i <= NUM_TOOL_CARDS; i++)
+            toolCardsAvailable.add(i);
 
-        for (int i=0; i<DECK_TOOL_CARDS_SIZE; i++) {
-            int index = rand.nextInt(toolCardAvabiles.size());
-            toolCards.add(toolCardBuilder.buildToolCard(toolCardAvabiles.get(index)));
-            toolCardAvabiles.remove(index);
+        for (int i = 0; i < DECK_TOOL_CARDS_SIZE; i++) {
+            int index = rand.nextInt(toolCardsAvailable.size());
+            toolCards.add(buildToolCard(toolCardsAvailable.get(index)));
+            toolCardsAvailable.remove(index);
         }
     }
 

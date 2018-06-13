@@ -1,9 +1,11 @@
 package it.polimi.ingsw.costants;
 
 public class TimerCostants {
-    public static final int LOBBY_TIMER_VALUE = 5;
+    private TimerCostants() {}
+
+    public static final int LOBBY_TIMER_VALUE = 10;
     public static final int TURN_TIMER_VALUE = 1000;
-    public static final int SCHEMA_TIMER_VALUE = 5;
+    public static final int SCHEMA_TIMER_VALUE = 10;
     public static final String LOBBY_TIMER_PING = "lobbyTimerPing";
     public static final String LOBBY_TIMER_ELAPSED = "lobbyTimerElapsed";
     public static final String TURN_TIMER_PING = "turnTimerPing";

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -18,8 +19,8 @@ public class SetSchemasTest {
         List<Schema> schemas = new ArrayList<Schema>();
         for (int i = 1; i < 13; i++) {
             try {
-                schemas.add(new Schema().schemaInit(i));
-                schemas.add(new Schema().schemaInit(i + 12));
+                schemas.add(buildSchema(i));
+                schemas.add(buildSchema(i + 12));
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }

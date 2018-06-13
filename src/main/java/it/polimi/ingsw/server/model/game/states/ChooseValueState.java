@@ -2,43 +2,29 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChooseValueState implements State {
-    private static String state = "ChooseValueState";
+import static it.polimi.ingsw.costants.GameConstants.CHOOSE_VALUE_ACCEPTED;
+import static it.polimi.ingsw.costants.GameConstants.CHOOSE_VALUE_ERROR;
+import static it.polimi.ingsw.server.serverCostants.Constants.*;
 
-    public void execute(Round round, List action){
+public class ChooseValueState extends State {
+    private static String state = CHOOSE_VALUE_STATE;
+
+    public void execute(Round round, List action) {
         try {
-            round.getPendingDice().setValue(Integer.parseInt((String)action.get(1)));
+            round.getPendingDice().setValue(Integer.parseInt((String) action.get(1)));
             round.getNextActions().remove(0);
-            round.notifyChanges("chooseValueAccepted");
-        }catch (ChangeDiceValueException changeDiceValueException) {
-            System.out.println("impossible to set this value");
-            round.notifyChanges("chooseValueError");
+            round.notifyChanges(CHOOSE_VALUE_ACCEPTED);
+        } catch (ChangeDiceValueException e) {
+            System.out.println(e.getMessage());
+            round.notifyChanges(CHOOSE_VALUE_ERROR);
         }
         giveLegalActions(round);
     }
 
-    public String nextState(Round round, List action){ return action.get(0) + "State"; }
-
-    private void giveLegalActions(Round round){
-        List<String> legalActions = new ArrayList<String>();
-        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
-            round.setUsingTool(null);
-            if (!round.isInsertedDice() || round.hasBonusInsertDice())
-                legalActions.add("InsertDice");
-            if(!round.isUsedCard())
-                legalActions.add("UseToolCard");
-            legalActions.add("EndTurn");
-        } else{
-            legalActions.addAll(round.getNextActions().get(0));
-            if(legalActions.contains("InsertDice") && round.isInsertedDice())
-                legalActions.remove("InsertDice");
-        }
-        round.setLegalActions(legalActions);
-    }
-
     @Override
-    public String toString (){return state; }
+    public String toString() {
+        return state;
+    }
 }

@@ -2,46 +2,32 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ChangeValueState implements State {
-    private static String state = "ChangeValueState";
+import static it.polimi.ingsw.costants.GameConstants.CHANGE_VALUE_ACCEPTED;
+import static it.polimi.ingsw.costants.GameConstants.CHANGE_VALUE_ERROR;
+import static it.polimi.ingsw.server.serverCostants.Constants.*;
 
-    public void execute(Round round, List action){
+public class ChangeValueState extends State {
+    private static String state = CHANGE_VALUE_STATE;
+
+    public void execute(Round round, List action) {
         try {
             if (action.get(1).equals("Increment")) {
                 round.getPendingDice().incrementValue();
-            }else if(action.get(1).equals("Decrement"))
+            } else if (action.get(1).equals("Decrement"))
                 round.getPendingDice().decrementValue();
             round.getNextActions().remove(0);
-            round.notifyChanges("ChangeValueAccepted");
-        }catch (ChangeDiceValueException changeDiceValueException) {
-            System.out.println("impossible to increment/decrement the dice's value");
-            round.notifyChanges("ChangeValueError");
+            round.notifyChanges(CHANGE_VALUE_ACCEPTED);
+        } catch (ChangeDiceValueException e) {
+            System.out.println(e.getMessage());
+            round.notifyChanges(CHANGE_VALUE_ERROR);
         }
         giveLegalActions(round);
     }
 
-    public String nextState(Round round, List action){ return action.get(0) + "State"; }
-
-    private void giveLegalActions(Round round){
-        List<String> legalActions = new ArrayList<String>();
-        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
-            round.setUsingTool(null);
-            if (!round.isInsertedDice() || round.hasBonusInsertDice())
-                legalActions.add("InsertDice");
-            if(!round.isUsedCard())
-                legalActions.add("UseToolCard");
-            legalActions.add("EndTurn");
-        } else{
-            legalActions.addAll(round.getNextActions().get(0));
-            if(legalActions.contains("InsertDice") && round.isInsertedDice())
-                legalActions.remove("InsertDice");
-        }
-        round.setLegalActions(legalActions);
-    }
-
     @Override
-    public String toString (){return state; }
+    public String toString() {
+        return state;
+    }
 }

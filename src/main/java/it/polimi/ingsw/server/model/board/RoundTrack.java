@@ -10,39 +10,41 @@ import java.util.Observable;
 import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK;
 import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK_ERROR;
 import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ROUND_TRACK;
-import static it.polimi.ingsw.server.serverCostants.Costants.TOT_ROUNDS;
+import static it.polimi.ingsw.server.serverCostants.Constants.TOT_ROUNDS;
 
-public class RoundTrack extends Observable{
+public class RoundTrack extends Observable {
     private List<Dice>[] listRounds;
 
     public RoundTrack() {
-        listRounds = new ArrayList [TOT_ROUNDS];
-        for(int i = 0; i< TOT_ROUNDS; i++)
-            listRounds[i]=new ArrayList<Dice>();
+        listRounds = new ArrayList[TOT_ROUNDS];
+        for (int i = 0; i < TOT_ROUNDS; i++)
+            listRounds[i] = new ArrayList<Dice>();
     }
 
     public List getListRounds(int i) {
         return this.listRounds[i];
     }
 
-    public Dice getDice(int i, int j) { return this.listRounds[i].get(j);}
+    public Dice getDice(int i, int j) {
+        return this.listRounds[i].get(j);
+    }
 
     public void insertDices(List<Dice> dices, int nRound) {
         List<String> action = new ArrayList<String>();
         this.listRounds[nRound].addAll(dices);
         action.add(PLACE_DICE_ROUND_TRACK);
-        action.add(((Integer)nRound).toString());
-        for(Dice d: dices){
+        action.add(((Integer) nRound).toString());
+        for (Dice d : dices) {
             action.add(d.getColour().toString());
-            action.add(((Integer)d.getValue()).toString());
+            action.add(((Integer) d.getValue()).toString());
         }
         setChanged();
         notifyObservers(action);
     }
 
-    public void insertDice(Dice dice, int nRound) throws InsertDiceException{
+    public void insertDice(Dice dice, int nRound) throws InsertDiceException {
         List<String> action = new ArrayList<String>();
-        if(nRound <TOT_ROUNDS) {
+        if (nRound < TOT_ROUNDS) {
             this.listRounds[nRound].add(dice);
             action.add(PLACE_DICE_ROUND_TRACK);
             action.add(((Integer) nRound).toString());
@@ -50,16 +52,16 @@ public class RoundTrack extends Observable{
             action.add(((Integer) dice.getValue()).toString());
             setChanged();
             notifyObservers(action);
-            return ;
+            return;
         }
         throw new InsertDiceException();
     }
 
-    public Dice testRemoveDice(int nRound,int nDice, String player) throws RemoveDiceException{
+    public Dice testRemoveDice(int nRound, int nDice, String player) throws RemoveDiceException {
         List<String> action = new ArrayList<String>();
         Dice dice;
-        if(nRound < TOT_ROUNDS) {
-            if(listRounds[nRound].size() > nDice) {
+        if (nRound < TOT_ROUNDS) {
+            if (listRounds[nRound].size() > nDice) {
                 if (listRounds[nRound].get(nDice) != null) {
                     dice = listRounds[nRound].get(nDice);
                     listRounds[nRound].remove(nDice);
@@ -74,10 +76,10 @@ public class RoundTrack extends Observable{
         throw new RemoveDiceException();
     }
 
-    public Dice removeDice(int nRound,int nDice) throws RemoveDiceException{
+    public Dice removeDice(int nRound, int nDice) throws RemoveDiceException {
         List<String> action = new ArrayList<String>();
         Dice dice;
-        if(listRounds[nRound].get(nDice) != null) {
+        if (listRounds[nRound].get(nDice) != null) {
             dice = listRounds[nRound].get(nDice);
             listRounds[nRound].remove(nDice);
             action.add(PICK_DICE_ROUND_TRACK);
@@ -93,33 +95,32 @@ public class RoundTrack extends Observable{
         throw new RemoveDiceException();
     }
 
-    public boolean containsColour(Colour colour){
-        for(List<Dice> round: listRounds)
-            for(Dice dice: round)
-                if(dice.getColour() == colour)
+    public boolean containsColour(Colour colour) {
+        for (List<Dice> round : listRounds)
+            for (Dice dice : round)
+                if (dice.getColour() == colour)
                     return true;
         return false;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return listRounds[0].isEmpty();
     }
 
     @Override
     public String toString() {
         String str = "";
-        for(int i = 0; i< TOT_ROUNDS; i++)
-        {
-            str+="Round "+(i+1)+"\n";
-            if(!this.listRounds[i].isEmpty())
-            str+= this.listRounds[i].toString()+"\n";
+        for (int i = 0; i < TOT_ROUNDS; i++) {
+            str += "Round " + (i + 1) + "\n";
+            if (!this.listRounds[i].isEmpty())
+                str += this.listRounds[i].toString() + "\n";
             else
-            str+="[empty]\n";
+                str += "[empty]\n";
         }
         return str;
     }
-    public void dump()
-    {
+
+    public void dump() {
         System.out.println(this);
     }
 }

@@ -26,6 +26,6 @@ public class UseCardTest {
     @Test
     public void nextStateTest(){
         action.add("DraftDice");
-        assertTrue(state.nextState(round,action).toString().equals( "DraftDiceState"));
+        assertTrue(state.nextState(action).toString().equals( "DraftDiceState"));
     }
 }

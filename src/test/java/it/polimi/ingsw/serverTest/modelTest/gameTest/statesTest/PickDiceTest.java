@@ -26,6 +26,6 @@ public class PickDiceTest {
     @Test
     public void nextStateTest(){
         action.add("PlaceDice");
-        assertTrue(state.nextState(round,action).toString().equals( "PlaceDiceState"));
+        assertTrue(state.nextState(action).toString().equals( "PlaceDiceState"));
     }
 }

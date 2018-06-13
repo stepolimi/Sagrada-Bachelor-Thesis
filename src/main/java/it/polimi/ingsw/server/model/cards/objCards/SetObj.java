@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.Arrays;
 
-import static it.polimi.ingsw.server.serverCostants.Costants.MAX_SCHEMA_DICES;
+import static it.polimi.ingsw.server.serverCostants.Constants.MAX_SCHEMA_DICES;
 
 public class SetObj extends ObjectiveCard {
 
@@ -26,27 +26,27 @@ public class SetObj extends ObjectiveCard {
         int[] count;
         int min = MAX_SCHEMA_DICES;
 
-        count = new int[points +1];
-        for (Dice dice : sch.getDices()){
+        count = new int[points + 1];
+        for (Dice dice : sch.getDices()) {
             if (points == 4)
-                colourCounter(count,dice);
+                colourCounter(count, dice);
 
             else if (points == 5)
-                valueCounter(count,dice);
+                valueCounter(count, dice);
 
             else
                 return 0;
         }
 
         System.out.println(Arrays.toString(count));
-        for(int i: count)
-            if(i < min)
+        for (int i : count)
+            if (i < min)
                 min = i;
         System.out.println("set objective score: " + points * min);
         return points * min;
     }
 
-    private void colourCounter(int[]count , Dice dice){
+    private void colourCounter(int[] count, Dice dice) {
         if (dice.getColour() == Colour.ANSI_RED)
             count[0]++;
         else if (dice.getColour() == Colour.ANSI_BLUE)
@@ -59,7 +59,7 @@ public class SetObj extends ObjectiveCard {
             count[4]++;
     }
 
-    private void valueCounter(int[]count , Dice dice){
+    private void valueCounter(int[] count, Dice dice) {
         if (dice.getValue() == 1)
             count[0]++;
         else if (dice.getValue() == 2)
@@ -75,18 +75,20 @@ public class SetObj extends ObjectiveCard {
     }
 
     @Override
-    public String getName(){ return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" + this.name.toString() + "\n"  + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }
 
-    public void dump(){
+    public void dump() {
         System.out.println(this);
     }
 

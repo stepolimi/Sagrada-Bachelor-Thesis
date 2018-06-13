@@ -152,7 +152,7 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     public void sendCustomSchema(String schema) {
-        out.println("CustomSchema"+"-"+schema);
+        out.println("CustomSchema"+"-"+hand.getView().getName()+"-"+schema);
         out.flush();
     }
 

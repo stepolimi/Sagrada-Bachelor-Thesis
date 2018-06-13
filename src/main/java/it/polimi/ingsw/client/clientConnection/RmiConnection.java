@@ -225,7 +225,7 @@ public class RmiConnection implements Connection {
 
     public void sendCustomSchema(String schema) {
         try {
-            server.sendCustomSchema(schema);
+            server.sendCustomSchema(schema,hand.getView().getName());
         } catch (RemoteException e) {
             e.printStackTrace();
         }

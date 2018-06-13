@@ -13,7 +13,7 @@ public class PrivateObjective {
     private String description;
     private Colour c;
 
-    public PrivateObjective PrivateInit (int n) throws IOException {   //constructs the private objective from file
+    public PrivateObjective privateInit(int n) throws IOException {   //constructs the private objective from file
 
         PrivateObjective sch = new PrivateObjective();
         final String filePath = new String("src/main/data/PrivCard/" + n + ".json");  //import every private objective from
@@ -30,49 +30,52 @@ public class PrivateObjective {
             sc = b.readLine();
 
             sch = g.fromJson(sc, PrivateObjective.class);
-        }
-        catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e);
-        }
-        finally {
+        } finally {
             b.close();
         }
         return sch;
     }
 
-    public int scoreCard(Schema sch){
+    public int scoreCard(Schema sch) {
         int score = 0;
-        for(int i=0; i<4; i++){
-            for(int j=0; j<5; j++){
-                if(sch.getTable(i,j).getDice() != null)
-                    if(sch.getTable(i,j).getDice().getColour().equals(this.c))
-                        score+=sch.getTable(i,j).getDice().getValue();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (sch.getTable(i, j).getDice() != null)
+                    if (sch.getTable(i, j).getDice().getColour().equals(this.c))
+                        score += sch.getTable(i, j).getDice().getValue();
             }
         }
         return score;
     }
 
-    public String getColour(){
-        if(c == Colour.ANSI_GREEN){ return "verde"; }
-        else if(c == Colour.ANSI_BLUE) { return "blu"; }
-        else if(c == Colour.ANSI_RED){ return "rosso"; }
-        else if(c == Colour.ANSI_PURPLE) { return "viola"; }
-        else if(c == Colour.ANSI_YELLOW) { return "giallo"; }
+    public String getColour() {
+        if (c == Colour.ANSI_GREEN) {
+            return "verde";
+        } else if (c == Colour.ANSI_BLUE) {
+            return "blu";
+        } else if (c == Colour.ANSI_RED) {
+            return "rosso";
+        } else if (c == Colour.ANSI_PURPLE) {
+            return "viola";
+        } else if (c == Colour.ANSI_YELLOW) {
+            return "giallo";
+        }
         return "";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.c + "\n";
+        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.c + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }
 
-    public void dump(){
+    public void dump() {
         System.out.println(this);
     }
-
 
 }
