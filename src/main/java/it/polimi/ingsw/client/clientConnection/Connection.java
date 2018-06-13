@@ -22,4 +22,5 @@ public interface Connection {
     void rollDiceSpace();
     void swapDiceBag();
     void chooseValue(int chooseValue);
+    void sendCustomSchema(String schema);
 }

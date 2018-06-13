@@ -164,33 +164,12 @@ public class ControllerEditor {
     public void schemaDone(MouseEvent mouseEvent) throws IOException {
 
         s.setName(schemaName.getText());
-        setDifficult(s, constrain);
+        s.setDifficult(constrain);
         saveSchema(s);
 
 
     }
 
-
-
-    public void setDifficult(Schema sc,int nCostraint)
-    {
-        int difficult;
-
-        if(nCostraint<8)
-            difficult = 1;
-        else if(nCostraint<11)
-            difficult = 2;
-        else if(nCostraint<12)
-            difficult=3;
-        else if(nCostraint<13)
-            difficult=4;
-        else if(nCostraint<14)
-            difficult=5;
-        else
-            difficult=6;
-
-        sc.setDifficult(difficult);
-    }
 
     public void saveSchema(Schema s) throws IOException
     {

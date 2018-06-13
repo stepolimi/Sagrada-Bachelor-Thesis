@@ -223,6 +223,13 @@ public class RmiConnection implements Connection {
             }
         }
 
+    public void sendCustomSchema(String schema) {
+        try {
+            server.sendCustomSchema(schema);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
 

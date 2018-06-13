@@ -66,4 +66,8 @@ public interface View {
 
     void chooseValueAccepted();
     void chooseValueError();
+
+    void schemaCustomAccepted(String name);
+
+    void setOpponentsCustomSchemas(List <String> action);
 }

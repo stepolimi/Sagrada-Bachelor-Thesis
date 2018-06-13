@@ -151,6 +151,11 @@ public class SocketConnection implements Connection,Runnable {
         out.flush();
     }
 
+    public void sendCustomSchema(String schema) {
+        out.println("CustomSchema"+"-"+schema);
+        out.flush();
+    }
+
     public void stopRunning() {
         stopThread = true;
     }
@@ -304,6 +309,12 @@ public class SocketConnection implements Connection,Runnable {
         }else if(action.get(0).equals("chooseValueError"))
         {
             v.chooseValueError();
+        }else if(action.get(0).equals(APPROVED_SCHEMA_CUSTOM))
+        {
+            v.schemaCustomAccepted(action.get(1));
+        }else if(action.get(0).equals(SET_OPPONENTS_CUSTOM_SCHEMAS))
+        {
+            v.setOpponentsCustomSchemas(action.subList(1,action.size()));
         }
     }
 }

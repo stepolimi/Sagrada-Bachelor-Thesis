@@ -65,4 +65,8 @@ public interface RmiClientMethodInterface extends Remote{
 
     void chooseValueAccepted() throws RemoteException;
     void chooseValueError() throws RemoteException;
+
+    void schemaCustomAccepted(List action) throws RemoteException;
+
+    void setOpponentsCustomSchemas(List <String> action)  throws  RemoteException;
 }

@@ -611,12 +611,8 @@ public class ControllerGUI implements View {
                     e.printStackTrace();
                 }
 
-
-                try {
                     schema = schema.InitSchema("SchemaClient/" + name);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
 
                 nFavour.setText("x " + schema.difficult);
 
@@ -1265,6 +1261,14 @@ public class ControllerGUI implements View {
 
     }
 
+    public void schemaCustomAccepted(String name) {
+
+    }
+
+    public void setOpponentsCustomSchemas(List<String> action) {
+
+    }
+
     public void diceSpaceSort() {
 
         List<Image> dice = new ArrayList<Image>();
@@ -1336,11 +1340,8 @@ public class ControllerGUI implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 Schema schema = new Schema();
-                try {
-                    schema = schema.InitSchema("SchemaClient/" + nameSchema);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                schema = schema.InitSchema("SchemaClient/" + nameSchema);
+
 
                 int count = 0;
 

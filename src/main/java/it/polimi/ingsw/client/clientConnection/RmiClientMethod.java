@@ -195,7 +195,13 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.chooseValueError();
     }
 
+    public void schemaCustomAccepted(List action) throws RemoteException {
+        v.schemaCustomAccepted((String)action.get(1));
+    }
 
+    public void setOpponentsCustomSchemas(List<String> action) {
+        v.setOpponentsCustomSchemas(action.subList(1,action.size()));
+    }
 }
 
 

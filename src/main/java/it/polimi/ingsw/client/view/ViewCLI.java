@@ -125,16 +125,13 @@ public class ViewCLI implements View{
         HashMap<String,Schema> selSchema = new HashMap<String, Schema>();
         for(String nameSchema:schemas)
         {
-            try {
-                selSchema.put(nameSchema,new Schema().InitSchema("SchemaClient/"+nameSchema));
-                selSchema.get(nameSchema).splitImageSchema();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            selSchema.put(nameSchema,new Schema().InitSchema("SchemaClient/"+nameSchema));
+            selSchema.get(nameSchema).splitImageSchema();
         }
 
             showSchemas(selSchema);
 
+        System.out.println(Colour.colorString("\nOppure carica uno schema personalizzato(load)",Colour.ANSI_YELLOW));
 
         schemaThread = new Thread(new Runnable() {
             public void run() {
@@ -142,7 +139,10 @@ public class ViewCLI implements View{
                     String nameSchema;
                     nameSchema = input.nextLine();
                     if(!schemaThread.isInterrupted())
+                        if(!nameSchema.equals("load"))
                     connection.sendSchema(nameSchema);
+                        else
+                            loadSchema();
                 }catch(Exception e)
                 {
                     System.out.println("Schema già inserito");
@@ -237,9 +237,10 @@ public class ViewCLI implements View{
                     nCostraint++;
             }
         }
-        setDifficult(sc,nCostraint);
+        sc.setDifficult(nCostraint);
         System.out.println("La griglia che hai creato è questa:");
-        System.out.println(sc);
+        sc.splitImageSchema();
+        sc.showImage();
         System.out.println("Desideri apportare modifiche? y si");
         if(input.nextLine().equals("y"))
             modifySchema(sc);
@@ -260,7 +261,7 @@ public class ViewCLI implements View{
         correct = false;
         while (!correct) {
             correct = true;
-            System.out.println("1) colore "+Colour.ANSI_GREEN.escape()+"verde(g)-"+Colour.ANSI_RED.escape()+"rosso(r)-"+Colour.ANSI_BLUE.escape()+"blu(b)-"+Colour.ANSI_YELLOW.escape()+"giallo(y)"+Colour.ANSI_PURPLE.escape()+"-viola(p)"+Colour.RESET);
+            System.out.println("1) colore "+Colour.colorString("verde(g)-",Colour.ANSI_GREEN)+Colour.colorString("rosso(r)-",Colour.ANSI_RED)+Colour.colorString("blu(b)-",Colour.ANSI_BLUE)+Colour.colorString("giallo(y)",Colour.ANSI_YELLOW)+Colour.colorString("-viola(p)",Colour.ANSI_PURPLE));
             System.out.println("2) numero 1-6");
             System.out.println("3) nessuna restrizione (e)");
             constraint = input.nextLine();
@@ -311,33 +312,12 @@ public class ViewCLI implements View{
         if(!sc.nearConstraint(i,j,sc.getGrid()[i][j].getConstraint()))
         {
             correct = false;
-            System.out.println(Colour.ANSI_RED.escape()+" Restrizione già immessa nelle caselle adiacenti "+Colour.RESET);
+            System.out.println(Colour.colorString(" Restrizione già immessa nelle caselle adiacenti",Colour.ANSI_RED));
             System.out.println("Selezionarne un'altra");
         }
         }
 
         return isConstraint;
-    }
-
-    // calculate difficult of custom scheme
-    public void setDifficult(Schema sc,int nConstraint)
-    {
-        int difficult;
-
-        if(nConstraint<8)
-            difficult = 1;
-        else if(nConstraint<11)
-            difficult = 2;
-        else if(nConstraint<12)
-            difficult=3;
-        else if(nConstraint<13)
-            difficult=4;
-        else if(nConstraint<14)
-            difficult=5;
-        else
-            difficult=6;
-
-        sc.setDifficult(difficult);
     }
 
     // used to modify custom schema
@@ -420,12 +400,8 @@ public class ViewCLI implements View{
         Schema temp= new Schema();
 
         for(int i=0;i<s.size();i=i+2) {
-            try {
                 if(!s.get(i).equals(this.getName()))
                     schemas.put(s.get(i),temp.InitSchema("SchemaClient/"+s.get(i+1)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -513,7 +489,7 @@ public class ViewCLI implements View{
         schema.remove(username);
         for(String key:schema.keySet()) {
             schema.get(key).splitImageSchema();
-            schema.get(key).paint[0] = key;
+            schema.get(key).getPaint()[0] = key;
         }
             showSchemas(schema);
          }
@@ -523,9 +499,9 @@ public class ViewCLI implements View{
         for(int i=0;i<PAINT_ROW;i++)
         {
             for(String key:schema.keySet()) {
-                System.out.print(schema.get(key).paint[i]);
+                System.out.print(schema.get(key).getPaint()[i]);
                 if(i<3 || i>6) {
-                    for (int j = schema.get(key).paint[i].length(); j < 45; j++)
+                    for (int j = schema.get(key).getPaint()[i].length(); j < 45; j++)
                         System.out.print(" ");
                 }
                 else {
@@ -619,14 +595,12 @@ public class ViewCLI implements View{
                 correct = true;
                 System.out.println("Desideri:");
                 System.out.println("1)Costruire il tuo schema");
-                System.out.println("2)Caricarlo da file");
-                System.out.println("3)Utilizzare schemi predefiniti");
+                System.out.println("2)Utilizzare schemi predefiniti");
                 choose = Integer.parseInt(input.nextLine());
                 switch(choose)
                 {
                     case 1: createSchema(); break;
-                    case 2: loadSchema(); break;
-                    case 3: break;
+                    case 2: break;
                     default: correct = false;
                 }
             }catch(NumberFormatException e)
@@ -641,31 +615,31 @@ public class ViewCLI implements View{
     public void loadSchema()
     {
         String name;
-        boolean correct=false;
         final String path = "src/main/data/SchemaPlayer";
         File f = new File(path);
         Schema sc = new Schema();
-        while(!correct) {
+
             System.out.println("Scegli il nome dello schema da caricare");
             if(f.list().length==0)
             {
-                System.out.println(Colour.ANSI_RED.escape()+" Nessuno schema da caricare "+Colour.RESET);
-                System.out.println("Crearne uno? y per si");
-                if(input.nextLine().equals("y"))
-                    createSchema();
-                break;
+                System.out.println(Colour.colorString(" Nessuno schema da caricare, te ne verrà assegnato uno allo scadere del tempo ",Colour.ANSI_RED));
+                return;
             }
+
             for(String file:f.list())
             System.out.println(file.substring(0,file.length()-5));
             name = input.nextLine();
             try {
+                connection.sendCustomSchema(sc.getGson("SchemaPlayer/"+name));
+                System.out.println(Colour.colorString("Hai caricato questo schema",Colour.ANSI_YELLOW));
                 schemas.put(username,sc.InitSchema("SchemaPlayer/"+name));
+                schemas.get(username).splitImageSchema();
+                schemas.get(username).showImage();
                 correct = true;
             } catch (IOException e) {
-                System.out.println("Errore con lo schema da caricare");
-                correct = false;
+                System.out.println(Colour.colorString("Errore con lo schema da caricare,te ne verrà assegnato uno allo scadere del tempo",Colour.ANSI_RED));
             }
-        }
+
     }
 
 
@@ -734,16 +708,10 @@ public class ViewCLI implements View{
     // invoked when user's schema has been accepted
     public void chooseSchema(String name)
     {
-
-
-
-        try {
             Schema s = new Schema();
             schemas.put(this.getName(),s.InitSchema("SchemaClient/"+name));
             System.out.println("schema approvato: " + name);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         System.out.println("Aspettando la scelta degli altri giocatori...\n");
         if(schemaThread.isAlive())
@@ -1187,5 +1155,28 @@ public class ViewCLI implements View{
         diceValue = Integer.parseInt(input.nextLine());
         connection.chooseValue(diceValue);
     }
+
+    public void schemaCustomAccepted(String name)
+    {
+        Schema s = new Schema();
+        schemas.put(this.getName(),s.InitSchema("SchemaPlayer/"+name));
+        System.out.println("schema approvato: " + name);
+        System.out.println("Aspettando la scelta degli altri giocatori...\n");
+    }
+
+    public void setOpponentsCustomSchemas(List <String> s)
+    {
+        Gson g = new Gson();
+        clearScreen();
+        Schema temp;
+
+        for(int i=0;i<s.size();i=i+2) {
+            if(!s.get(i).equals(this.getName())) {
+                temp = g.fromJson(s.get(i+1),Schema.class);
+                schemas.put(s.get(i), temp);
+            }
+        }
+    }
+
 }
 

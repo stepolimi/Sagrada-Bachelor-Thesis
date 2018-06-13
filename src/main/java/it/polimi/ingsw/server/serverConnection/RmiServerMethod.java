@@ -195,5 +195,12 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         virtual.forwardAction(action);
     }
 
+    public void sendCustomSchema(String schema) throws RemoteException {
+        List action = new ArrayList();
+        action.add("CustomSchema");
+        action.add(schema);
+        virtual.forwardAction(action);
+    }
+
 
 }
