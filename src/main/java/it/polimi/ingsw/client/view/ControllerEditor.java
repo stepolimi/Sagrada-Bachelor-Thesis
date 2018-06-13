@@ -2,13 +2,21 @@ package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -16,6 +24,7 @@ import java.io.IOException;
 
 public class ControllerEditor {
 
+    public Button okButton;
     private Connection connection;
 
     public GridPane gridPane;
@@ -178,35 +187,66 @@ public class ControllerEditor {
         Gson g = new Gson();
         schema = g.toJson(s);
         Boolean correct = false;
-        while(!correct)
-        {
             String copyPath;
             name = schemaName.getText();
-            copyPath = path + name + ".json";
-            FileWriter fw=null;
-            BufferedWriter b;
-            File file = new File(copyPath);
-
-            if (file.exists())
-                System.out.println("Il file " + copyPath + " esiste già");
-            else if (file.createNewFile())
-            {
-                System.out.println("Il file " + copyPath + " è stato creato");
-                fw = new FileWriter(file);
-                b = new BufferedWriter(fw);
-                b.write(schema);
-                b.flush();
-                fw.close();
-                b.close();
-                correct = true;
+            if (name.equals("")) {
+                setNotice("NameSchemaError");
+                return;
             }
-            else
-                System.out.println("Il file " + path + " non può essere creato");
+            else {
 
+                JFileChooser chooser = new JFileChooser();
+                path = chooser.getSelectedFile().toString();
+                copyPath = path + name + ".json";
+
+                FileWriter fw = null;
+                BufferedWriter b;
+                File file = new File(copyPath);
+
+                if (file.exists())
+                    System.out.println("Il file " + copyPath + " esiste già");
+                else if (file.createNewFile()) {
+                    System.out.println("Il file " + copyPath + " è stato creato");
+                    fw = new FileWriter(file);
+                    b = new BufferedWriter(fw);
+                    b.write(schema);
+                    b.flush();
+                    fw.close();
+                    b.close();
+                } else
+                    System.out.println("Il file " + path + " non può essere creato");
+
+            }
+
+
+    }
+
+    public void setNotice(String src) {
+
+        Stage stage = new Stage();
+        Pane p = null;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
+            p = loader.load();
+            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Scene scene = new Scene(p);
+        stage.setScene(scene);
+        stage.setTitle("SAGRADA GAME");
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
+        stage.setResizable(false);
+
+        stage.show();
 
     }
 
 
-
+    public void NameError(ActionEvent actionEvent) {
+        Stage stage = (Stage) okButton.getScene().getWindow();
+        stage.close();
+    }
 }

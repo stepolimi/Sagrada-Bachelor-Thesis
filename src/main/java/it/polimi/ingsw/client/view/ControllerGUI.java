@@ -163,7 +163,7 @@ public class ControllerGUI implements View {
     public Button closeButton;
 
     @FXML
-    public Button playButton;
+    public ImageView playButton;
 
     @FXML
     public ImageView RMIButton;
@@ -278,15 +278,35 @@ public class ControllerGUI implements View {
 
     }
 
-
-    public void playAction(ActionEvent actionEvent) {
-
+    @FXML
+    void playAction(MouseEvent event) {
         Stage stage = (Stage) playButton.getScene().getWindow();
         stage.close();
 
         setScene("connection");
+    }
 
 
+    @FXML
+    void goSchemaEditor(MouseEvent event) {
+        Stage stage = new Stage();
+        Pane p = null;
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/FXML/SchemaEditor.fxml"));
+            p = loader.load();
+            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Scene scene = new Scene(p);
+        stage.setScene(scene);
+        stage.setTitle("SAGRADA GAME");
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
+        stage.setResizable(false);
+
+        stage.show();
     }
 
 
