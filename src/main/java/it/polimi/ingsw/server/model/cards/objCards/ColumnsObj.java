@@ -5,8 +5,8 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Costants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.serverCostants.Costants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
 
 public class ColumnsObj extends ObjectiveCard {
 
@@ -25,7 +25,7 @@ public class ColumnsObj extends ObjectiveCard {
         int score = 0;
         List<Dice> container;
 
-        for(int j=0; j < COLUMNS_SCHEMA; j++){
+        for (int j = 0; j < COLUMNS_SCHEMA; j++) {
             container = sch.getDicesInColumn(j);
             if (points == 5 && noColourDuplicates(container) && container.size() == ROWS_SCHEMA)
                 score += this.points;
@@ -56,20 +56,21 @@ public class ColumnsObj extends ObjectiveCard {
     }
 
     @Override
-    public String getName(){ return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }
 
-    public void dump(){
+    public void dump() {
         System.out.println(this);
     }
-
 
 }

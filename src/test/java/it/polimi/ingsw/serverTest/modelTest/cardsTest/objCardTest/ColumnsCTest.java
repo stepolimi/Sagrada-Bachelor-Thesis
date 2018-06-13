@@ -1,6 +1,5 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.objCards.ColumnsObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -9,17 +8,18 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
 
 public class ColumnsCTest {
 
-    Schema s = new Schema();
+    private Schema s;
 
     public void insertDice(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,16 +35,16 @@ public class ColumnsCTest {
         Dice d10 = new Dice(Colour.ANSI_BLUE, 4);
 
 
-        s.insertDice(0, 0, d1);
-        s.insertDice(1, 0, d2);
-        s.insertDice(2, 0, d3);
-        s.insertDice(3, 0, d4);
-        s.insertDice(0, 2, d5);
-        s.insertDice(1, 2, d6);
-        s.insertDice(2, 2, d7);
-        s.insertDice(3, 2, d8);
-        s.insertDice(3, 4, d9);
-        s.insertDice(3, 3, d10);
+        s.silentInsertDice(0, 0, d1);
+        s.silentInsertDice(1, 0, d2);
+        s.silentInsertDice(2, 0, d3);
+        s.silentInsertDice(3, 0, d4);
+        s.silentInsertDice(0, 2, d5);
+        s.silentInsertDice(1, 2, d6);
+        s.silentInsertDice(2, 2, d7);
+        s.silentInsertDice(3, 2, d8);
+        s.silentInsertDice(3, 4, d9);
+        s.silentInsertDice(3, 3, d10);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class ColumnsCTest {
     @Test
     public void score_null(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }

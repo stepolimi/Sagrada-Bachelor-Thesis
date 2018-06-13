@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoundTest {
@@ -31,7 +32,7 @@ public class RoundTest {
         List<Schema> schemas = new ArrayList<Schema>();
         Schema schema = new Schema();
         try {
-            schema = schema.schemaInit(1);
+            schema =buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }

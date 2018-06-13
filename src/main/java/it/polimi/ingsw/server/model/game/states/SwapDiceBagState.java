@@ -2,40 +2,25 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.model.board.DiceBag;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SwapDiceBagState implements State{
-    private static String state = "SwapDiceBagState";
+import static it.polimi.ingsw.costants.GameConstants.SWAP_DICE_BAG_ACCEPTED;
+import static it.polimi.ingsw.server.serverCostants.Constants.*;
 
-    public void execute(Round round, List action){
+public class SwapDiceBagState extends State {
+    private static String state = SWAP_DICE_BAG_STATE;
+
+    public void execute(Round round, List action) {
         DiceBag diceBag = round.getBoard().getDiceBag();
         diceBag.insertDice(round.getPendingDice());
         round.setPendingDice(diceBag.takeDice());
         round.getNextActions().remove(0);
-        round.notifyChanges("swapDiceBagAccepted");
+        round.notifyChanges(SWAP_DICE_BAG_ACCEPTED);
         giveLegalActions(round);
     }
 
-    public String nextState(Round round, List action){ return action.get(0) + "State"; }
-
-    private void giveLegalActions(Round round){
-        List<String> legalActions = new ArrayList<String>();
-        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
-            round.setUsingTool(null);
-            if (!round.isInsertedDice() || round.hasBonusInsertDice())
-                legalActions.add("InsertDice");
-            if(!round.isUsedCard())
-                legalActions.add("UseToolCard");
-            legalActions.add("EndTurn");
-        } else{
-            legalActions.addAll(round.getNextActions().get(0));
-            if(legalActions.contains("InsertDice") && round.isInsertedDice())
-                legalActions.remove("InsertDice");
-        }
-        round.setLegalActions(legalActions);
-    }
-
     @Override
-    public String toString (){return state; }
+    public String toString() {
+        return state;
+    }
 }

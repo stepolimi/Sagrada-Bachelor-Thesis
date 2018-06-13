@@ -24,7 +24,7 @@ public class GameTimer extends TimerTask{
         }
         else{
             timedComponent.notifyChanges(TIMER_PING);
-            timedComponent.notifyChanges(TIMER_ELAPSED);
+            timedComponent.timerElapsed();
             this.cancel();
         }
     }

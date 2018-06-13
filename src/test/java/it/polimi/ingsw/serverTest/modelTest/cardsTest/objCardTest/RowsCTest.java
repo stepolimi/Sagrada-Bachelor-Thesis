@@ -1,6 +1,5 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.objCards.RowsObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -9,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
@@ -16,11 +16,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RowsCTest {
 
-    Schema s = new Schema();
+    private Schema s;
 
     public void insertDice(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,16 +38,16 @@ public class RowsCTest {
 
 
 
-        s.insertDice(0, 0, d1);
-        s.insertDice(0, 1, d2);
-        s.insertDice(0, 2, d3);
-        s.insertDice(0, 3, d4);
-        s.insertDice(0, 4, d5);
-        s.insertDice(2, 0, d6);
-        s.insertDice(2, 1, d7);
-        s.insertDice(2, 2, d8);
-        s.insertDice(2, 3, d9);
-        s.insertDice(2, 4, d10);
+        s.silentInsertDice(0, 0, d1);
+        s.silentInsertDice(0, 1, d2);
+        s.silentInsertDice(0, 2, d3);
+        s.silentInsertDice(0, 3, d4);
+        s.silentInsertDice(0, 4, d5);
+        s.silentInsertDice(2, 0, d6);
+        s.silentInsertDice(2, 1, d7);
+        s.silentInsertDice(2, 2, d8);
+        s.silentInsertDice(2, 3, d9);
+        s.silentInsertDice(2, 4, d10);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class RowsCTest {
     public void score_null(){
 
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }

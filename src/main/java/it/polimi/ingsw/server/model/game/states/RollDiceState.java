@@ -1,38 +1,22 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class RollDiceState implements State{
-    private static String state = "RollDiceState";
+import static it.polimi.ingsw.costants.GameConstants.ROLL_DICE_ACCEPTED;
+import static it.polimi.ingsw.server.serverCostants.Constants.*;
 
-    public void execute(Round round, List action){
+public class RollDiceState extends State {
+    private static String state = ROLL_DICE_STATE;
+
+    public void execute(Round round, List action) {
         round.getPendingDice().rollDice();
         round.getNextActions().remove(0);
-        round.notifyChanges("RollDiceAccepted");
+        round.notifyChanges(ROLL_DICE_ACCEPTED);
         giveLegalActions(round);
     }
 
-    public String nextState(Round round, List action){ return action.get(0) + "State"; }
-
-    private void giveLegalActions(Round round){
-        List<String> legalActions = new ArrayList<String>();
-        System.out.println(round.getNextActions());
-        if(round.getUsingTool() == null || round.getNextActions().isEmpty()) {
-            round.setUsingTool(null);
-            if (!round.isInsertedDice() || round.hasBonusInsertDice())
-                legalActions.add("InsertDice");
-            if(!round.isUsedCard())
-                legalActions.add("UseToolCard");
-            legalActions.add("EndTurn");
-        } else{
-            legalActions.addAll(round.getNextActions().get(0));
-            if(legalActions.contains("InsertDice") && round.isInsertedDice())
-                legalActions.remove("InsertDice");
-        }
-        round.setLegalActions(legalActions);
-    }
-
     @Override
-    public String toString (){return state; }
+    public String toString() {
+        return state;
+    }
 }

@@ -1,5 +1,4 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest;
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -8,17 +7,18 @@ import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
 import java.io.IOException;
 
+import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema.
 
 public class PrivateCardTest {
 
-    Schema s = new Schema();
+    private Schema s;
 
     public void insertDice(){
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,23 +35,23 @@ public class PrivateCardTest {
 
 
 
-        s.insertDice(0, 0, d1);
-        s.insertDice(1, 0, d2);
-        s.insertDice(2, 0, d3);
-        s.insertDice(3, 0, d4);
-        s.insertDice(0, 2, d5);
-        s.insertDice(1, 2, d6);
-        s.insertDice(2, 2, d7);
-        s.insertDice(3, 2, d8);
-        s.insertDice(3, 4, d9);
-        s.insertDice(3, 3, d10);
+        s.silentInsertDice(0, 0, d1);
+        s.silentInsertDice(1, 0, d2);
+        s.silentInsertDice(2, 0, d3);
+        s.silentInsertDice(3, 0, d4);
+        s.silentInsertDice(0, 2, d5);
+        s.silentInsertDice(1, 2, d6);
+        s.silentInsertDice(2, 2, d7);
+        s.silentInsertDice(3, 2, d8);
+        s.silentInsertDice(3, 4, d9);
+        s.silentInsertDice(3, 3, d10);
     }
     @Test
     public void scoreColour() throws IOException {
 
         insertDice();
 
-        PrivateObjective card = new PrivateObjective().PrivateInit(4);
+        PrivateObjective card = new PrivateObjective().privateInit(4);
         card.dump();
         assertEquals(6, card.scoreCard(s));
     }
@@ -59,11 +59,11 @@ public class PrivateCardTest {
     @Test
     public void null_score() throws IOException {
         try {
-            s = s.schemaInit(1);
+            s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PrivateObjective card = new PrivateObjective().PrivateInit(4);
+        PrivateObjective card = new PrivateObjective().privateInit(4);
         card.dump();
         assertEquals(0, card.scoreCard(s), "result is 0");
 

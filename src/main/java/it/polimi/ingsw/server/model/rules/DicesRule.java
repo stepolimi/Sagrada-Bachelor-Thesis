@@ -5,8 +5,10 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
+import static it.polimi.ingsw.server.serverCostants.Constants.DICES_RESTRICTION;
+
 public class DicesRule implements InsertionRule {
-    private static final String restriction = "Dices";
+    private static String restriction = DICES_RESTRICTION;
 
     public boolean checkRule(int x, int y, Dice dice, Schema sch) {
         List<Dice> nearDices = sch.nearDice(x, y);
@@ -26,5 +28,7 @@ public class DicesRule implements InsertionRule {
         return true;
     }
 
-    public String getRestriction() { return restriction; }
+    public String getRestriction() {
+        return restriction;
+    }
 }

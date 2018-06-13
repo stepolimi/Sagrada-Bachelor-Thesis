@@ -12,10 +12,10 @@ import java.util.*;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
 import static it.polimi.ingsw.costants.GameCreationMessages.START_TURN;
-import static it.polimi.ingsw.costants.LoginMessages.TIMER_ELAPSED;
 import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
 import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_VALUE;
 import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_PING;
+import static it.polimi.ingsw.server.serverCostants.Constants.*;
 
 public class Round extends Observable implements TimedComponent {
     private Player firstPlayer;
@@ -23,8 +23,8 @@ public class Round extends Observable implements TimedComponent {
     private Player currentPlayer;
     private int turnNumber = 0;
     private List<Player> playersOrder;
-    private HashMap<String,State> states;
-    private State currentState ;
+    private HashMap<String, State> states;
+    private State currentState;
     private Dice pendingDice;
     private Colour movedDiceColour;
     private ToolCard usingTool;
@@ -43,7 +43,7 @@ public class Round extends Observable implements TimedComponent {
     private Long startingTime = 0L;
 
 
-    public Round(Player first, Board board,RoundManager roundManager){
+    public Round(Player first, Board board, RoundManager roundManager) {
         usingTool = null;
         this.roundManager = roundManager;
         states = new HashMap<String, State>();
@@ -60,197 +60,237 @@ public class Round extends Observable implements TimedComponent {
         favorsDecremented = 0;
     }
 
-    public void roundInit(){
+    public void roundInit() {
         currentPlayer = firstPlayer;
-        states.put("ExtractDiceState",new ExtractDiceState());
-        currentState = states.get("ExtractDiceState");
-        states.put("InsertDiceState",new InsertDiceState());
-        states.put("UseToolCardState",new UseToolCardState());
-        states.put("CancelUseToolCardState",new CancelUseToolCardState());
-        states.put("MoveDiceState",new MoveDiceState());
-        states.put("RollDiceState",new RollDiceState());
-        states.put("FlipDiceState",new FlipDiceState());
-        states.put("RollDiceSpaceState",new RollDiceSpaceState());
-        states.put("ChangeValueState",new ChangeValueState());
-        states.put("ChooseValueState",new ChooseValueState());
-        states.put("DraftDiceState",new DraftDiceState());
-        states.put("PlaceDiceState",new PlaceDiceState());
-        states.put("PlaceDiceSpaceState",new PlaceDiceSpaceState());
-        states.put("SwapDiceState",new SwapDiceState());
-        states.put("SwapDiceBagState",new SwapDiceBagState());
-        states.put("EndTurnState",new EndTurnState());
+        states.put(EXTRACT_DICE_STATE, new ExtractDiceState());
+        currentState = states.get(EXTRACT_DICE_STATE);
+        states.put(INSERT_DICE_STATE, new InsertDiceState());
+        states.put(USE_TOOL_CARD_STATE, new UseToolCardState());
+        states.put(CANCEL_USE_TOOL_CARD_STATE, new CancelUseToolCardState());
+        states.put(MOVE_DICE_STATE, new MoveDiceState());
+        states.put(ROLL_DICE_STATE, new RollDiceState());
+        states.put(FLIP_DICE_STATE, new FlipDiceState());
+        states.put(ROLL_DICE_SPACE_STATE, new RollDiceSpaceState());
+        states.put(CHANGE_VALUE_STATE, new ChangeValueState());
+        states.put(CHOOSE_VALUE_STATE, new ChooseValueState());
+        states.put(DRAFT_DICE_STATE, new DraftDiceState());
+        states.put(PLACE_DICE_STATE, new PlaceDiceState());
+        states.put(PLACE_DICE_SPACE_STATE, new PlaceDiceSpaceState());
+        states.put(SWAP_DICE_STATE, new SwapDiceState());
+        states.put(SWAP_DICE_BAG_STATE, new SwapDiceBagState());
+        states.put(END_TURN_STATE, new EndTurnState());
         setPlayersOrder();
 
         System.out.println("new round started\n" + " ---");
-        currentState.execute(this,null);
-        notifyChanges("newState");
+        currentState.execute(this, null);
+        notifyChanges(START_ROUND);
+        notifyChanges(START_TURN);
+        notifyChanges(SET_ACTIONS);
 
         startingTime = System.currentTimeMillis();
-        turnTimer = new GameTimer(TURN_TIMER_VALUE,this);
+        turnTimer = new GameTimer(TURN_TIMER_VALUE, this);
         timer = new Timer();
-        timer.schedule(turnTimer,0L,5000L);
+        timer.schedule(turnTimer, 0L, 5000L);
     }
 
-    public void execute(List action){
-        if(legalActions.contains(action.get(0))) {
+    public void execute(List action) {
+        if (legalActions.contains(action.get(0))) {
             timer.cancel();
-            currentState = states.get(currentState.nextState(this, action));
+            currentState = states.get(currentState.nextState(action));
             currentState.execute(this, action);
-            notifyChanges("newState");
+            if (currentState.toString().equals(END_TURN_STATE))
+                notifyChanges(START_TURN);
+            notifyChanges(SET_ACTIONS);
             startingTime = System.currentTimeMillis();
-            turnTimer = new GameTimer(TURN_TIMER_VALUE,this);
+            turnTimer = new GameTimer(TURN_TIMER_VALUE, this);
             timer = new Timer();
             timer.schedule(turnTimer, 0L, 5000L);
-        }else{
+        } else {
             System.out.println("can't perform: " + action.get(0) + " now\n" + " ---");
-            notifyChanges(ILLEGAL_ACTION);
+            notifyChanges(SET_ACTIONS);
         }
     }
 
-    public Timer getTimer() { return timer; }
+    public Timer getTimer() {
+        return timer;
+    }
 
-    public Player getCurrentPlayer(){ return currentPlayer; }
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
-    public void setCurrentPlayer(Player player){ this.currentPlayer= player; }
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
 
-    public int getTurnNumber(){ return turnNumber; }
+    public int getTurnNumber() {
+        return turnNumber;
+    }
 
-    public void incrementTurnNumber(){ turnNumber ++;}
+    public void incrementTurnNumber() {
+        turnNumber++;
+    }
 
-    public List<Player> getPlayersOrder() { return playersOrder; }
+    public List<Player> getPlayersOrder() {
+        return playersOrder;
+    }
 
-    public Board getBoard(){ return board; }
+    public Board getBoard() {
+        return board;
+    }
 
-    public RoundManager getRoundManager(){ return roundManager; }
+    public RoundManager getRoundManager() {
+        return roundManager;
+    }
 
-    public Dice getPendingDice() { return pendingDice; }
+    public Dice getPendingDice() {
+        return pendingDice;
+    }
 
-    public void setPendingDice(Dice dice){this.pendingDice = dice;}
+    public void setPendingDice(Dice dice) {
+        this.pendingDice = dice;
+    }
 
-    public int getFavorsDecremented() { return favorsDecremented; }
+    public int getFavorsDecremented() {
+        return favorsDecremented;
+    }
 
-    public void setFavorsDecremented(int favorsDecremented) { this.favorsDecremented = favorsDecremented; }
+    public void setFavorsDecremented(int favorsDecremented) {
+        this.favorsDecremented = favorsDecremented;
+    }
 
-    public boolean getCardWasUsed() {return cardWasUsed;}
+    public boolean getCardWasUsed() {
+        return cardWasUsed;
+    }
 
-    public void setCardWasUsed(boolean cardWasUsed) {this.cardWasUsed = cardWasUsed;}
+    public void setCardWasUsed(boolean cardWasUsed) {
+        this.cardWasUsed = cardWasUsed;
+    }
 
-    public String getCurrentState(){ return currentState.toString();}
+    public String getCurrentState() {
+        return currentState.toString();
+    }
 
-    public void setUsingTool(ToolCard using){ this.usingTool = using;}
+    public void setUsingTool(ToolCard using) {
+        this.usingTool = using;
+    }
 
-    public ToolCard getUsingTool(){return usingTool;}
+    public ToolCard getUsingTool() {
+        return usingTool;
+    }
 
-    public void setLegalActions(List<String> legalActions){ this.legalActions = legalActions; }
+    public void setLegalActions(List<String> legalActions) {
+        this.legalActions = legalActions;
+    }
 
-    public boolean isUsedCard() { return usedCard; }
+    public boolean isUsedCard() {
+        return usedCard;
+    }
 
-    public void setUsedCard(boolean usedCard) { this.usedCard = usedCard; }
+    public void setUsedCard(boolean usedCard) {
+        this.usedCard = usedCard;
+    }
 
-    public boolean isInsertedDice() { return insertedDice; }
+    public boolean isInsertedDice() {
+        return insertedDice;
+    }
 
-    public void setInsertedDice(boolean insertedDice) { this.insertedDice = insertedDice; }
+    public void setInsertedDice(boolean insertedDice) {
+        this.insertedDice = insertedDice;
+    }
 
-    public boolean hasBonusInsertDice() { return bonusInsertDice; }
+    public boolean hasBonusInsertDice() {
+        return bonusInsertDice;
+    }
 
-    public void setBonusInsertDice(boolean bonusInsertDice) { this.bonusInsertDice = bonusInsertDice; }
+    public void setBonusInsertDice(boolean bonusInsertDice) {
+        this.bonusInsertDice = bonusInsertDice;
+    }
 
-    public void setNextActions(List<List<String>> nextActions) { this.nextActions = nextActions; }
+    public void setNextActions(List<List<String>> nextActions) {
+        this.nextActions = nextActions;
+    }
 
-    public List<List<String>> getNextActions() { return nextActions; }
+    public List<List<String>> getNextActions() {
+        return nextActions;
+    }
 
-    public Colour getMovedDiceColour() { return movedDiceColour; }
+    public Colour getMovedDiceColour() {
+        return movedDiceColour;
+    }
 
-    public void setMovedDiceColour(Colour movedDiceColour) { this.movedDiceColour = movedDiceColour; }
+    public void setMovedDiceColour(Colour movedDiceColour) {
+        this.movedDiceColour = movedDiceColour;
+    }
 
-    private void setPlayersOrder(){
+    private void setPlayersOrder() {
         int playerIndex = board.getIndex(firstPlayer);
         playersOrder.add(firstPlayer);
-        for(int i=1; i<board.numPlayers()*2; i++) {
+        for (int i = 1; i < board.numPlayers() * 2; i++) {
             if (i < getBoard().numPlayers())
                 if (playerIndex == board.numPlayers() - 1)
                     playerIndex = 0;
                 else
-                    playerIndex ++;
+                    playerIndex++;
             else if (i > board.numPlayers()) {
                 if (playerIndex == 0)
                     playerIndex = board.numPlayers() - 1;
                 else
-                    playerIndex --;
+                    playerIndex--;
             }
             playersOrder.add(board.getPlayer(playerIndex));
         }
     }
 
-    public void notifyChanges(String string){
-        List<String> action = new ArrayList<String>();
-        if(string.equals("newState")) {
-            if (currentState.toString().equals("ExtractDiceState")) {
-                action.add(START_ROUND);
-                setChanged();
-                notifyObservers(action);
-                action.clear();
-
-                action.add(START_TURN);
-                action.add(currentPlayer.getNickname());
-                setChanged();
-                notifyObservers(action);
-            } else if (currentState.toString().equals("EndTurnState")) {
-                action.add(START_TURN);
-                action.add(currentPlayer.getNickname());
-                setChanged();
-                notifyObservers(action);
+    public void timerElapsed() {
+        System.out.println("TurnTimer elapsed\n" + " ---");
+        currentPlayer.setConnected(false);
+        insertedDice = false;
+        usedCard = false;
+        usingTool = null;
+        if (pendingDice != null) {
+            board.getDiceSpace().insertDice(pendingDice);
+            pendingDice = null;
+        }
+        if (turnNumber == board.getPlayerList().size() * 2 - 1) {
+            if (roundManager.getRoundNumber() <= 10) {
+                board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(), roundManager.getRoundNumber() - 1);
+                roundManager.startNewRound();
             }
-            action.clear();
+        } else {
+            List<String> action = new ArrayList<String>();
+            action.add(END_TURN);
+            execute(action);
+        }
+    }
+
+    public void notifyChanges(String string) {
+        List<String> action = new ArrayList<String>();
+        if (string.equals(START_ROUND)) {
+            action.add(string);
+        } else if (string.equals(SET_ACTIONS)) {
             action.add(SET_ACTIONS);
             action.add(currentPlayer.getNickname());
             action.addAll(legalActions);
-        } else if(string.equals(ILLEGAL_ACTION)){
-            action.add(SET_ACTIONS);
-            action.add(currentPlayer.getNickname());
-            action.addAll(legalActions);
-        } else if(string.equals("RollDiceAccepted") || string.equals("flipDiceAccepted")){
+        } else if (string.equals(ROLL_DICE_ACCEPTED) || string.equals(FLIP_DICE_ACCEPTED)) {
             action.add(string);
             action.add(currentPlayer.getNickname());
-            action.add(((Integer)pendingDice.getValue()).toString());
-        }else if(string.equals("swapDiceBagAccepted")){
+            action.add(((Integer) pendingDice.getValue()).toString());
+        } else if (string.equals(SWAP_DICE_BAG_ACCEPTED)) {
             action.add(string);
             action.add(currentPlayer.getNickname());
             action.add(pendingDice.getColour().toString());
-            action.add(((Integer)pendingDice.getValue()).toString());
-        }else if(string.equals(USE_TOOL_CARD_ACCEPTED) || string.equals("cancelUseToolCardAccepted")){
+            action.add(((Integer) pendingDice.getValue()).toString());
+        } else if (string.equals(USE_TOOL_CARD_ACCEPTED) || string.equals(CANCEL_USE_TOOL_CARD_ACCEPTED)) {
             action.add(string);
             action.add(currentPlayer.getNickname());
-            action.add(((Integer)currentPlayer.getFavour()).toString());
-        }else if(string.equals(TIMER_PING)){
+            action.add(((Integer) currentPlayer.getFavour()).toString());
+        } else if (string.equals(TIMER_PING)) {
             action.add(TURN_TIMER_PING);
             action.add(currentPlayer.getNickname());
-            action.add(((Long)(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
-        } else if(string.equals(TIMER_ELAPSED)){
-            System.out.println("TurnTimer elapsed\n"+" ---");
-            currentPlayer.setConnected(false);
-            insertedDice = false;
-            usedCard = false;
-            usingTool = null;
-            if(pendingDice!= null) {
-                board.getDiceSpace().insertDice(pendingDice);
-                pendingDice = null;
-            }
-            if(turnNumber == board.getPlayerList().size()*2 -1){
-                if(roundManager.getRoundNumber() <=10) {
-                    board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
-                    roundManager.startNewRound();
-                }
-                return;
-            }
-            else {
-                List list = new ArrayList();
-                list.add("EndTurn");
-                execute(list);
-            }
-            return;
-        } else{
-            // insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
+            action.add(((Long) (TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000)).toString());
+        } else {
+            // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
             // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,
             // flipDiceAccepted,chooseValueAccepted,chooseValueError,moveDiveError
             action.add(string);
@@ -259,4 +299,6 @@ public class Round extends Observable implements TimedComponent {
         setChanged();
         notifyObservers(action);
     }
+
+
 }

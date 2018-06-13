@@ -21,36 +21,36 @@ public class CoupleSetObj extends ObjectiveCard {
         int count1 = 0;
         int count2 = 0;
 
-        for(Dice dice: sch.getDices()) {
+        for (Dice dice : sch.getDices()) {
             if (dice.getValue() == this.a)
-                count1 ++;
+                count1++;
             else if (dice.getValue() == this.b)
-                count2 ++;
+                count2++;
         }
         if (count1 < count2) {
-            System.out.println("couple set objective score: " + 2*count1);
+            System.out.println("couple set objective score: " + 2 * count1);
             return 2 * count1;
         }
-        System.out.println("couple set objective score: " + 2*count2);
+        System.out.println("couple set objective score: " + 2 * count2);
         return 2 * count2;
     }
 
     @Override
-    public String getName(){ return this.name; }
+    public String getName() {
+        return this.name;
+    }
 
     @Override
-    public String toString(){
+    public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src= src + "|" +  this.name.toString() + "\n" + "|" +  this.description + "\n" +  "|" + "setOf: " + this.a  +  this.b + "\n";
+        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "setOf: " + this.a + this.b + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
     }
 
-    public void dump(){
+    public void dump() {
         System.out.println(this);
     }
-
-
 
 }

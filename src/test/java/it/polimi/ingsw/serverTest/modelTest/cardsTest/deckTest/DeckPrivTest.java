@@ -22,7 +22,7 @@ public class DeckPrivTest {
     @Test
     public void correctExtract(){
         card1=d.extract();
-        assertEquals(4, d.getDeckPriv().size());
+        assertEquals(4, d.getDeckPrivate().size());
 
     }
 
@@ -30,7 +30,7 @@ public class DeckPrivTest {
     public void correct_extract(){
         card1=d.extract();
         card2=d.extract();
-        assertEquals(3, d.getDeckPriv().size());
+        assertEquals(3, d.getDeckPrivate().size());
     }
 
 }
