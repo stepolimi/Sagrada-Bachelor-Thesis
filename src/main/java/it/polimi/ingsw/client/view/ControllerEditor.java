@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,9 +15,9 @@ import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -195,10 +196,19 @@ public class ControllerEditor {
             }
             else {
 
-                JFileChooser chooser = new JFileChooser();
-                path = chooser.getSelectedFile().toString();
-                copyPath = path + name + ".json";
 
+                Stage stage = new Stage();
+                final Label labelSelectedDirectory = new Label();
+
+                DirectoryChooser directoryChooser = new DirectoryChooser();
+                directoryChooser.setTitle("Scegli dove salvare il tuo schema");
+                File selectedDirectory = directoryChooser.showDialog(stage);
+                if(selectedDirectory == null){
+                    labelSelectedDirectory.setText("No Directory selected");
+                }else {
+                    path =selectedDirectory.getAbsolutePath();
+                }
+                copyPath = path + "/" + name + ".json";
                 FileWriter fw = null;
                 BufferedWriter b;
                 File file = new File(copyPath);
@@ -207,6 +217,8 @@ public class ControllerEditor {
                     System.out.println("Il file " + copyPath + " esiste già");
                 else if (file.createNewFile()) {
                     System.out.println("Il file " + copyPath + " è stato creato");
+                    stage = (Stage) gridPane.getScene().getWindow();
+                    stage.close();
                     fw = new FileWriter(file);
                     b = new BufferedWriter(fw);
                     b.write(schema);
