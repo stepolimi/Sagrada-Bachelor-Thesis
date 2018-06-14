@@ -250,7 +250,6 @@ public class ViewCLI implements View{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        schemas.put(username,sc);
     }
 
     // set constraint of custom scheme
@@ -258,7 +257,7 @@ public class ViewCLI implements View{
     {
         boolean isConstraint=true;
         String constraint;
-        correct = false;
+        boolean correct = false;
         while (!correct) {
             correct = true;
             System.out.println("1) colore "+Colour.colorString("verde(g)-",Colour.ANSI_GREEN)+Colour.colorString("rosso(r)-",Colour.ANSI_RED)+Colour.colorString("blu(b)-",Colour.ANSI_BLUE)+Colour.colorString("giallo(y)",Colour.ANSI_YELLOW)+Colour.colorString("-viola(p)",Colour.ANSI_PURPLE));
@@ -335,12 +334,15 @@ public class ViewCLI implements View{
                 System.out.println("Inserisci la colonna che vuoi modificare");
                 column = Integer.parseInt(input.nextLine());
 
-                setConstraint(s,row,column);
+                System.out.println("Row"+row+"Column"+column);
+
+                setConstraint(s,row-1,column-1);
 
                 System.out.println("Modifica avvenuta!");
 
                 System.out.println("Questo è il tuo schema");
-                System.out.println(s);
+                s.splitImageSchema();
+                s.showImage();
 
                 System.out.println("Vuoi modificare ancora la griglia? y si");
 
@@ -361,14 +363,14 @@ public class ViewCLI implements View{
         String path = "src/main/data/SchemaPlayer/";
         String name,schema;
         Gson g = new Gson();
+        s.setPaint(null);
         schema = g.toJson(s);
         correct = false;
+
         while(!correct)
         {
             String copyPath;
-            System.out.println("Inserisci il nome che vorrai dare allo schema:");
-            name = input.nextLine();
-            copyPath = path + name + ".json";
+            copyPath = path + s.getName() + ".json";
             FileWriter fw=null;
             BufferedWriter b;
                 File file = new File(copyPath);

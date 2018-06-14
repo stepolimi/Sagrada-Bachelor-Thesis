@@ -14,9 +14,10 @@ public class Schema {
     int difficult;
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;
-    private String paint [] = new String[PAINT_ROW];
+    private String paint [];
     public Schema()
     {
+        paint = new String[PAINT_ROW];
         for(int i=0;i<PAINT_ROW;i++)
             paint[i] ="";
 
@@ -30,6 +31,9 @@ public class Schema {
         }
     }
 
+    public void setPaint(String[] paint) {
+        this.paint = paint;
+    }
 
     public Schema InitSchema(String nome)
     {
