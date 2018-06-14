@@ -186,6 +186,7 @@ public class ControllerEditor {
         String path = "src/main/data/SchemaPlayer/";
         String name,schema;
         Gson g = new Gson();
+        s.setPaint(null);
         schema = g.toJson(s);
         Boolean correct = false;
             String copyPath;

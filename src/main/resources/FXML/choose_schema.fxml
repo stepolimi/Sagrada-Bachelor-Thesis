@@ -7,33 +7,58 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="589.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="828.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="2028.0" fitWidth="1101.0" layoutX="-70.0" layoutY="-759.0" opacity="0.44" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1483.0" fitWidth="893.0" layoutX="-31.0" layoutY="-495.0" opacity="0.49" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/chooschema.png" />
          </image>
       </ImageView>
-      <Text layoutX="128.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="496.42626953125">
+      <Text layoutX="176.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="496.42626953125">
          <font>
             <Font size="48.0" />
          </font>
       </Text>
-      <ImageView id="0" fx:id="schemaA" fitHeight="218.0" fitWidth="271.0" layoutX="84.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="0" fx:id="schemaA" fitHeight="218.0" fitWidth="271.0" layoutX="66.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></ImageView>
-      <ImageView id="2" fx:id="schemaC" fitHeight="225.0" fitWidth="253.0" layoutX="84.0" layoutY="321.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+         </cursor>
+         <image>
+            <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
+         </image></ImageView>
+      <ImageView id="2" fx:id="schemaC" fitHeight="225.0" fitWidth="253.0" layoutX="66.0" layoutY="321.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></ImageView>
-      <ImageView id="3" fx:id="schemaD" fitHeight="218.0" fitWidth="254.0" layoutX="422.0" layoutY="325.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+         </cursor>
+         <image>
+            <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
+         </image></ImageView>
+      <ImageView id="3" fx:id="schemaD" fitHeight="218.0" fitWidth="254.0" layoutX="404.0" layoutY="325.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></ImageView>
-      <ImageView id="1" fx:id="schemaB" fitHeight="218.0" fitWidth="255.0" layoutX="422.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+         </cursor>
+         <image>
+            <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
+         </image></ImageView>
+      <ImageView id="1" fx:id="schemaB" fitHeight="218.0" fitWidth="255.0" layoutX="404.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
-         </cursor></ImageView>
+         </cursor>
+         <image>
+            <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
+         </image></ImageView>
+      <ImageView fitHeight="99.0" fitWidth="98.0" layoutX="702.0" layoutY="476.0" onMouseClicked="#openSchema" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../assets/image/openIcon.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <Text layoutX="663.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oppure usa uno Schema personalizzato:" textAlignment="RIGHT" wrappingWidth="160.15509033203125">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

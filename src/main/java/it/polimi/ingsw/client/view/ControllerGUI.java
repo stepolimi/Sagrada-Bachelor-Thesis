@@ -1,4 +1,7 @@
-package it.polimi.ingsw.client.view;import it.polimi.ingsw.client.clientConnection.Connection;
+package it.polimi.ingsw.client.view;
+
+import com.google.gson.Gson;
+import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
 import javafx.animation.Animation;
@@ -23,14 +26,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import static java.lang.Thread.sleep;
 
@@ -44,11 +52,11 @@ public class ControllerGUI implements View {
     public Button loginAction;
     public Connection connection;
     public Thread t;
-    public Thread g;
-    public ViewGUI gui;
     public Handler hand;
     public Schema mySchema;
     public List<Schema> schemas;
+
+    public String schemaChoosen;
 
 
     public Integer roundNumber;
@@ -617,6 +625,34 @@ public class ControllerGUI implements View {
         connection.sendSchema(schemasClient.get(Integer.parseInt(imageView.getId())));
     }
 
+    @FXML
+    void openSchema(MouseEvent event) throws FileNotFoundException {
+        Stage stage = new Stage();
+
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            Scanner in = new Scanner(new FileReader(file));
+
+            StringBuilder sb = new StringBuilder();
+            while (in.hasNext()) {
+                sb.append(in.next());
+            }
+            in.close();
+            schemaChoosen = sb.toString();
+
+
+            connection.sendCustomSchema(schemaChoosen);
+
+        } else setNotice("OpenSchemaError");
+
+
+    }
+
 
     public void chooseSchema(final String name) {
 
@@ -631,7 +667,7 @@ public class ControllerGUI implements View {
                     e.printStackTrace();
                 }
 
-                    schema = schema.InitSchema("SchemaClient/" + name);
+                schema = schema.InitSchema("SchemaClient/" + name);
 
 
                 nFavour.setText("x " + schema.difficult);
@@ -652,7 +688,10 @@ public class ControllerGUI implements View {
         Platform.runLater(new Runnable() {
             List<String> stringList = new ArrayList<String>(schemas);
 
+
             public void run() {
+                if (stringList == null)
+                    return;
 
                 String path = "/assets/image/Schemi/SchemiRemake/";
 
@@ -666,9 +705,11 @@ public class ControllerGUI implements View {
                 schemaPlayers.add(nickname4);
                 schemaPlayers.add(constrain4);
 
+                if (stringList.contains(nickname.getText())) {
+                    stringList.remove(stringList.indexOf(nickname.getText()) + 1);
+                    stringList.remove(stringList.indexOf(nickname.getText()));
+                }
 
-                stringList.remove(stringList.indexOf(nickname.getText()) + 1);
-                stringList.remove(stringList.indexOf(nickname.getText()));
 
                 for (int i = 0; i < stringList.size(); i = i + 2) {
                     ((Text) (schemaPlayers.get(i))).setText(stringList.get(i));
@@ -821,7 +862,12 @@ public class ControllerGUI implements View {
             public void run() {
                 if (actions.contains("UseToolCard")) {
                     disableTool(false);
-                } else disableTool(true);
+
+                } else {
+                    if (currentTool == 7)
+                        disableTool(false);
+                    else disableTool(true);
+                }
 
 
                 if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
@@ -1282,10 +1328,51 @@ public class ControllerGUI implements View {
     }
 
     public void schemaCustomAccepted(String name) {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                Schema sch;
+                Gson g = new Gson();
+
+                sch = g.fromJson(schemaChoosen, Schema.class);
+                printConstrain(schemaConstrain, sch);
+                Stage stage = (Stage) schemaA.getScene().getWindow();
+                stage.close();
+            }
+        });
+
 
     }
 
-    public void setOpponentsCustomSchemas(List<String> action) {
+    public void setOpponentsCustomSchemas(final List<String> action) {
+        Platform.runLater(new Runnable() {
+            Gson g = new Gson();
+            Schema s;
+
+            public void run() {
+
+                int i;
+                for (int j = 0; j < action.size(); j = j + 2) {
+                   i = 0;
+
+                    for (; i < schemaPlayers.size(); i = i + 2) {
+                        if (((Text) schemaPlayers.get(i)).getText().equals(""))
+                            break;
+                    }
+                    if (i == 6)
+                        return;
+                    if(!action.get(j).equals(nickname.getText())) {
+                        ((Text) (schemaPlayers.get(i))).setText(action.get(j));
+                        s = g.fromJson(action.get(j + 1), Schema.class);
+                        printConstrain((GridPane) schemaPlayers.get(i + 1), s);
+                        ((GridPane) schemaPlayers.get(i + 1)).setId(action.get(j));
+                    }
+
+                }
+
+
+            }
+        });
+
 
     }
 
@@ -1362,18 +1449,8 @@ public class ControllerGUI implements View {
                 Schema schema = new Schema();
                 schema = schema.InitSchema("SchemaClient/" + nameSchema);
 
+                printConstrain(schemaConstrain, schema);
 
-                int count = 0;
-
-                for (int i = 0; i < 4; i++) {
-                    for (int j = 0; j < 5; j++) {
-                        ImageView imageView = (ImageView) schemaConstrain.getChildren().get(count);
-                        String constrain = schema.getGrid()[i][j].getConstraint();
-                        if (!schema.getGrid()[i][j].getConstraint().equals(""))
-                            putConstrain(imageView, constrain);
-                        count++;
-                    }
-                }
             }
         });
 
@@ -1755,6 +1832,21 @@ public class ControllerGUI implements View {
         });
 
 
+    }
+
+
+    public void printConstrain(GridPane mySchema, Schema sch) {
+
+        int count = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                ImageView imageView = (ImageView) mySchema.getChildren().get(count);
+                String constrain = sch.getGrid()[i][j].getConstraint();
+                if (!sch.getGrid()[i][j].getConstraint().equals(""))
+                    putConstrain(imageView, constrain);
+                count++;
+            }
+        }
     }
 
 

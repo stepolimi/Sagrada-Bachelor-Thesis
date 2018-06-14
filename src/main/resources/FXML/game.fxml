@@ -1020,17 +1020,17 @@
                                     <ImageView fitHeight="47.0" fitWidth="47.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3" />
                                  </children>
                               </GridPane>
-                              <Text fx:id="nickname2" layoutX="171.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2" textAlignment="CENTER">
+                              <Text fx:id="nickname2" layoutX="171.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="nickname3" layoutX="525.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3" textAlignment="CENTER">
+                              <Text fx:id="nickname3" layoutX="525.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="nickname4" layoutX="349.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="4" textAlignment="CENTER">
+                              <Text fx:id="nickname4" layoutX="349.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
