@@ -72,6 +72,10 @@ public class ControllerGUI implements View {
 
     public boolean isFirst = true;
 
+    public ImageView Tool;
+
+
+
 
     public int currentTool;
 
@@ -237,6 +241,7 @@ public class ControllerGUI implements View {
         this.hand = hand;
         diceChanged = false;
         diceExtract = new ArrayList<String>();
+        Tool = new ImageView();
     }
 
 
@@ -860,14 +865,15 @@ public class ControllerGUI implements View {
             System.out.println(actions.get(i));
         Platform.runLater(new Runnable() {
             public void run() {
-                if (actions.contains("UseToolCard")) {
+                if (actions.contains("UseToolCard") && !actions.contains("RollDiceSpace")) {
                     disableTool(false);
-
-                } else {
-                    if (currentTool == 7)
-                        disableTool(false);
-                    else disableTool(true);
                 }
+                else if(actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
+                    disableTool(true);
+                    disableToolNumber("7", false);
+
+                }
+                else disableTool(true);
 
 
                 if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
@@ -880,7 +886,7 @@ public class ControllerGUI implements View {
 
                 if (actions.contains("EndTurn"))
                     endTurn.setDisable(false);
-                else disableAll();
+                else endTurn.setDisable(true);
 
 
                 if (actions.contains("MoveDice") || actions.contains("PlaceDice"))
@@ -1081,16 +1087,20 @@ public class ControllerGUI implements View {
     public void useToolCardAccepted(final int favor) {
 
         //todo: one descripton for every tool card
+        Platform.runLater(new Runnable() {
+            public void run() {
+                iconTool.setVisible(false);
 
-        iconTool.setVisible(false);
+                if (currentTool == 7) {
+                    textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
+                    disableTool(false);
+                } else {
+                    textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+                    nFavour.setText(" x" + favor);
+                }
 
-        if (currentTool == 7) {
-            textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
-            disableTool(false);
-        } else {
-            textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
-            nFavour.setText(" x" + favor);
-        }
+            }
+        });
 
     }
 
@@ -1507,6 +1517,7 @@ public class ControllerGUI implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 ImageView tool = (ImageView) event.getSource();
+
                 int numberTool = Integer.parseInt(tool.getId());
 
                 if (currentTool == 7) {
@@ -1766,8 +1777,8 @@ public class ControllerGUI implements View {
 
     public void disableTool(boolean bool) {
         use1.setDisable(bool);
-        use1.setDisable(bool);
         use2.setDisable(bool);
+        use3.setDisable(bool);
     }
 
     public void disableAll() {
@@ -1847,6 +1858,15 @@ public class ControllerGUI implements View {
                 count++;
             }
         }
+    }
+
+    public void disableToolNumber(String n, boolean value){
+        if(use1.getId().equals(n))
+            use1.setDisable(value);
+        else if(use2.getId().equals(n))
+            use2.setDisable(value);
+        else if(use3.getId().equals(n))
+            use3.setDisable(value);
     }
 
 
