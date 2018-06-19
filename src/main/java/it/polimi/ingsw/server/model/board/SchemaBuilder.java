@@ -20,8 +20,8 @@ public class SchemaBuilder {
 
     public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
         Schema sch = new Schema();
-        final String filePath = "/data/schema/" + n + ".json";  //import every schema from
-        //json file form /src/main/data/Schema/i.json
+        final String filePath = "/data/schema/" + n + ".json";
+
         Gson g = new Gson();
 
 

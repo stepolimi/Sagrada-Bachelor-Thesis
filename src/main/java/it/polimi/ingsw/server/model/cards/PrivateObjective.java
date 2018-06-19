@@ -3,9 +3,11 @@ package it.polimi.ingsw.server.model.cards;
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.board.SchemaBuilder;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class PrivateObjective {
     private String name;
@@ -15,7 +17,7 @@ public class PrivateObjective {
     public PrivateObjective privateInit(int n) throws IOException {   //constructs the private objective from file
 
         PrivateObjective sch = new PrivateObjective();
-        final String filePath = new String("/data/PrivCard/" + n + ".json");  //import every private objective from
+        final String filePath = new String("/data/privCard/" + n + ".json");  //import every private objective from
         //json file form /src/main/data/Schema/i.json
         Gson g = new Gson();
 
