@@ -360,7 +360,7 @@ public class ViewCLI implements View{
     // used to save custom schema
     public void saveSchema(Schema s) throws IOException
     {
-        String path = "src/main/data/SchemaPlayer/";
+        String path = "/data/SchemaPlayer/";
         String name,schema;
         Gson g = new Gson();
         s.setPaint(null);
@@ -617,7 +617,7 @@ public class ViewCLI implements View{
     public void loadSchema()
     {
         String name;
-        final String path = "src/main/data/SchemaPlayer";
+        final String path = "/data/SchemaPlayer";
         File f = new File(path);
         Schema sc = new Schema();
 

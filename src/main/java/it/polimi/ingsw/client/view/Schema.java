@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.board.SchemaBuilder;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import static it.polimi.ingsw.costants.GameConstants.PAINT_ROW;
 
@@ -51,23 +50,20 @@ public class Schema {
 
     public String getGson(String nome) throws IOException
     {
-        final String filePath = "src/main/data/" + nome + ".json";  //import every schema from
+        final String filePath = "/data/" + nome + ".json";  //import every schema from
         //json file form /src/main/data/Schema/i.json
 
         String sc="";
-        FileReader f;
-        f = new FileReader(filePath);
-
-        BufferedReader b;
-        b = new BufferedReader(f);
+        InputStream is = SchemaBuilder.class.getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
-            sc = b.readLine();
+            sc = reader.readLine();
         }
         catch(IOException e){
             System.out.println(e);
         }
         finally {
-            b.close();
+            reader.close();
         }
 
         return sc;

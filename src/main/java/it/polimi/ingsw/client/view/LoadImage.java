@@ -1,24 +1,23 @@
 package it.polimi.ingsw.client.view;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import it.polimi.ingsw.server.model.board.SchemaBuilder;
+
+import java.io.*;
 
 public class LoadImage {
 
     public void displayImage(String file) throws IOException
     {
-        final String filePath = "src/main/data/CliImage/"+file;  //import every schema from
+        final String filePath = "/data/CliImage/"+file;  //import every schema from
         //json file form /src/main/data/Schema/i.json
-        FileReader f;
-        f = new FileReader(filePath);
-        int i=0;
-        BufferedReader b;
+        InputStream is = LoadImage.class.getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         Colour colour;
-        b = new BufferedReader(f);
+
+        int i=0;
         try {
             String sc;
-            sc = b.readLine();
+            sc = reader.readLine();
             while(sc!=null)
             {
 
@@ -32,11 +31,11 @@ public class LoadImage {
                     default:colour = Colour.ANSI_PURPLE;
                 }
                 System.out.println(Colour.colorString(sc,colour));
-                sc = b.readLine();
+                sc = reader.readLine();
             }
         }
         finally {
-            b.close();
+            reader.close();
         }
     }
 }

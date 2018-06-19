@@ -183,7 +183,7 @@ public class ControllerEditor {
 
     public void saveSchema(Schema s) throws IOException
     {
-        String path = "src/main/data/SchemaPlayer/";
+        String path = "/data/SchemaPlayer/";
         String name,schema;
         Gson g = new Gson();
         s.setPaint(null);

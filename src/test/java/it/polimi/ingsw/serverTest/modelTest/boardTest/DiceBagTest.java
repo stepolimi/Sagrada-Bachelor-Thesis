@@ -34,9 +34,9 @@ public class DiceBagTest {
     @Test
     void FinishDice() {
         for(int i=0;i<10;i++)
-          db.extract(4);
-
-        assertTrue("The DiceBag is empty",db.extract(4)==null);
+          db.extract(4).size();
+        int n = db.extract(4).size();
+        assertTrue("The DiceBag is empty", n == 0);
     }
 
     @Test

@@ -2,9 +2,7 @@ package it.polimi.ingsw.server.model.board;
 
 import com.google.gson.Gson;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
@@ -22,25 +20,25 @@ public class SchemaBuilder {
 
     public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
         Schema sch = new Schema();
-        final String filePath = "src/main/data/Schema/" + n + ".json";  //import every schema from
+        final String filePath = "/data/schema/" + n + ".json";  //import every schema from
         //json file form /src/main/data/Schema/i.json
         Gson g = new Gson();
 
-        FileReader f;
-        f = new FileReader(filePath);
 
-        BufferedReader b;
-        b = new BufferedReader(f);
+        InputStream is = SchemaBuilder.class.getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+
         try {
             String sc;
-            sc = b.readLine();
+            sc = reader.readLine();
             sch = g.fromJson(sc, Schema.class);
         }
         catch(IOException e){
             System.out.println(e);
         }
         finally {
-            b.close();
+            reader.close();
         }
         return sch;
     }
