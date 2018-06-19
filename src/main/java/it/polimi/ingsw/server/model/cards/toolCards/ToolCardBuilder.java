@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.model.cards.toolCards;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class ToolCardBuilder {
     private static ToolCardBuilder instance = null;
@@ -20,21 +20,14 @@ public class ToolCardBuilder {
 
     public static ToolCard buildToolCard(int n){
         ToolCard toolCard = new ToolCard();
-        final String filePath = "src/main/data/toolCard/ToolCard" + n;
+        final String filePath = "/data/toolCard/ToolCard" + n;
         Gson g = new Gson();
 
-        FileReader f = null;
-        try {
-            f = new FileReader(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        BufferedReader b;
-        b = new BufferedReader(f);
+        InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
             String tool;
-            tool = b.readLine();
+            tool = reader.readLine();
             toolCard = g.fromJson(tool,ToolCard.class);
         }
         catch(IOException e){
@@ -42,7 +35,7 @@ public class ToolCardBuilder {
         }
         finally {
             try {
-                b.close();
+                reader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
