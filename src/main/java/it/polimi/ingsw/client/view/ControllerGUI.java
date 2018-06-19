@@ -877,7 +877,7 @@ public class ControllerGUI implements View {
 
 
                 if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
-                        actions.contains("PlaceDiceSpace")) {
+                        actions.contains("PlaceDiceSpace") ||  actions.contains("DraftDice") ) {
                     diceSpace.setDisable(false);
                     if (actions.contains("InsertDice"))
                         currentTool = 0;
