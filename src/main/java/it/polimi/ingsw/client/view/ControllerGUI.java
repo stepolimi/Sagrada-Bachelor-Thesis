@@ -36,9 +36,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
 
@@ -73,8 +72,6 @@ public class ControllerGUI implements View {
     public boolean isFirst = true;
 
     public ImageView Tool;
-
-
 
 
     public int currentTool;
@@ -701,14 +698,8 @@ public class ControllerGUI implements View {
                 String path = "/assets/image/Schemi/SchemiRemake/";
 
                 schemaPlayers = new ArrayList<Object>();
-                schemaPlayers.add(nickname2);
-                schemaPlayers.add(constrain2);
-
-                schemaPlayers.add(nickname3);
-                schemaPlayers.add(constrain3);
-
-                schemaPlayers.add(nickname4);
-                schemaPlayers.add(constrain4);
+                schemaPlayers = Arrays.asList(nickname2, constrain2,
+                        nickname3, constrain3, nickname4, constrain4);
 
                 if (stringList.contains(nickname.getText())) {
                     stringList.remove(stringList.indexOf(nickname.getText()) + 1);
@@ -837,8 +828,8 @@ public class ControllerGUI implements View {
     @FXML
     void nextPlayer(MouseEvent event) {
         disableAll();
-        x1=null;
-        x2=null;
+        x1 = null;
+        x2 = null;
         connection.sendEndTurn();
 
     }
@@ -862,23 +853,21 @@ public class ControllerGUI implements View {
 
     public void setActions(final List<String> actions) {
 
-        for (int i = 0; i < actions.size(); i++)
-            System.out.println(actions.get(i));
+
+        actions.forEach(System.out::println);
+
         Platform.runLater(new Runnable() {
             public void run() {
                 if (actions.contains("UseToolCard") && !actions.contains("RollDiceSpace")) {
                     disableTool(false);
-                }
-                else if(actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
+                } else if (actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
                     disableTool(true);
                     disableToolNumber("7", false);
-                }
-
-                else disableTool(true);
+                } else disableTool(true);
 
 
                 if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
-                        actions.contains("PlaceDiceSpace") ||  actions.contains("DraftDice") ) {
+                        actions.contains("PlaceDiceSpace") || actions.contains("DraftDice")) {
                     diceSpace.setDisable(false);
                     if (actions.contains("InsertDice"))
                         currentTool = 0;
@@ -1353,7 +1342,6 @@ public class ControllerGUI implements View {
             }
         });
 
-
     }
 
     public void setOpponentsCustomSchemas(final List<String> action) {
@@ -1365,7 +1353,7 @@ public class ControllerGUI implements View {
 
                 int i;
                 for (int j = 0; j < action.size(); j = j + 2) {
-                   i = 0;
+                    i = 0;
 
                     for (; i < schemaPlayers.size(); i = i + 2) {
                         if (((Text) schemaPlayers.get(i)).getText().equals(""))
@@ -1373,7 +1361,7 @@ public class ControllerGUI implements View {
                     }
                     if (i == 6)
                         return;
-                    if(!action.get(j).equals(nickname.getText())) {
+                    if (!action.get(j).equals(nickname.getText())) {
                         ((Text) (schemaPlayers.get(i))).setText(action.get(j));
                         s = g.fromJson(action.get(j + 1), Schema.class);
                         printConstrain((GridPane) schemaPlayers.get(i + 1), s);
@@ -1386,30 +1374,24 @@ public class ControllerGUI implements View {
             }
         });
 
-
     }
 
     public void diceSpaceSort() {
 
         List<Image> dice = new ArrayList<Image>();
-        ImageView imageView;
 
-        for (int i = 0; i < 9; i++) {
-            imageView = (ImageView) diceSpace.getChildren().get(i);
-            if (imageView.getImage() != null) {
-                dice.add(imageView.getImage());
-                imageView.setImage(null);
-            }
-        }
 
-        for (int i = 0; i < dice.size(); i++) {
-            imageView = (ImageView) diceSpace.getChildren().get(i);
-            imageView.setImage(dice.get(i));
+        diceSpace.getChildren().stream()
+                .filter(imageView -> (((ImageView) imageView).getImage() != null))
+                .forEach(imageView -> {
+                    dice.add((((ImageView) imageView).getImage()));
+                    ((ImageView) imageView).setImage(null);
+                });
 
-        }
+        IntStream.range(0, dice.size())
+                .forEach(i -> ((ImageView) diceSpace.getChildren().get(i)).setImage(dice.get(i)));
 
     }
-
 
     public void diceRoundTrackSort(int round) {
 
@@ -1428,19 +1410,18 @@ public class ControllerGUI implements View {
 
         for (int i = index; i < 3 + index && count < 9; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
-            for (int j = 0; j < 4 && count < 9; j++, count++) {
-                imageView = (ImageView) anchorPane.getChildren().get(j);
-                if (imageView.getImage() != null) {
-                    dice.add(imageView.getImage());
-                    imageView.setImage(null);
-                    count++;
-                }
 
+            anchorPane.getChildren().stream()
+                    .filter(imageview -> (((ImageView) imageview).getImage() != (null)))
+                    .forEach(imageview ->
+                    {
+                        dice.add(((ImageView) imageview).getImage());
+                        ((ImageView) imageview).setImage(null);
 
-            }
+                    });
+
         }
 
-        count = 0;
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(index);
             for (int j = 0; j < 4; j++) {
@@ -1503,6 +1484,7 @@ public class ControllerGUI implements View {
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
 
         int count = 0;
+
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Node node = gridPane.getChildren().get(count);
@@ -1645,13 +1627,13 @@ public class ControllerGUI implements View {
         });
         if (((ImageView) event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
                 (currentTool == 5) || (currentTool == 10) || (currentTool == 1) || (currentTool == 6)
-                || (currentTool == 9) || (currentTool == 11) )
+                || (currentTool == 9) || (currentTool == 11))
             t.start();
         else {
-            x1=null;
-            x2=null;
+            x1 = null;
+            x2 = null;
         }
-    //todo: server may have problem to gesture with tool 12 in particular case
+        //todo: server may have problem to gesture with tool 12 in particular case
     }
 
     @FXML
@@ -1751,15 +1733,17 @@ public class ControllerGUI implements View {
 
 
         int index = 3 * round;
+        Optional<Node> result = null;
         AnchorPane anchorPane;
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
-            for (int j = 0; j < 4; j++) {
-                ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
-                if (imageView.getImage() == null)
-                    return imageView;
-            }
+            result = anchorPane.getChildren().stream()
+                    .filter(imageView -> (((ImageView) imageView).getImage() == null))
+                    .findFirst();
+
+            return (ImageView) result.get();
         }
+
         return null;
 
     }
@@ -1807,13 +1791,13 @@ public class ControllerGUI implements View {
 
     @FXML
     public ImageView getLastCellDicespace() {
-        ImageView imageView = null;
-        for (int i = 0; i < 9; i++) {
-            imageView = (ImageView) diceSpace.getChildren().get(i);
-            if (imageView.getImage() == null)
-                return imageView;
-        }
-        return imageView;
+
+
+        Optional<Node> result = diceSpace.getChildren().stream()
+                .filter(imageView -> (((ImageView) imageView).getImage() == (null)))
+                .findFirst();
+
+        return (ImageView) result.get();
     }
 
     public void setDice(ImageView imageView, String color, Object number) {
@@ -1822,9 +1806,7 @@ public class ControllerGUI implements View {
 
 
         if (color.equals(("ANSI_BLUE"))) {
-
             imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
-
         } else if (color.equals(("ANSI_RED"))) {
             imageView.setImage(new Image(path + "/Red/" + number + ".png"));
         } else if (color.equals("ANSI_YELLOW")) {
@@ -1869,12 +1851,12 @@ public class ControllerGUI implements View {
         }
     }
 
-    public void disableToolNumber(String n, boolean value){
-        if(use1.getId().equals(n))
+    public void disableToolNumber(String n, boolean value) {
+        if (use1.getId().equals(n))
             use1.setDisable(value);
-        else if(use2.getId().equals(n))
+        else if (use2.getId().equals(n))
             use2.setDisable(value);
-        else if(use3.getId().equals(n))
+        else if (use3.getId().equals(n))
             use3.setDisable(value);
     }
 
