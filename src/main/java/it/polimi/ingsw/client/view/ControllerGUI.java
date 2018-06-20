@@ -237,7 +237,6 @@ public class ControllerGUI implements View {
 
 
     public ControllerGUI(Handler hand) {
-        currentTool = 0;
         this.hand = hand;
         diceChanged = false;
         diceExtract = new ArrayList<String>();
@@ -581,6 +580,7 @@ public class ControllerGUI implements View {
         Stage stage = new Stage();
         Pane p = null;
         try {
+
             FXMLLoader loader = new FXMLLoader();
             loader.setController(this);
             loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
@@ -837,7 +837,8 @@ public class ControllerGUI implements View {
     @FXML
     void nextPlayer(MouseEvent event) {
         disableAll();
-
+        x1=null;
+        x2=null;
         connection.sendEndTurn();
 
     }
@@ -871,8 +872,8 @@ public class ControllerGUI implements View {
                 else if(actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
                     disableTool(true);
                     disableToolNumber("7", false);
-
                 }
+
                 else disableTool(true);
 
 
@@ -894,7 +895,7 @@ public class ControllerGUI implements View {
                 else gridPane.setDisable(true);
 
 
-                if (actions.contains("RollDiceState") || actions.contains("FlipDice"))
+                if (actions.contains("RollDice") || actions.contains("FlipDice") || actions.contains("SwapDiceBag"))
                     pendingDice.setDisable(false);
                 else pendingDice.setDisable(true);
 
@@ -916,6 +917,8 @@ public class ControllerGUI implements View {
                     iconTool.setVisible(true);
                 else iconTool.setVisible(false);
 
+
+//todo toolcard 1 doesn't work after the first time
             }
         });
 
@@ -1631,6 +1634,7 @@ public class ControllerGUI implements View {
 
                         } else {
                             textflow.setText("Errore di piazzamento. Clicca sul dado e riposizionalo");
+
                             x1 = null;
                             y1 = null;
                         }
@@ -1640,9 +1644,14 @@ public class ControllerGUI implements View {
             }
         });
         if (((ImageView) event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
-                (currentTool == 5) || (currentTool == 10))
+                (currentTool == 5) || (currentTool == 10) || (currentTool == 1) || (currentTool == 6)
+                || (currentTool == 9) || (currentTool == 11) )
             t.start();
-
+        else {
+            x1=null;
+            x2=null;
+        }
+    //todo: server may have problem to gesture with tool 12 in particular case
     }
 
     @FXML
