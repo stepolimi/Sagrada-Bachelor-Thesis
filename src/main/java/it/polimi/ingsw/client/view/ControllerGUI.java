@@ -641,6 +641,8 @@ public class ControllerGUI implements View {
             Scanner in = new Scanner(new FileReader(file));
 
             StringBuilder sb = new StringBuilder();
+
+
             while (in.hasNext()) {
                 sb.append(in.next());
             }
@@ -1205,18 +1207,23 @@ public class ControllerGUI implements View {
             public void run() {
                 int round = Integer.parseInt(((String) action.get(0)));
 
-                String path = "/assets/image/Dice";
+                action.remove(0);
 
-                for (int i = 1; i < action.size(); i = i + 2) {
-                    String color = (String) action.get(i);
-                    String number = (String) action.get(i + 1);
-                    ImageView imageView = getLastRoundCell(round);
-                    setDice(imageView, color, number);
+                IntStream.iterate(0,i-> i +2 )
+                        .limit(action.size()/2)
+                        .forEach(i -> {
+                            String color = (String) action.get(i);
+                            String number = (String) action.get(i + 1);
+                            ImageView imageView = getLastRoundCell(round);
+                            setDice(imageView, color, number);
 
+                                }
 
-                }
+                        );
+
             }
         });
+
 
     }
 
@@ -1225,10 +1232,7 @@ public class ControllerGUI implements View {
             public void run() {
                 textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
                 diceChanged = true;
-
                 pendingDice.setImage(roundDice.getImage());
-
-
                 disableTool(true);
 
             }
@@ -1352,6 +1356,8 @@ public class ControllerGUI implements View {
             public void run() {
 
                 int i;
+
+
                 for (int j = 0; j < action.size(); j = j + 2) {
                     i = 0;
 
@@ -1400,13 +1406,14 @@ public class ControllerGUI implements View {
         List<Image> dice = new ArrayList<Image>();
         ImageView imageView;
         AnchorPane anchorPane;
+        int count = 0;
+
         try {
             sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        int count = 0;
 
         for (int i = index; i < 3 + index && count < 9; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
@@ -1641,11 +1648,7 @@ public class ControllerGUI implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 ImageView diceRolling = (ImageView) event.getTarget();
-                rt = new RotateTransition(Duration.millis(3000), diceRolling);
-                rt.setByAngle(360);
-                rt.setCycleCount(Animation.INDEFINITE);
-                rt.setInterpolator(Interpolator.LINEAR);
-                rt.play();
+                rotateImage(diceRolling);
                 if (currentTool == 6) {
                     connection.rollDice();
                 } else if (currentTool == 10)
@@ -1681,11 +1684,7 @@ public class ControllerGUI implements View {
         Platform.runLater(new Runnable() {
             public void run() {
                 if (currentTool != 0) {
-                    RotateTransition rt = new RotateTransition(Duration.millis(3000), pendingDice);
-                    rt.setByAngle(360);
-                    rt.setCycleCount(Animation.INDEFINITE);
-                    rt.setInterpolator(Interpolator.LINEAR);
-                    rt.play();
+                    rotateImage(pendingDice);
                     if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
                             currentTool == 10 || currentTool == 11) && !diceChanged) {
                         pendingDice.setImage(((ImageView) event.getTarget()).getImage());
@@ -1733,18 +1732,19 @@ public class ControllerGUI implements View {
 
 
         int index = 3 * round;
-        Optional<Node> result = null;
         AnchorPane anchorPane;
         for (int i = index; i < index + 3; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
-            result = anchorPane.getChildren().stream()
-                    .filter(imageView -> (((ImageView) imageView).getImage() == null))
-                    .findFirst();
+            for (int j = 0; j < 4; j++) {
+                ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
+                if (imageView.getImage() == null)
+                    return imageView;
 
-            return (ImageView) result.get();
+            }
+
         }
-
         return null;
+
 
     }
 
@@ -1858,6 +1858,14 @@ public class ControllerGUI implements View {
             use2.setDisable(value);
         else if (use3.getId().equals(n))
             use3.setDisable(value);
+    }
+
+    public void rotateImage(ImageView diceRolling){
+        rt = new RotateTransition(Duration.millis(3000), diceRolling);
+        rt.setByAngle(360);
+        rt.setCycleCount(Animation.INDEFINITE);
+        rt.setInterpolator(Interpolator.LINEAR);
+        rt.play();
     }
 
 
