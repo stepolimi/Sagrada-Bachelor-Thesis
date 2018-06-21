@@ -62,7 +62,6 @@ public class ControllerGUI implements View {
     public Integer roundIndex;
 
     public boolean diceChanged;
-    RotateTransition rt;
 
     public String colorMoved;
     public int numberMoved;
@@ -240,11 +239,9 @@ public class ControllerGUI implements View {
         Tool = new ImageView();
     }
 
-
     public void setMySchema(Schema mySchema) {
         this.mySchema = mySchema;
     }
-
 
     @FXML
     public void goRMI(MouseEvent actionEvent) {
@@ -261,8 +258,6 @@ public class ControllerGUI implements View {
 
         setScene("login");
         loginAction.setDefaultButton(true);
-
-
     }
 
 
@@ -283,7 +278,6 @@ public class ControllerGUI implements View {
 
         setScene("login");
         loginAction.setDefaultButton(true);
-
 
     }
 
@@ -331,7 +325,6 @@ public class ControllerGUI implements View {
         this.text = text;
     }
 
-
     public void captureNickname(ActionEvent actionEvent) {
 
         if (getName().equals("")) {
@@ -349,11 +342,8 @@ public class ControllerGUI implements View {
                 System.out.println("Errore connessione");
             }
 
-
         }
-
     }
-
 
     public void repeatAction(ActionEvent actionEvent) {
         Stage stage = (Stage) repeatLogin.getScene().getWindow();
@@ -365,39 +355,28 @@ public class ControllerGUI implements View {
     public void login(String src) {
 
         text = src;
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (text.equals("Welcome")) {
-                    Stage stage;
-                    stage = (Stage) loginAction.getScene().getWindow();
-                    stage.close();
-                    setScene("waiting");
+        Platform.runLater(() -> {
+            if (text.equals("Welcome")) {
+                Stage stage;
+                stage = (Stage) loginAction.getScene().getWindow();
+                stage.close();
+                setScene("waiting");
 
 
-                } else if (text.equals("Login_error-username")) {
-                    setNotice("nickname_error");
-                } else if (text.equals("Login_error-game"))
-                    setNotice("TooManyPlayers");
-
-            }
+            } else if (text.equals("Login_error-username")) {
+                setNotice("nickname_error");
+            } else if (text.equals("Login_error-game"))
+                setNotice("TooManyPlayers");
 
         });
     }
 
     public void playerConnected(final String name) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                waitingMessage.setText(name + " si è aggiunto alla lobby......\n");
-            }
-        });
+        Platform.runLater(() -> waitingMessage.setText(name + " si è aggiunto alla lobby......\n"));
     }
 
     public void playerDisconnected(final String name) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                waitingMessage.setText(name + " si è disconnesso........\n");
-            }
-        });
+        Platform.runLater(() -> waitingMessage.setText(name + " si è disconnesso........\n"));
     }
 
     public void timerPing(final String time) {
@@ -435,98 +414,67 @@ public class ControllerGUI implements View {
 
     public void setSchemas(final List<String> schemas) {
         this.schemasClient = new ArrayList<String>(schemas);
-        Platform.runLater(new Runnable() {
-            public void run() {
-                String path = new String("/assets/image/Schemi/");
+        Platform.runLater(() -> {
+            String path = new String("/assets/image/Schemi/");
 
-                setScene("choose_schema");
+            setScene("choose_schema");
+            List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
 
-                Image image = new Image(path + schemas.get(0) + ".png");
-                schemaA.setImage(image);
+            IntStream.range(0, 4)
+                    .forEach(i -> {
+                        Image image = new Image(path + schemas.get(i) + ".png");
+                        setSchemas.get(i).setImage(image);
+                    });
 
-
-                image = new Image(path + schemas.get(1) + ".png");
-                schemaB.setImage(image);
-
-                image = new Image(path + schemas.get(2) + ".png");
-                schemaC.setImage(image);
-
-                image = new Image(path + schemas.get(3) + ".png");
-                schemaD.setImage(image);
-            }
         });
 
     }
 
     public void setPrivateCard(final String colour) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Image cursor = new Image("/assets/image/zoom.png");
-
-                Image image = new Image("/assets/image/Cards/PrivateObj/" + colour + ".png");
-                privateCard.setImage(image);
-                privateCard.setCursor(new ImageCursor(cursor));
-            }
+        Platform.runLater(() -> {
+            Image cursor = new Image("/assets/image/zoom.png");
+            Image image = new Image("/assets/image/Cards/PrivateObj/" + colour + ".png");
+            privateCard.setImage(image);
+            privateCard.setCursor(new ImageCursor(cursor));
         });
     }
 
     public void setPublicObjectives(final List<String> cards) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Image cursor = new Image("/assets/image/zoom.png");
+        Platform.runLater(() -> {
+            Image cursor = new Image("/assets/image/zoom.png");
 
+            List<ImageView> imagePubl = Arrays.asList(publObj1, publObj2, publObj3);
+            String path = new String("/assets/image/Cards/PublicObj/");
+            IntStream.range(0, 3)
+                    .forEach(i -> {
+                        Image image = new Image(path + cards.get(i) + ".png");
+                        imagePubl.get(i).setImage(image);
+                        imagePubl.get(i).setCursor(new ImageCursor(cursor));
+                    });
 
-                String path = new String("/assets/image/Cards/PublicObj/");
-
-                Image image = new Image(path + cards.get(0) + ".png");
-                publObj1.setImage(image);
-                publObj1.setCursor(new ImageCursor(cursor));
-
-
-                image = new Image(path + cards.get(1) + ".png");
-                publObj2.setImage(image);
-                publObj2.setCursor(new ImageCursor(cursor));
-
-                image = new Image(path + cards.get(2) + ".png");
-                publObj3.setImage(image);
-                publObj3.setCursor(new ImageCursor(cursor));
-
-            }
         });
 
     }
 
     public void setToolCards(final List<String> cards) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+        Platform.runLater(() -> {
 
-                Image cursor = new Image("/assets/image/zoom.png");
+            String path = new String("/assets/image/Cards/ToolCard/");
+            Image cursor = new Image("/assets/image/zoom.png");
+            List<ImageView> tool = Arrays.asList(toolCard1, toolCard2, toolCard3);
+            List<ImageView> useTool = Arrays.asList(use1, use2, use3);
 
+            IntStream.range(0, 3)
+                    .forEach(i -> {
+                        Image toolImage = new Image(path + cards.get(i) + ".png");
+                        tool.get(i).setImage(toolImage);
+                        tool.get(i).setCursor(new ImageCursor(cursor));
+                        useTool.get(i).setId(cards.get(i));
 
-                String path = new String("/assets/image/Cards/ToolCard/");
+                    });
 
-                Image image = new Image(path + cards.get(0) + ".png");
-                toolCard1.setImage(image);
-                toolCard1.setCursor(new ImageCursor(cursor));
-                use1.setId(cards.get(0));
-
-
-                image = new Image(path + cards.get(1) + ".png");
-                toolCard2.setImage(image);
-                toolCard2.setCursor(new ImageCursor(cursor));
-                use2.setId(cards.get(1));
-
-
-                image = new Image(path + cards.get(2) + ".png");
-                toolCard3.setImage(image);
-                toolCard3.setCursor(new ImageCursor(cursor));
-                use3.setId(cards.get(2));
-
-
-                System.out.println("\n");
-            }
         });
 
 
@@ -558,7 +506,6 @@ public class ControllerGUI implements View {
         stage.getIcons().add(image);
         stage.setResizable(false);
 
-
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent event) {
                 if (connection != null)
@@ -569,7 +516,6 @@ public class ControllerGUI implements View {
             }
         });
         stage.show();
-
     }
 
     public void setNotice(String src) {
@@ -582,7 +528,6 @@ public class ControllerGUI implements View {
             loader.setController(this);
             loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
             p = loader.load();
-            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -629,58 +574,63 @@ public class ControllerGUI implements View {
 
     @FXML
     void openSchema(MouseEvent event) throws FileNotFoundException {
-        Stage stage = new Stage();
+        Platform.runLater(() -> {
 
-        FileChooser fileChooser = new FileChooser();
+            Stage stage = new Stage();
 
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
-        fileChooser.getExtensionFilters().add(extFilter);
+            FileChooser fileChooser = new FileChooser();
 
-        File file = fileChooser.showOpenDialog(stage);
-        if (file != null) {
-            Scanner in = new Scanner(new FileReader(file));
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JSON files (*.json)", "*.json");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-            StringBuilder sb = new StringBuilder();
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                Scanner in = null;
+                try {
+                    in = new Scanner(new FileReader(file));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
 
-
-            while (in.hasNext()) {
-                sb.append(in.next());
-            }
-            in.close();
-            schemaChoosen = sb.toString();
-
-
-            connection.sendCustomSchema(schemaChoosen);
-
-        } else setNotice("OpenSchemaError");
+                StringBuilder sb = new StringBuilder();
 
 
+                while (in.hasNext()) {
+                    sb.append(in.next());
+                }
+                in.close();
+                schemaChoosen = sb.toString();
+
+
+                connection.sendCustomSchema(schemaChoosen);
+
+            } else setNotice("OpenSchemaError");
+
+        });
     }
 
 
     public void chooseSchema(final String name) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+        Platform.runLater(() -> {
 
-                Schema schema = new Schema();
+            Schema schema = new Schema();
 
-                try {
-                    printSchema(schemaConstrain, name);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                schema = schema.InitSchema("SchemaClient/" + name);
-
-
-                nFavour.setText("x " + schema.difficult);
-
-
-                Stage stage = (Stage) schemaA.getScene().getWindow();
-                stage.close();
-
+            try {
+                printSchema(schemaConstrain, name);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            schema = schema.InitSchema("SchemaClient/" + name);
+
+
+            nFavour.setText("x " + schema.difficult);
+
+
+            Stage stage = (Stage) schemaA.getScene().getWindow();
+            stage.close();
+
         });
 
 
@@ -688,40 +638,37 @@ public class ControllerGUI implements View {
 
     public void setOpponentsSchemas(final List<String> schemas) {
 
+        List<String> stringList = new ArrayList<>(schemas);
 
-        Platform.runLater(new Runnable() {
-            List<String> stringList = new ArrayList<String>(schemas);
+        Platform.runLater(() -> {
+            if (stringList == null)
+                return;
 
+            String path = "/assets/image/Schemi/SchemiRemake/";
 
-            public void run() {
-                if (stringList == null)
-                    return;
+            schemaPlayers = new ArrayList<Object>();
+            schemaPlayers = Arrays.asList(nickname2, constrain2,
+                    nickname3, constrain3, nickname4, constrain4);
 
-                String path = "/assets/image/Schemi/SchemiRemake/";
-
-                schemaPlayers = new ArrayList<Object>();
-                schemaPlayers = Arrays.asList(nickname2, constrain2,
-                        nickname3, constrain3, nickname4, constrain4);
-
-                if (stringList.contains(nickname.getText())) {
-                    stringList.remove(stringList.indexOf(nickname.getText()) + 1);
-                    stringList.remove(stringList.indexOf(nickname.getText()));
-                }
-
-
-                for (int i = 0; i < stringList.size(); i = i + 2) {
-                    ((Text) (schemaPlayers.get(i))).setText(stringList.get(i));
-
-                    try {
-                        printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
-                        ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
+            if (stringList.contains(nickname.getText())) {
+                stringList.remove(stringList.indexOf(nickname.getText()) + 1);
+                stringList.remove(stringList.indexOf(nickname.getText()));
             }
+
+
+            IntStream.iterate(0, i -> i + 2)
+                    .limit(stringList.size() / 2)
+                    .forEach(i -> {
+                        ((Text) (schemaPlayers.get(i))).setText(stringList.get(i));
+                        try {
+                            printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
+                            ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+
         });
 
     }
@@ -753,50 +700,48 @@ public class ControllerGUI implements View {
     void handleImageDropped(DragEvent event) {
         final DragEvent drag = event;
 
-        Thread t = new Thread(new Runnable() {
-            public void run() {
+        Thread t = new Thread(() -> {
 
-                ImageView imageView = (ImageView) drag.getTarget();
-                Node source = ((Node) drag.getTarget());
+            ImageView imageView = (ImageView) drag.getTarget();
+            Node source = ((Node) drag.getTarget());
 
-                if (source != schema1) {
-                    Node parent;
-                    while ((parent = source.getParent()) != gridPane) {
-                        source = parent;
-                    }
+            if (source != schema1) {
+                Node parent;
+                while ((parent = source.getParent()) != gridPane) {
+                    source = parent;
                 }
-                Integer col = gridPane.getColumnIndex(source);
+            }
+            Integer col = gridPane.getColumnIndex(source);
 
-                Integer row = gridPane.getRowIndex(source);
+            Integer row = gridPane.getRowIndex(source);
 
-                if (col == null)
-                    col = 0;
+            if (col == null)
+                col = 0;
 
-                if (row == null)
-                    row = 0;
+            if (row == null)
+                row = 0;
 
-                int rowIndex = row;
-                int colIndex = col;
-                synchronized (lock) {
-                    connection.insertDice(indexDiceSpace, rowIndex, colIndex);
+            int rowIndex = row;
+            int colIndex = col;
+            synchronized (lock) {
+                connection.insertDice(indexDiceSpace, rowIndex, colIndex);
 
-                    try {
-                        lock.wait();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    lock.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-                if (correctInsertion) {
-                    imageView.setImage(dragImage);
-                    imageView.setId("full");
-                    textflow.setText("");
+            }
+            if (correctInsertion) {
+                imageView.setImage(dragImage);
+                imageView.setId("full");
+                textflow.setText("");
 
-                    gridPane.setDisable(true);
-                    diceSpace.setDisable(true);
+                gridPane.setDisable(true);
+                diceSpace.setDisable(true);
 
-                } else {
-                    textflow.setText("inserimento non corretto. Riprovare");
-                }
+            } else {
+                textflow.setText("inserimento non corretto. Riprovare");
             }
         });
 
@@ -842,7 +787,6 @@ public class ControllerGUI implements View {
 
     public void startTurn(String name) {
 
-
         if (!name.equals(nickname.getText())) {
             textflow.setText("turno iniziato, tocca a: " + name);
             disableAll();
@@ -858,87 +802,80 @@ public class ControllerGUI implements View {
 
         actions.forEach(System.out::println);
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (actions.contains("UseToolCard") && !actions.contains("RollDiceSpace")) {
-                    disableTool(false);
-                } else if (actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
-                    disableTool(true);
-                    disableToolNumber("7", false);
-                } else disableTool(true);
+        Platform.runLater(() -> {
+            if (actions.contains("UseToolCard") && !actions.contains("RollDiceSpace")) {
+                disableTool(false);
+            } else if (actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
+                disableTool(true);
+                disableToolNumber("7", false);
+            } else disableTool(true);
 
 
-                if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
-                        actions.contains("PlaceDiceSpace") || actions.contains("DraftDice")) {
-                    diceSpace.setDisable(false);
-                    if (actions.contains("InsertDice"))
-                        currentTool = 0;
-                } else diceSpace.setDisable(true);
+            if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
+                    actions.contains("PlaceDiceSpace") || actions.contains("DraftDice")) {
+                diceSpace.setDisable(false);
+                if (actions.contains("InsertDice"))
+                    currentTool = 0;
+            } else diceSpace.setDisable(true);
 
 
-                if (actions.contains("EndTurn"))
-                    endTurn.setDisable(false);
-                else endTurn.setDisable(true);
+            if (actions.contains("EndTurn"))
+                endTurn.setDisable(false);
+            else endTurn.setDisable(true);
 
 
-                if (actions.contains("MoveDice") || actions.contains("PlaceDice"))
-                    gridPane.setDisable(false);
-                else gridPane.setDisable(true);
+            if (actions.contains("MoveDice") || actions.contains("PlaceDice"))
+                gridPane.setDisable(false);
+            else gridPane.setDisable(true);
 
 
-                if (actions.contains("RollDice") || actions.contains("FlipDice") || actions.contains("SwapDiceBag"))
-                    pendingDice.setDisable(false);
-                else pendingDice.setDisable(true);
+            if (actions.contains("RollDice") || actions.contains("FlipDice") || actions.contains("SwapDiceBag"))
+                pendingDice.setDisable(false);
+            else pendingDice.setDisable(true);
 
 
-                if (actions.contains("SwapDice"))
-                    roundTrack.setDisable(false);
-                else roundTrack.setDisable(true);
+            if (actions.contains("SwapDice"))
+                roundTrack.setDisable(false);
+            else roundTrack.setDisable(true);
 
-                if (actions.contains("CancelUseToolCard")) {
-                    cancelButton.setVisible(true);
-                    cancelButton.setDisable(false);
-                } else {
-                    cancelButton.setVisible(false);
-                    cancelButton.setDisable(true);
-                }
-                if (actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
-                        || actions.contains("MoveDice") || actions.contains("PlaceDice") ||
-                        actions.contains("PickDiceState") || actions.contains("PlaceDiceSpace"))
-                    iconTool.setVisible(true);
-                else iconTool.setVisible(false);
+            if (actions.contains("CancelUseToolCard")) {
+                cancelButton.setVisible(true);
+                cancelButton.setDisable(false);
+            } else {
+                cancelButton.setVisible(false);
+                cancelButton.setDisable(true);
+            }
+            if (actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
+                    || actions.contains("MoveDice") || actions.contains("PlaceDice") ||
+                    actions.contains("PickDiceState") || actions.contains("PlaceDiceSpace"))
+                iconTool.setVisible(true);
+            else iconTool.setVisible(false);
 
 
 //todo toolcard 1 doesn't work after the first time
-            }
         });
 
     }
 
     public void setDiceSpace(final List<String> dices) {
-        Platform.runLater(new Runnable() {
+        Platform.runLater(() -> {
             List<String> stringList = new ArrayList<String>(dices);
 
-            public void run() {
-                diceExtract = new ArrayList<String>();
+            diceExtract = new ArrayList<String>();
 
-                String path = "/assets/image/Dice";
-                ImageView imageView = new ImageView();
-                int j = 0;
-                for (int i = 0; i < stringList.size(); i = i + 2, j++) {
-                    diceExtract.add(stringList.get(i));
-                    diceExtract.add(stringList.get(i + 1));
-                    imageView = (ImageView) diceSpace.getChildren().get(j);
-                    String color = stringList.get(i);
-                    String number = stringList.get(i + 1);
-
-                    setDice(imageView, color, number);
-
-
-                }
-
-
-            }
+            String path = "/assets/image/Dice";
+            final int[] j = {0};
+            IntStream.iterate(0, i -> i + 2)
+                    .limit(stringList.size() / 2)
+                    .forEach(i -> {
+                        diceExtract.add(stringList.get(i));
+                        diceExtract.add(stringList.get(i + 1));
+                        ImageView imageView = (ImageView) diceSpace.getChildren().get(j[0]);
+                        String color = stringList.get(i);
+                        String number = stringList.get(i + 1);
+                        setDice(imageView, color, number);
+                        j[0]++;
+                    });
         });
 
     }
@@ -952,20 +889,18 @@ public class ControllerGUI implements View {
     }
 
     public void draftDiceAccepted() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                diceChanged = true;
+        Platform.runLater(() -> {
+            diceChanged = true;
 
-                if (currentTool == 1) {
-                    setScene("changeDiceValue");
-                } else if (currentTool == 6) {
-                    textflow.setText("Clicca sul dado preso e lancialo!");
-                } else if (currentTool == 5) {
-                    textflow.setText("Ora scegli il dado dal tracciato di Round");
+            if (currentTool == 1) {
+                setScene("changeDiceValue");
+            } else if (currentTool == 6) {
+                textflow.setText("Clicca sul dado preso e lancialo!");
+            } else if (currentTool == 5) {
+                textflow.setText("Ora scegli il dado dal tracciato di Round");
 
-                } else if (currentTool == 11)
-                    textflow.setText("Ora clicca sul dado per sostituire il dado con uno del sacchetto!");
-            }
+            } else if (currentTool == 11)
+                textflow.setText("Ora clicca sul dado per sostituire il dado con uno del sacchetto!");
         });
 
     }
@@ -976,33 +911,28 @@ public class ControllerGUI implements View {
         synchronized (lock) {
             lock.notify();
         }
-
     }
 
     public void pickDiceSpace(final List action) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (currentTool == 7)
-                    return;
-                else {
-                    ImageView imageView = (ImageView) diceSpace.getChildren().get(Integer.parseInt((String) action.get(0)));
-                    imageView.setImage(null);
-                    diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
-                    diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
+        Platform.runLater(() -> {
+            if (currentTool == 7)
+                return;
+            else {
+                ImageView imageView = (ImageView) diceSpace.getChildren().get(Integer.parseInt((String) action.get(0)));
+                imageView.setImage(null);
+                diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
+                diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
 
 
-                    try {
-                        sleep(300);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    diceSpaceSort();
+                try {
+                    sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                diceSpaceSort();
             }
         });
-
-
     }
 
 
@@ -1014,28 +944,21 @@ public class ControllerGUI implements View {
 
     public void placeDiceSchema(final List action) {
 
-        Platform.runLater(new Runnable() {
-
+        Platform.runLater(() -> {
             int row;
+
             int column;
-            String path = "/assets/image/Dice";
 
-            public void run() {
-                for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
-                    GridPane gridPane = (GridPane) schemaPlayers.get(i);
-                    if (gridPane.getId().equals(action.get(0))) {
-                        row = Integer.parseInt((String) action.get(1));
-                        column = Integer.parseInt((String) action.get(2));
-                        ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
+            for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
+                GridPane gridPane = (GridPane) schemaPlayers.get(i);
+                if (gridPane.getId().equals(action.get(0))) {
+                    row = Integer.parseInt((String) action.get(1));
+                    column = Integer.parseInt((String) action.get(2));
+                    ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
 
-
-                        String color = (String) action.get(3);
-                        String number = (String) action.get(4);
-                        setDice(imageView, color, number);
-
-
-                    }
-
+                    String color = (String) action.get(3);
+                    String number = (String) action.get(4);
+                    setDice(imageView, color, number);
                 }
             }
         });
@@ -1044,15 +967,13 @@ public class ControllerGUI implements View {
     }
 
     public void placeDiceSchemaError() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
-                    textflow.setText("Inserimento non corretto. Riprovare");
-                }
-                correctInsertion = false;
-                synchronized (lock) {
-                    lock.notify();
-                }
+        Platform.runLater(() -> {
+            if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
+                textflow.setText("Inserimento non corretto. Riprovare");
+            }
+            correctInsertion = false;
+            synchronized (lock) {
+                lock.notify();
             }
         });
 
@@ -1073,7 +994,6 @@ public class ControllerGUI implements View {
 
     public void pickDiceSchemaError() {
         pendingDice.setImage(null);
-
         textflow.setText("non ci sono dadi qui");
 
     }
@@ -1081,85 +1001,73 @@ public class ControllerGUI implements View {
     public void useToolCardAccepted(final int favor) {
 
         //todo: one descripton for every tool card
-        Platform.runLater(new Runnable() {
-            public void run() {
-                iconTool.setVisible(false);
+        Platform.runLater(() -> {
+            iconTool.setVisible(false);
 
-                if (currentTool == 7) {
-                    textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
-                    disableTool(false);
-                } else {
-                    textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
-                    nFavour.setText(" x" + favor);
-                }
-
+            if (currentTool == 7) {
+                textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
+                disableTool(false);
+            } else {
+                textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+                nFavour.setText(" x" + favor);
             }
+
         });
 
     }
 
     public void useToolCardError() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                textflow.setText("Non puoi usare la carta utensile ora!");
-                iconTool.setVisible(true);
-
-            }
+        Platform.runLater(() -> {
+            textflow.setText("Non puoi usare la carta utensile ora!");
+            iconTool.setVisible(true);
         });
     }
 
     public void changeValueAccepted() {
+        Platform.runLater(() -> {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+            if (decrement)
+                numberMoved--;
+            else numberMoved++;
+            textflow.setText("hai cambiato valore! Ora inseriscilo!");
+            diceChanged = true;
 
-                if (decrement)
-                    numberMoved--;
-                else numberMoved++;
-                textflow.setText("hai cambiato valore! Ora inseriscilo!");
-                diceChanged = true;
+            String path = "/assets/image/Dice";
 
-                String path = "/assets/image/Dice";
+            setDice(pendingDice, colorMoved, numberMoved);
 
-                setDice(pendingDice, colorMoved, numberMoved);
-
-            }
         });
 
     }
 
     public void changeValueError() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
-                try {
-                    sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                setScene("changeDiceValue");
-
+        Platform.runLater(() -> {
+            textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
+            try {
+                sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            setScene("changeDiceValue");
+
         });
     }
 
     public void placeDiceAccepted() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (currentTool == 1 || currentTool == 6 || currentTool == 5
-                        || currentTool == 10 || currentTool == 11) {
-                    schemaCell.setImage(pendingDice.getImage());
-                    schemaCell.setId("full");
-                    pendingDice.setImage(null);
-                    textflow.setText("Hai usato la Carta Utensile!");
-                    diceChanged = false;
-                    iconTool.setVisible(false);
-                    currentTool = 0;
-                } else {
-                    correctInsertion = true;
-                    synchronized (lock) {
-                        lock.notify();
-                    }
+        Platform.runLater(() -> {
+            if (currentTool == 1 || currentTool == 6 || currentTool == 5
+                    || currentTool == 10 || currentTool == 11) {
+                schemaCell.setImage(pendingDice.getImage());
+                schemaCell.setId("full");
+                pendingDice.setImage(null);
+                textflow.setText("Hai usato la Carta Utensile!");
+                diceChanged = false;
+                iconTool.setVisible(false);
+                currentTool = 0;
+            } else {
+                correctInsertion = true;
+                synchronized (lock) {
+                    lock.notify();
                 }
             }
         });
@@ -1167,32 +1075,24 @@ public class ControllerGUI implements View {
     }
 
     public void rollDiceAccepted(final int value) {
-        Platform.runLater(new Runnable() {
-            public void run() {
+        Platform.runLater(() -> {
 
+            String path = "/assets/image/Dice";
+            diceChanged = true;
 
-                String path = "/assets/image/Dice";
-                diceChanged = true;
-
-
-                textflow.setText("Dado tirato! Ora piazzalo");
-                setDice(pendingDice, colorMoved, value);
-            }
-
+            textflow.setText("Dado tirato! Ora piazzalo");
+            setDice(pendingDice, colorMoved, value);
         });
 
 
     }
 
     public void pickDiceRoundTrack(final List action) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                int round = Integer.parseInt((String) action.get(0));
-                int roundIndex = Integer.parseInt((String) action.get(1));
-                getRoundCell(round, roundIndex).setImage(null);
-                diceRoundTrackSort(round);
-            }
+        Platform.runLater(() -> {
+            int round = Integer.parseInt((String) action.get(0));
+            int roundIndex = Integer.parseInt((String) action.get(1));
+            getRoundCell(round, roundIndex, roundTrack).setImage(null);
+            diceRoundTrackSort(round);
         });
     }
 
@@ -1203,190 +1103,156 @@ public class ControllerGUI implements View {
 
     public void placeDiceRoundTrack(final List action) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                int round = Integer.parseInt(((String) action.get(0)));
+        Platform.runLater(() -> {
+            int round = Integer.parseInt(((String) action.get(0)));
 
-                action.remove(0);
+            action.remove(0);
 
-                IntStream.iterate(0,i-> i +2 )
-                        .limit(action.size()/2)
-                        .forEach(i -> {
-                            String color = (String) action.get(i);
-                            String number = (String) action.get(i + 1);
-                            ImageView imageView = getLastRoundCell(round);
-                            setDice(imageView, color, number);
+            IntStream.iterate(0, i -> i + 2)
+                    .limit(action.size() / 2)
+                    .forEach(i -> {
+                        String color = (String) action.get(i);
+                        String number = (String) action.get(i + 1);
+                        ImageView imageView = getLastRoundCell(round, roundTrack);
+                        setDice(imageView, color, number);
 
-                                }
+                            }
 
-                        );
-
-            }
+                    );
         });
 
 
     }
 
     public void swapDiceAccepted() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
-                diceChanged = true;
-                pendingDice.setImage(roundDice.getImage());
-                disableTool(true);
+        Platform.runLater(() -> {
+            textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
+            diceChanged = true;
+            pendingDice.setImage(roundDice.getImage());
+            disableTool(true);
 
-            }
         });
 
     }
 
     public void cancelUseToolCardAccepted(final int favor) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                nFavour.setText(" x" + favor);
-
-            }
-        });
+        Platform.runLater(() -> nFavour.setText(" x" + favor));
 
     }
 
     public void flipDiceAccepted(final int value) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                rollDiceAccepted(value);
-                diceChanged = true;
-            }
+        Platform.runLater(() -> {
+            rollDiceAccepted(value);
+            diceChanged = true;
         });
 
     }
 
     public void placeDiceSpaceAccepted() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                textflow.setText("Non hai usato la carta utensile!");
-                pendingDice.setImage(null);
-                diceChanged = false;
-                diceExtract.add(colorMoved);
-                diceExtract.add(String.valueOf(numberMoved));
-            }
+        Platform.runLater(() -> {
+            textflow.setText("Non hai usato la carta utensile!");
+            pendingDice.setImage(null);
+            diceChanged = false;
+            diceExtract.add(colorMoved);
+            diceExtract.add(String.valueOf(numberMoved));
         });
 
     }
 
     public void placeDiceSpace(final List action) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                String path = "/assets/image/Dice";
-                ImageView imageView = getLastCellDicespace();
-                String color = (String) action.get(0);
-                String value = (String) action.get(1);
-                setDice(imageView, color, value);
+        Platform.runLater(() -> {
+            String path = "/assets/image/Dice";
+            ImageView imageView = getLastCellDicespace(diceSpace);
+            String color = (String) action.get(0);
+            String value = (String) action.get(1);
+            setDice(imageView, color, value);
 
-            }
         });
 
     }
 
     public void rollDiceSpaceAccepted(final List action) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-
-                textflow.setText("Hai utilizzato la Carta Utensile! Ora puoi inserire un dado");
-                iconTool.setVisible(false);
-
-            }
+        Platform.runLater(() -> {
+            textflow.setText("Hai utilizzato la Carta Utensile! Ora puoi inserire un dado");
+            iconTool.setVisible(false);
         });
 
     }
 
     public void swapDiceBagAccepted(final List action) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                colorMoved = (String) action.get(0);
-                numberMoved = Integer.parseInt((String) action.get(1));
-                setDice(pendingDice, (String) action.get(0), action.get(1));
-                setScene("chooseDiceNumber");
-            }
+        Platform.runLater(() -> {
+            colorMoved = (String) action.get(0);
+            numberMoved = Integer.parseInt((String) action.get(1));
+            setDice(pendingDice, (String) action.get(0), action.get(1));
+            setScene("chooseDiceNumber");
         });
 
     }
 
     public void chooseValueAccepted() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                setDice(pendingDice, colorMoved, numberMoved);
-                textflow.setText("Hai cambiato correttamente il dado! Ora inseriscilo!");
+        Platform.runLater(() -> {
+            setDice(pendingDice, colorMoved, numberMoved);
+            textflow.setText("Hai cambiato correttamente il dado! Ora inseriscilo!");
 
-            }
         });
 
     }
 
     public void chooseValueError() {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                textflow.setText("Azione non corretta. Riprova!");
-                setScene("chooseDiceNumber");
-            }
+        Platform.runLater(() -> {
+            textflow.setText("Azione non corretta. Riprova!");
+            setScene("chooseDiceNumber");
         });
 
     }
 
     public void schemaCustomAccepted(String name) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Schema sch;
-                Gson g = new Gson();
+        Platform.runLater(() -> {
+            Schema sch;
+            Gson g = new Gson();
 
-                sch = g.fromJson(schemaChoosen, Schema.class);
-                printConstrain(schemaConstrain, sch);
-                Stage stage = (Stage) schemaA.getScene().getWindow();
-                stage.close();
-            }
+            sch = g.fromJson(schemaChoosen, Schema.class);
+            printConstrain(schemaConstrain, sch);
+            Stage stage = (Stage) schemaA.getScene().getWindow();
+            stage.close();
         });
 
     }
 
     public void setOpponentsCustomSchemas(final List<String> action) {
-        Platform.runLater(new Runnable() {
+        Platform.runLater(() -> {
+
             Gson g = new Gson();
+            int i;
             Schema s;
 
-            public void run() {
+            for (int j = 0; j < action.size(); j = j + 2) {
+                i = 0;
 
-                int i;
-
-
-                for (int j = 0; j < action.size(); j = j + 2) {
-                    i = 0;
-
-                    for (; i < schemaPlayers.size(); i = i + 2) {
-                        if (((Text) schemaPlayers.get(i)).getText().equals(""))
-                            break;
-                    }
-                    if (i == 6)
-                        return;
-                    if (!action.get(j).equals(nickname.getText())) {
-                        ((Text) (schemaPlayers.get(i))).setText(action.get(j));
-                        s = g.fromJson(action.get(j + 1), Schema.class);
-                        printConstrain((GridPane) schemaPlayers.get(i + 1), s);
-                        ((GridPane) schemaPlayers.get(i + 1)).setId(action.get(j));
-                    }
-
+                for (; i < schemaPlayers.size(); i = i + 2) {
+                    if (((Text) schemaPlayers.get(i)).getText().equals(""))
+                        break;
+                }
+                if (i == 6)
+                    return;
+                if (!action.get(j).equals(nickname.getText())) {
+                    ((Text) (schemaPlayers.get(i))).setText(action.get(j));
+                    s = g.fromJson(action.get(j + 1), Schema.class);
+                    printConstrain((GridPane) schemaPlayers.get(i + 1), s);
+                    ((GridPane) schemaPlayers.get(i + 1)).setId(action.get(j));
                 }
 
-
             }
+
+
         });
 
     }
 
     public void diceSpaceSort() {
 
-        List<Image> dice = new ArrayList<Image>();
-
-
+        List<Image> dice = new ArrayList<>();
         diceSpace.getChildren().stream()
                 .filter(imageView -> (((ImageView) imageView).getImage() != null))
                 .forEach(imageView -> {
@@ -1403,7 +1269,7 @@ public class ControllerGUI implements View {
 
 
         int index = 3 * round;
-        List<Image> dice = new ArrayList<Image>();
+        List<Image> dice = new ArrayList<>();
         ImageView imageView;
         AnchorPane anchorPane;
         int count = 0;
@@ -1445,51 +1311,42 @@ public class ControllerGUI implements View {
 
     public void printSchema(final GridPane schemaConstrain, final String nameSchema) throws IOException {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                Schema schema = new Schema();
-                schema = schema.InitSchema("SchemaClient/" + nameSchema);
+        Platform.runLater(() -> {
+            Schema schema = new Schema();
+            schema = schema.InitSchema("SchemaClient/" + nameSchema);
 
-                printConstrain(schemaConstrain, schema);
+            printConstrain(schemaConstrain, schema);
 
-            }
         });
-
-
     }
 
 
     public void putConstrain(final ImageView imageView, final String constrain) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+        Platform.runLater(() -> {
+            String path = "/assets/image/SchemaElement/";
+            if (constrain.equals("\u001b[32m"))
+                imageView.setImage(new Image(path + "green.png"));
+            else if (constrain.equals("\u001b[31m"))
+                imageView.setImage(new Image(path + "red.png"));
+            else if (constrain.equals("\u001b[33m"))
+                imageView.setImage(new Image(path + "yellow.png"));
 
+            else if (constrain.equals("\u001b[34m"))
+                imageView.setImage(new Image(path + "blue.png"));
 
-                String path = "/assets/image/SchemaElement/";
-                if (constrain.equals("\u001b[32m"))
-                    imageView.setImage(new Image(path + "green.png"));
-                else if (constrain.equals("\u001b[31m"))
-                    imageView.setImage(new Image(path + "red.png"));
-                else if (constrain.equals("\u001b[33m"))
-                    imageView.setImage(new Image(path + "yellow.png"));
+            else if (constrain.equals("\u001b[35m"))
+                imageView.setImage(new Image(path + "purple.png"));
 
-                else if (constrain.equals("\u001b[34m"))
-                    imageView.setImage(new Image(path + "blue.png"));
+            else
+                imageView.setImage(new Image(path + constrain + ".png"));
 
-                else if (constrain.equals("\u001b[35m"))
-                    imageView.setImage(new Image(path + "purple.png"));
-
-                else
-                    imageView.setImage(new Image(path + constrain + ".png"));
-
-            }
         });
 
     }
 
 
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
-
         int count = 0;
 
         for (int i = 0; i < 4; i++) {
@@ -1506,22 +1363,20 @@ public class ControllerGUI implements View {
 
     @FXML
     void useToolCard(final MouseEvent event) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                ImageView tool = (ImageView) event.getSource();
+        Platform.runLater(() -> {
+            ImageView tool = (ImageView) event.getSource();
 
-                int numberTool = Integer.parseInt(tool.getId());
+            int numberTool = Integer.parseInt(tool.getId());
 
-                if (currentTool == 7) {
-                    connection.rollDiceSpace();
-                } else if (currentTool == 11)
-                    connection.swapDiceBag();
-                else {
-                    currentTool = numberTool;
-                    connection.useToolCard(numberTool);
-                }
-
+            if (currentTool == 7) {
+                connection.rollDiceSpace();
+            } else if (currentTool == 11)
+                connection.swapDiceBag();
+            else {
+                currentTool = numberTool;
+                connection.useToolCard(numberTool);
             }
+
         });
 
 
@@ -1531,104 +1386,98 @@ public class ControllerGUI implements View {
     @FXML
     void moveDiceAction(final MouseEvent event) {
 
+        Thread t = new Thread(() -> {
 
-        final MouseEvent event1 = event;
-
-
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-
-                Node source = ((Node) event1.getTarget());
+            Node source = ((Node) event.getTarget());
 
 
-                if (source != schema1) {
-                    Node parent;
-                    while ((parent = source.getParent()) != gridPane) {
-                        source = parent;
-                    }
+            if (source != schema1) {
+                Node parent;
+                while ((parent = source.getParent()) != gridPane) {
+                    source = parent;
                 }
+            }
 
-                Integer col = gridPane.getColumnIndex(source);
+            Integer col = gridPane.getColumnIndex(source);
 
-                Integer row = gridPane.getRowIndex(source);
+            Integer row = gridPane.getRowIndex(source);
 
-                if (col == null)
-                    col = 0;
+            if (col == null)
+                col = 0;
 
-                if (row == null)
-                    row = 0;
+            if (row == null)
+                row = 0;
 
 
-                if (currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10
-                        || currentTool == 11) {
-                    schemaCell = (ImageView) event1.getTarget();
-                    connection.sendPlaceDice(row, col);
-                    return;
+            if (currentTool == 1 || currentTool == 6 || currentTool == 5 || currentTool == 10
+                    || currentTool == 11) {
+                schemaCell = (ImageView) event.getTarget();
+                connection.sendPlaceDice(row, col);
+                return;
+            } else {
+
+
+                if (x1 == null && y1 == null) {
+                    imageMoved = (ImageView) event.getSource();
+                    x1 = col;
+                    y1 = row;
+                    textflow.setText("Dado Accettato");
+
                 } else {
 
+                    schemaCell = (ImageView) event.getSource();
 
-                    if (x1 == null && y1 == null) {
-                        imageMoved = (ImageView) event1.getSource();
-                        x1 = col;
-                        y1 = row;
-                        textflow.setText("Dado Accettato");
+                    x2 = col;
+                    y2 = row;
 
-                    } else {
+                    connection.moveDice(y1, x1, y2, x2);
 
-                        schemaCell = (ImageView) event1.getSource();
-
-                        x2 = col;
-                        y2 = row;
-
-                        connection.moveDice(y1, x1, y2, x2);
-
-                        try {
-                            synchronized (lock) {
-                                lock.wait();
-                            }
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+                    try {
+                        synchronized (lock) {
+                            lock.wait();
                         }
-                        if (correctInsertion) {
 
-                            schemaCell.setImage(imageMoved.getImage());
-                            schemaCell.setId("full");
-                            if (!schemaCell.equals(imageMoved)) {
-                                imageMoved.setImage(null);
-                                imageMoved.setId("");
-                            }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (correctInsertion) {
 
-                            x2 = null;
-                            y2 = null;
-                            if ((currentTool == 4 && isFirst) || (currentTool == 12 && isFirst)) {
-                                x1 = null;
-                                y1 = null;
-                                textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
-                                diceChanged = false;
+                        schemaCell.setImage(imageMoved.getImage());
+                        schemaCell.setId("full");
+                        if (!schemaCell.equals(imageMoved)) {
+                            imageMoved.setImage(null);
+                            imageMoved.setId("");
+                        }
 
-                                isFirst = false;
-
-                            } else {
-                                x1 = null;
-                                y1 = null;
-                                textflow.setText("Hai usato la Carta Utensile!");
-                                iconTool.setVisible(false);
-                                diceChanged = false;
-                                disableTool(true);
-                                currentTool = 0;
-                                isFirst = true;
-
-                            }
-
-                        } else {
-                            textflow.setText("Errore di piazzamento. Clicca sul dado e riposizionalo");
-
+                        x2 = null;
+                        y2 = null;
+                        if ((currentTool == 4 && isFirst) || (currentTool == 12 && isFirst)) {
                             x1 = null;
                             y1 = null;
+                            textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
+                            diceChanged = false;
+
+                            isFirst = false;
+
+                        } else {
+                            x1 = null;
+                            y1 = null;
+                            textflow.setText("Hai usato la Carta Utensile!");
+                            iconTool.setVisible(false);
+                            diceChanged = false;
+                            disableTool(true);
+                            currentTool = 0;
+                            isFirst = true;
+
                         }
 
+                    } else {
+                        textflow.setText("Errore di piazzamento. Clicca sul dado e riposizionalo");
+
+                        x1 = null;
+                        y1 = null;
                     }
+
                 }
             }
         });
@@ -1645,17 +1494,15 @@ public class ControllerGUI implements View {
 
     @FXML
     void RollDice(final MouseEvent event) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                ImageView diceRolling = (ImageView) event.getTarget();
-                rotateImage(diceRolling);
-                if (currentTool == 6) {
-                    connection.rollDice();
-                } else if (currentTool == 10)
-                    connection.flipDice();
-                else if (currentTool == 11)
-                    connection.swapDiceBag();
-            }
+        Platform.runLater(() -> {
+            ImageView diceRolling = (ImageView) event.getTarget();
+            rotateImage(diceRolling);
+            if (currentTool == 6) {
+                connection.rollDice();
+            } else if (currentTool == 10)
+                connection.flipDice();
+            else if (currentTool == 11)
+                connection.swapDiceBag();
         });
 
     }
@@ -1663,39 +1510,35 @@ public class ControllerGUI implements View {
     @FXML
     void sendChangeValue(final MouseEvent event) {
 
-        Platform.runLater(new Runnable() {
-            public void run() {
-                ImageView imageView = (ImageView) event.getTarget();
-                if (imageView.getId().equals("Decrement"))
-                    decrement = true;
-                else decrement = false;
-                connection.changeValue(imageView.getId());
+        Platform.runLater(() -> {
+            ImageView imageView = (ImageView) event.getTarget();
+            if (imageView.getId().equals("Decrement"))
+                decrement = true;
+            else decrement = false;
+            connection.changeValue(imageView.getId());
 
-                Stage stage = (Stage) imageView.getScene().getWindow();
-                stage.close();
+            Stage stage = (Stage) imageView.getScene().getWindow();
+            stage.close();
 
-            }
         });
 
     }
 
     @FXML
     void pickDice(final MouseEvent event) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                if (currentTool != 0) {
-                    rotateImage(pendingDice);
-                    if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
-                            currentTool == 10 || currentTool == 11) && !diceChanged) {
-                        pendingDice.setImage(((ImageView) event.getTarget()).getImage());
-                        indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
-                        colorMoved = diceExtract.get(2 * indexDiceSpace);
-                        numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
-                        connection.sendDraft(indexDiceSpace);
-                    } else if (diceChanged)
-                        connection.placeDiceSpace();
+        Platform.runLater(() -> {
+            if (currentTool != 0) {
+                rotateImage(pendingDice);
+                if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
+                        currentTool == 10 || currentTool == 11) && !diceChanged) {
+                    pendingDice.setImage(((ImageView) event.getTarget()).getImage());
+                    indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
+                    colorMoved = diceExtract.get(2 * indexDiceSpace);
+                    numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+                    connection.sendDraft(indexDiceSpace);
+                } else if (diceChanged)
+                    connection.placeDiceSpace();
 
-                }
             }
         });
     }
@@ -1703,33 +1546,27 @@ public class ControllerGUI implements View {
     @FXML
     void pickRoundTrack(final MouseEvent event) {
 
+        Platform.runLater(() -> {
+            ImageView imageView = (ImageView) event.getTarget();
+            roundDice = new ImageView();
+            roundDice.setImage(imageView.getImage());
+            Node source = ((Node) event.getSource());
+            Node source2 = source.getParent();
 
-        Platform.runLater(new Runnable() {
-            public void run() {
+            roundNumber = GridPane.getColumnIndex(source2);
+            roundIndex = Integer.parseInt((source).getId());
 
+            if (roundNumber == null)
+                roundNumber = 0;
 
-                ImageView imageView = (ImageView) event.getTarget();
-                roundDice = new ImageView();
-                roundDice.setImage(imageView.getImage());
-                Node source = ((Node) event.getSource());
-                Node source2 = source.getParent();
+            connection.swapDice(roundNumber, roundIndex);
 
-                roundNumber = GridPane.getColumnIndex(source2);
-                roundIndex = Integer.parseInt((source).getId());
-
-                if (roundNumber == null)
-                    roundNumber = 0;
-
-                connection.swapDice(roundNumber, roundIndex);
-
-            }
         });
 
     }
 
 
-    public ImageView getLastRoundCell(int round) {
-
+    public ImageView getLastRoundCell(int round, GridPane roundTrack) {
 
         int index = 3 * round;
         AnchorPane anchorPane;
@@ -1745,11 +1582,10 @@ public class ControllerGUI implements View {
         }
         return null;
 
-
     }
 
 
-    public ImageView getRoundCell(int round, int roundIndex) {
+    public ImageView getRoundCell(int round, int roundIndex, GridPane roundTrack) {
 
 
         int index = 3 * round;
@@ -1790,7 +1626,7 @@ public class ControllerGUI implements View {
     }
 
     @FXML
-    public ImageView getLastCellDicespace() {
+    public ImageView getLastCellDicespace(GridPane diceSpace) {
 
 
         Optional<Node> result = diceSpace.getChildren().stream()
@@ -1820,17 +1656,14 @@ public class ControllerGUI implements View {
 
     }
 
-
     @FXML
     void chooseNumber(final MouseEvent event) {
-        Platform.runLater(new Runnable() {
-            public void run() {
-                ImageView imageView = (ImageView) event.getTarget();
-                Stage stage = (Stage) imageView.getScene().getWindow();
-                stage.close();
-                numberMoved = Integer.parseInt((String) imageView.getId());
-                connection.chooseValue(numberMoved);
-            }
+        Platform.runLater(() -> {
+            ImageView imageView = (ImageView) event.getTarget();
+            Stage stage = (Stage) imageView.getScene().getWindow();
+            stage.close();
+            numberMoved = Integer.parseInt((String) imageView.getId());
+            connection.chooseValue(numberMoved);
         });
 
 
@@ -1860,7 +1693,10 @@ public class ControllerGUI implements View {
             use3.setDisable(value);
     }
 
-    public void rotateImage(ImageView diceRolling){
+    public void rotateImage(ImageView diceRolling) {
+
+        RotateTransition rt;
+
         rt = new RotateTransition(Duration.millis(3000), diceRolling);
         rt.setByAngle(360);
         rt.setCycleCount(Animation.INDEFINITE);
