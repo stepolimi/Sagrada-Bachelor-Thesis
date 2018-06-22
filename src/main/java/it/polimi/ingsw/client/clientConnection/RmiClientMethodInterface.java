@@ -4,69 +4,95 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface RmiClientMethodInterface extends Remote{
-    void updateText(String s) throws RemoteException;
-    void printText(String s) throws RemoteException;
-    void login(List action)throws RemoteException;
-    void playerDisconnected(List action) throws RemoteException;
-    void timerPing(List action)throws RemoteException;
-    void createGame()throws RemoteException;
-    void setSchemas(List action)throws RemoteException;
-    void setPrivateCard(String privateCard)throws RemoteException;
-    void setPublicObjectives(List action)throws RemoteException;
-    void setToolCards(List action)throws RemoteException;
-    void chooseSchema(List action) throws RemoteException;
-    void setOpponentsSchemas(List action) throws RemoteException;
+public interface RmiClientMethodInterface extends Remote {
+
+    void login(String nickname, int lobbySize) throws RemoteException;
+
+    void loginError(String cause) throws RemoteException;
+
+    void playerDisconnected(String nickname) throws RemoteException;
+
+    void timerPing(int timeLeft) throws RemoteException;
+
+    void createGame() throws RemoteException;
+
+    void setSchemas(List<String> schemas) throws RemoteException;
+
+    void setPrivateCard(String privateCard) throws RemoteException;
+
+    void setPublicObjectives(List<String> publicObjectives) throws RemoteException;
+
+    void setToolCards(List<Integer> toolCards) throws RemoteException;
+
+    void chooseSchema(String schema) throws RemoteException;
+
+    void setOpponentsSchemas(List<String> opponentsSchemas) throws RemoteException;
+
+    void schemaCustomAccepted(String schema) throws RemoteException;
+
+    void setOpponentsCustomSchemas(List<String> opponentsSchemas) throws RemoteException;
+
     void startRound() throws RemoteException;
-    void startTurn(List action) throws RemoteException;
-    void setActions(List action) throws RemoteException;
-    void setDiceSpace(List action) throws RemoteException;
+
+    void startTurn(String nickname) throws RemoteException;
+
+    void setActions(List<String> actions) throws RemoteException;
+
+    void setDiceSpace(List<String> colours, List<Integer> values) throws RemoteException;
+
     void insertDiceAccepted() throws RemoteException;
+
     void draftDiceAccepted() throws RemoteException;
+
     void moveDiceAccepted() throws RemoteException;
 
-    void pickDiceSpace(List action) throws RemoteException;
+    void pickDiceSpace(int index) throws RemoteException;
+
     void pickDiceSpaceError() throws RemoteException;
 
-    void placeDiceSchema(List action) throws RemoteException;
+    void placeDiceSchema(String nickname, int row, int column, String colour, int value) throws RemoteException;
+
     void placeDiceSchemaError() throws RemoteException;
 
-    void pickDiceSchema(List action) throws RemoteException;
+    void pickDiceSchema(String nickname, int row, int column) throws RemoteException;
+
     void pickDiceSchemaError() throws RemoteException;
 
-    void useToolCardAccepted(List action) throws RemoteException;
+    void useToolCardAccepted(int favors) throws RemoteException;
+
     void useToolCardError() throws RemoteException;
 
     void changeValueAccepted() throws RemoteException;
+
     void changeValueError() throws RemoteException;
 
     void placeDiceAccepted() throws RemoteException;
 
-    void rollDiceAccepted(List action ) throws RemoteException;
+    void rollDiceAccepted(int value) throws RemoteException;
 
     void swapDiceAccepted() throws RemoteException;
 
-    void pickDiceRoundTrack(List action) throws RemoteException;
+    void pickDiceRoundTrack(int nRound, int nDice) throws RemoteException;
+
     void pickDiceRoundTrackError() throws RemoteException;
 
-    void placeDiceRoundTrack(List action) throws RemoteException;
+    void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) throws RemoteException;
 
-    void flipDiceAccepted(List action) throws RemoteException;
+    void flipDiceAccepted(int value) throws RemoteException;
 
-    void cancelUseToolCardAccepted(List action) throws RemoteException;
+    void cancelUseToolCardAccepted(int favors) throws RemoteException;
 
-    void placeDiceSpace(List action) throws RemoteException;
+    void placeDiceSpace(String colour, int value) throws RemoteException;
 
     void placeDiceSpaceAccepted() throws RemoteException;
 
-    void rollDiceSpaceAccepted(List action) throws RemoteException;
+    void rollDiceSpaceAccepted() throws RemoteException;
 
-    void swapDiceBagAccepted(List action) throws RemoteException;
+    void swapDiceBagAccepted(String colour, int value) throws RemoteException;
 
     void chooseValueAccepted() throws RemoteException;
+
     void chooseValueError() throws RemoteException;
 
-    void schemaCustomAccepted(List action) throws RemoteException;
 
-    void setOpponentsCustomSchemas(List <String> action)  throws  RemoteException;
 }

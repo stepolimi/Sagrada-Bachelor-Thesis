@@ -6,88 +6,92 @@ import it.polimi.ingsw.client.view.View;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
 import static it.polimi.ingsw.costants.LoginMessages.LOGIN_SUCCESSFUL;
 
 
 public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMethodInterface {
-    Handler hand;
-    View v;
-    public RmiClientMethod(Handler hand) throws RemoteException {
+    private Handler hand;
+    private View v;
+
+    RmiClientMethod(Handler hand) throws RemoteException {
         this.hand = hand;
         this.v = hand.getView();
     }
 
-    public void updateText(String s) {}
-
-    public void printText(String str) {
-        /*List action = new ArrayList();
-        hand.deliverGI(action);
-        System.out.println(str);*/
-    }
-
-    public void login(List action){
-        if(action.get(0).equals(LOGIN_SUCCESSFUL)) {
-            if (action.get(1).equals(v.getName()))
-                v.login((String)action.get(0));
-            else
-                v.playerConnected((String)action.get(1));
+    public void login(String nickname, int lobbySize) {
+        if (nickname.equals(v.getName())) {
+            v.login(LOGIN_SUCCESSFUL);
+            v.setNumberPlayer(lobbySize);
         }else
-            v.login(action.get(0) + "-" + action.get(1));
+            v.playerConnected(nickname);
     }
 
-    public void playerDisconnected(List action) {
-        v.playerDisconnected((String)action.get(1));
+    public void loginError(String cause) {
+        v.login(LOGIN_ERROR + "-" + cause);
     }
 
-    public void timerPing(List action){
-        v.timerPing((String)action.get(1));
+    public void playerDisconnected(String nickname) {
+        v.playerDisconnected(nickname);
     }
 
-    public void createGame(){
+    public void timerPing(int timeLeft) {
+        v.timerPing(((Integer)timeLeft).toString());
+    }
+
+    public void createGame() {
         v.createGame();
     }
 
-    public void setSchemas(List action){
-        v.setSchemas(action.subList(1,action.size()));
+    public void setSchemas(List<String> schemas) {
+        v.setSchemas(schemas);
 
     }
 
-    public void setPrivateCard(String privateCard){
+    public void setPrivateCard(String privateCard) {
         v.setPrivateCard(privateCard);
     }
 
-    public void setPublicObjectives(List action){
-        v.setPublicObjectives(action.subList(1,action.size()));
+    public void setPublicObjectives(List<String> publicObjectives) {
+        v.setPublicObjectives(publicObjectives);
     }
 
-    public void setToolCards(List action){
-        v.setToolCards(action.subList(1,action.size()));
-    }
-    public void chooseSchema(List action)
-    {
-        v.chooseSchema((String)action.get(1));
+    public void setToolCards(List<Integer> toolCards) {
+        List<String> toolCardsString = toolCards.stream().map(toolCard -> toolCard.toString()).collect(Collectors.toList());
+        v.setToolCards(toolCardsString);
     }
 
-    public void setOpponentsSchemas(List action){
-        v.setOpponentsSchemas(action.subList(1,action.size()));
+    public void chooseSchema(String schema) {
+        v.chooseSchema(schema);
+    }
+
+    public void setOpponentsSchemas(List<String> opponentsSchemas) {
+        v.setOpponentsSchemas(opponentsSchemas);
     }
 
     public void startRound() {
         v.startRound();
     }
 
-    public void startTurn(List action) {
-        v.startTurn((String)action.get(1));
+    public void startTurn(String nickname) {
+        v.startTurn(nickname);
     }
 
-    public void setActions(List action) {
-        v.setActions(action.subList(1,action.size()));
+    public void setActions(List<String> actions) {
+        v.setActions(actions);
     }
 
-    public void setDiceSpace(List action) {
-        v.setDiceSpace(action.subList(1,action.size()));
+    public void setDiceSpace(List<String> colours, List<Integer> values) {
+        List<String> action = new ArrayList<>();
+        for(int i = 0; i< colours.size(); i++){
+            action.add(colours.get(i));
+            action.add(values.get(i).toString());
+        }
+        v.setDiceSpace(action);
     }
 
     public void insertDiceAccepted() {
@@ -102,9 +106,11 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.moveDiceAccepted();
     }
 
-    public void pickDiceSpace(List action) {
+    public void pickDiceSpace(int index) {
         try {
-            v.pickDiceSpace(action.subList(1,action.size()));
+            List<String> action = new ArrayList<>();
+            action.add(((Integer)index).toString());
+            v.pickDiceSpace(action);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -114,25 +120,39 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.pickDiceSpaceError();
     }
 
-    public void placeDiceSchema(List action) {
-        v.placeDiceSchema(action.subList(1,action.size()));
+    public void placeDiceSchema(String nickname, int row, int column, String colour, int value) {
+        List<String> action = new ArrayList<>();
+        action.add(nickname);
+        action.add(((Integer)row).toString());
+        action.add(((Integer)column).toString());
+        action.add(colour);
+        action.add(((Integer)value).toString());
+        v.placeDiceSchema(action);
     }
 
     public void placeDiceSchemaError() {
         v.placeDiceSchemaError();
     }
 
-    public void pickDiceSchema(List action) {
-        v.pickDiceSchema(action.subList(1,action.size()));
+    public void pickDiceSchema(String nickname, int row, int column) {
+        List<String> action = new ArrayList<>();
+        action.add(nickname);
+        action.add(((Integer)row).toString());
+        action.add(((Integer)column).toString());
+        v.pickDiceSchema(action);
     }
 
     public void pickDiceSchemaError() {
         v.pickDiceSchemaError();
     }
 
-    public void useToolCardAccepted(List action){ v.useToolCardAccepted(Integer.parseInt((String)action.get(1))); }
+    public void useToolCardAccepted(int favors) {
+        v.useToolCardAccepted(favors);
+    }
 
-    public void useToolCardError() { v.useToolCardError(); }
+    public void useToolCardError() {
+        v.useToolCardError();
+    }
 
     public void changeValueAccepted() {
         v.changeValueAccepted();
@@ -141,66 +161,84 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
     public void changeValueError() {
         v.changeValueError();
     }
+
     public void placeDiceAccepted() {
         v.placeDiceAccepted();
     }
 
-    public void rollDiceAccepted(List action) {
-        v.rollDiceAccepted(Integer.parseInt((String)action.get(1)));
+    public void rollDiceAccepted(int value) {
+        v.rollDiceAccepted(value);
     }
 
-    public void swapDiceAccepted(){
+    public void swapDiceAccepted() {
         v.swapDiceAccepted();
     }
 
-    public void pickDiceRoundTrack(List action) {
-        v.pickDiceRoundTrack(action.subList(1,action.size()));
+    public void pickDiceRoundTrack(int nRound, int nDice) {
+        List<String> action = new ArrayList<>();
+        action.add(((Integer)nRound).toString());
+        action.add(((Integer)nDice).toString());
+        v.pickDiceRoundTrack(action);
     }
 
     public void pickDiceRoundTrackError() {
         v.pickDiceRoundTrackError();
     }
 
-    public void placeDiceRoundTrack(List action) {
-        v.placeDiceRoundTrack(action.subList(1,action.size()));
+    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
+        List<String> action = new ArrayList<>();
+        action.add(((Integer)nRound).toString());
+        for(int i = 0; i< colours.size(); i++){
+            action.add(colours.get(i));
+            action.add(values.get(i).toString());
+        }
+        v.placeDiceRoundTrack(action);
     }
 
-    public void flipDiceAccepted(List action){
-        v.flipDiceAccepted(Integer.parseInt((String)action.get(1)));
+    public void flipDiceAccepted(int value) {
+        v.flipDiceAccepted(value);
     }
 
-    public void cancelUseToolCardAccepted(List action){
-        v.cancelUseToolCardAccepted(Integer.parseInt((String)action.get(1)));
+    public void cancelUseToolCardAccepted(int favors) {
+        v.cancelUseToolCardAccepted(favors);
     }
-    public void placeDiceSpace(List action) {
-        v.placeDiceSpace(action.subList(1,action.size()));
+
+    public void placeDiceSpace(String colour, int value) {
+        List<String> action = new ArrayList<>();
+        action.add(colour);
+        action.add(((Integer)value).toString());
+        v.placeDiceSpace(action);
     }
+
     public void placeDiceSpaceAccepted() {
         v.placeDiceSpaceAccepted();
     }
 
-    public void rollDiceSpaceAccepted(List action){
-        v.rollDiceSpaceAccepted(action.subList(1,action.size()));
+    public void rollDiceSpaceAccepted() {
+        v.rollDiceSpaceAccepted(new ArrayList());
     }
 
-    public void swapDiceBagAccepted(List action){
-        v.swapDiceBagAccepted(action.subList(1,action.size()));
+    public void swapDiceBagAccepted(String colour, int value) {
+        List<String> action = new ArrayList<>();
+        action.add(colour);
+        action.add(((Integer)value).toString());
+        v.swapDiceBagAccepted(action);
     }
 
-    public void chooseValueAccepted(){
+    public void chooseValueAccepted() {
         v.chooseValueAccepted();
     }
 
-    public void chooseValueError(){
+    public void chooseValueError() {
         v.chooseValueError();
     }
 
-    public void schemaCustomAccepted(List action) throws RemoteException {
-        v.schemaCustomAccepted((String)action.get(1));
+    public void schemaCustomAccepted(String schema){
+        v.schemaCustomAccepted(schema);
     }
 
-    public void setOpponentsCustomSchemas(List<String> action) {
-        v.setOpponentsCustomSchemas(action.subList(1,action.size()));
+    public void setOpponentsCustomSchemas(List<String> opponentsSchemas) {
+        v.setOpponentsCustomSchemas(opponentsSchemas);
     }
 }
 

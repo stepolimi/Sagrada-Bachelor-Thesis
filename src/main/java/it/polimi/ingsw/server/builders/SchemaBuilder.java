@@ -1,6 +1,9 @@
-package it.polimi.ingsw.server.model.board;
+package it.polimi.ingsw.server.builders;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.board.Box;
+import it.polimi.ingsw.server.model.board.Colour;
+import it.polimi.ingsw.server.model.board.Schema;
 
 import java.io.*;
 
@@ -92,6 +95,8 @@ public class SchemaBuilder {
                         break;
                     case '6':
                         schemaServer.setTable(i, j, new Box(null, 6));
+                        break;
+                    default:
                         break;
                 }
 

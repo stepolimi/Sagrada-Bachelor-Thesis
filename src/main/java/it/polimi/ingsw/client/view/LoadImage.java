@@ -1,7 +1,5 @@
 package it.polimi.ingsw.client.view;
 
-import it.polimi.ingsw.server.model.board.SchemaBuilder;
-
 import java.io.*;
 
 public class LoadImage {

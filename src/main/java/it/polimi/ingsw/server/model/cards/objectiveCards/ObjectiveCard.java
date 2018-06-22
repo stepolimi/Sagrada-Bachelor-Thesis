@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.cards.objCards;
+package it.polimi.ingsw.server.model.cards.objectiveCards;
 import it.polimi.ingsw.server.model.board.Schema;
 
 public abstract class ObjectiveCard {

@@ -46,15 +46,15 @@ public class Round extends Observable implements TimedComponent {
     public Round(Player first, Board board, RoundManager roundManager) {
         usingTool = null;
         this.roundManager = roundManager;
-        states = new HashMap<String, State>();
-        legalActions = new ArrayList<String>();
-        playersOrder = new ArrayList<Player>();
+        states = new HashMap<>();
+        legalActions = new ArrayList<>();
+        playersOrder = new ArrayList<>();
         firstPlayer = first;
         this.board = board;
         usedCard = false;
         insertedDice = false;
         bonusInsertDice = false;
-        nextActions = new ArrayList<List<String>>();
+        nextActions = new ArrayList<>();
         movedDiceColour = null;
         cardWasUsed = false;
         favorsDecremented = 0;
@@ -119,7 +119,7 @@ public class Round extends Observable implements TimedComponent {
         return currentPlayer;
     }
 
-    public void setCurrentPlayer(Player player) {
+    void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
 
@@ -127,11 +127,11 @@ public class Round extends Observable implements TimedComponent {
         return turnNumber;
     }
 
-    public void incrementTurnNumber() {
+    void incrementTurnNumber() {
         turnNumber++;
     }
 
-    public List<Player> getPlayersOrder() {
+    List<Player> getPlayersOrder() {
         return playersOrder;
     }
 
@@ -139,31 +139,31 @@ public class Round extends Observable implements TimedComponent {
         return board;
     }
 
-    public RoundManager getRoundManager() {
+    RoundManager getRoundManager() {
         return roundManager;
     }
 
-    public Dice getPendingDice() {
+    Dice getPendingDice() {
         return pendingDice;
     }
 
-    public void setPendingDice(Dice dice) {
+    void setPendingDice(Dice dice) {
         this.pendingDice = dice;
     }
 
-    public int getFavorsDecremented() {
+    int getFavorsDecremented() {
         return favorsDecremented;
     }
 
-    public void setFavorsDecremented(int favorsDecremented) {
+    void setFavorsDecremented(int favorsDecremented) {
         this.favorsDecremented = favorsDecremented;
     }
 
-    public boolean getCardWasUsed() {
+    boolean getCardWasUsed() {
         return cardWasUsed;
     }
 
-    public void setCardWasUsed(boolean cardWasUsed) {
+    void setCardWasUsed(boolean cardWasUsed) {
         this.cardWasUsed = cardWasUsed;
     }
 
@@ -171,39 +171,39 @@ public class Round extends Observable implements TimedComponent {
         return currentState.toString();
     }
 
-    public void setUsingTool(ToolCard using) {
+    void setUsingTool(ToolCard using) {
         this.usingTool = using;
     }
 
-    public ToolCard getUsingTool() {
+    ToolCard getUsingTool() {
         return usingTool;
     }
 
-    public void setLegalActions(List<String> legalActions) {
+    void setLegalActions(List<String> legalActions) {
         this.legalActions = legalActions;
     }
 
-    public boolean isUsedCard() {
+    boolean isUsedCard() {
         return usedCard;
     }
 
-    public void setUsedCard(boolean usedCard) {
+    void setUsedCard(boolean usedCard) {
         this.usedCard = usedCard;
     }
 
-    public boolean isInsertedDice() {
+    boolean isInsertedDice() {
         return insertedDice;
     }
 
-    public void setInsertedDice(boolean insertedDice) {
+    void setInsertedDice(boolean insertedDice) {
         this.insertedDice = insertedDice;
     }
 
-    public boolean hasBonusInsertDice() {
+    boolean hasBonusInsertDice() {
         return bonusInsertDice;
     }
 
-    public void setBonusInsertDice(boolean bonusInsertDice) {
+    void setBonusInsertDice(boolean bonusInsertDice) {
         this.bonusInsertDice = bonusInsertDice;
     }
 
@@ -215,11 +215,11 @@ public class Round extends Observable implements TimedComponent {
         return nextActions;
     }
 
-    public Colour getMovedDiceColour() {
+    Colour getMovedDiceColour() {
         return movedDiceColour;
     }
 
-    public void setMovedDiceColour(Colour movedDiceColour) {
+    void setMovedDiceColour(Colour movedDiceColour) {
         this.movedDiceColour = movedDiceColour;
     }
 
@@ -258,43 +258,53 @@ public class Round extends Observable implements TimedComponent {
                 roundManager.startNewRound();
             }
         } else {
-            List<String> action = new ArrayList<String>();
+            List<String> action = new ArrayList<>();
             action.add(END_TURN);
             execute(action);
         }
     }
 
     public void notifyChanges(String string) {
-        List<String> action = new ArrayList<String>();
-        if (string.equals(START_ROUND)) {
-            action.add(string);
-        } else if (string.equals(SET_ACTIONS)) {
-            action.add(SET_ACTIONS);
-            action.add(currentPlayer.getNickname());
-            action.addAll(legalActions);
-        } else if (string.equals(ROLL_DICE_ACCEPTED) || string.equals(FLIP_DICE_ACCEPTED)) {
-            action.add(string);
-            action.add(currentPlayer.getNickname());
-            action.add(((Integer) pendingDice.getValue()).toString());
-        } else if (string.equals(SWAP_DICE_BAG_ACCEPTED)) {
-            action.add(string);
-            action.add(currentPlayer.getNickname());
-            action.add(pendingDice.getColour().toString());
-            action.add(((Integer) pendingDice.getValue()).toString());
-        } else if (string.equals(USE_TOOL_CARD_ACCEPTED) || string.equals(CANCEL_USE_TOOL_CARD_ACCEPTED)) {
-            action.add(string);
-            action.add(currentPlayer.getNickname());
-            action.add(((Integer) currentPlayer.getFavour()).toString());
-        } else if (string.equals(TIMER_PING)) {
-            action.add(TURN_TIMER_PING);
-            action.add(currentPlayer.getNickname());
-            action.add(((Long) (TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000)).toString());
-        } else {
-            // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
-            // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,
-            // flipDiceAccepted,chooseValueAccepted,chooseValueError,moveDiveError
-            action.add(string);
-            action.add(currentPlayer.getNickname());
+        List action = new ArrayList<>();
+        switch (string) {
+            case START_ROUND:
+                action.add(string);
+                break;
+            case SET_ACTIONS:
+                action.add(string);
+                action.add(currentPlayer.getNickname());
+                action.addAll(legalActions);
+                break;
+            case ROLL_DICE_ACCEPTED:
+            case FLIP_DICE_ACCEPTED:
+                action.add(string);
+                action.add(currentPlayer.getNickname());
+                action.add(pendingDice.getValue());
+                break;
+            case SWAP_DICE_BAG_ACCEPTED:
+                action.add(string);
+                action.add(currentPlayer.getNickname());
+                action.add(pendingDice.getColour().toString());
+                action.add(pendingDice.getValue());
+                break;
+            case USE_TOOL_CARD_ACCEPTED:
+            case CANCEL_USE_TOOL_CARD_ACCEPTED:
+                action.add(string);
+                action.add(currentPlayer.getNickname());
+                action.add(currentPlayer.getFavour());
+                break;
+            case TIMER_PING:
+                action.add(TURN_TIMER_PING);
+                action.add(currentPlayer.getNickname());
+                action.add(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000);
+                break;
+            default:
+                // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
+                // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,
+                // flipDiceAccepted,chooseValueAccepted,chooseValueError,moveDiveError
+                action.add(string);
+                action.add(currentPlayer.getNickname());
+                break;
         }
         setChanged();
         notifyObservers(action);

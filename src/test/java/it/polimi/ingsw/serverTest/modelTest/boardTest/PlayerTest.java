@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -40,13 +41,7 @@ public class PlayerTest {
         return schema;
     }
     public PrivateObjective objectiveInit(){
-        PrivateObjective objective = new PrivateObjective();
-        try{
-            objective.privateInit(2);
-        }catch (Exception e){
-            System.out.println(e);
-        }
-        return objective;
+        return buildPrivateObjective(2);
     }
 
     public boolean correct_player_status(Player p){

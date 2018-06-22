@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.cards.objCards;
+package it.polimi.ingsw.server.model.cards.objectiveCards;
 
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -43,7 +43,7 @@ public class CoupleSetObj extends ObjectiveCard {
     @Override
     public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "setOf: " + this.a + this.b + "\n";
+        src = src + "|" + this.name + "\n" + "|" + this.description + "\n" + "|" + "setOf: " + this.a + this.b + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

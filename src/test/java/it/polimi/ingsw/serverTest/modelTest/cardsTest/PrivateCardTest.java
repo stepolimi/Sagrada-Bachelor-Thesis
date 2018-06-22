@@ -7,7 +7,8 @@ import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema.
@@ -51,7 +52,7 @@ public class PrivateCardTest {
 
         insertDice();
 
-        PrivateObjective card = new PrivateObjective().privateInit(4);
+        PrivateObjective card = buildPrivateObjective(4);
         card.dump();
         assertEquals(6, card.scoreCard(s));
     }
@@ -63,7 +64,7 @@ public class PrivateCardTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        PrivateObjective card = new PrivateObjective().privateInit(4);
+        PrivateObjective card = buildPrivateObjective(4);
         card.dump();
         assertEquals(0, card.scoreCard(s), "result is 0");
 

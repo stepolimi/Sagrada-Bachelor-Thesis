@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.cards.objCards;
+package it.polimi.ingsw.server.model.cards.objectiveCards;
 
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -82,7 +82,7 @@ public class SetObj extends ObjectiveCard {
     @Override
     public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "|" + this.name + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

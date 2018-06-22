@@ -21,6 +21,7 @@ import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -85,16 +86,16 @@ public class Schema extends Observable {
     }
 
     public void insertDice(int rows, int columns, Dice d) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
         this.isEmpty = false;
         size++;
         this.table[rows][columns].setDice(d);
         action.add(PLACE_DICE_SCHEMA);
         action.add(player);
-        action.add(((Integer) rows).toString());
-        action.add(((Integer) columns).toString());
+        action.add(rows);
+        action.add(columns);
         action.add(d.getColour().toString());
-        action.add(((Integer) d.getValue()).toString());
+        action.add(d.getValue());
         setChanged();
         notifyObservers(action);
     }
@@ -119,7 +120,7 @@ public class Schema extends Observable {
 
     //it removed dice from rows-colomuns position. it throws exception if is already empty
     public Dice removeDice(int rows, int columns) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
         Dice d;
         size--;
         if (size == 0)
@@ -128,8 +129,8 @@ public class Schema extends Observable {
         table[rows][columns].setDice(null);
         action.add(PICK_DICE_SCHEMA);
         action.add(player);
-        action.add(((Integer) rows).toString());
-        action.add(((Integer) columns).toString());
+        action.add(rows);
+        action.add(columns);
         setChanged();
         notifyObservers(action);
         return d;
@@ -154,18 +155,18 @@ public class Schema extends Observable {
     }
 
     private Dice checkNearDice(int rows, int columns) {
-        Dice d = null;
+        Dice d;
 
         try {
             d = this.table[rows][columns].getDice();
         } catch (ArrayIndexOutOfBoundsException e) {
-            return d;
+            return null;
         }
         return d;
     }
 
     public List<Dice> getDices() {
-        List<Dice> dices = new ArrayList<Dice>();
+        List<Dice> dices = new ArrayList<>();
 
         for (int i = 0; i < 4; i++)
             for (int j = 0; j < 5; j++)
@@ -176,7 +177,7 @@ public class Schema extends Observable {
     }
 
     public List<Dice> getDicesInRow(int x) {
-        List<Dice> dices = new ArrayList<Dice>();
+        List<Dice> dices = new ArrayList<>();
 
         for (int j = 0; j < 5; j++)
             if (table[x][j].getDice() != null)
@@ -186,7 +187,7 @@ public class Schema extends Observable {
     }
 
     public List<Dice> getDicesInColumn(int y) {
-        List<Dice> dices = new ArrayList<Dice>();
+        List<Dice> dices = new ArrayList<>();
 
         for (int i = 0; i < 4; i++)
             if (table[i][y].getDice() != null)

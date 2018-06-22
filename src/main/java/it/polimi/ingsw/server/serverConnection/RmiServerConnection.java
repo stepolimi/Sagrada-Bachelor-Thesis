@@ -5,132 +5,376 @@ import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameConstants.SET_DICE_SPACE;
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.costants.TimerCostants.SCHEMAS_TIMER_PING;
-import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_PING;
-
 public class RmiServerConnection implements Connection{
-    RmiClientMethodInterface client;
-    RmiServerMethod serverMethod;
+    private RmiClientMethodInterface client;
+    private RmiServerMethod serverMethod;
 
-    public RmiServerConnection(RmiClientMethodInterface client, RmiServerMethod serverMethod) {
+    RmiServerConnection(RmiClientMethodInterface client, RmiServerMethod serverMethod) {
         this.client = client;
         this.serverMethod = serverMethod;
     }
 
-    public void sendMessage(List action) {
+    public void login(String nickname, int lobbySize) {
         try {
-
-            if ((action.get(0)).equals(LOGIN_SUCCESSFUL)) {
-                client.login(action);
-            } else if ((action.get(0)).equals(LOGIN_ERROR)) {
-                client.login(action);
-            } else if (action.get(0).equals(LOGOUT)) {
-                client.playerDisconnected(action);
-            } else if (action.get(0).equals(TIMER_PING)) {
-                client.timerPing(action);
-            } else if (action.get(0).equals(SCHEMAS_TIMER_PING)) {
-                //client.schemasTimerPing(action);
-            } else if (action.get(0).equals(TURN_TIMER_PING)) {
-                //client.turnTimerPing(action);
-            } else if (action.get(0).equals(STARTING_GAME_MSG)) {
-                client.createGame();
-            } else if (action.get(0).equals(SET_PRIVATE_CARD)) {
-                String privateCard = (String) action.get(1);
-                client.setPrivateCard(privateCard);
-            } else if (action.get(0).equals(SET_SCHEMAS)) {
-                client.setSchemas(action);
-            } else if (action.get(0).equals(SET_PUBLIC_OBJECTIVES)) {
-                client.setPublicObjectives(action);
-            } else if (action.get(0).equals(SET_TOOL_CARDS)) {
-                client.setToolCards(action);
-            } else if (action.get(0).equals(APPROVED_SCHEMA)) {
-                client.chooseSchema(action);
-            } else if (action.get(0).equals(SET_OPPONENTS_SCHEMAS)) {
-                client.setOpponentsSchemas(action);
-            } else if (action.get(0).equals(START_TURN)) {
-                client.startTurn(action);
-            } else if (action.get(0).equals(START_ROUND)) {
-                client.startRound();
-            } else if (action.get(0).equals(SET_ACTIONS)) {
-                client.setActions(action);
-            } else if (action.get(0).equals(SET_DICE_SPACE)) {
-                client.setDiceSpace(action);
-            } else if (action.get(0).equals(PLACE_DICE_SPACE)) {
-                client.placeDiceSpace(action);
-            } else if (action.get(0).equals(PICK_DICE_SPACE)) {
-                client.pickDiceSpace(action);
-            } else if (action.get(0).equals(PICK_DICE_SPACE_ERROR)) {
-                client.pickDiceSpaceError();
-            } else if (action.get(0).equals(PICK_DICE_SCHEMA)) {
-                client.pickDiceSchema(action);
-            } else if (action.get(0).equals(PICK_DICE_SCHEMA_ERROR)) {
-                client.pickDiceSchemaError();
-            } else if (action.get(0).equals(PLACE_DICE_SCHEMA)) {
-                client.placeDiceSchema(action);
-            } else if (action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
-                client.placeDiceSchemaError();
-            } else if (action.get(0).equals(PLACE_DICE_ROUND_TRACK)) {
-                client.placeDiceRoundTrack(action);
-            } else if (action.get(0).equals(PICK_DICE_ROUND_TRACK)) {
-                client.pickDiceRoundTrack(action);
-            } else if (action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR)) {
-                client.pickDiceRoundTrackError();
-            } else if (action.get(0).equals(INSERT_DICE_ACCEPTED)) {
-                client.insertDiceAccepted();
-            } else if (action.get(0).equals(DRAFT_DICE_ACCEPTED)) {
-                client.draftDiceAccepted();
-            } else if (action.get(0).equals(MOVE_DICE_ACCEPTED)) {
-                client.moveDiceAccepted();
-            } else if (action.get(0).equals(SWAP_DICE_ACCEPTED)) {
-                client.swapDiceAccepted();
-            } else if (action.get(0).equals(USE_TOOL_CARD_ACCEPTED)) {
-                client.useToolCardAccepted(action);
-            } else if (action.get(0).equals(USE_TOOL_CARD_ERROR)) {
-                client.useToolCardError();
-            } else if (action.get(0).equals(CHANGE_VALUE_ACCEPTED)) {
-                client.changeValueAccepted();
-            } else if (action.get(0).equals(CHANGE_VALUE_ERROR)) {
-                client.changeValueError();
-            } else if (action.get(0).equals(PLACE_DICE_ACCEPTED)) {
-                client.placeDiceAccepted();
-            } else if (action.get(0).equals(ROLL_DICE_ACCEPTED)) {
-                client.rollDiceAccepted(action);
-            } else if (action.get(0).equals(CANCEL_USE_TOOL_CARD_ACCEPTED)) {
-                client.cancelUseToolCardAccepted(action);
-            } else if(action.get(0).equals(FLIP_DICE_ACCEPTED)) {
-                client.flipDiceAccepted(action);
-            }else if(action.get(0).equals(PLACE_DICE_SPACE_ACCEPTED)) {
-                client.placeDiceSpaceAccepted();
-            }else if(action.get(0).equals(ROLL_DICE_SPACE_ACCEPTED)) {
-                client.rollDiceSpaceAccepted(action);
-            }else if(action.get(0).equals(SWAP_DICE_BAG_ACCEPTED)) {
-                client.swapDiceBagAccepted(action);
-            }else if(action.get(0).equals(CHOOSE_VALUE_ACCEPTED)) {
-                client.chooseValueAccepted();
-            }else if(action.get(0).equals(CHOOSE_VALUE_ERROR)) {
-                client.chooseValueError();
-            }else if(action.get(0).equals(APPROVED_SCHEMA_CUSTOM)) {
-                client.schemaCustomAccepted(action);  //invio il nome dello schema
-            }else if(action.get(0).equals(SET_OPPONENTS_CUSTOM_SCHEMAS)) {
-                client.setOpponentsCustomSchemas(action);    //player-json
-            }
-
-
-        }catch(RemoteException e) {
+            client.login(nickname, lobbySize);
+        }catch (RemoteException e){
             serverMethod.disconnected(this.client);
         }
     }
 
+    public void loginError(String cause) {
+        try {
+            client.loginError(cause);
+        }catch (RemoteException e){
+            serverMethod.disconnected(this.client);
+        }
+
+    }
+
+    public void playerDisconnected(String nickname){
+        try {
+            client.playerDisconnected(nickname);
+        }catch (RemoteException e){
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void timerPing(int timeLeft){
+        try {
+            client.timerPing(timeLeft);
+        }catch (RemoteException e){
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void createGame() {
+        try {
+            client.createGame();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setSchemas(List<String> schemas) {
+        try {
+            client.setSchemas(schemas);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setPrivateCard(String privateCard){
+        try {
+            client.setPrivateCard(privateCard);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setPublicObjectives(List<String> publicObjectives){
+        try {
+            client.setPublicObjectives(publicObjectives);
+        } catch (RemoteException e) {
+             serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setToolCards(List<Integer> toolCards) {
+        try {
+            client.setToolCards(toolCards);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void chooseSchema(String schema){
+        try {
+            client.chooseSchema(schema);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setOpponentsSchemas(List<String> opponentsSchemas){
+        try {
+            client.setOpponentsSchemas(opponentsSchemas);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void schemaCustomAccepted(String schema){
+        try {
+            client.schemaCustomAccepted(schema);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setOpponentsCustomSchemas(List<String> opponentsSchemas){
+        try {
+            client.setOpponentsCustomSchemas(opponentsSchemas);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void startRound() {
+        try {
+            client.startRound();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void startTurn(String nickname){
+        try {
+            client.startTurn(nickname);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setActions(List<String> actions){
+        try {
+            client.setActions(actions);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setDiceSpace(List<String> colours, List<Integer> values){
+        try {
+            client.setDiceSpace(colours,values);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void draftDiceAccepted(){
+        try {
+            client.draftDiceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void insertDiceAccepted(){
+        try {
+            client.insertDiceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void moveDiceAccepted(){
+        try {
+            client.moveDiceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceSpace(int index){
+        try {
+            client.pickDiceSpace(index);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceSpaceError() {
+        try {
+            client.pickDiceSpaceError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceSchema(String nickname, int row, int column, String colour, int value){
+        try {
+            client.placeDiceSchema(nickname,row,column,colour,value);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceSchemaError(){
+        try {
+            client.placeDiceSchemaError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceSchema(String nickname, int row, int column){
+        try {
+            client.pickDiceSchema(nickname,row,column);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceSchemaError(){
+        try {
+            client.pickDiceSchemaError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void useToolCardAccepted(int favors) {
+        try {
+            client.useToolCardAccepted(favors);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void useToolCardError() {
+        try {
+            client.useToolCardError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void changeValueAccepted() {
+        try {
+            client.changeValueAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void changeValueError(){
+        try {
+            client.changeValueError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceAccepted(){
+        try {
+            client.placeDiceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void rollDiceAccepted(int value){
+        try {
+            client.rollDiceAccepted(value);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void swapDiceAccepted(){
+        try {
+            client.swapDiceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceRoundTrack(int nRound, int nDice){
+        try {
+            client.pickDiceRoundTrack(nRound,nDice);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void pickDiceRoundTrackError(){
+        try {
+            client.pickDiceRoundTrackError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
+        try {
+            client.placeDiceRoundTrack(nRound,colours,values);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void flipDiceAccepted(int value){
+        try {
+            client.flipDiceAccepted(value);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void cancelUseToolCardAccepted(int favor) {
+        try {
+            client.cancelUseToolCardAccepted(favor);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceSpace(String colour, int value){
+        try {
+            client.placeDiceSpace(colour,value);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void placeDiceSpaceAccepted(){
+        try {
+            client.placeDiceSpaceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void rollDiceSpaceAccepted(){
+        try {
+            client.rollDiceSpaceAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void swapDiceBagAccepted(String colour, int value){
+        try {
+            client.swapDiceBagAccepted(colour,value);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void chooseValueAccepted(){
+        try {
+            client.chooseValueAccepted();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void chooseValueError() {
+        try {
+            client.chooseValueError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+
+
     @Override
     public boolean equals(Object obj) {
-        if(! (obj.getClass().equals(RmiServerConnection.class)) )
+        if (!(obj.getClass().equals(RmiServerConnection.class)))
             return false;
 
         RmiServerConnection cli = (RmiServerConnection) obj;
-       return (this.client.equals(cli.client)) ;
+        return (this.client.equals(cli.client));
     }
 }

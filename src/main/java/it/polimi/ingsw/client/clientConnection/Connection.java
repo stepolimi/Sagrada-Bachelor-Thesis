@@ -7,20 +7,36 @@ public interface Connection {
     void login(String nickname);
 
     void disconnect();
-    void insertDice(int indexDiceSpace,int row,int column);
+
+    void insertDice(int indexDiceSpace, int row, int column);
+
     void sendEndTurn();
+
     void useToolCard(int toolNumber);
+
     void moveDice(int oldRow, int oldColumn, int newRow, int newColumn);
+
     void sendDraft(int indexDiceSpace);
-    void sendPlaceDice(int row,int column);
+
+    void sendPlaceDice(int row, int column);
+
     void changeValue(String change);
+
     void rollDice();
-    void swapDice(int numRound,int indexDice);
+
+    void swapDice(int numRound, int indexDice);
+
     void cancelUseToolCard();
+
     void flipDice();
+
     void placeDiceSpace();
+
     void rollDiceSpace();
+
     void swapDiceBag();
+
     void chooseValue(int chooseValue);
+
     void sendCustomSchema(String schema);
 }

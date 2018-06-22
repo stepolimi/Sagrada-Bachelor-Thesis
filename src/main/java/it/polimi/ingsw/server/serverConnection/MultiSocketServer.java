@@ -12,16 +12,16 @@ public class MultiSocketServer{
     private int port;
     private VirtualView virtual;
     private Connected connection;
-    // ricordarsi di togliere il socket quando viene chiusa la connessione
+    private boolean loop;
 
-    public MultiSocketServer(int port,VirtualView virtual,Connected connection)
-    {
+    public MultiSocketServer(int port,VirtualView virtual,Connected connection) {
         this.port = port;
         this.virtual = virtual;
         this.connection = connection;
+        this.loop = true;
     }
 
-    public void StartServer()
+    public void startServer()
     {
         ExecutorService execute = Executors.newCachedThreadPool();
         ServerSocket serverSocket=null;
@@ -29,28 +29,25 @@ public class MultiSocketServer{
             serverSocket = new ServerSocket(port);
 
             System.out.println("Socket pronto");
-            while(true)
-            {
-                try
-                {
+            while(loop) {
+                try {
                     Socket socket = serverSocket.accept();
                     SocketConnection sock = new SocketConnection(socket,virtual,connection);
                     execute.submit(sock);
 
-                }catch(Exception ex)
-                {
+                }catch(Exception ex) {
                     System.out.println(ex.getMessage());
                 }
             }
-
-        }catch(IOException e)
-        {
+        }catch(IOException e) {
             System.out.println(e.getMessage());
-            return;
         }finally {
             try {
-                serverSocket.close();
-            }catch(IOException ex2){}
+                if(serverSocket!= null)
+                    serverSocket.close();
+            }catch(IOException ex2){
+                System.out.println(ex2.getMessage());
+            }
         }
 
 

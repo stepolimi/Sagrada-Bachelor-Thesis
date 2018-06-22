@@ -1,9 +1,10 @@
 package it.polimi.ingsw.server.model.cards.decks;
 
-import it.polimi.ingsw.server.model.cards.objCards.*;
+import it.polimi.ingsw.server.model.cards.objectiveCards.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static it.polimi.ingsw.server.serverCostants.Constants.DECK_PUBLIC_OBJECTIVES_SIZE;
 
@@ -11,7 +12,7 @@ public class DeckPublicObjective {
     private ArrayList<ObjectiveCard> deckPub;
 
     public DeckPublicObjective() {
-        this.deckPub = new ArrayList<ObjectiveCard>();
+        this.deckPub = new ArrayList<>();
         RowsObj card1 = new RowsObj("Colori diversi_riga", "Righe senza colori ripetuti", 6);
         RowsObj card2 = new RowsObj("Sfumature diverse_riga", "Righe senza sfumature ripetute", 5);
         ColumnsObj card3 = new ColumnsObj("Colori diversi_colonna", "Colonne senza colori ripetuti", 5);
@@ -41,14 +42,15 @@ public class DeckPublicObjective {
     }
 
     public List<ObjectiveCard> extract() {
-        ArrayList<ObjectiveCard> po = new ArrayList<ObjectiveCard>();
-        int random;
+        ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
+        Random random = new Random();
+        int index;
 
         for (int i = 0; i < DECK_PUBLIC_OBJECTIVES_SIZE; i++) {
-            random = (int) (Math.random() * this.deckPub.size());
-            po.add(this.deckPub.get(random));
-            this.deckPub.remove(random);
+            index = random.nextInt(DECK_PUBLIC_OBJECTIVES_SIZE);
+            objectiveCards.add(this.deckPub.get(index));
+            this.deckPub.remove(index);
         }
-        return po;
+        return objectiveCards;
     }
 }

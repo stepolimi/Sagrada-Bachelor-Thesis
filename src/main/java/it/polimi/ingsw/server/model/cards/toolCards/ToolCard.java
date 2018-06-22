@@ -44,12 +44,12 @@ public class ToolCard {
     }
 
     public List<List<String>> getNextActions() {
-        List<List<String>> copy = new ArrayList<List<String>>();
-        for (List<String> list : nextActions) {
-            ArrayList<String> listCopy = new ArrayList<String>();
+        List<List<String>> copy = new ArrayList<>();
+        nextActions.forEach(list -> {
+            ArrayList<String> listCopy = new ArrayList<>();
             copy.add(listCopy);
             listCopy.addAll(list);
-        }
+        });
         return copy;
     }
 

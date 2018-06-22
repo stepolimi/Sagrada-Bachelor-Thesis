@@ -1,40 +1,12 @@
 package it.polimi.ingsw.server.model.cards;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Schema;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 public class PrivateObjective {
     private String name;
     private String description;
     private Colour c;
-
-    public PrivateObjective privateInit(int n) throws IOException {   //constructs the private objective from file
-
-        PrivateObjective sch = new PrivateObjective();
-        final String filePath = new String("/data/privCard/" + n + ".json");  //import every private objective from
-        //json file form /src/main/data/Schema/i.json
-        Gson g = new Gson();
-
-        InputStream is = PrivateObjective.class.getResourceAsStream(filePath);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        try {
-            String sc;
-            sc = reader.readLine();
-
-            sch = g.fromJson(sc, PrivateObjective.class);
-        } catch (IOException e) {
-            System.out.println(e);
-        } finally {
-            reader.close();
-        }
-        return sch;
-    }
 
     public int scoreCard(Schema sch) {
         int score = 0;

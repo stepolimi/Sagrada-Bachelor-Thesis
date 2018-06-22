@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.model.cards.objCards;
+package it.polimi.ingsw.server.model.cards.objectiveCards;
 
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -53,7 +53,7 @@ public class DiagonalObj extends ObjectiveCard {
     @Override
     public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n";
+        src = src + "|" + this.name + "\n" + "|" + this.description + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 

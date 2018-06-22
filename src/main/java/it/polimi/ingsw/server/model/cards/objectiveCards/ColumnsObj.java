@@ -1,4 +1,5 @@
-package it.polimi.ingsw.server.model.cards.objCards;
+package it.polimi.ingsw.server.model.cards.objectiveCards;
+
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
@@ -7,12 +8,13 @@ import java.util.List;
 import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
 
-public class RowsObj extends ObjectiveCard {
+public class ColumnsObj extends ObjectiveCard {
+
     private String name;
     private String description;
     private int points;
 
-    public RowsObj(String name, String description, int points) {
+    public ColumnsObj(String name, String description, int points) {
         this.name = name;
         this.description = description;
         this.points = points;
@@ -23,18 +25,19 @@ public class RowsObj extends ObjectiveCard {
         int score = 0;
         List<Dice> container;
 
-        for (int i = 0; i < ROWS_SCHEMA; i++) {
-            container = sch.getDicesInRow(i);
-            if (points == 6 && noColourDuplicates(container) && container.size() == COLUMNS_SCHEMA)
+        for (int j = 0; j < COLUMNS_SCHEMA; j++) {
+            container = sch.getDicesInColumn(j);
+            if (points == 5 && noColourDuplicates(container) && container.size() == ROWS_SCHEMA)
                 score += this.points;
 
-            else if (points == 5 && noNumberDuplicates(container) && container.size() == COLUMNS_SCHEMA)
+            else if (points == 4 && noNumberDuplicates(container) && container.size() == ROWS_SCHEMA)
                 score += this.points;
         }
 
-        System.out.println("row objective score: " + score);
+        System.out.println("column objective score: " + score);
         return score;
     }
+
 
     private boolean noColourDuplicates(List<Dice> container) {
         for (int i = 0; i < container.size() - 1; i++)
@@ -60,7 +63,7 @@ public class RowsObj extends ObjectiveCard {
     @Override
     public String toString() {
         String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
+        src = src + "|" + this.name + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.points + "\n";
         src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
         return src;
 
@@ -71,4 +74,3 @@ public class RowsObj extends ObjectiveCard {
     }
 
 }
-

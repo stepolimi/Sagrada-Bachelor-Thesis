@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.board.SchemaBuilder;
+import it.polimi.ingsw.server.builders.SchemaBuilder;
 
 import java.io.*;
 

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 
@@ -20,7 +21,7 @@ public class Player extends Observable {
     private int score;
     private boolean myTurn;
     private Observer obs;
-    private List<Schema> schemas = new ArrayList<Schema>();
+    private List<Schema> schemas = new ArrayList<>();
 
 
     public Player(String nickname) {
@@ -133,10 +134,9 @@ public class Player extends Observable {
     }
 
     public List<String> getNameSchemas() {
-        List<String> nameSchemas = new ArrayList<String>();
-        for (Schema s : schemas)
-            nameSchemas.add(s.getName());
-        return nameSchemas;
+        return schemas.stream()
+                .map((Schema::getName))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -153,18 +153,31 @@ public class Player extends Observable {
     }
 
     public void notifyChanges(String string) {
-        List<String> action = new ArrayList<String>();
-        action.add(string);
-        action.add(nickname);
-        if (string.equals(SET_SCHEMAS))
-            for (Schema s : schemas)
-                action.add(s.getName());
-        else if (string.equals(SET_PRIVATE_CARD))
-            action.add(prCard.getColour());
-        else if (string.equals(APPROVED_SCHEMA) || string.equals(APPROVED_SCHEMA_CUSTOM))
-            action.add(schema.getName());
-        else if (string.equals("setScore"))
-            action.add(((Integer) score).toString());
+        List<String> action = new ArrayList<>();
+
+        switch (string) {
+            case SET_SCHEMAS:
+                action = schemas.stream()
+                        .map(Schema::getName)
+                        .collect(Collectors.toList());
+                break;
+            case SET_PRIVATE_CARD:
+                action.add(prCard.getColour());
+                break;
+            case APPROVED_SCHEMA:
+                action.add(schema.getName());
+                break;
+            case APPROVED_SCHEMA_CUSTOM:
+                action.add(schema.getName());
+                break;
+            case "setScore":
+                action.add(((Integer) score).toString());
+                break;
+            default:
+                break;
+        }
+        action.add(0,string);
+        action.add(1,nickname);
         setChanged();
         notifyObservers(action);
     }

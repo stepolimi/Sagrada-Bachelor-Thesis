@@ -1,6 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import it.polimi.ingsw.server.model.cards.objCards.SetObj;
+import it.polimi.ingsw.server.model.cards.objectiveCards.SetObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete

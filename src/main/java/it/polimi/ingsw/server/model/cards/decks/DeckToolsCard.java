@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.model.cards.toolCards.ToolCardBuilder.buildToolCard;
+import static it.polimi.ingsw.server.builders.ToolCardBuilder.buildToolCard;
 import static it.polimi.ingsw.server.serverCostants.Constants.DECK_TOOL_CARDS_SIZE;
 import static it.polimi.ingsw.server.serverCostants.Constants.NUM_TOOL_CARDS;
 
@@ -16,8 +16,8 @@ public class DeckToolsCard {
     private List<Integer> toolCardsAvailable;
 
     public DeckToolsCard() {
-        this.toolCards = new ArrayList<ToolCard>();
-        this.toolCardsAvailable = new ArrayList<Integer>();
+        this.toolCards = new ArrayList<>();
+        this.toolCardsAvailable = new ArrayList<>();
         this.extract();
     }
 

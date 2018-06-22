@@ -11,7 +11,6 @@ import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
 import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
 import static it.polimi.ingsw.costants.LoginMessages.DISCONNECTED;
 import static it.polimi.ingsw.costants.LoginMessages.LOGIN;
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
 import static it.polimi.ingsw.server.serverCostants.Constants.DRAFT_DICE;
 import static it.polimi.ingsw.server.serverCostants.Constants.USE_TOOL_CARD;
 
@@ -26,7 +25,6 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public boolean login(RmiClientMethodInterface client,String name) {
-        // controllerò se non ci sono username uguali
         RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
         action.add(LOGIN);
@@ -37,50 +35,12 @@ public class RmiServerMethod implements RmiServerMethodInterface {
             virtual.forwardAction(action);
         }else {
             try {
-                action.clear();
-                action.add(LOGIN_ERROR);
-                action.add("username");
-                client.login(action);
+                client.loginError("username");
             } catch (RemoteException e) {
                 System.out.println(e.getMessage());
             }
         }
         return true;
-    }
-
-    /*public void publish(String str) throws RemoteException {
-        if(!clients.isEmpty())
-        {
-            for(RmiClientMethodInterface RmiServerConnection:clients.keySet()) {
-                try{
-                    RmiServerConnection.updateText(str);
-                    RmiServerConnection.printText(str);
-                }catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
-            }
-        }
-    }
-
-
-    public HashMap<RmiClientMethodInterface,String> getClients()
-    {
-        return this.clients;
-    }
-*/
-    public void forwardAction(List action,RmiClientMethodInterface client) {
-        virtual.forwardAction(action);
-    }
-
-    public void forwardAction(String str,RmiClientMethodInterface client) {
-        if(clients.containsKey(client)) {
-            ArrayList action = new ArrayList();
-            StringTokenizer token = new StringTokenizer(str);
-            while (token.hasMoreTokens())
-                action.add(token.nextToken());
-
-            virtual.forwardAction(action);
-        }
     }
 
     public void disconnected(RmiClientMethodInterface client) {
@@ -92,6 +52,14 @@ public class RmiServerMethod implements RmiServerMethodInterface {
             action.add(name);
             virtual.forwardAction(action);
         }
+    }
+
+    public void sendSchema(String schema, String name) {
+        List action = new ArrayList();
+        action.add(CHOOSE_SCHEMA);
+        action.add(name);
+        action.add(schema);
+        virtual.forwardAction(action);
     }
 
     public void insertDice(int indexDiceSpace, int row, int column) {

@@ -1,19 +1,19 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.board.SetSchemas;
+import it.polimi.ingsw.server.model.board.DeckSchemas;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SetSchemasTest {
-    SetSchemas set = new SetSchemas(3);
+public class DeckSchemasTest {
+    DeckSchemas set = new DeckSchemas(3);
 
     public List<Schema> schemasList() {
         List<Schema> schemas = new ArrayList<Schema>();

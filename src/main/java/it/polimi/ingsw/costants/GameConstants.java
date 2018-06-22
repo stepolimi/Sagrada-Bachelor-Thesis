@@ -2,7 +2,6 @@ package it.polimi.ingsw.costants;
 
 //messages in-game between server and client
 
-import java.util.logging.Logger;
 
 public class GameConstants {
     private GameConstants() {}
@@ -14,7 +13,7 @@ public class GameConstants {
     public static final String PICK_DICE_SCHEMA_ERROR = "pickDiceSchemaError";
     public static final String PLACE_DICE_SCHEMA = "placeDiceSchema";
     public static final String PLACE_DICE_SCHEMA_ERROR = "placeDiceSchemaError";
-    public static final String PLACE_DICE_SPACE = "placeDiceSpace";
+    public static final String PLACE_DICE_DICESPACE = "placeDiceSpace";
     public static final String PICK_DICE_SPACE = "pickDiceSpace";
     public static final String PICK_DICE_SPACE_ERROR = "pickDiceSpaceError";
     public static final String PLACE_DICE_ROUND_TRACK = "placeDiceRoundTrack";
@@ -42,6 +41,7 @@ public class GameConstants {
 
     public static final String MOVE_DICE = "MoveDice";
     public static final String PLACE_DICE = "PlaceDice";
+    public static final String PLACE_DICE_SPACE = "PlaceDiceSpace";
     public static final String CHANGE_VALUE = "ChangeValue";
     public static final String ROLL_DICE = "RollDice";
     public static final String SWAP_DICE = "SwapDice";
@@ -51,6 +51,7 @@ public class GameConstants {
     public static final String SWAP_DICE_BAG = "SwapDiceBag";
     public static final String CHOOSE_VALUE = "ChooseValue";
     public static final String CUSTOM_SCHEMA = "CustomSchema";
+    public static final String CHOOSE_SCHEMA = "ChooseSchema";
 
     public static final int PAINT_ROW=9;
 

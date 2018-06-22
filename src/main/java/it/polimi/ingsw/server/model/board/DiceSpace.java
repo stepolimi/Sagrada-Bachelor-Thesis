@@ -12,13 +12,13 @@ public class DiceSpace extends Observable {
     private List<Dice> dices;
 
     public void setDices(List<Dice> dices) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList();
         this.dices = dices;
         action.add(SET_DICE_SPACE);
-        for (Dice d : dices) {
+        dices.forEach(d -> {
             action.add(d.getColour().toString());
-            action.add(((Integer) d.getValue()).toString());
-        }
+            action.add(d.getValue());
+        });
         setChanged();
         notifyObservers(action);
     }
@@ -28,17 +28,17 @@ public class DiceSpace extends Observable {
     }
 
     public void insertDice(Dice d) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList();
         this.dices.add(d);
-        action.add(PLACE_DICE_SPACE);
+        action.add(PLACE_DICE_DICESPACE);
         action.add(d.getColour().toString());
-        action.add(((Integer) d.getValue()).toString());
+        action.add(d.getValue());
         setChanged();
         notifyObservers(action);
     }
 
     public Dice getDice(int index, String player) throws RemoveDiceException {
-        List<String> action = new ArrayList<String>();
+        List<String> action = new ArrayList<>();
         if (index < dices.size() && index >= 0) {
             return dices.get(index);
         }
@@ -50,13 +50,13 @@ public class DiceSpace extends Observable {
     }
 
     public Dice removeDice(int index) throws RemoveDiceException {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList();
         if (index < dices.size() && index >= 0)
         {
             Dice d = dices.get(index);
             dices.remove(index);
             action.add(PICK_DICE_SPACE);
-            action.add(((Integer) index).toString());
+            action.add(index);
             setChanged();
             notifyObservers(action);
             return d;
@@ -65,14 +65,13 @@ public class DiceSpace extends Observable {
     }
 
     public void rollDices() {
-        List<String> action = new ArrayList<String>();
-        for (Dice dice : dices)
-            dice.rollDice();
+        List action = new ArrayList();
+        dices.forEach(Dice::rollDice);
         action.add(SET_DICE_SPACE);
-        for (Dice d : dices) {
+        dices.forEach(d ->{
             action.add(d.getColour().toString());
-            action.add(((Integer) d.getValue()).toString());
-        }
+            action.add(d.getValue());
+        });
         setChanged();
         notifyObservers(action);
     }

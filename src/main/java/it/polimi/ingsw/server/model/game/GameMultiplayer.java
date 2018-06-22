@@ -2,11 +2,10 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.costants.TimerCostants;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.board.SetSchemas;
+import it.polimi.ingsw.server.model.board.DeckSchemas;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
-import it.polimi.ingsw.server.model.cards.objCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.game.states.RoundManager;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
@@ -30,7 +29,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private Long startingTime = 0L;
 
     public GameMultiplayer(List<Player> players) {
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         this.players.addAll(players);
         this.board = new Board(players);
         this.roundManager = new RoundManager(board);
@@ -51,16 +50,15 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         board.setDeckTool(deckTools.getToolCards());
 
         //set a private objective and a set of 4 Schemas for each player
-        DeckPrivateObjective deckPriv = new DeckPrivateObjective();
-        SetSchemas deckSchemas = new SetSchemas(players.size());
-        for (Player p : players) {
+        DeckPrivateObjective deckPriv = new DeckPrivateObjective(players.size());
+        DeckSchemas deckSchemas = new DeckSchemas(players.size());
+        players.forEach(p -> {
             p.setObserver(obs);
             p.addObserver(obs);
-            p.setPrCard(deckPriv.extract());
-            p.setSchemas(deckSchemas.deliver(getBoard().getIndex(p)));
+            p.setPrCard(deckPriv.extract(board.getIndex(p)));
+            p.setSchemas(deckSchemas.deliver(board.getIndex(p)));
             board.addPrivate(p.getPrCard());
-        }
-
+        });
         startingTime = System.currentTimeMillis();
         schemaTimer = new GameTimer(SCHEMA_TIMER_VALUE, this);
         timer = new Timer();
@@ -69,42 +67,35 @@ public class GameMultiplayer extends Observable implements TimedComponent {
 
     public void endGame() {
         System.out.println("calcolo punteggio");
-        Player winner = null;
+        Optional<Player> winner;
 
         calculateScores();
+        winner = players.stream()
+                .filter(Player::isConnected)
+                .reduce((player1,player2) -> player1.getScore() >= player2.getScore() ? player1 : player2);
 
-        for (Player player : board.getPlayerList()) {
-            if (player.isConnected()) {
-                if (winner == null)
-                    winner = player;
-                else {
-                    if (player.getScore() > winner.getScore())
-                        winner = player;
-                }
-            }
-        }
+        winner.ifPresent(player -> System.out.println("the winner is: " + winner.get().getNickname()) );
 
-        System.out.println("the winner is: " + winner.getNickname());
 
     }
 
     private void calculateScores() {
-        for (Player player : board.getPlayerList()) {
-            if (player.isConnected()) {
-                int score;
-                Schema schema = player.getSchema();
+        players.stream()
+                .filter(Player::isConnected)
+                .forEach(player -> {
+                    int score;
+                    Schema schema = player.getSchema();
+                    score = board.getDeckPublic()
+                            .stream()
+                            .mapToInt(card -> card.scoreCard(schema))
+                            .sum();
+                    score += player.getPrCard().scoreCard(schema);
+                    score -= MAX_SCHEMA_DICES - schema.getSize();
+                    score += player.getFavour();
 
-                score = player.getPrCard().scoreCard(schema);
-                for (ObjectiveCard objective : board.getDeckPublic())
-                    score += objective.scoreCard(schema);
-                score -= MAX_SCHEMA_DICES - schema.getSize();
-                score += player.getFavour();
-
-                player.setScore(score);
-                System.out.println("score of " + player.getNickname() + " is " + score);
-            }
-
-        }
+                    player.setScore(score);
+                    System.out.println("score of " + player.getNickname() + " is " + score);
+                });
     }
 
     public void reconnectPlayer(Player player) {
@@ -130,22 +121,22 @@ public class GameMultiplayer extends Observable implements TimedComponent {
 
     public void timerElapsed() {
         System.out.println("Choosing schema timer elapsed\n" + "---");
-        for (Player p : players) {
-            if (p.getSchema() == null) {
-                p.setSchema(p.getSchemas().get(0).getName());
-                board.addDefaultSchema(p.getSchema());
-            }
-        }
+        players.stream()
+                .filter(p -> p.getSchema() == null)
+                .forEach(p -> {
+                    p.setSchema(p.getSchemas().get(0).getName());
+                    board.addDefaultSchema(p.getSchema());
+                });
         roundManager.setFirstPlayer();
         roundManager.startNewRound();
     }
 
     public void notifyChanges(String string) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
 
         if (string.equals(TIMER_PING)) {
             action.add(SCHEMAS_TIMER_PING);
-            action.add(((Long) (TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000)).toString());
+            action.add((int)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
             setChanged();
             notifyObservers(action);
         }

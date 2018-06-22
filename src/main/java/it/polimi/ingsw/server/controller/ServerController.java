@@ -13,12 +13,9 @@ import java.util.Observer;
 
 import static it.polimi.ingsw.costants.GameConstants.*;
 import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
-import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
 import static it.polimi.ingsw.costants.LoginMessages.DISCONNECTED;
 import static it.polimi.ingsw.costants.LoginMessages.LOGIN;
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
-import static it.polimi.ingsw.server.serverCostants.Constants.DRAFT_DICE;
-import static it.polimi.ingsw.server.serverCostants.Constants.USE_TOOL_CARD;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 
 public class ServerController implements Observer{
     private Session session;
@@ -35,29 +32,29 @@ public class ServerController implements Observer{
     public void update(Observable os, Object action) {
         String head = (String) ((List)action).get(0);
 
-        if(head.equals(LOGIN)) {loginManager((List)action); }
-        else if(head.equals(DISCONNECTED)) { logoutManager((List)action); }
-        else if(head.equals("ChooseSchema")) {chooseSchemaManager((List)action); }
-        else if(head.equals(CUSTOM_SCHEMA)) {customSchemaManager((List)action); }
-        else if(head.equals(PICK_DICE)) { insertDiceManager((List)action); }
-        else if(head.equals(SWAP_DICE)) { swapDiceManager((List)action); }
-        else if(head.equals(MOVE_DICE)) { moveDiceManager((List)action); }
-        else if(head.equals(DRAFT_DICE)) { draftDiceManager((List)action); }
-        else if(head.equals(PLACE_DICE)) {placeDiceManager((List)action); }
-        else if(head.equals(USE_TOOL_CARD)) {useCardManager((List)action); }
-        else if(head.equals(END_TURN)) {endTurnManager((List)action); }
-        else if(head.equals(CHANGE_VALUE)) {changeValueManager((List)action); }
-        else if(head.equals(ROLL_DICE)) {rollDiceManager((List)action); }
-        else if(head.equals(CANCEL_USE_TOOL_CARD)) {rollDiceManager((List)action); }
-        else if(head.equals(FLIP_DICE)) {rollDiceManager((List)action); }
-        else if(head.equals(PLACE_DICE_SPACE)) {rollDiceManager((List)action); }
-        else if(head.equals(ROLL_DICE_SPACE)) {rollDiceManager((List)action); }
-        else if(head.equals(SWAP_DICE_BAG)) {rollDiceManager((List)action); }
-        else if(head.equals(CHOOSE_VALUE)) {rollDiceManager((List)action); }
-        else{
-            view.sendError((String)((List)action).get(1));
+        switch (head) {
+            case LOGIN:
+                loginManager((List) action);
+                break;
+            case DISCONNECTED:
+                logoutManager((List) action);
+                break;
+            case CHOOSE_SCHEMA:
+                chooseSchemaManager((List) action);
+                break;
+            case CUSTOM_SCHEMA:
+                customSchemaManager((List) action);
+                break;
+            case END_TURN:
+                endTurnManager((List) action);
+                break;
+            default:
+                if(session.getGame()!= null)
+                    changeStateManager((List) action);
+                else
+                    view.sendError((String)((List)action).get(1));
+                break;
         }
-
     }
 
     private void loginManager(List action){
@@ -80,15 +77,11 @@ public class ServerController implements Observer{
             }
         }
         if(game.getBoard().getDeckSchemas().size() == game.getBoard().getPlayerList().size()) {
-            game.getTimer().cancel();
-            roundManager.setFirstPlayer();
-            roundManager.startNewRound();
-            round = roundManager.getRound();
+            startGame();
         }
     }
 
     private void customSchemaManager(List action){
-        System.out.println("qui");
         game = session.getGame();
         roundManager = game.getRoundManager();
         for(Player p: game.getPlayers()){
@@ -98,78 +91,18 @@ public class ServerController implements Observer{
             }
         }
         if(game.getBoard().getDeckSchemas().size() == game.getBoard().getPlayerList().size()) {
-            game.getTimer().cancel();
-            roundManager.setFirstPlayer();
-            roundManager.startNewRound();
-            round = roundManager.getRound();
+            startGame();
         }
     }
 
-    private void insertDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
+    private void startGame(){
+        game.getTimer().cancel();
+        roundManager.setFirstPlayer();
+        roundManager.startNewRound();
         round = roundManager.getRound();
-        round.execute(action);
     }
 
-    private void changeValueManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-
-    private void moveDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-
-    private void draftDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-
-    private void swapDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-
-    private void placeDiceManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-
-
-
-    private void useCardManager(List action){
-        if(game == null) {
-            game = session.getGame();
-            roundManager = game.getRoundManager();
-        }
-        round = roundManager.getRound();
-        round.execute(action);
-    }
-    private void rollDiceManager(List action){
+    private void changeStateManager(List action){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();

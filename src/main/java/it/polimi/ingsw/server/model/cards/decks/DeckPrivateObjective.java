@@ -2,36 +2,42 @@ package it.polimi.ingsw.server.model.cards.decks;
 
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.serverCostants.Constants.NUM_PRIVATE_OBJECTIVES;
 
 public class DeckPrivateObjective {
     private ArrayList<PrivateObjective> privateObjectives;
+    private List<Integer> privateObjectivesAvailable;
 
 
-    public DeckPrivateObjective() {
-        privateObjectives = new ArrayList<PrivateObjective>();
+    public DeckPrivateObjective(int nPlayers) {
+        privateObjectives = new ArrayList<>();
+        privateObjectivesAvailable = new ArrayList<>();
+        createPrivateObjectives(nPlayers);
+    }
 
-        for (int i = 1; i < 6; i++) {
-            try {
-                privateObjectives.add(new PrivateObjective().privateInit(i));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    private void createPrivateObjectives(int nPlayers){
+        Random rand = new Random();
+
+        for (int i = 1; i <= NUM_PRIVATE_OBJECTIVES; i++)
+            privateObjectivesAvailable.add(i);
+        for (int i = 0; i < nPlayers; i++) {
+            int index = rand.nextInt(privateObjectivesAvailable.size());
+            privateObjectives.add(buildPrivateObjective(privateObjectivesAvailable.get(index)));
+            privateObjectivesAvailable.remove(index);
         }
+    }
+
+    public PrivateObjective extract(int playerIndex) {
+        return privateObjectives.get(playerIndex);
     }
 
     public List<PrivateObjective> getDeckPrivate() {
         return privateObjectives;
     }
 
-    public PrivateObjective extract() {
-        PrivateObjective po;
-        int random;
-        random = (int) (Math.random() * privateObjectives.size());
-        po = this.privateObjectives.get(random);
-        privateObjectives.remove(random);
-        return po;
-    }
 }

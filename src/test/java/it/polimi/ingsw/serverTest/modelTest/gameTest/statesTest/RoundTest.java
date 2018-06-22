@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.model.board.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoundTest {

@@ -2,9 +2,8 @@
 
 package it.polimi.ingsw.server.model.board;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.exception.UseToolException;
-import it.polimi.ingsw.server.model.cards.objCards.ObjectiveCard;
+import it.polimi.ingsw.server.model.cards.objectiveCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.costants.GameCreationMessages.*;
 
@@ -32,12 +32,12 @@ public class Board extends Observable {
         this.playerList = p;
         dicebag = new DiceBag();
         roundTrack = new RoundTrack();
-        deckSchemas = new ArrayList<Schema>();
-        deckDefaultSchemas = new ArrayList<Schema>();
-        deckCustomSchemas = new ArrayList<Schema>();
-        deckPrivate = new ArrayList<PrivateObjective>();
-        deckPublic = new ArrayList<ObjectiveCard>();
-        deckTool = new ArrayList<ToolCard>();
+        deckSchemas = new ArrayList<>();
+        deckDefaultSchemas = new ArrayList<>();
+        deckCustomSchemas = new ArrayList<>();
+        deckPrivate = new ArrayList<>();
+        deckPublic = new ArrayList<>();
+        deckTool = new ArrayList<>();
 
     }
 
@@ -114,7 +114,6 @@ public class Board extends Observable {
     public void addDefaultSchema(Schema schema) {
         this.deckSchemas.add(schema);
         this.deckDefaultSchemas.add(schema);
-        System.out.println("aggiunto");
         if (deckSchemas.size() == playerList.size()) {
             notifyChanges(SET_OPPONENTS_SCHEMAS);
             notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS);
@@ -124,7 +123,6 @@ public class Board extends Observable {
     public void addCustomSchema(Schema schema) {
         this.deckSchemas.add(schema);
         this.deckCustomSchemas.add(schema);
-        System.out.println("aggiunto custom");
         if (deckSchemas.size() == playerList.size()) {
             notifyChanges(SET_OPPONENTS_SCHEMAS);
             notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS);
@@ -155,27 +153,38 @@ public class Board extends Observable {
     }
 
     public void notifyChanges(String string) {
-        List<String> action = new ArrayList<String>();
-        action.add(string);
-        if (string.equals(SET_PUBLIC_OBJECTIVES))
-            for (ObjectiveCard o : deckPublic)
-                action.add(o.getName());
-        else if (string.equals(SET_TOOL_CARDS))
-            for (ToolCard tool : deckTool)
-                action.add(((Integer) tool.getNumber()).toString());
-        else if (string.equals(SET_OPPONENTS_SCHEMAS)) {
-            for (Player p : playerList)
-                if(deckDefaultSchemas.contains(p.getSchema())) {
-                    action.add(p.getNickname());
-                    action.add(p.getSchema().getName());
+        List action = new ArrayList();
+
+        switch (string) {
+            case SET_PUBLIC_OBJECTIVES:
+                action = deckPublic.stream()
+                        .map(ObjectiveCard::getName)
+                        .collect(Collectors.toList());
+                break;
+            case SET_TOOL_CARDS:
+                action = deckTool.stream()
+                        .map(ToolCard::getNumber)
+                        .collect(Collectors.toList());
+                break;
+            case SET_OPPONENTS_SCHEMAS:
+                for (Player p : playerList)
+                    if (deckDefaultSchemas.contains(p.getSchema())) {
+                        action.add(p.getNickname());
+                        action.add(p.getSchema().getName());
+                    }
+                break;
+            case SET_OPPONENTS_CUSTOM_SCHEMAS:
+                for (Player p : playerList) {
+                    if (deckCustomSchemas.contains(p.getSchema())) {
+                        action.add(p.getNickname());
+                        action.add(p.getSchema().getJson());
+                    }
                 }
-        }else if(string.equals(SET_OPPONENTS_CUSTOM_SCHEMAS)){
-            for (Player p : playerList)
-                if(deckCustomSchemas.contains(p.getSchema())) {
-                    action.add(p.getNickname());
-                    action.add(p.getSchema().getJson());
-                }
+                break;
+            default:
+                break;
         }
+        action.add(0,string);
         setChanged();
         notifyObservers(action);
     }

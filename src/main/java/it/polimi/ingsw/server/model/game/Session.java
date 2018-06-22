@@ -25,11 +25,11 @@ public  class Session extends Observable implements TimedComponent {
 
     public void setObserver (Observer obs){ this.obs = obs; }
 
-    public void joinPlayer(String player) {
+    public synchronized void joinPlayer(String player) {
         this.player = player;
         if(game == null) {
             if (lobby == null) {
-                lobby = new ArrayList<Player>();
+                lobby = new ArrayList<>();
             }else
                 for(Player p: lobby) {
                     if (p.getNickname().equals(player)) {
@@ -65,7 +65,7 @@ public  class Session extends Observable implements TimedComponent {
         }
     }
 
-    public void removePlayer(String player){
+    public synchronized void removePlayer(String player){
         this.player = player;
         if(game == null) {
             for(int i=0; i<lobby.size(); i++)
@@ -94,13 +94,15 @@ public  class Session extends Observable implements TimedComponent {
 
     public GameMultiplayer getGame() { return game; }
 
-    private void startGame(){
-        System.out.println("starting game\n" + " ---");
-        game = new GameMultiplayer(lobby);
-        game.setObserver(obs);
-        game.addObserver(obs);
-        game.gameInit();
-        System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
+    private synchronized void startGame(){
+        if(game == null) {
+            System.out.println("starting game\n" + " ---");
+            game = new GameMultiplayer(lobby);
+            game.setObserver(obs);
+            game.addObserver(obs);
+            game.gameInit();
+            System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
+        }
     }
 
     public void timerElapsed() {
@@ -109,14 +111,13 @@ public  class Session extends Observable implements TimedComponent {
 
     }
     public void notifyChanges(String string){
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList();
 
         if(string.equals(TIMER_ELAPSED) || string.equals(LOBBY_FULL)) {
             action.add(STARTING_GAME_MSG);
-            action.add("partita creata");
         }else if(string.equals(TIMER_PING)){
             action.add(TIMER_PING);
-            action.add(((Long)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000)).toString());
+            action.add((int)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000));
         }else if(string.equals(LOGIN_ERROR)){
             action.add(string);
             action.add(player);
@@ -127,7 +128,7 @@ public  class Session extends Observable implements TimedComponent {
         }else if(string.equals(LOGIN_SUCCESSFUL)){
             action.add(string);
             action.add(player);
-            action.add(((Integer)lobby.size()).toString());
+            action.add(lobby.size());
         }else if(string.equals(WELCOME_BACK)){
             action.add(string);
             action.add(player);

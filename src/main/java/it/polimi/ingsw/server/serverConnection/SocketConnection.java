@@ -11,18 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
+import static it.polimi.ingsw.costants.GameConstants.*;
+import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.costants.LoginMessages.*;
 
 public class SocketConnection implements Runnable,Connection {
-    Socket s;
-    VirtualView virtual;
-   // Scanner in;
-    PrintWriter out;
-    Connected connection;
-    ArrayList action= new ArrayList();
-    BufferedReader in;
+    private Socket s;
+    private VirtualView virtual;
+    private PrintWriter out;
+    private Connected connection;
+    private ArrayList action= new ArrayList();
+    private BufferedReader in;
 
-    public SocketConnection(Socket s,VirtualView virtual,Connected connection) {
+    SocketConnection(Socket s,VirtualView virtual,Connected connection) {
         this.s = s;
         this.virtual = virtual;
         this.connection = connection;
@@ -38,16 +39,15 @@ public class SocketConnection implements Runnable,Connection {
                 StringTokenizer token = new StringTokenizer(str, "-");
                 while(token.hasMoreTokens())
                     action.add(token.nextToken());
-                if(action.get(0).equals("Disconnected")) {
+                if(action.get(0).equals(DISCONNECTED)) {
                     this.logout();
-                }else if(action.get(0).equals("Login")) {
+                }else if(action.get(0).equals(LOGIN)) {
                     this.login((String) action.get(1));
                 }else{
                     forwardAction(action);
                 }
             }
-        }catch(IOException e)
-        {
+        }catch(IOException e) {
            this.logout();
         }
     }
@@ -58,10 +58,7 @@ public class SocketConnection implements Runnable,Connection {
             connection.getUsers().put(this,str);
             forwardAction(action);
         }else{
-            action.clear();
-            action.add(LOGIN_ERROR);
-            action.add("username");
-            sendMessage(action);
+            loginError("username");
         }
     }
 
@@ -72,7 +69,7 @@ public class SocketConnection implements Runnable,Connection {
             s.close();
             String name = connection.remove(this);
             action.clear();
-            action.add("Disconnected");
+            action.add(DISCONNECTED);
             action.add(name);
             if(name != null)
                 forwardAction(action);
@@ -81,18 +78,255 @@ public class SocketConnection implements Runnable,Connection {
         }
     }
 
+    public void login(String nickname, int lobbySize) {
+        out.println(LOGIN_SUCCESSFUL + "-" +nickname + "-" + lobbySize);
+        out.flush();
+    }
 
-    public void sendMessage(List action) {
-        String message = new String();
-        for(Object o: action){
-            if(message.length() == 0)
-                message = message + o;
-            else
-                message = message + "-" + o;
+    public void loginError(String cause) {
+        out.println(LOGIN_ERROR + "-" + cause);
+        out.flush();
+    }
+
+    public void playerDisconnected(String nickname){
+        out.println(LOGOUT + "-" + nickname);
+        out.flush();
+    }
+
+    public void timerPing(int timeLeft){
+        out.println(TIMER_PING + "-" + timeLeft);
+        out.flush();
+    }
+
+    public void createGame() {
+        out.println(STARTING_GAME_MSG);
+        out.flush();
+    }
+
+    public void setSchemas(List<String> schemas) {
+        String message = SET_SCHEMAS;
+        for(String schema: schemas)
+            message += "-"+schema;
+        out.println(message);
+        out.flush();
+    }
+
+    public void setPrivateCard(String privateCard){
+        out.println(SET_PRIVATE_CARD +"-" + privateCard);
+        out.flush();
+    }
+
+    public void setPublicObjectives(List<String> publicObjectives){
+        String message = SET_PUBLIC_OBJECTIVES;
+        for(String publicObjective: publicObjectives)
+            message += "-"+publicObjective;
+        out.println(message);
+        out.flush();
+    }
+
+    public void setToolCards(List<Integer> toolCards) {
+        String message = SET_TOOL_CARDS;
+        for(Integer toolCard: toolCards)
+            message += "-"+toolCard;
+        out.println(message);
+        out.flush();
+    }
+
+    public void chooseSchema(String schema){
+        out.println(APPROVED_SCHEMA +"-" + schema);
+        out.flush();
+    }
+
+    public void setOpponentsSchemas(List<String> opponentsSchemas){
+        String message = SET_OPPONENTS_SCHEMAS;
+        for(String s: opponentsSchemas)
+            message += "-"+ s;
+        out.println(message);
+        out.flush();
+    }
+
+    public void schemaCustomAccepted(String schema){
+        out.println(APPROVED_SCHEMA_CUSTOM +"-" + schema);
+        out.flush();
+    }
+
+    public void setOpponentsCustomSchemas(List<String> opponentsSchemas){
+        String message = SET_OPPONENTS_CUSTOM_SCHEMAS;
+        for(String s: opponentsSchemas)
+            message += "-"+ s;
+        out.println(message);
+        out.flush();
+    }
+
+    public void startRound() {
+        out.println(START_ROUND);
+        out.flush();
+    }
+
+    public void startTurn(String nickname){
+        out.println(START_TURN + "-" + nickname);
+        out.flush();
+    }
+
+    public void setActions(List<String> actions){
+        String message = SET_ACTIONS;
+        for(String action: actions)
+            message += "-"+ action;
+        out.println(message);
+        out.flush();
+    }
+
+    public void setDiceSpace(List<String> colours, List<Integer> values){
+        String message = SET_DICE_SPACE;
+        for(int i= 0; i<colours.size(); i++){
+            message+="-" + colours.get(i);
+            message+="-" + values.get(i);
         }
         out.println(message);
         out.flush();
     }
 
-    public void forwardAction(ArrayList action) { virtual.forwardAction(action); }
+    public void draftDiceAccepted(){
+        out.println(DRAFT_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void insertDiceAccepted(){
+        out.println(INSERT_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void moveDiceAccepted(){
+        out.println(MOVE_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void pickDiceSpace(int index){
+        out.println(PICK_DICE_SPACE + "-" + index);
+        out.flush();
+    }
+
+    public void pickDiceSpaceError() {
+        out.println(PICK_DICE_SPACE_ERROR);
+        out.flush();
+    }
+
+    public void placeDiceSchema(String nickname, int row, int column, String colour, int value){
+        out.println(PLACE_DICE_SCHEMA +"-"+nickname+"-"+row+"-"+column+"-"+colour+"-"+value);
+        out.flush();
+    }
+
+    public void placeDiceSchemaError(){
+        out.println(PLACE_DICE_SCHEMA_ERROR);
+        out.flush();
+    }
+
+    public void pickDiceSchema(String nickname, int row, int column){
+        out.println(PICK_DICE_SCHEMA +"-"+nickname+"-"+row+"-"+column);
+        out.flush();
+    }
+
+    public void pickDiceSchemaError(){
+        out.println(PICK_DICE_SCHEMA_ERROR);
+        out.flush();
+    }
+
+    public void useToolCardAccepted(int favors) {
+        out.println(USE_TOOL_CARD_ACCEPTED+"-"+favors);
+        out.flush();
+    }
+
+    public void useToolCardError() {
+        out.println(USE_TOOL_CARD_ERROR);
+        out.flush();
+    }
+
+    public void changeValueAccepted() {
+        out.println(CHANGE_VALUE_ACCEPTED);
+        out.flush();
+    }
+
+    public void changeValueError(){
+        out.println(CHANGE_VALUE_ERROR);
+        out.flush();
+    }
+
+    public void placeDiceAccepted(){
+        out.println(PLACE_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void rollDiceAccepted(int value){
+        out.println(ROLL_DICE_ACCEPTED+"-"+value);
+        out.flush();
+    }
+
+    public void swapDiceAccepted(){
+        out.println(SWAP_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void pickDiceRoundTrack(int nRound, int nDice){
+        out.println(PICK_DICE_ROUND_TRACK+"-"+nRound+"-"+nDice);
+        out.flush();
+    }
+
+    public void pickDiceRoundTrackError(){
+        out.println(PICK_DICE_ROUND_TRACK_ERROR);
+        out.flush();
+    }
+
+    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
+        String message = PLACE_DICE_ROUND_TRACK + "-" + nRound;
+        for(int i= 0; i<colours.size(); i++){
+            message+="-" + colours.get(i);
+            message+="-" + values.get(i);
+        }
+        out.println(message);
+        out.flush();
+    }
+
+    public void flipDiceAccepted(int value){
+        out.println(FLIP_DICE_ACCEPTED +"-"+ value);
+        out.flush();
+    }
+
+    public void cancelUseToolCardAccepted(int favor) {
+        out.println(CANCEL_USE_TOOL_CARD_ACCEPTED +"-"+ favor);
+        out.flush();
+    }
+
+    public void placeDiceSpace(String colour, int value){
+        out.println(PLACE_DICE_DICESPACE +"-"+ colour + "-"+ value);
+        out.flush();
+    }
+
+    public void placeDiceSpaceAccepted(){
+        out.println(PLACE_DICE_SPACE_ACCEPTED);
+        out.flush();
+    }
+
+    public void rollDiceSpaceAccepted(){
+        out.println(ROLL_DICE_SPACE_ACCEPTED);
+        out.flush();
+    }
+
+    public void swapDiceBagAccepted(String colour, int value){
+        out.println(SWAP_DICE_BAG_ACCEPTED + "-" + colour + "-" + value);
+        out.flush();
+    }
+
+    public void chooseValueAccepted(){
+        out.println(CHOOSE_VALUE_ACCEPTED);
+        out.flush();
+    }
+
+    public void chooseValueError() {
+        out.println(CHOOSE_VALUE_ERROR);
+        out.flush();
+    }
+
+
+
+    private void forwardAction(List action) { virtual.forwardAction(action); }
 }

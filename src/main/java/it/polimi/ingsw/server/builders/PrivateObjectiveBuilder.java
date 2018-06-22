@@ -1,26 +1,27 @@
-package it.polimi.ingsw.server.model.cards.toolCards;
+package it.polimi.ingsw.server.builders;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class ToolCardBuilder {
-    private static ToolCardBuilder instance = null;
+public class PrivateObjectiveBuilder {
+    private static PrivateObjectiveBuilder instance = null;
 
-    private ToolCardBuilder(){}
+    private PrivateObjectiveBuilder(){}
 
-    public static ToolCardBuilder getToolCardBuilder(){
+    public static PrivateObjectiveBuilder getPrivateObjectivebuilder(){
         if(instance == null)
-            instance = new ToolCardBuilder();
+            instance = new PrivateObjectiveBuilder();
         return instance;
     }
 
-    public static ToolCard buildToolCard(int n){
-        ToolCard toolCard = new ToolCard();
-        final String filePath = "/data/toolCard/ToolCard" + n;
+    public static PrivateObjective buildPrivateObjective(int n){
+        PrivateObjective privateObjective = new PrivateObjective();
+        final String filePath = "/data/privCard/" + n + ".json";
         Gson g = new Gson();
 
         InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);
@@ -28,7 +29,7 @@ public class ToolCardBuilder {
         try {
             String tool;
             tool = reader.readLine();
-            toolCard = g.fromJson(tool,ToolCard.class);
+            privateObjective = g.fromJson(tool,PrivateObjective.class);
         }
         catch(IOException e){
             System.out.println(e);
@@ -40,6 +41,6 @@ public class ToolCardBuilder {
                 e.printStackTrace();
             }
         }
-        return toolCard;
+        return privateObjective;
     }
 }

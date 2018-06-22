@@ -23,6 +23,7 @@ public class Main {
         ((VirtualView)virtual).addObserver(controller);
         Connected connection = new Connected();
         ((VirtualView) virtual).setConnection(connection);
+
         try {
             RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);
             RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,1099);
@@ -35,7 +36,7 @@ public class Main {
         }
 
         MultiSocketServer s = new MultiSocketServer(1666,(VirtualView)virtual,connection);
-        s.StartServer();
+        s.startServer();
     }
 }
 

@@ -18,7 +18,7 @@ public class RoundTrack extends Observable {
     public RoundTrack() {
         listRounds = new ArrayList[TOT_ROUNDS];
         for (int i = 0; i < TOT_ROUNDS; i++)
-            listRounds[i] = new ArrayList<Dice>();
+            listRounds[i] = new ArrayList<>();
     }
 
     public List getListRounds(int i) {
@@ -30,26 +30,26 @@ public class RoundTrack extends Observable {
     }
 
     public void insertDices(List<Dice> dices, int nRound) {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
         this.listRounds[nRound].addAll(dices);
         action.add(PLACE_DICE_ROUND_TRACK);
-        action.add(((Integer) nRound).toString());
-        for (Dice d : dices) {
+        action.add(nRound);
+        dices.forEach(d -> {
             action.add(d.getColour().toString());
-            action.add(((Integer) d.getValue()).toString());
-        }
+            action.add(d.getValue());
+        });
         setChanged();
         notifyObservers(action);
     }
 
     public void insertDice(Dice dice, int nRound) throws InsertDiceException {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
         if (nRound < TOT_ROUNDS) {
             this.listRounds[nRound].add(dice);
             action.add(PLACE_DICE_ROUND_TRACK);
-            action.add(((Integer) nRound).toString());
+            action.add(nRound);
             action.add(dice.getColour().toString());
-            action.add(((Integer) dice.getValue()).toString());
+            action.add(dice.getValue());
             setChanged();
             notifyObservers(action);
             return;
@@ -58,7 +58,7 @@ public class RoundTrack extends Observable {
     }
 
     public Dice testRemoveDice(int nRound, int nDice, String player) throws RemoveDiceException {
-        List<String> action = new ArrayList<String>();
+        List<String> action = new ArrayList<>();
         Dice dice;
         if (nRound < TOT_ROUNDS) {
             if (listRounds[nRound].size() > nDice) {
@@ -77,14 +77,14 @@ public class RoundTrack extends Observable {
     }
 
     public Dice removeDice(int nRound, int nDice) throws RemoveDiceException {
-        List<String> action = new ArrayList<String>();
+        List action = new ArrayList<>();
         Dice dice;
         if (listRounds[nRound].get(nDice) != null) {
             dice = listRounds[nRound].get(nDice);
             listRounds[nRound].remove(nDice);
             action.add(PICK_DICE_ROUND_TRACK);
-            action.add(((Integer) nRound).toString());
-            action.add(((Integer) nDice).toString());
+            action.add(nRound);
+            action.add(nDice);
             setChanged();
             notifyObservers(action);
             return dice;

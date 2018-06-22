@@ -11,7 +11,7 @@ public class DiceBag {
     private List<Dice> dices;
 
     public DiceBag() {
-        dices = new ArrayList<Dice>();
+        dices = new ArrayList<>();
 
         for (int i = 0; i < TOT_DICES; i++) {
             if (i < 18) {
@@ -32,7 +32,7 @@ public class DiceBag {
     }
 
     public List<Dice> extract(int nPlayer) {
-        List<Dice> extra = new ArrayList<Dice>();
+        List<Dice> extra = new ArrayList<>();
         int nDice = 2 * nPlayer + 1;
 
         if (2 * nPlayer + 1 > dices.size())
