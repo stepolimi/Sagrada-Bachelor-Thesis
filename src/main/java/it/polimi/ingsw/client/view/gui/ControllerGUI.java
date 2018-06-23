@@ -1,9 +1,13 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.SocketConnection;
+import it.polimi.ingsw.client.view.Colour;
+import it.polimi.ingsw.client.view.Handler;
+import it.polimi.ingsw.client.view.Schema;
+import it.polimi.ingsw.client.view.View;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -40,8 +44,6 @@ import java.util.*;
 import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
-
-;
 
 
 public class ControllerGUI implements View {
@@ -256,7 +258,7 @@ public class ControllerGUI implements View {
         }
 
 
-        setScene("login");
+        changeScene(FxmlConstant.GO_TO_LOGIN);
         loginAction.setDefaultButton(true);
     }
 
@@ -276,7 +278,7 @@ public class ControllerGUI implements View {
         t.start();
 
 
-        setScene("login");
+        changeScene(FxmlConstant.GO_TO_LOGIN);
         loginAction.setDefaultButton(true);
 
     }
@@ -286,7 +288,7 @@ public class ControllerGUI implements View {
         Stage stage = (Stage) playButton.getScene().getWindow();
         stage.close();
 
-        setScene("connection");
+        changeScene(FxmlConstant.CHOOSE_CONNECTION);
     }
 
 
@@ -296,7 +298,7 @@ public class ControllerGUI implements View {
         Pane p = null;
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/FXML/SchemaEditor.fxml"));
+            loader.setLocation(getClass().getResource("/FXML/"+ FxmlConstant.GO_TO_SCHEMA_EDITOR + ".fxml"));
             p = loader.load();
             // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
@@ -305,7 +307,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image("/assets/image/icon.png");
+        Image image = new Image(UrlConstant.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -322,16 +324,16 @@ public class ControllerGUI implements View {
     }
 
     public void setText(String text) {
-        this.text = text;
+        ControllerGUI.text = text;
     }
 
     public void captureNickname(ActionEvent actionEvent) {
 
-        if (getName().equals("")) {
-            setNotice("nickname_empty");
+        if (getName().equals(GameMessage.EMPTY)) {
+            setNotice(FxmlConstant.NICKNAME_IS_EMPTY);
 
         } else if (getName().length() > 8)
-            setNotice("nickname_empty");
+            setNotice(FxmlConstant.NICKNAME_IS_EMPTY);
 
         else {
             try {
@@ -339,7 +341,7 @@ public class ControllerGUI implements View {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Errore connessione");
+                System.out.println(GameMessage.CONNECTION_ERROR);
             }
 
         }
@@ -360,64 +362,61 @@ public class ControllerGUI implements View {
                 Stage stage;
                 stage = (Stage) loginAction.getScene().getWindow();
                 stage.close();
-                setScene("waiting");
+                changeScene(FxmlConstant.GO_TO_LOBBY);
 
 
             } else if (text.equals("Login_error-username")) {
-                setNotice("nickname_error");
+                setNotice(FxmlConstant.NICKNAME_ALREADY_USE);
             } else if (text.equals("Login_error-game"))
-                setNotice("TooManyPlayers");
+                setNotice(FxmlConstant.PLAYER_LIMIT);
 
         });
     }
 
     public void playerConnected(final String name) {
-        Platform.runLater(() -> waitingMessage.setText(name + " si è aggiunto alla lobby......\n"));
+        Platform.runLater(() -> waitingMessage.setText(name + GameMessage.NEW_PLAYER));
     }
 
     public void playerDisconnected(final String name) {
-        Platform.runLater(() -> waitingMessage.setText(name + " si è disconnesso........\n"));
+        Platform.runLater(() -> waitingMessage.setText(name + GameMessage.PLAYER_DISCONNECTED ));
     }
 
     public void timerPing(final String time) {
 
-        Platform.runLater(new Runnable() {
+        Platform.runLater(() -> {
             String text = time;
 
-            public void run() {
-                double seconds = Integer.parseInt(text);
-                double tot = 60.000;
-                double full = 1.000;
-                double result = full - seconds / tot;
-                progressBar.setProgress(result);
-                              }
+            double seconds = Integer.parseInt(text);
+            double tot = 60.000;
+            double full = 1.000;
+            double result = full - seconds / tot;
+            progressBar.setProgress(result);
                           }
         );
 
     }
 
     public void createGame() {
-        Platform.runLater(new Runnable() {
-            public void run() {
+        Platform.runLater(() -> {
 
-                setScene("game");
+                changeScene(FxmlConstant.NEW_GAME);
                 Font ea =
                         Font.loadFont(getClass()
-                                .getResourceAsStream("/fonts/EA.ttf"), 20);
+                                .getResourceAsStream(UrlConstant.FONT), 20);
                 textflow.setFont(ea);
                 Stage stage = (Stage) progressBar.getScene().getWindow();
                 stage.close();
 
-            }
+
         });
     }
 
     public void setSchemas(final List<String> schemas) {
         this.schemasClient = new ArrayList<String>(schemas);
         Platform.runLater(() -> {
-            String path = new String("/assets/image/Schemi/");
+            String path = UrlConstant.SCHEMI;
 
-            setScene("choose_schema");
+            changeScene(FxmlConstant.CHOOSE_SCHEMA);
             List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
 
             IntStream.range(0, 4)
@@ -433,8 +432,8 @@ public class ControllerGUI implements View {
     public void setPrivateCard(final String colour) {
 
         Platform.runLater(() -> {
-            Image cursor = new Image("/assets/image/zoom.png");
-            Image image = new Image("/assets/image/Cards/PrivateObj/" + colour + ".png");
+            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
+            Image image = new Image(UrlConstant.PRIVATE_OBJ_PATH + colour + ".png");
             privateCard.setImage(image);
             privateCard.setCursor(new ImageCursor(cursor));
         });
@@ -442,10 +441,10 @@ public class ControllerGUI implements View {
 
     public void setPublicObjectives(final List<String> cards) {
         Platform.runLater(() -> {
-            Image cursor = new Image("/assets/image/zoom.png");
+            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
 
             List<ImageView> imagePubl = Arrays.asList(publObj1, publObj2, publObj3);
-            String path = new String("/assets/image/Cards/PublicObj/");
+            String path = UrlConstant.PUBLIC_OBJ_PATH;
             IntStream.range(0, 3)
                     .forEach(i -> {
                         Image image = new Image(path + cards.get(i) + ".png");
@@ -461,8 +460,8 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
 
-            String path = new String("/assets/image/Cards/ToolCard/");
-            Image cursor = new Image("/assets/image/zoom.png");
+            String path = UrlConstant.TOOLCARD_PATH;
+            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
             List<ImageView> tool = Arrays.asList(toolCard1, toolCard2, toolCard3);
             List<ImageView> useTool = Arrays.asList(use1, use2, use3);
 
@@ -484,7 +483,7 @@ public class ControllerGUI implements View {
         this.hand = hand;
     }
 
-    public void setScene(String src) {
+    public void changeScene(String src) {
 
         Stage stage = new Stage();
         Pane p = null;
@@ -502,7 +501,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("Sagrada");
-        Image image = new Image("/assets/image/icon.png");
+        Image image = new Image(UrlConstant.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -534,7 +533,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image("/assets/image/icon.png");
+        Image image = new Image(UrlConstant.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -542,12 +541,17 @@ public class ControllerGUI implements View {
 
     }
 
+    @Override
+    public void setScene(String scene) {
+        //empty because
+    }
+
     public void startScene() {
     }
 
 
     public void QuitPaneAction(ActionEvent actionEvent) {
-        setNotice("QuitPane");
+        setNotice(FxmlConstant.CLOSE_MESSAGE);
 
     }
 
@@ -573,7 +577,7 @@ public class ControllerGUI implements View {
     }
 
     @FXML
-    void openSchema(MouseEvent event) throws FileNotFoundException {
+    void openSchema(MouseEvent event) {
         Platform.runLater(() -> {
 
             Stage stage = new Stage();
@@ -604,7 +608,7 @@ public class ControllerGUI implements View {
 
                 connection.sendCustomSchema(schemaChoosen);
 
-            } else setNotice("OpenSchemaError");
+            } else setNotice(FxmlConstant.OPEN_SCHEMA_ERROR);
 
         });
     }
@@ -616,16 +620,12 @@ public class ControllerGUI implements View {
 
             Schema schema = new Schema();
 
-            try {
-                printSchema(schemaConstrain, name);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            printSchema(schemaConstrain, name);
 
             schema = schema.InitSchema("SchemaClient/" + name);
 
 
-            nFavour.setText("x " + schema.difficult);
+            nFavour.setText("x " + schema.getDifficult());
 
 
             Stage stage = (Stage) schemaA.getScene().getWindow();
@@ -644,15 +644,13 @@ public class ControllerGUI implements View {
             if (stringList == null)
                 return;
 
-            String path = "/assets/image/Schemi/SchemiRemake/";
-
             schemaPlayers = new ArrayList<Object>();
             schemaPlayers = Arrays.asList(nickname2, constrain2,
                     nickname3, constrain3, nickname4, constrain4);
 
             if (stringList.contains(nickname.getText())) {
                 stringList.remove(stringList.indexOf(nickname.getText()) + 1);
-                stringList.remove(stringList.indexOf(nickname.getText()));
+                stringList.remove(nickname.getText());
             }
 
 
@@ -660,12 +658,8 @@ public class ControllerGUI implements View {
                     .limit(stringList.size() / 2)
                     .forEach(i -> {
                         ((Text) (schemaPlayers.get(i))).setText(stringList.get(i));
-                        try {
-                            printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
-                            ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
+                        ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
                     });
 
 
@@ -711,9 +705,9 @@ public class ControllerGUI implements View {
                     source = parent;
                 }
             }
-            Integer col = gridPane.getColumnIndex(source);
+            Integer col = GridPane.getColumnIndex(source);
 
-            Integer row = gridPane.getRowIndex(source);
+            Integer row = GridPane.getRowIndex(source);
 
             if (col == null)
                 col = 0;
@@ -734,14 +728,14 @@ public class ControllerGUI implements View {
             }
             if (correctInsertion) {
                 imageView.setImage(dragImage);
-                imageView.setId("full");
-                textflow.setText("");
+                imageView.setId(GameMessage.FULL);
+                textflow.setText(GameMessage.EMPTY);
 
                 gridPane.setDisable(true);
                 diceSpace.setDisable(true);
 
             } else {
-                textflow.setText("inserimento non corretto. Riprovare");
+                textflow.setText(GameMessage.WRONG_INSERTION);
             }
         });
 
@@ -767,7 +761,7 @@ public class ControllerGUI implements View {
     @FXML
     void imageZoom(MouseEvent event) {
         ImageView image = (ImageView) event.getTarget();
-        setNotice("zoomImage");
+        setNotice(FxmlConstant.ZOOM_CARD);
         imageZoomed.setImage(image.getImage());
 
     }
@@ -782,17 +776,17 @@ public class ControllerGUI implements View {
     }
 
     public void startRound() {
-        textflow.setText("nuovo round iniziato");
+        textflow.setText(GameMessage.NEW_ROUND);
     }
 
     public void startTurn(String name) {
 
         if (!name.equals(nickname.getText())) {
-            textflow.setText("turno iniziato, tocca a: " + name);
+            textflow.setText(GameMessage.NOT_MY_TURN + name);
             disableAll();
         } else {
 
-            textflow.setText("tocca a te!!!!!");
+            textflow.setText(GameMessage.MY_TURN);
 
         }
     }
@@ -863,7 +857,6 @@ public class ControllerGUI implements View {
 
             diceExtract = new ArrayList<String>();
 
-            String path = "/assets/image/Dice";
             final int[] j = {0};
             IntStream.iterate(0, i -> i + 2)
                     .limit(stringList.size() / 2)
@@ -893,14 +886,14 @@ public class ControllerGUI implements View {
             diceChanged = true;
 
             if (currentTool == 1) {
-                setScene("changeDiceValue");
+                changeScene(FxmlConstant.CHANGE_VALUE);
             } else if (currentTool == 6) {
-                textflow.setText("Clicca sul dado preso e lancialo!");
+                textflow.setText(GameMessage.USE_TOOL_6);
             } else if (currentTool == 5) {
-                textflow.setText("Ora scegli il dado dal tracciato di Round");
+                textflow.setText(GameMessage.USE_TOOL_5);
 
             } else if (currentTool == 11)
-                textflow.setText("Ora clicca sul dado per sostituire il dado con uno del sacchetto!");
+                textflow.setText(GameMessage.USE_TOOL_11);
         });
 
     }
@@ -938,7 +931,7 @@ public class ControllerGUI implements View {
 
     public void pickDiceSpaceError() {
 
-        textflow.setText("Errore nel prendere il dado!");
+        textflow.setText(GameMessage.PICK_DICE_ERROR);
 
     }
 
@@ -969,7 +962,7 @@ public class ControllerGUI implements View {
     public void placeDiceSchemaError() {
         Platform.runLater(() -> {
             if (currentTool == 1 || currentTool == 6 || currentTool == 5) {
-                textflow.setText("Inserimento non corretto. Riprovare");
+                textflow.setText(GameMessage.WRONG_INSERTION);
             }
             correctInsertion = false;
             synchronized (lock) {
@@ -994,7 +987,7 @@ public class ControllerGUI implements View {
 
     public void pickDiceSchemaError() {
         pendingDice.setImage(null);
-        textflow.setText("non ci sono dadi qui");
+        textflow.setText(GameMessage.PICK_DICE_SCHEMA_ERROR);
 
     }
 
@@ -1005,10 +998,10 @@ public class ControllerGUI implements View {
             iconTool.setVisible(false);
 
             if (currentTool == 7) {
-                textflow.setText("Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!");
+                textflow.setText(GameMessage.USE_TOOL_7);
                 disableTool(false);
             } else {
-                textflow.setText("Puoi utilizzare la Carta Utensile! Procedi");
+                textflow.setText(GameMessage.USE_TOOL_GENERIC);
                 nFavour.setText(" x" + favor);
             }
 
@@ -1018,7 +1011,7 @@ public class ControllerGUI implements View {
 
     public void useToolCardError() {
         Platform.runLater(() -> {
-            textflow.setText("Non puoi usare la carta utensile ora!");
+            textflow.setText(GameMessage.USE_TOOL_CARD_ERROR);
             iconTool.setVisible(true);
         });
     }
@@ -1029,11 +1022,8 @@ public class ControllerGUI implements View {
             if (decrement)
                 numberMoved--;
             else numberMoved++;
-            textflow.setText("hai cambiato valore! Ora inseriscilo!");
+            textflow.setText(GameMessage.PLACE_DICE_CHANGED);
             diceChanged = true;
-
-            String path = "/assets/image/Dice";
-
             setDice(pendingDice, colorMoved, numberMoved);
 
         });
@@ -1042,13 +1032,13 @@ public class ControllerGUI implements View {
 
     public void changeValueError() {
         Platform.runLater(() -> {
-            textflow.setText("Non puoi incrementare un 6 o decrementare un 1!!");
+            textflow.setText(GameMessage.CHANGE_VALUE_ERROR);
             try {
                 sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            setScene("changeDiceValue");
+            changeScene(FxmlConstant.CHANGE_VALUE);
 
         });
     }
@@ -1058,9 +1048,9 @@ public class ControllerGUI implements View {
             if (currentTool == 1 || currentTool == 6 || currentTool == 5
                     || currentTool == 10 || currentTool == 11) {
                 schemaCell.setImage(pendingDice.getImage());
-                schemaCell.setId("full");
+                schemaCell.setId(GameMessage.FULL);
                 pendingDice.setImage(null);
-                textflow.setText("Hai usato la Carta Utensile!");
+                textflow.setText(GameMessage.TOOL_USED);
                 diceChanged = false;
                 iconTool.setVisible(false);
                 currentTool = 0;
@@ -1077,10 +1067,9 @@ public class ControllerGUI implements View {
     public void rollDiceAccepted(final int value) {
         Platform.runLater(() -> {
 
-            String path = "/assets/image/Dice";
             diceChanged = true;
 
-            textflow.setText("Dado tirato! Ora piazzalo");
+            textflow.setText(GameMessage.PLACE_DICE_ROOLED);
             setDice(pendingDice, colorMoved, value);
         });
 
@@ -1097,8 +1086,7 @@ public class ControllerGUI implements View {
     }
 
     public void pickDiceRoundTrackError() {
-        textflow.setText("Errore. Dado non trovato. Riprova!");
-
+        textflow.setText(GameMessage.PICK_DICE_ROUND_ERROR);
     }
 
     public void placeDiceRoundTrack(final List action) {
@@ -1126,7 +1114,7 @@ public class ControllerGUI implements View {
 
     public void swapDiceAccepted() {
         Platform.runLater(() -> {
-            textflow.setText("Hai scambiato il dado! Ora Piazzalo!");
+            textflow.setText(GameMessage.PLACE_DICE_SWAPPED);
             diceChanged = true;
             pendingDice.setImage(roundDice.getImage());
             disableTool(true);
@@ -1151,7 +1139,7 @@ public class ControllerGUI implements View {
 
     public void placeDiceSpaceAccepted() {
         Platform.runLater(() -> {
-            textflow.setText("Non hai usato la carta utensile!");
+            textflow.setText(GameMessage.TOOL_NOT_USE);
             pendingDice.setImage(null);
             diceChanged = false;
             diceExtract.add(colorMoved);
@@ -1162,7 +1150,6 @@ public class ControllerGUI implements View {
 
     public void placeDiceSpace(final List action) {
         Platform.runLater(() -> {
-            String path = "/assets/image/Dice";
             ImageView imageView = getLastCellDicespace(diceSpace);
             String color = (String) action.get(0);
             String value = (String) action.get(1);
@@ -1174,7 +1161,7 @@ public class ControllerGUI implements View {
 
     public void rollDiceSpaceAccepted(final List action) {
         Platform.runLater(() -> {
-            textflow.setText("Hai utilizzato la Carta Utensile! Ora puoi inserire un dado");
+            textflow.setText(GameMessage.DICE_SPACE_ROLLED);
             iconTool.setVisible(false);
         });
 
@@ -1185,7 +1172,7 @@ public class ControllerGUI implements View {
             colorMoved = (String) action.get(0);
             numberMoved = Integer.parseInt((String) action.get(1));
             setDice(pendingDice, (String) action.get(0), action.get(1));
-            setScene("chooseDiceNumber");
+            changeScene(FxmlConstant.CHOOSE_VALUE);
         });
 
     }
@@ -1193,7 +1180,7 @@ public class ControllerGUI implements View {
     public void chooseValueAccepted() {
         Platform.runLater(() -> {
             setDice(pendingDice, colorMoved, numberMoved);
-            textflow.setText("Hai cambiato correttamente il dado! Ora inseriscilo!");
+            textflow.setText(GameMessage.PLACE_DICE_CHOOSEN);
 
         });
 
@@ -1201,8 +1188,8 @@ public class ControllerGUI implements View {
 
     public void chooseValueError() {
         Platform.runLater(() -> {
-            textflow.setText("Azione non corretta. Riprova!");
-            setScene("chooseDiceNumber");
+            textflow.setText(GameMessage.CHOOSE_VALUE_ERROR);
+            changeScene(FxmlConstant.CHOOSE_VALUE);
         });
 
     }
@@ -1309,7 +1296,7 @@ public class ControllerGUI implements View {
 
     }
 
-    public void printSchema(final GridPane schemaConstrain, final String nameSchema) throws IOException {
+    public void printSchema(final GridPane schemaConstrain, final String nameSchema) {
 
         Platform.runLater(() -> {
             Schema schema = new Schema();
@@ -1324,18 +1311,18 @@ public class ControllerGUI implements View {
     public void putConstrain(final ImageView imageView, final String constrain) {
 
         Platform.runLater(() -> {
-            String path = "/assets/image/SchemaElement/";
-            if (constrain.equals("\u001b[32m"))
+            String path = UrlConstant.CONSTRAIN_PATH;
+            if (constrain.equals(Colour.ANSI_GREEN.escape()))
                 imageView.setImage(new Image(path + "green.png"));
-            else if (constrain.equals("\u001b[31m"))
+            else if (constrain.equals(Colour.ANSI_RED.escape()))
                 imageView.setImage(new Image(path + "red.png"));
-            else if (constrain.equals("\u001b[33m"))
+            else if (constrain.equals(Colour.ANSI_YELLOW.escape()))
                 imageView.setImage(new Image(path + "yellow.png"));
 
-            else if (constrain.equals("\u001b[34m"))
+            else if (constrain.equals(Colour.ANSI_BLUE.escape()))
                 imageView.setImage(new Image(path + "blue.png"));
 
-            else if (constrain.equals("\u001b[35m"))
+            else if (constrain.equals(Colour.ANSI_PURPLE.escape()))
                 imageView.setImage(new Image(path + "purple.png"));
 
             else
@@ -1398,9 +1385,9 @@ public class ControllerGUI implements View {
                 }
             }
 
-            Integer col = gridPane.getColumnIndex(source);
+            Integer col = GridPane.getColumnIndex(source);
 
-            Integer row = gridPane.getRowIndex(source);
+            Integer row = GridPane.getRowIndex(source);
 
             if (col == null)
                 col = 0;
@@ -1421,7 +1408,7 @@ public class ControllerGUI implements View {
                     imageMoved = (ImageView) event.getSource();
                     x1 = col;
                     y1 = row;
-                    textflow.setText("Dado Accettato");
+                    textflow.setText(GameMessage.DICE_ACCEPTED);
 
                 } else {
 
@@ -1443,7 +1430,7 @@ public class ControllerGUI implements View {
                     if (correctInsertion) {
 
                         schemaCell.setImage(imageMoved.getImage());
-                        schemaCell.setId("full");
+                        schemaCell.setId(GameMessage.FULL);
                         if (!schemaCell.equals(imageMoved)) {
                             imageMoved.setImage(null);
                             imageMoved.setId("");
@@ -1454,7 +1441,7 @@ public class ControllerGUI implements View {
                         if ((currentTool == 4 && isFirst) || (currentTool == 12 && isFirst)) {
                             x1 = null;
                             y1 = null;
-                            textflow.setText("Hai inserito il primo dado. Inserisci il secondo!");
+                            textflow.setText(GameMessage.FIRST_DICE_TOOL_4_12_OK);
                             diceChanged = false;
 
                             isFirst = false;
@@ -1462,7 +1449,7 @@ public class ControllerGUI implements View {
                         } else {
                             x1 = null;
                             y1 = null;
-                            textflow.setText("Hai usato la Carta Utensile!");
+                            textflow.setText(GameMessage.TOOL_USED);
                             iconTool.setVisible(false);
                             diceChanged = false;
                             disableTool(true);
@@ -1472,7 +1459,7 @@ public class ControllerGUI implements View {
                         }
 
                     } else {
-                        textflow.setText("Errore di piazzamento. Clicca sul dado e riposizionalo");
+                        textflow.setText(GameMessage.PLACE_DICE_ERROR);
 
                         x1 = null;
                         y1 = null;
@@ -1481,7 +1468,7 @@ public class ControllerGUI implements View {
                 }
             }
         });
-        if (((ImageView) event.getTarget()).getId().equals("full") || ((y1 != null) && (x1 != null)) ||
+        if (((ImageView) event.getTarget()).getId().equals(GameMessage.FULL) || ((y1 != null) && (x1 != null)) ||
                 (currentTool == 5) || (currentTool == 10) || (currentTool == 1) || (currentTool == 6)
                 || (currentTool == 9) || (currentTool == 11))
             t.start();
@@ -1512,9 +1499,7 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             ImageView imageView = (ImageView) event.getTarget();
-            if (imageView.getId().equals("Decrement"))
-                decrement = true;
-            else decrement = false;
+            decrement = imageView.getId().equals(GameMessage.DICE_DECREMENT);
             connection.changeValue(imageView.getId());
 
             Stage stage = (Stage) imageView.getScene().getWindow();
@@ -1638,16 +1623,16 @@ public class ControllerGUI implements View {
 
     public void setDice(ImageView imageView, String color, Object number) {
 
-        String path = "/assets/image/Dice";
+        String path = UrlConstant.DICE_PATH;
 
 
-        if (color.equals(("ANSI_BLUE"))) {
+        if (color.equals((GameMessage.BLUE))) {
             imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
-        } else if (color.equals(("ANSI_RED"))) {
+        } else if (color.equals((GameMessage.RED))) {
             imageView.setImage(new Image(path + "/Red/" + number + ".png"));
-        } else if (color.equals("ANSI_YELLOW")) {
+        } else if (color.equals(GameMessage.YELLOW)) {
             imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
-        } else if (color.equals("ANSI_GREEN")) {
+        } else if (color.equals(GameMessage.GREEN)) {
             imageView.setImage(new Image(path + "/Green/" + number + ".png"));
         } else {
             imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
@@ -1662,7 +1647,7 @@ public class ControllerGUI implements View {
             ImageView imageView = (ImageView) event.getTarget();
             Stage stage = (Stage) imageView.getScene().getWindow();
             stage.close();
-            numberMoved = Integer.parseInt((String) imageView.getId());
+            numberMoved = Integer.parseInt(imageView.getId());
             connection.chooseValue(numberMoved);
         });
 

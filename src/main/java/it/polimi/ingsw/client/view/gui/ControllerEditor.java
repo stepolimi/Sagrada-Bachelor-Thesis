@@ -1,7 +1,8 @@
-package it.polimi.ingsw.client.view;
+package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
+import it.polimi.ingsw.client.view.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,6 +26,8 @@ import java.io.IOException;
 
 public class ControllerEditor {
 
+
+    GameMessage gameMessage;
     public Button okButton;
     private Connection connection;
 
@@ -55,7 +58,6 @@ public class ControllerEditor {
         ImageView imageView = (ImageView) dragEvent.getTarget();
         GridPane.setColumnIndex(gridPane, 5);
         GridPane.setRowIndex(gridPane, 4);
-        ImageView restriction = new ImageView(dragEvent.getDragboard().getImage());
         Node source = ((Node) dragEvent.getTarget());
         // traverse towards root until userSelectionGrid is the parent node
         if (source != gridPane) {
@@ -64,8 +66,8 @@ public class ControllerEditor {
                 source = parent;
             }
         }
-        Integer colIndex = gridPane.getColumnIndex(source);
-        Integer rowIndex = gridPane.getRowIndex(source);
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
         if (colIndex == null)
             colIndex = 0;
 
@@ -156,8 +158,8 @@ public class ControllerEditor {
                 source = parent;
             }
         }
-        Integer colIndex = gridPane.getColumnIndex(source);
-        Integer rowIndex = gridPane.getRowIndex(source);
+        Integer colIndex = GridPane.getColumnIndex(source);
+        Integer rowIndex = GridPane.getRowIndex(source);
         if (colIndex == null)
             colIndex = 0;
 
@@ -183,8 +185,9 @@ public class ControllerEditor {
 
     public void saveSchema(Schema s) throws IOException
     {
-        String path = "/data/SchemaPlayer/";
-        String name,schema;
+        String path = null;
+        String name;
+        String schema;
         Gson g = new Gson();
         s.setPaint(null);
         schema = g.toJson(s);
@@ -192,7 +195,7 @@ public class ControllerEditor {
             String copyPath;
             name = schemaName.getText();
             if (name.equals("")) {
-                setNotice("NameSchemaError");
+                setNotice(FxmlConstant.NAME_IS_EMPTY);
                 return;
             }
             else {
@@ -202,10 +205,10 @@ public class ControllerEditor {
                 final Label labelSelectedDirectory = new Label();
 
                 DirectoryChooser directoryChooser = new DirectoryChooser();
-                directoryChooser.setTitle("Scegli dove salvare il tuo schema");
+                directoryChooser.setTitle(GameMessage.CHOOSE_DESTINATION);
                 File selectedDirectory = directoryChooser.showDialog(stage);
                 if(selectedDirectory == null){
-                    labelSelectedDirectory.setText("No Directory selected");
+                    labelSelectedDirectory.setText(GameMessage.NO_DIRECTORY);
                 }else {
                     path =selectedDirectory.getAbsolutePath();
                 }
@@ -242,14 +245,13 @@ public class ControllerEditor {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
             p = loader.load();
-            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image("/assets/image/icon.png");
+        Image image = new Image(UrlConstant.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
