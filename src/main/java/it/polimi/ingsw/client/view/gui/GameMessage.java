@@ -38,7 +38,7 @@ public class GameMessage {
     static final String PLACE_DICE_SWAPPED = "Hai scambiato il dado! Ora Piazzalo!";
     static final String DICE_ACCEPTED = "Dado Accettato!";
     static final String FIRST_DICE_TOOL_4_12_OK = "Hai inserito il primo dado. Inserisci il secondo!";
-    static final String DICE_DECREMENT = "decrement";
+    static final String DICE_DECREMENT = "Decrement";
 
     //Error during use of Tool Card
     static final String CHANGE_VALUE_ERROR = "Non puoi incrementare un 6 o decrementare un 1!";

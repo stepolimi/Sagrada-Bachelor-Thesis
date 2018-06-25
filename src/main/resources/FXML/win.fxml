@@ -6,12 +6,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="692.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="796.0" fitWidth="1301.0" layoutX="371.0" layoutY="-206.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="796.0" fitWidth="1301.0" layoutX="379.0" layoutY="-206.0" opacity="0.2" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/sagrada%20copia%202.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="662.0" fitWidth="371.0" layoutX="-1.0" layoutY="-31.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="666.0" fitWidth="398.0" layoutX="-1.0" layoutY="-51.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/win.png" />
          </image>
