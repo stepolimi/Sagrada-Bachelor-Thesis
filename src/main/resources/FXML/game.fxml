@@ -7,7 +7,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -877,12 +876,12 @@
                                     <Font name="Apple Chancery" size="18.0" />
                                  </font>
                               </Text>
-                              <ImageView fx:id="iconTool" fitHeight="41.0" fitWidth="38.0" layoutX="549.0" layoutY="673.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="iconTool" fitHeight="41.0" fitWidth="38.0" layoutX="551.0" layoutY="633.0" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../assets/image/tool-icon-33.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="669.0" layoutY="603.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="605.0" layoutY="617.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true" visible="false">
                                  <image>
                                     <Image url="@../assets/image/undo_icon.png" />
                                  </image>
@@ -1155,6 +1154,5 @@
             </TabPane>
          </children>
       </HBox>
-      <FlowPane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </Pane>

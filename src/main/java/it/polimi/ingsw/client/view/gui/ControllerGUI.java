@@ -61,6 +61,8 @@ public class ControllerGUI implements View {
 
     public String schemaChoosen;
 
+    public Font ea;
+
 
     public Integer roundNumber;
     public Integer roundIndex;
@@ -235,6 +237,9 @@ public class ControllerGUI implements View {
     @FXML
     public GridPane roundTrack;
 
+    @FXML
+    private GridPane score;
+
 
     public ControllerGUI(Handler hand) {
         this.hand = hand;
@@ -402,7 +407,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
 
                 changeScene(FxmlConstant.NEW_GAME);
-                Font ea =
+                ea =
                         Font.loadFont(getClass()
                                 .getResourceAsStream(UrlConstant.FONT), 20);
                 textflow.setFont(ea);
@@ -1083,7 +1088,6 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             int round = nRound;
 
-            colours.remove(0);
 
             IntStream.iterate(0, i -> i + 1)
                     .limit(colours.size())
@@ -1225,13 +1229,31 @@ public class ControllerGUI implements View {
     }
 
     @Override
-    public void setWinner(String nickname) {
-        //todo;
+    public void setWinner(String nick) {
+        Platform.runLater(() -> {
+            if(nick.equals(nickname.getText()))
+                changeScene(FxmlConstant.WINNER_SCENE);
+            else changeScene(FxmlConstant.LOSE_SCENE);
+        });
+
     }
 
     @Override
     public void setRankings(List<String> players, List<Integer> scores) {
-        //todo;
+        Platform.runLater(() -> {
+            final int[] count = {0};
+            IntStream.iterate(0, i -> i + 1)
+                    .limit(scores.size())
+                    .forEach(i-> {
+                        ((Text)score.getChildren().get(count[0])).setText(players.get(i));
+                        ((Text)score.getChildren().get(count[0])).setFont(ea);
+                        ((Text)score.getChildren().get(count[0] + 1)).setText(String.valueOf(scores.get(i)));
+                        ((Text)score.getChildren().get(count[0] + 1 )).setFont(ea);
+
+                        count[0] += 2;
+                    });
+
+        });
     }
 
     public void diceSpaceSort() {

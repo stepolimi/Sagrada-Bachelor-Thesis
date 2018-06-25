@@ -19,5 +19,8 @@ public class FxmlConstant {
     static final String PLAYER_LIMIT = "TooManyPlayers";
     static final String GO_TO_LOBBY = "waiting";
     static final String ZOOM_CARD = "zoomImage";
+    static final String WINNER_SCENE = "win";
+    static final String LOSE_SCENE = "lose";
+
 
 }
