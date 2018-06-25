@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 

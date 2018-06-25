@@ -1,11 +1,12 @@
-package it.polimi.ingsw.server.serverConnection;
+package it.polimi.ingsw.server.serverConnection.rmi;
 
-import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
+import it.polimi.ingsw.client.clientConnection.rmi.RmiClientMethodInterface;
+import it.polimi.ingsw.server.serverConnection.Connection;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
-public class RmiServerConnection implements Connection{
+public class RmiServerConnection implements Connection {
     private RmiClientMethodInterface client;
     private RmiServerMethod serverMethod;
 
@@ -367,6 +368,21 @@ public class RmiServerConnection implements Connection{
         }
     }
 
+    public void setWinner(String nickname) {
+        try {
+            client.setWinner(nickname);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
+    public void setRankings(List<String> players, List<Integer> scores) {
+        try {
+            client.setRankings(players,scores);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
 
 
     @Override

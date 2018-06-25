@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.game.states;
 
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.*;
 
 public class EndTurnState extends State {
     private static String state = END_TURN_STATE;

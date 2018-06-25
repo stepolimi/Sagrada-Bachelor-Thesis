@@ -1,14 +1,15 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest;
+
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
-import org.junit.jupiter.api.Test;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema.

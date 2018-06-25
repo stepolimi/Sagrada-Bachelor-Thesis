@@ -5,7 +5,7 @@ package it.polimi.ingsw.server.model.board;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.TOT_DICES;
+import static it.polimi.ingsw.server.costants.Constants.TOT_DICES;
 
 public class DiceBag {
     private List<Dice> dices;

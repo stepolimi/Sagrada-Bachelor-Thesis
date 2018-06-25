@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.rules;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.EMPTY_RESTRICTION;
+import static it.polimi.ingsw.server.costants.Constants.EMPTY_RESTRICTION;
 
 public class EmptyRule implements InsertionRule {
     private static String restriction = EMPTY_RESTRICTION;

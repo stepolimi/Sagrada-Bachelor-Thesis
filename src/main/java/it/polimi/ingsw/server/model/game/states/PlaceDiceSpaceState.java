@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.game.states;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_SPACE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.PLACE_DICE_SPACE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_SPACE_ACCEPTED;
 
 public class PlaceDiceSpaceState extends State {
     private static String state = PLACE_DICE_SPACE_STATE;

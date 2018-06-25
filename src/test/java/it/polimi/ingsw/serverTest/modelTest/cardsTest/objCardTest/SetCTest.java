@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete

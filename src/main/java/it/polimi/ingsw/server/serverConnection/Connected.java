@@ -5,7 +5,7 @@ import java.util.*;
 public class Connected {
 private HashMap <Connection,String> users = new HashMap<Connection,String>();
 
-    Map<Connection,String> getUsers() {
+    public Map<Connection,String> getUsers() {
         return users;
     }
 
@@ -26,7 +26,7 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         return users.size();
     }
 
-    boolean checkUsername(String str) {
+    public boolean checkUsername(String str) {
         Iterator <Connection> it = users.keySet().iterator();
         while(it.hasNext())
         {
@@ -291,6 +291,13 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
             connection.chooseValueError();
     }
 
+    public void setWinner(String nickname) {
+        users.forEach((connection,name) -> connection.setWinner(nickname));
+    }
+
+    public void setRankings(List<String> players, List<Integer> scores) {
+        users.forEach((connection,name) -> connection.setRankings(players,scores));
+    }
 
 
 }

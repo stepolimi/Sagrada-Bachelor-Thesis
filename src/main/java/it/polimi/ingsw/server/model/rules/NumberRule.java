@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.rules;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.NUMBER_RESTRICTION;
+import static it.polimi.ingsw.server.costants.Constants.NUMBER_RESTRICTION;
 
 //rule for checking the number restrictions
 

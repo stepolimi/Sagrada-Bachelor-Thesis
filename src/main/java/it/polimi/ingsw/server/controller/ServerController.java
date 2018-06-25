@@ -4,18 +4,15 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.Session;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.model.game.states.RoundManager;
+import it.polimi.ingsw.server.model.game.RoundManager;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
-import static it.polimi.ingsw.costants.LoginMessages.DISCONNECTED;
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN;
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 
 public class ServerController implements Observer{
     private Session session;
@@ -125,7 +122,7 @@ public class ServerController implements Observer{
                 round = roundManager.getRound();
             }
             else{
-                game.endGame();
+                game.endGame(round.getCurrentPlayer());
             }
         }
         else

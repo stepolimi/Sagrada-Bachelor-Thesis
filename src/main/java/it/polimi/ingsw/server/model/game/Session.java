@@ -1,19 +1,20 @@
 package it.polimi.ingsw.server.model.game;
 
-import it.polimi.ingsw.costants.TimerCostants;
+import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.timer.GameTimer;
-import it.polimi.ingsw.server.timer.TimedComponent;
+import it.polimi.ingsw.server.model.timer.GameTimer;
+import it.polimi.ingsw.server.model.timer.TimedComponent;
 
 import java.util.*;
 
-import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.server.serverCostants.Constants.MAX_PLAYERS;
-import static it.polimi.ingsw.server.serverCostants.Constants.MIN_PLAYERS;
+import static it.polimi.ingsw.server.costants.Constants.MAX_PLAYERS;
+import static it.polimi.ingsw.server.costants.Constants.MIN_PLAYERS;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
-//session manage the process of game start, players can join/left the lobby before game starts for reaching 4 players or the time limit.
-//players that will leave the game after his start will be set as "disconnected" but not removed from the game.
-
+/**
+ * Manages the process of game start; players can join/left the lobby before game starts.
+ * Players that will leave the game after it's start will be set as "disconnected" but not removed from the game.
+ */
 public  class Session extends Observable implements TimedComponent {
     private List<Player> lobby ;
     private GameMultiplayer game;
@@ -25,6 +26,13 @@ public  class Session extends Observable implements TimedComponent {
 
     public void setObserver (Observer obs){ this.obs = obs; }
 
+    /**
+     * Adds players in the game's lobby until it starts.
+     * If the player is the second one, the timer get started.
+     * When the lobby is full or the timer elapse, a new game is created.
+     *
+     * @param player name of the player that is going to join the lobby
+     */
     public synchronized void joinPlayer(String player) {
         this.player = player;
         if(game == null) {
@@ -42,13 +50,13 @@ public  class Session extends Observable implements TimedComponent {
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == MIN_PLAYERS ) {
                 startingTime = System.currentTimeMillis();
-                lobbyTimer = new GameTimer(TimerCostants.LOBBY_TIMER_VALUE,this);
+                lobbyTimer = new GameTimer(TimerConstants.LOBBY_TIMER_VALUE,this);
                 timer = new Timer();
                 timer.schedule(lobbyTimer,0L,5000L);
             }
             else if(lobby.size() == MAX_PLAYERS){
                 timer.cancel();
-                notifyChanges(LOBBY_FULL);
+                notifyChanges(START_GAME);
                 startGame();
             }
         }
@@ -65,6 +73,10 @@ public  class Session extends Observable implements TimedComponent {
         }
     }
 
+    /**
+     * Removes players from the lobby, if it's size reaches one player, the timer will be reset
+     * @param player name of the player that is going to leave the lobby
+     */
     public synchronized void removePlayer(String player){
         this.player = player;
         if(game == null) {
@@ -80,11 +92,18 @@ public  class Session extends Observable implements TimedComponent {
             notifyChanges(LOGOUT);
         }
         else {
-            for (Player p : game.getPlayers()) {
-                if (p.getNickname().equals(player)) {
-                    p.setConnected(false);
-                    System.out.println(player + " disconnected:\n"+ "players still connected: " + game.getBoard().getConnected() + "\n ---" );
-                    notifyChanges(LOGOUT);
+            if(game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
+                game.getRoundManager().getRound().disconnectPlayer();
+            else {
+                for (Player p : game.getPlayers()) {
+                    if (p.getNickname().equals(player)) {
+                        p.setConnected(false);
+                        System.out.println(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---");
+                        notifyChanges(LOGOUT);
+                    }
+                }
+                if (game.getBoard().getConnected() == 1) {
+                    game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
                 }
             }
         }
@@ -94,6 +113,9 @@ public  class Session extends Observable implements TimedComponent {
 
     public GameMultiplayer getGame() { return game; }
 
+    /**
+     * Creates and initializes a new game and sets it's observer
+     */
     private synchronized void startGame(){
         if(game == null) {
             System.out.println("starting game\n" + " ---");
@@ -105,33 +127,50 @@ public  class Session extends Observable implements TimedComponent {
         }
     }
 
+    /**
+     * Notifies that the timer is elapsed to the observer and makes the game start
+     */
     public void timerElapsed() {
-        notifyChanges(TIMER_ELAPSED);
+        notifyChanges(START_GAME);
         startGame();
-
     }
+
+
+    /**
+     * Notifies different changes to the observer
+     * @param string head of the message that will be sent to the observer
+     */
     public void notifyChanges(String string){
         List action = new ArrayList();
 
-        if(string.equals(TIMER_ELAPSED) || string.equals(LOBBY_FULL)) {
-            action.add(STARTING_GAME_MSG);
-        }else if(string.equals(TIMER_PING)){
-            action.add(TIMER_PING);
-            action.add((int)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime)/1000));
-        }else if(string.equals(LOGIN_ERROR)){
-            action.add(string);
-            action.add(player);
-            action.add("game");
-        }else if(string.equals(LOGOUT) ) {
-            action.add(string);
-            action.add(player);
-        }else if(string.equals(LOGIN_SUCCESSFUL)){
-            action.add(string);
-            action.add(player);
-            action.add(lobby.size());
-        }else if(string.equals(WELCOME_BACK)){
-            action.add(string);
-            action.add(player);
+        switch (string) {
+            case START_GAME:
+                action.add(string);
+                break;
+            case TIMER_PING:
+                action.add(string);
+                action.add((int) (TimerConstants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
+                break;
+            case LOGIN_ERROR:
+                action.add(string);
+                action.add(player);
+                action.add("game");
+                break;
+            case LOGOUT:
+                action.add(string);
+                action.add(player);
+                break;
+            case LOGIN_SUCCESSFUL:
+                action.add(string);
+                action.add(player);
+                action.add(lobby.size());
+                break;
+            case WELCOME_BACK:
+                //action.add(string);
+                //action.add(player);
+                break;
+            default:
+                break;
         }
         setChanged();
         notifyObservers(action);

@@ -1,11 +1,27 @@
-package it.polimi.ingsw.costants;
+package it.polimi.ingsw.server.costants;
 
 //messages in-game between server and client
 
 
-public class GameConstants {
-    private GameConstants() {}
+public class MessageConstants {
+    private MessageConstants() {}
 
+    //server -> client messages
+    public static final String LOGIN_ERROR = "Login_error";
+    public static final String LOGIN_SUCCESSFUL = "Welcome";
+    public static final String TIMER_PING = "timerPing";
+    public static final String LOGOUT = "logout";
+    public static final String WELCOME_BACK = "welcomeBack";
+    public static final String START_GAME = "startingGameMsg";
+    public static final String SET_PRIVATE_CARD = "setPrivateCard";
+    public static final String SET_SCHEMAS = "setSchemas";
+    public static final String SET_PUBLIC_OBJECTIVES = "setPublicObjectives";
+    public static final String SET_TOOL_CARDS = "setToolCards";
+    public static final String APPROVED_SCHEMA = "okSchema";
+    public static final String APPROVED_SCHEMA_CUSTOM = "okSchemaCustom";
+    public static final String SET_OPPONENTS_SCHEMAS = "setOpponentsSchemas";
+    public static final String SET_OPPONENTS_CUSTOM_SCHEMAS = "setOpponentsCustomSchemas";
+    public static final String START_TURN = "startTurn";
     public static final String START_ROUND = "startRound";
     public static final String SET_ACTIONS = "setActions";
     public static final String SET_DICE_SPACE = "setDiceSpace";
@@ -17,7 +33,6 @@ public class GameConstants {
     public static final String PICK_DICE_SPACE = "pickDiceSpace";
     public static final String PICK_DICE_SPACE_ERROR = "pickDiceSpaceError";
     public static final String PLACE_DICE_ROUND_TRACK = "placeDiceRoundTrack";
-    public static final String PLACE_DICE_ROUND_TRACK_ERROR = "placeDiceRoundTrackError";
     public static final String PICK_DICE_ROUND_TRACK = "pickDiceRoundTrack";
     public static final String PICK_DICE_ROUND_TRACK_ERROR = "pickDiceRoundTrackError";
     public static final String INSERT_DICE_ACCEPTED = "insertDiceAccepted";
@@ -38,7 +53,12 @@ public class GameConstants {
     public static final String ROLL_DICE_SPACE_ACCEPTED = "rollDiceSpaceAccepted";
     public static final String ROLL_DICE_ACCEPTED = "RollDiceAccepted";
     public static final String SWAP_DICE_BAG_ACCEPTED = "swapDiceBagAccepted";
+    public static final String SET_WINNER = "winner";
+    public static final String SET_RANKINGS = "setRankings";
 
+    //client -> server messages
+    public static final String DISCONNECTED = "Disconnected";
+    public static final String LOGIN = "Login";
     public static final String MOVE_DICE = "MoveDice";
     public static final String PLACE_DICE = "PlaceDice";
     public static final String PLACE_DICE_SPACE = "PlaceDiceSpace";
@@ -52,7 +72,10 @@ public class GameConstants {
     public static final String CHOOSE_VALUE = "ChooseValue";
     public static final String CUSTOM_SCHEMA = "CustomSchema";
     public static final String CHOOSE_SCHEMA = "ChooseSchema";
+    public static final String DRAFT_DICE = "DraftDice";
+    public static final String USE_TOOL_CARD = "UseToolCard";
+    public static final String END_TURN ="EndTurn";
+    public static final String INSERT_DICE = "InsertDice";
 
     public static final int PAINT_ROW=9;
-
 }

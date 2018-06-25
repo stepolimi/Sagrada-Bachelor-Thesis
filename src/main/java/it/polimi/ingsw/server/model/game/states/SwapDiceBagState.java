@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.model.board.DiceBag;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.SWAP_DICE_BAG_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.SWAP_DICE_BAG_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_BAG_ACCEPTED;
 
 public class SwapDiceBagState extends State {
     private static String state = SWAP_DICE_BAG_STATE;

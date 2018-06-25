@@ -5,17 +5,17 @@ import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-import it.polimi.ingsw.server.timer.GameTimer;
-import it.polimi.ingsw.server.timer.TimedComponent;
+import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.RoundManager;
+import it.polimi.ingsw.server.model.timer.GameTimer;
+import it.polimi.ingsw.server.model.timer.TimedComponent;
 
 import java.util.*;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.START_TURN;
-import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
-import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_VALUE;
-import static it.polimi.ingsw.costants.TimerCostants.TURN_TIMER_PING;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_VALUE;
+import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class Round extends Observable implements TimedComponent {
     private Player firstPlayer;
@@ -31,6 +31,7 @@ public class Round extends Observable implements TimedComponent {
     private List<List<String>> nextActions;
     private List<String> legalActions;
     private RoundManager roundManager;
+    private GameMultiplayer game;
     private int favorsDecremented;
     private boolean cardWasUsed;
 
@@ -43,9 +44,10 @@ public class Round extends Observable implements TimedComponent {
     private Long startingTime = 0L;
 
 
-    public Round(Player first, Board board, RoundManager roundManager) {
+    public Round(Player first, Board board, RoundManager roundManager, GameMultiplayer game) {
         usingTool = null;
         this.roundManager = roundManager;
+        this.game = game;
         states = new HashMap<>();
         legalActions = new ArrayList<>();
         playersOrder = new ArrayList<>();
@@ -135,13 +137,15 @@ public class Round extends Observable implements TimedComponent {
         return playersOrder;
     }
 
-    public Board getBoard() {
+    Board getBoard() {
         return board;
     }
 
     RoundManager getRoundManager() {
         return roundManager;
     }
+
+    GameMultiplayer getGame(){ return game; }
 
     Dice getPendingDice() {
         return pendingDice;
@@ -207,11 +211,11 @@ public class Round extends Observable implements TimedComponent {
         this.bonusInsertDice = bonusInsertDice;
     }
 
-    public void setNextActions(List<List<String>> nextActions) {
+    void setNextActions(List<List<String>> nextActions) {
         this.nextActions = nextActions;
     }
 
-    public List<List<String>> getNextActions() {
+    List<List<String>> getNextActions() {
         return nextActions;
     }
 
@@ -227,7 +231,7 @@ public class Round extends Observable implements TimedComponent {
         int playerIndex = board.getIndex(firstPlayer);
         playersOrder.add(firstPlayer);
         for (int i = 1; i < board.numPlayers() * 2; i++) {
-            if (i < getBoard().numPlayers())
+            if (i < board.numPlayers())
                 if (playerIndex == board.numPlayers() - 1)
                     playerIndex = 0;
                 else
@@ -244,10 +248,21 @@ public class Round extends Observable implements TimedComponent {
 
     public void timerElapsed() {
         System.out.println("TurnTimer elapsed\n" + " ---");
+        disconnectPlayer();
+    }
+
+    public void disconnectPlayer(){
+        System.out.println(currentPlayer.getNickname() + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---");
         currentPlayer.setConnected(false);
+        notifyChanges(LOGOUT);
         insertedDice = false;
         usedCard = false;
         usingTool = null;
+        if(board.getConnected() == 1) {
+            game.endGame(currentPlayer);
+            legalActions.clear();
+            return;
+        }
         if (pendingDice != null) {
             board.getDiceSpace().insertDice(pendingDice);
             pendingDice = null;
@@ -256,11 +271,14 @@ public class Round extends Observable implements TimedComponent {
             if (roundManager.getRoundNumber() <= 10) {
                 board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(), roundManager.getRoundNumber() - 1);
                 roundManager.startNewRound();
-            }
+            }else
+                game.endGame(currentPlayer);
         } else {
             List<String> action = new ArrayList<>();
             action.add(END_TURN);
             execute(action);
+            notifyChanges(START_TURN);
+            notifyChanges(SET_ACTIONS);
         }
     }
 
@@ -300,8 +318,8 @@ public class Round extends Observable implements TimedComponent {
                 break;
             default:
                 // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
-                // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,
-                // flipDiceAccepted,chooseValueAccepted,chooseValueError,moveDiveError
+                // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,flipDiceAccepted,
+                // chooseValueAccepted,chooseValueError,moveDiveError,logout
                 action.add(string);
                 action.add(currentPlayer.getNickname());
                 break;
@@ -309,6 +327,4 @@ public class Round extends Observable implements TimedComponent {
         setChanged();
         notifyObservers(action);
     }
-
-
 }

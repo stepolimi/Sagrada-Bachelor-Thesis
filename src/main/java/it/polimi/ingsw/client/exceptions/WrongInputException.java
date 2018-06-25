@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.exception;
+package it.polimi.ingsw.client.exceptions;
 
 
 import it.polimi.ingsw.client.view.Colour;

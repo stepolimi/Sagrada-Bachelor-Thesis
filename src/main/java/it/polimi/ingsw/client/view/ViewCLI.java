@@ -2,9 +2,9 @@ package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
-import it.polimi.ingsw.client.clientConnection.RmiConnection;
-import it.polimi.ingsw.client.clientConnection.SocketConnection;
-import it.polimi.ingsw.server.exception.WrongInputException;
+import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
+import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
+import it.polimi.ingsw.client.exceptions.WrongInputException;
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -13,9 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-import static it.polimi.ingsw.costants.GameConstants.PAINT_ROW;
-import static it.polimi.ingsw.costants.TimerCostants.LOBBY_TIMER_VALUE;
-
+import static it.polimi.ingsw.client.constants.MessageConstants.PAINT_ROW;
+import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
 
 public class ViewCLI implements View {
     private Scanner input;
@@ -26,7 +25,7 @@ public class ViewCLI implements View {
     private ArrayList<String> moves;
     private String privateObjective;
     private List<String> publicObjcective;
-    private List<String> toolCard;
+    private List<Integer> toolCard;
     private List<Dices> diceSpace;
     private boolean correct;
     private boolean myTurn = false;
@@ -58,7 +57,7 @@ public class ViewCLI implements View {
         schemas = new HashMap<String, Schema>();
         privateObjective = "";
         publicObjcective = new ArrayList<String>();
-        toolCard = new ArrayList<String>();
+        toolCard = new ArrayList<>();
         diceSpace = new ArrayList<Dices>();
     }
 
@@ -142,10 +141,10 @@ public class ViewCLI implements View {
     }
 
     // used to set round's diceSpace
-    public void setDiceSpace(List<String> dice) {
+    public void setDiceSpace(List<String> colours, List<Integer> values) {
         diceSpace.clear();
-        for (int i = 0; i < dice.size(); i = i + 2) {
-            diceSpace.add(new Dices("", Integer.parseInt(dice.get(i + 1)), Colour.stringToColour(dice.get(i))));
+        for (int i = 0; i < colours.size(); i ++) {
+            diceSpace.add(new Dices("", values.get(i), Colour.stringToColour(colours.get(i))));
         }
     }
 
@@ -158,8 +157,8 @@ public class ViewCLI implements View {
     }
 
     // used to remove Dice from DiceSpace
-    public void pickDiceSpace(List action) {
-        diceSpace.remove(Integer.parseInt((String) action.get(0)));
+    public void pickDiceSpace(int index) {
+        diceSpace.remove(index);
     }
 
     // used to notify the user of an insertDiceSpace error
@@ -168,10 +167,10 @@ public class ViewCLI implements View {
     }
 
     // used to place a Dice in Schema
-    public void placeDiceSchema(List action) {
-        if (!action.get(0).equals(username)) {
-            this.schemas.get(action.get(0)).getGrid()[Integer.parseInt((String) action.get(1))][Integer.parseInt((String) action.get(2))] =
-                    new Dices("", Integer.parseInt((String) action.get(4)), Colour.stringToColour((String) action.get(3)));
+    public void placeDiceSchema(String nickname, int row, int column, String colour, int value) {
+        if (!nickname.equals(username)) {
+            this.schemas.get(nickname).getGrid()[row][column] =
+                    new Dices("", value, Colour.stringToColour(colour));
         }
     }
 
@@ -193,7 +192,7 @@ public class ViewCLI implements View {
     }
 
     // set tool cards used in the game
-    public void setToolCards(List<String> cards) {
+    public void setToolCards(List<Integer> cards) {
         toolCard = cards;
         System.out.println("\n");
     }
@@ -506,9 +505,9 @@ public class ViewCLI implements View {
 
     private void showToolCard() {
         console.print("Le carte utensili sono:",TypeMessage.INFO_MESSAGE);
-        for (String tool : toolCard)
+        for (Integer tool : toolCard)
             try {
-                switch (Integer.parseInt(tool)) {
+                switch (tool) {
                     case 1:
                         console.print("1)Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scelto di 1", TypeMessage.INFO_MESSAGE);
                         break;
@@ -923,8 +922,8 @@ public class ViewCLI implements View {
     private void useToolCard() {
         correct = false;
         console.print("Scegli la tool card da utilizzare:",TypeMessage.INFO_MESSAGE);
-        for (String s : toolCard)
-            console.print(s,TypeMessage.INFO_MESSAGE);
+        for (Integer s : toolCard)
+            console.print(s.toString(),TypeMessage.INFO_MESSAGE);
         int tool = Integer.parseInt(input.nextLine());
         connection.useToolCard(tool);
     }
@@ -961,22 +960,21 @@ public class ViewCLI implements View {
 
     private List<List<Dices>> roundTrack = new ArrayList<List<Dices>>();
 
-    public void pickDiceRoundTrack(List action) {
-        pendingDice = roundTrack.get(Integer.parseInt((String) action.get(0))).get(Integer.parseInt((String) action.get(1)));
-        roundTrack.get(Integer.parseInt((String) action.get(0))).remove(Integer.parseInt((String) action.get(1)));
+    public void pickDiceRoundTrack(int nRound, int nDice) {
+        pendingDice = roundTrack.get(nRound).get(nDice);
+        roundTrack.get(nRound).remove(nDice);
     }
 
     public void pickDiceRoundTrackError() {
         console.print("Errore,dado non trovato",TypeMessage.ERROR_MESSAGE);
     }
 
-    public void placeDiceRoundTrack(List action) {
-        int roundNumber = Integer.parseInt((String) action.get(0));
+    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
+        int roundNumber = nRound;
         if (roundNumber > roundTrack.size() - 1)
             roundTrack.add(new ArrayList<Dices>());
-        action.remove(0);
-        for (int i = 0; i < action.size(); i += 2) {
-            roundTrack.get(roundNumber).add(new Dices("", Integer.parseInt((String) action.get(i + 1)), Colour.stringToColour((String) action.get(i))));
+        for (int i = 0; i < colours.size(); i ++) {
+            roundTrack.get(roundNumber).add(new Dices("", values.get(i), Colour.stringToColour((colours.get(i)))));
         }
     }
 
@@ -998,18 +996,18 @@ public class ViewCLI implements View {
         pendingDice = null;
     }
 
-    public void placeDiceSpace(List action) {
-        diceSpace.add(new Dices("", Integer.parseInt((String) action.get(1)), Colour.stringToColour((String) action.get(0))));
+    public void placeDiceSpace(String colour, int value) {
+        diceSpace.add(new Dices("", value, Colour.stringToColour((colour))));
     }
 
-    public void rollDiceSpaceAccepted(List action) {
+    public void rollDiceSpaceAccepted() {
         console.print("Abbiamo rollato 'sti dadi",TypeMessage.CONFIRM_MESSAGE);
         showDiceSpace();
     }
 
-    public void swapDiceBagAccepted(List action) {
-        pendingDice.setColour(Colour.stringToColour((String) action.get(0)));
-        pendingDice.setNumber(Integer.parseInt((String) action.get(1)));
+    public void swapDiceBagAccepted(String colour, int value) {
+        pendingDice.setColour(Colour.stringToColour(colour));
+        pendingDice.setNumber(value);
         console.print("valore nuovo dado: " + pendingDice,TypeMessage.INFO_MESSAGE);
     }
 
@@ -1078,11 +1076,9 @@ public class ViewCLI implements View {
         console.print("Dado spostato correttamente",TypeMessage.CONFIRM_MESSAGE);
     }
 
-    public void pickDiceSchema(List action) {
-        if (!action.get(0).equals(username)) {
-            this.schemas.get(action.get(0)).getGrid()[Integer.parseInt((String) action.get(1))][Integer.parseInt((String) action.get(2))] =
-                    new Dices("", 0, null);
-        }
+    public void pickDiceSchema(String nickname, int row, int column) {
+        if (!nickname.equals(username))
+            this.schemas.get(nickname).getGrid()[row][column] = new Dices("", 0, null);
     }
 
     public void pickDiceSchemaError() {
@@ -1129,6 +1125,19 @@ public class ViewCLI implements View {
         }
     }
 
+    public void setWinner(String nickname) {
+        //todo ;
+        System.out.println("THE WINNER IS: " + nickname);
+    }
+
+    public void setRankings(List<String> players, List<Integer> scores) {
+        //todo;
+        System.out.println("Rankings: ");
+        for(int i = 0; i < players.size(); i++){
+            System.out.println(i+1 + " - " + players.get(i) + ": " + scores.get(i));
+        }
+    }
+
 }
 enum TypeMessage{
     ERROR_MESSAGE("\u001B[31m"),
@@ -1139,10 +1148,8 @@ enum TypeMessage{
      TypeMessage(String colorString){this.colorString = colorString;}
      public String colorString(){return colorString;}
 }
-class Message
-{
-    public void print(String message,TypeMessage type)
-    {
-        System.out.println(type.colorString()+message+Colour.RESET);
+class Message {
+    public void print(String message, TypeMessage type) {
+        System.out.println(type.colorString() + message + Colour.RESET);
     }
 }

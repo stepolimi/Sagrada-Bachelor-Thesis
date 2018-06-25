@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK;
-import static it.polimi.ingsw.costants.GameConstants.PICK_DICE_ROUND_TRACK_ERROR;
-import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ROUND_TRACK;
-import static it.polimi.ingsw.server.serverCostants.Constants.TOT_ROUNDS;
+import static it.polimi.ingsw.server.costants.MessageConstants.PICK_DICE_ROUND_TRACK;
+import static it.polimi.ingsw.server.costants.MessageConstants.PICK_DICE_ROUND_TRACK_ERROR;
+import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_ROUND_TRACK;
+import static it.polimi.ingsw.server.costants.Constants.TOT_ROUNDS;
 
 public class RoundTrack extends Observable {
     private List<Dice>[] listRounds;

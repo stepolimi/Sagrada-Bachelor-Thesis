@@ -7,8 +7,8 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.INSERT_DICE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.INSERT_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE_ACCEPTED;
 
 public class InsertDiceState extends State {
     private static String state = INSERT_DICE_STATE;

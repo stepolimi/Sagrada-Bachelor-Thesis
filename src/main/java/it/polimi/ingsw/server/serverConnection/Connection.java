@@ -92,6 +92,7 @@ public interface Connection {
 
     void chooseValueError();
 
+    void setWinner(String nickname);
 
-
+    void setRankings(List<String> players, List<Integer> scores);
 }

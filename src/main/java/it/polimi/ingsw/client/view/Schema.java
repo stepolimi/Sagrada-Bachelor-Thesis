@@ -1,11 +1,11 @@
 package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.builders.SchemaBuilder;
+import it.polimi.ingsw.server.model.builders.SchemaBuilder;
 
 import java.io.*;
 
-import static it.polimi.ingsw.costants.GameConstants.PAINT_ROW;
+import static it.polimi.ingsw.client.constants.MessageConstants.PAINT_ROW;
 
 public class Schema {
     private String name;

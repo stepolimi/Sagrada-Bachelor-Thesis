@@ -4,9 +4,9 @@ import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.CHANGE_VALUE_ACCEPTED;
-import static it.polimi.ingsw.costants.GameConstants.CHANGE_VALUE_ERROR;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.CHANGE_VALUE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ACCEPTED;
+import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ERROR;
 
 public class ChangeValueState extends State {
     private static String state = CHANGE_VALUE_STATE;

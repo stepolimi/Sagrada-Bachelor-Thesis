@@ -2,8 +2,8 @@ package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
-import it.polimi.ingsw.client.clientConnection.RmiConnection;
-import it.polimi.ingsw.client.clientConnection.SocketConnection;
+import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
+import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
 import it.polimi.ingsw.client.view.Colour;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.Schema;
@@ -44,6 +44,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
 import static java.lang.Thread.sleep;
 
 
@@ -388,7 +389,7 @@ public class ControllerGUI implements View {
             String text = time;
 
             double seconds = Integer.parseInt(text);
-            double tot = 60.000;
+            double tot = LOBBY_TIMER_VALUE * 1000;
             double full = 1.000;
             double result = full - seconds / tot;
             progressBar.setProgress(result);
@@ -457,7 +458,7 @@ public class ControllerGUI implements View {
 
     }
 
-    public void setToolCards(final List<String> cards) {
+    public void setToolCards(final List<Integer> cards) {
 
         Platform.runLater(() -> {
 
@@ -471,7 +472,7 @@ public class ControllerGUI implements View {
                         Image toolImage = new Image(path + cards.get(i) + ".png");
                         tool.get(i).setImage(toolImage);
                         tool.get(i).setCursor(new ImageCursor(cursor));
-                        useTool.get(i).setId(cards.get(i));
+                        useTool.get(i).setId(cards.get(i).toString());
 
                     });
 
@@ -852,21 +853,19 @@ public class ControllerGUI implements View {
 
     }
 
-    public void setDiceSpace(final List<String> dices) {
+    public void setDiceSpace(final List<String> colours, List<Integer> values) {
         Platform.runLater(() -> {
-            List<String> stringList = new ArrayList<String>(dices);
-
             diceExtract = new ArrayList<String>();
 
             final int[] j = {0};
-            IntStream.iterate(0, i -> i + 2)
-                    .limit(stringList.size() / 2)
+            IntStream.iterate(0, i -> i + 1)
+                    .limit(colours.size())
                     .forEach(i -> {
-                        diceExtract.add(stringList.get(i));
-                        diceExtract.add(stringList.get(i + 1));
+                        diceExtract.add(colours.get(i));
+                        diceExtract.add(values.get(i).toString());
                         ImageView imageView = (ImageView) diceSpace.getChildren().get(j[0]);
-                        String color = stringList.get(i);
-                        String number = stringList.get(i + 1);
+                        String color = colours.get(i);
+                        String number = values.get(i).toString();
                         setDice(imageView, color, number);
                         j[0]++;
                     });
@@ -907,16 +906,16 @@ public class ControllerGUI implements View {
         }
     }
 
-    public void pickDiceSpace(final List action) {
+    public void pickDiceSpace(final int index) {
 
         Platform.runLater(() -> {
             if (currentTool == 7)
                 return;
             else {
-                ImageView imageView = (ImageView) diceSpace.getChildren().get(Integer.parseInt((String) action.get(0)));
+                ImageView imageView = (ImageView) diceSpace.getChildren().get(index);
                 imageView.setImage(null);
-                diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
-                diceExtract.remove((Integer.parseInt((String) action.get(0)) * 2));
+                diceExtract.remove(index * 2);
+                diceExtract.remove(index * 2);
 
 
                 try {
@@ -936,23 +935,16 @@ public class ControllerGUI implements View {
 
     }
 
-    public void placeDiceSchema(final List action) {
+    public void placeDiceSchema(final String nickname, int row, int column, String colour, int value) {
 
         Platform.runLater(() -> {
-            int row;
-
-            int column;
 
             for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
                 GridPane gridPane = (GridPane) schemaPlayers.get(i);
-                if (gridPane.getId().equals(action.get(0))) {
-                    row = Integer.parseInt((String) action.get(1));
-                    column = Integer.parseInt((String) action.get(2));
+                if (gridPane.getId().equals(nickname)) {
                     ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
 
-                    String color = (String) action.get(3);
-                    String number = (String) action.get(4);
-                    setDice(imageView, color, number);
+                    setDice(imageView, colour, ((Integer)value).toString());
                 }
             }
         });
@@ -973,12 +965,10 @@ public class ControllerGUI implements View {
 
     }
 
-    public void pickDiceSchema(List action) {
+    public void pickDiceSchema(String nickname, int row, int column) {
         for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
             GridPane gridPane = (GridPane) schemaPlayers.get(i);
-            if (gridPane.getId().equals(action.get(0))) {
-                int row = Integer.parseInt((String) action.get(1));
-                int column = Integer.parseInt((String) action.get(2));
+            if (gridPane.getId().equals(nickname)) {
                 ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
                 imageView.setImage(null);
             }
@@ -1077,12 +1067,10 @@ public class ControllerGUI implements View {
 
     }
 
-    public void pickDiceRoundTrack(final List action) {
+    public void pickDiceRoundTrack(int nRound, int nDice) {
         Platform.runLater(() -> {
-            int round = Integer.parseInt((String) action.get(0));
-            int roundIndex = Integer.parseInt((String) action.get(1));
-            getRoundCell(round, roundIndex, roundTrack).setImage(null);
-            diceRoundTrackSort(round);
+            getRoundCell(nRound, nDice, roundTrack).setImage(null);
+            diceRoundTrackSort(nRound);
         });
     }
 
@@ -1090,18 +1078,18 @@ public class ControllerGUI implements View {
         textflow.setText(GameMessage.PICK_DICE_ROUND_ERROR);
     }
 
-    public void placeDiceRoundTrack(final List action) {
+    public void placeDiceRoundTrack(int nRound, final List<String> colours, List<Integer> values) {
 
         Platform.runLater(() -> {
-            int round = Integer.parseInt(((String) action.get(0)));
+            int round = nRound;
 
-            action.remove(0);
+            colours.remove(0);
 
-            IntStream.iterate(0, i -> i + 2)
-                    .limit(action.size() / 2)
+            IntStream.iterate(0, i -> i + 1)
+                    .limit(colours.size())
                     .forEach(i -> {
-                        String color = (String) action.get(i);
-                        String number = (String) action.get(i + 1);
+                        String color = colours.get(i);
+                        String number =  values.get(i).toString();
                         ImageView imageView = getLastRoundCell(round, roundTrack);
                         setDice(imageView, color, number);
 
@@ -1149,18 +1137,16 @@ public class ControllerGUI implements View {
 
     }
 
-    public void placeDiceSpace(final List action) {
+    public void placeDiceSpace(final String colour, int value) {
         Platform.runLater(() -> {
             ImageView imageView = getLastCellDicespace(diceSpace);
-            String color = (String) action.get(0);
-            String value = (String) action.get(1);
-            setDice(imageView, color, value);
+            setDice(imageView, colour, value);
 
         });
 
     }
 
-    public void rollDiceSpaceAccepted(final List action) {
+    public void rollDiceSpaceAccepted() {
         Platform.runLater(() -> {
             textflow.setText(GameMessage.DICE_SPACE_ROLLED);
             iconTool.setVisible(false);
@@ -1168,11 +1154,11 @@ public class ControllerGUI implements View {
 
     }
 
-    public void swapDiceBagAccepted(final List action) {
+    public void swapDiceBagAccepted(final String colour, int value) {
         Platform.runLater(() -> {
-            colorMoved = (String) action.get(0);
-            numberMoved = Integer.parseInt((String) action.get(1));
-            setDice(pendingDice, (String) action.get(0), action.get(1));
+            colorMoved = colour;
+            numberMoved = value;
+            setDice(pendingDice, colour, value);
             changeScene(FxmlConstant.CHOOSE_VALUE);
         });
 
@@ -1208,14 +1194,14 @@ public class ControllerGUI implements View {
 
     }
 
-    public void setOpponentsCustomSchemas(final List<String> action) {
+    public void setOpponentsCustomSchemas(final List<String> opponentsSchemas) {
         Platform.runLater(() -> {
 
             Gson g = new Gson();
             int i;
             Schema s;
 
-            for (int j = 0; j < action.size(); j = j + 2) {
+            for (int j = 0; j < opponentsSchemas.size(); j = j + 2) {
                 i = 0;
 
                 for (; i < schemaPlayers.size(); i = i + 2) {
@@ -1224,11 +1210,11 @@ public class ControllerGUI implements View {
                 }
                 if (i == 6)
                     return;
-                if (!action.get(j).equals(nickname.getText())) {
-                    ((Text) (schemaPlayers.get(i))).setText(action.get(j));
-                    s = g.fromJson(action.get(j + 1), Schema.class);
+                if (!opponentsSchemas.get(j).equals(nickname.getText())) {
+                    ((Text) (schemaPlayers.get(i))).setText(opponentsSchemas.get(j));
+                    s = g.fromJson(opponentsSchemas.get(j + 1), Schema.class);
                     printConstrain((GridPane) schemaPlayers.get(i + 1), s);
-                    ((GridPane) schemaPlayers.get(i + 1)).setId(action.get(j));
+                    ((GridPane) schemaPlayers.get(i + 1)).setId(opponentsSchemas.get(j));
                 }
 
             }
@@ -1236,6 +1222,16 @@ public class ControllerGUI implements View {
 
         });
 
+    }
+
+    @Override
+    public void setWinner(String nickname) {
+        //todo;
+    }
+
+    @Override
+    public void setRankings(List<String> players, List<Integer> scores) {
+        //todo;
     }
 
     public void diceSpaceSort() {

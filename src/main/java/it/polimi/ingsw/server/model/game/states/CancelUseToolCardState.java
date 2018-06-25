@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.game.states;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.CANCEL_USE_TOOL_CARD_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.CANCEL_USE_TOOL_CARD_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.CANCEL_USE_TOOL_CARD_ACCEPTED;
 
 public class CancelUseToolCardState extends State {
     private static String state = CANCEL_USE_TOOL_CARD_STATE;

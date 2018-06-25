@@ -1,23 +1,25 @@
 package it.polimi.ingsw.server.model.game;
 
-import it.polimi.ingsw.costants.TimerCostants;
+import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.DeckSchemas;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckPublicObjective;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
-import it.polimi.ingsw.server.model.game.states.RoundManager;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.timer.GameTimer;
-import it.polimi.ingsw.server.timer.TimedComponent;
+import it.polimi.ingsw.server.model.timer.GameTimer;
+import it.polimi.ingsw.server.model.timer.TimedComponent;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
-import static it.polimi.ingsw.costants.TimerCostants.SCHEMA_TIMER_VALUE;
-import static it.polimi.ingsw.costants.TimerCostants.SCHEMAS_TIMER_PING;
-import static it.polimi.ingsw.server.serverCostants.Constants.MAX_SCHEMA_DICES;
+import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
+import static it.polimi.ingsw.server.costants.MessageConstants.SET_RANKINGS;
+import static it.polimi.ingsw.server.costants.MessageConstants.SET_WINNER;
+import static it.polimi.ingsw.server.costants.MessageConstants.TIMER_PING;
+import static it.polimi.ingsw.server.costants.TimerConstants.SCHEMA_TIMER_VALUE;
+import static it.polimi.ingsw.server.costants.TimerConstants.SCHEMAS_TIMER_PING;
 
 public class GameMultiplayer extends Observable implements TimedComponent {
     private List<Player> players;
@@ -27,12 +29,13 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private GameTimer schemaTimer;
     private Timer timer;
     private Long startingTime = 0L;
+    private List<Player> rankings;
 
     public GameMultiplayer(List<Player> players) {
         this.players = new ArrayList<>();
         this.players.addAll(players);
         this.board = new Board(players);
-        this.roundManager = new RoundManager(board);
+        this.roundManager = new RoundManager(board, this);
     }
 
     public void setObserver(Observer obs) {
@@ -65,18 +68,37 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         timer.schedule(schemaTimer, 0L, 5000L);
     }
 
-    public void endGame() {
+    public void endGame(Player lastPlayer) {
         System.out.println("calcolo punteggio");
-        Optional<Player> winner;
 
         calculateScores();
-        winner = players.stream()
+
+        rankings = players.stream()
                 .filter(Player::isConnected)
-                .reduce((player1,player2) -> player1.getScore() >= player2.getScore() ? player1 : player2);
+                .sorted(Comparator.comparing(Player::getScore).reversed())
+                .collect(Collectors.toList());
 
-        winner.ifPresent(player -> System.out.println("the winner is: " + winner.get().getNickname()) );
-
-
+        for (int i = 0; i < rankings.size() - 1; i++) {
+            Player player1 = rankings.get(i);
+            Player player2 = rankings.get(i + 1);
+            if (player2.getScore() == player1.getScore()) {
+                if (player2.getPrCard().scoreCard(player1.getSchema()) > player1.getPrCard().scoreCard(player2.getSchema())) {
+                    rankings.remove(player2);
+                    rankings.add(i, player2);
+                } else if (player2.getPrCard().scoreCard(player2.getSchema()) == player1.getPrCard().scoreCard(player1.getSchema())) {
+                    if (player2.getFavour() > player1.getFavour()) {
+                        rankings.remove(player2);
+                        rankings.add(i, player2);
+                    } else if ((player2.getFavour() == player1.getFavour()) && player2.equals(lastPlayer)) {
+                        rankings.remove(player2);
+                        rankings.add(i, player2);
+                    }
+                }
+            }
+        }
+        rankings.forEach(player -> System.out.println(player.getNickname() +": " + player.getScore()));
+        notifyChanges(SET_WINNER);
+        notifyChanges(SET_RANKINGS);
     }
 
     private void calculateScores() {
@@ -92,7 +114,8 @@ public class GameMultiplayer extends Observable implements TimedComponent {
                     score += player.getPrCard().scoreCard(schema);
                     score -= MAX_SCHEMA_DICES - schema.getSize();
                     score += player.getFavour();
-
+                    if (score < 0)
+                        score = 0;
                     player.setScore(score);
                     System.out.println("score of " + player.getNickname() + " is " + score);
                 });
@@ -134,12 +157,27 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     public void notifyChanges(String string) {
         List action = new ArrayList<>();
 
-        if (string.equals(TIMER_PING)) {
-            action.add(SCHEMAS_TIMER_PING);
-            action.add((int)(TimerCostants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
-            setChanged();
-            notifyObservers(action);
+        switch (string) {
+            case TIMER_PING:
+                action.add(SCHEMAS_TIMER_PING);
+                action.add((int) (TimerConstants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
+                break;
+            case SET_WINNER:
+                action.add(string);
+                action.add(rankings.get(0).getNickname());
+                break;
+            case SET_RANKINGS:
+                action.add(string);
+                rankings.forEach(player -> {
+                    action.add(player.getNickname());
+                    action.add(player.getScore());
+                });
+                break;
+            default:
+                break;
         }
+        setChanged();
+        notifyObservers(action);
     }
 
 

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.server.serverConnection;
+package it.polimi.ingsw.server.serverConnection.socket;
 
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.IOException;

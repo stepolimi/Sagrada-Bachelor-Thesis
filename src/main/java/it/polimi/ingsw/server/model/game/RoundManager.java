@@ -1,6 +1,8 @@
-package it.polimi.ingsw.server.model.game.states;
+package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.board.Board;
+import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.states.Round;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +11,17 @@ import java.util.Random;
 
 public class RoundManager  {
     private Board board;
+    private GameMultiplayer game;
     private List<Round> rounds;
     private Observer obs;
     private int firstPlayerIndex = 0;
     private int roundNum = 0;
     private Round round ;
 
-    public RoundManager(Board board){
+    public RoundManager(Board board, GameMultiplayer game){
         this.board = board;
-        rounds = new ArrayList<Round>();
+        this.game = game;
+        rounds = new ArrayList<>();
     }
 
     public void startNewRound() {
@@ -25,7 +29,7 @@ public class RoundManager  {
             boolean playerConnected = false;
             do{
                 if(board.getPlayerList().get(firstPlayerIndex).isConnected()) {
-                    round = new Round(board.getPlayerList().get(firstPlayerIndex), board, this);
+                    round = new Round(board.getPlayerList().get(firstPlayerIndex), board, this, game );
                     playerConnected = true;
                 }
                 if(firstPlayerIndex < board.numPlayers()-1)

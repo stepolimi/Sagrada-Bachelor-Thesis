@@ -7,12 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.APPROVED_SCHEMA_CUSTOM;
-import static it.polimi.ingsw.costants.GameCreationMessages.SET_OPPONENTS_CUSTOM_SCHEMAS;
-import static it.polimi.ingsw.costants.LoginMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.STARTING_GAME_MSG;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class VirtualView extends Observable implements Observer {
     private Connected connection;
@@ -24,7 +19,9 @@ public class VirtualView extends Observable implements Observer {
 
 
     public void update(Observable o, Object arg) {
-        String command = ((String)((List)arg).get(0));
+        if(((List)arg).isEmpty())
+            return;
+        String command = (String)((List)arg).get(0);
         String nickname;
         List action = (List)arg;
         List<String> colours;
@@ -43,7 +40,7 @@ public class VirtualView extends Observable implements Observer {
             case TIMER_PING:
                 connection.timerPing((Integer)action.get(1));
                 break;
-            case STARTING_GAME_MSG:
+            case START_GAME:
                 connection.createGame();
                 break;
             case SET_SCHEMAS:
@@ -184,6 +181,18 @@ public class VirtualView extends Observable implements Observer {
                 break;
             case CHOOSE_VALUE_ERROR:
                 connection.chooseValueError((String)action.get(1));
+                break;
+            case SET_WINNER:
+                connection.setWinner((String)action.get(1));
+                break;
+            case SET_RANKINGS:
+                List<String> players = new ArrayList<>();
+                List<Integer> scores = new ArrayList<>();
+                for(int i=1; i<action.size(); i+=2){
+                    players.add((String) action.get(i));
+                    scores.add((Integer)action.get(i+1));
+                }
+                connection.setRankings(players,scores);
                 break;
             default:
                 break;

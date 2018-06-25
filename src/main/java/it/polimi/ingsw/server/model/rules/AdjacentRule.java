@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.ADJACENT_RESTRICTION;
+import static it.polimi.ingsw.server.costants.Constants.ADJACENT_RESTRICTION;
 
 public class AdjacentRule implements InsertionRule {
     private static String restriction = ADJACENT_RESTRICTION;

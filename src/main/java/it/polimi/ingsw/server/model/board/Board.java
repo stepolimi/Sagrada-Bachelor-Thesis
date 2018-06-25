@@ -13,7 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class Board extends Observable {
     private List<Player> playerList;

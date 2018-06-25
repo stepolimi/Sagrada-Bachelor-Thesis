@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.clientConnection;
+package it.polimi.ingsw.client.clientConnection.rmi;
 
 
 import it.polimi.ingsw.client.view.Handler;
@@ -6,12 +6,10 @@ import it.polimi.ingsw.client.view.View;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN_ERROR;
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN_SUCCESSFUL;
+import static it.polimi.ingsw.client.constants.MessageConstants.LOGIN_ERROR;
+import static it.polimi.ingsw.client.constants.MessageConstants.LOGIN_SUCCESSFUL;
 
 
 public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMethodInterface {
@@ -47,27 +45,17 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.createGame();
     }
 
-    public void setSchemas(List<String> schemas) {
-        v.setSchemas(schemas);
-
-    }
+    public void setSchemas(List<String> schemas) { v.setSchemas(schemas); }
 
     public void setPrivateCard(String privateCard) {
         v.setPrivateCard(privateCard);
     }
 
-    public void setPublicObjectives(List<String> publicObjectives) {
-        v.setPublicObjectives(publicObjectives);
-    }
+    public void setPublicObjectives(List<String> publicObjectives) { v.setPublicObjectives(publicObjectives); }
 
-    public void setToolCards(List<Integer> toolCards) {
-        List<String> toolCardsString = toolCards.stream().map(toolCard -> toolCard.toString()).collect(Collectors.toList());
-        v.setToolCards(toolCardsString);
-    }
+    public void setToolCards(List<Integer> toolCards) { v.setToolCards(toolCards); }
 
-    public void chooseSchema(String schema) {
-        v.chooseSchema(schema);
-    }
+    public void chooseSchema(String schema) { v.chooseSchema(schema); }
 
     public void setOpponentsSchemas(List<String> opponentsSchemas) {
         v.setOpponentsSchemas(opponentsSchemas);
@@ -81,18 +69,9 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.startTurn(nickname);
     }
 
-    public void setActions(List<String> actions) {
-        v.setActions(actions);
-    }
+    public void setActions(List<String> actions) { v.setActions(actions); }
 
-    public void setDiceSpace(List<String> colours, List<Integer> values) {
-        List<String> action = new ArrayList<>();
-        for(int i = 0; i< colours.size(); i++){
-            action.add(colours.get(i));
-            action.add(values.get(i).toString());
-        }
-        v.setDiceSpace(action);
-    }
+    public void setDiceSpace(List<String> colours, List<Integer> values) { v.setDiceSpace(colours,values); }
 
     public void insertDiceAccepted() {
         v.insertDiceAccepted();
@@ -108,9 +87,7 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
 
     public void pickDiceSpace(int index) {
         try {
-            List<String> action = new ArrayList<>();
-            action.add(((Integer)index).toString());
-            v.pickDiceSpace(action);
+            v.pickDiceSpace(index);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -120,27 +97,13 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.pickDiceSpaceError();
     }
 
-    public void placeDiceSchema(String nickname, int row, int column, String colour, int value) {
-        List<String> action = new ArrayList<>();
-        action.add(nickname);
-        action.add(((Integer)row).toString());
-        action.add(((Integer)column).toString());
-        action.add(colour);
-        action.add(((Integer)value).toString());
-        v.placeDiceSchema(action);
-    }
+    public void placeDiceSchema(String nickname, int row, int column, String colour, int value) { v.placeDiceSchema(nickname,row,column,colour,value); }
 
     public void placeDiceSchemaError() {
         v.placeDiceSchemaError();
     }
 
-    public void pickDiceSchema(String nickname, int row, int column) {
-        List<String> action = new ArrayList<>();
-        action.add(nickname);
-        action.add(((Integer)row).toString());
-        action.add(((Integer)column).toString());
-        v.pickDiceSchema(action);
-    }
+    public void pickDiceSchema(String nickname, int row, int column) { v.pickDiceSchema(nickname,row,column); }
 
     public void pickDiceSchemaError() {
         v.pickDiceSchemaError();
@@ -174,26 +137,13 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.swapDiceAccepted();
     }
 
-    public void pickDiceRoundTrack(int nRound, int nDice) {
-        List<String> action = new ArrayList<>();
-        action.add(((Integer)nRound).toString());
-        action.add(((Integer)nDice).toString());
-        v.pickDiceRoundTrack(action);
-    }
+    public void pickDiceRoundTrack(int nRound, int nDice) { v.pickDiceRoundTrack(nRound,nDice); }
 
     public void pickDiceRoundTrackError() {
         v.pickDiceRoundTrackError();
     }
 
-    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
-        List<String> action = new ArrayList<>();
-        action.add(((Integer)nRound).toString());
-        for(int i = 0; i< colours.size(); i++){
-            action.add(colours.get(i));
-            action.add(values.get(i).toString());
-        }
-        v.placeDiceRoundTrack(action);
-    }
+    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) { v.placeDiceRoundTrack(nRound, colours, values); }
 
     public void flipDiceAccepted(int value) {
         v.flipDiceAccepted(value);
@@ -203,27 +153,17 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.cancelUseToolCardAccepted(favors);
     }
 
-    public void placeDiceSpace(String colour, int value) {
-        List<String> action = new ArrayList<>();
-        action.add(colour);
-        action.add(((Integer)value).toString());
-        v.placeDiceSpace(action);
-    }
+    public void placeDiceSpace(String colour, int value) { v.placeDiceSpace(colour,value); }
 
     public void placeDiceSpaceAccepted() {
         v.placeDiceSpaceAccepted();
     }
 
     public void rollDiceSpaceAccepted() {
-        v.rollDiceSpaceAccepted(new ArrayList());
+        v.rollDiceSpaceAccepted();
     }
 
-    public void swapDiceBagAccepted(String colour, int value) {
-        List<String> action = new ArrayList<>();
-        action.add(colour);
-        action.add(((Integer)value).toString());
-        v.swapDiceBagAccepted(action);
-    }
+    public void swapDiceBagAccepted(String colour, int value) { v.swapDiceBagAccepted(colour,value); }
 
     public void chooseValueAccepted() {
         v.chooseValueAccepted();
@@ -233,13 +173,17 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.chooseValueError();
     }
 
+    public void setWinner(String nickname) { v.setWinner(nickname); }
+
+    public void setRankings(List<String> players, List<Integer> scores) {
+        v.setRankings(players,scores);
+    }
+
     public void schemaCustomAccepted(String schema){
         v.schemaCustomAccepted(schema);
     }
 
-    public void setOpponentsCustomSchemas(List<String> opponentsSchemas) {
-        v.setOpponentsCustomSchemas(opponentsSchemas);
-    }
+    public void setOpponentsCustomSchemas(List<String> opponentsSchemas) { v.setOpponentsCustomSchemas(opponentsSchemas); }
 }
 
 

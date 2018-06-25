@@ -6,9 +6,8 @@ import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import java.util.List;
 import java.util.Map;
 
-import static it.polimi.ingsw.costants.GameConstants.USE_TOOL_CARD_ACCEPTED;
-import static it.polimi.ingsw.costants.GameConstants.USE_TOOL_CARD_ERROR;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class UseToolCardState extends State {
     private static String state = USE_TOOL_CARD_STATE;
