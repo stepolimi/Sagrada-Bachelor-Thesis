@@ -21,7 +21,7 @@ public class GameMessage {
     static final String EMPTY = "";
 
 
-    //message AFTER use of Tool Card
+    //message DURING use of Tool Card
     static final String USE_TOOL_5 = "Ora scegli il dado dal tracciato di Round";
     static final String USE_TOOL_6 = "Clicca sul dado preso e lancialo!";
     static final String USE_TOOL_7 = "Puoi utilizzare la Carta Utensile! Clicca nuovamente sulla carta per lanciare i dadi!";
@@ -30,7 +30,7 @@ public class GameMessage {
     static final String TOOL_USED = "Hai usato la Carta Utensile!";
     static final String TOOL_NOT_USE = "Non hai usato la carta utensile!";
 
-    //message DURING use of Tool Card
+    //message AFTER use of Tool Card
     static final String DICE_SPACE_ROLLED = "Hai utilizzato la Carta Utensile! Ora puoi inserire un dado";
     static final String PLACE_DICE_CHOOSEN = "Hai cambiato correttamente il dado! Ora inseriscilo!";
     static final String PLACE_DICE_CHANGED = "Hai cambiato valore! Ora inseriscilo!";
@@ -59,6 +59,7 @@ public class GameMessage {
     static final String GREEN = "ANSI_GREEN";
     static final String RED = "ANSI_RED";
     static final String YELLOW = "ANSI_YELLOW";
+    static final String PURPLE = "ANSI_PURPLE";
 
     //Editor of Schema
     static final String CHOOSE_DESTINATION = "Scegli dove salvare il tuo schema";

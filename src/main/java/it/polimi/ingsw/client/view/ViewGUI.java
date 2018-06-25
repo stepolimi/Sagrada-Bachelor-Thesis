@@ -2,7 +2,10 @@ package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.view.gui.ControllerGUI;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ViewGUI extends Application {
@@ -20,8 +23,18 @@ public class ViewGUI extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        controller.setScene("play");
-    }
+        FXMLLoader loader = new FXMLLoader();
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/FXML/play.fxml"));
+        Pane p =  loader.load();
+
+        scene = new Scene(p);
+        stage = primaryStage;
+        stage.setScene(scene);
+        stage.setResizable(false);
+        Image image = new Image("/assets/image/icon.png");
+        stage.getIcons().add(image);
+        stage.show();    }
 
 
     public void setController(ControllerGUI controller)

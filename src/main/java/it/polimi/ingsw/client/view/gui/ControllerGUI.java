@@ -41,6 +41,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static java.lang.Thread.sleep;
@@ -1625,17 +1626,22 @@ public class ControllerGUI implements View {
 
         String path = UrlConstant.DICE_PATH;
 
-
-        if (color.equals((GameMessage.BLUE))) {
-            imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
-        } else if (color.equals((GameMessage.RED))) {
-            imageView.setImage(new Image(path + "/Red/" + number + ".png"));
-        } else if (color.equals(GameMessage.YELLOW)) {
-            imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
-        } else if (color.equals(GameMessage.GREEN)) {
-            imageView.setImage(new Image(path + "/Green/" + number + ".png"));
-        } else {
-            imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
+        switch (color) {
+            case GameMessage.BLUE:
+                imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
+                break;
+            case GameMessage.RED:
+                imageView.setImage(new Image(path + "/Red/" + number + ".png"));
+                break;
+            case GameMessage.YELLOW:
+                imageView.setImage(new Image(path + "/Yellow/" + number + ".png"));
+                break;
+            case GameMessage.GREEN:
+                imageView.setImage(new Image(path + "/Green/" + number + ".png"));
+                break;
+            default:
+                imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
+                break;
 
         }
 
@@ -1657,17 +1663,23 @@ public class ControllerGUI implements View {
 
     public void printConstrain(GridPane mySchema, Schema sch) {
 
-        int count = 0;
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 5; j++) {
-                ImageView imageView = (ImageView) mySchema.getChildren().get(count);
-                String constrain = sch.getGrid()[i][j].getConstraint();
-                if (!sch.getGrid()[i][j].getConstraint().equals(""))
-                    putConstrain(imageView, constrain);
-                count++;
-            }
+        AtomicInteger count = new AtomicInteger();
+
+        IntStream.range(0, 4)
+                .forEach(i ->{
+                    IntStream.range(0, 5)
+                            .forEach(j -> {
+                                ImageView imageView = (ImageView) mySchema.getChildren().get(count.get());
+                                String constrain = sch.getGrid()[i][j].getConstraint();
+                                if (!sch.getGrid()[i][j].getConstraint().equals(""))
+                                    putConstrain(imageView, constrain);
+                                count.getAndIncrement();
+                            });
+                });
+
+
         }
-    }
+
 
     public void disableToolNumber(String n, boolean value) {
         if (use1.getId().equals(n))
