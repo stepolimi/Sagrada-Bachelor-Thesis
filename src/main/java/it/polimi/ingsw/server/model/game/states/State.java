@@ -3,9 +3,9 @@ package it.polimi.ingsw.server.model.game.states;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.END_TURN;
-import static it.polimi.ingsw.server.serverCostants.Constants.INSERT_DICE;
-import static it.polimi.ingsw.server.serverCostants.Constants.USE_TOOL_CARD;
+import static it.polimi.ingsw.server.costants.MessageConstants.END_TURN;
+import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE;
+import static it.polimi.ingsw.server.costants.MessageConstants.USE_TOOL_CARD;
 
 public abstract class State {
     public abstract void execute(Round round, List action);
@@ -15,7 +15,7 @@ public abstract class State {
     }
 
     void giveLegalActions(Round round){
-        List<String> legalActions = new ArrayList<String>();
+        List<String> legalActions = new ArrayList<>();
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()){
             round.setUsingTool(null);
             if(!round.isInsertedDice() || round.hasBonusInsertDice())

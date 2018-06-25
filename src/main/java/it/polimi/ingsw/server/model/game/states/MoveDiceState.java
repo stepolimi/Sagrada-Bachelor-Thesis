@@ -7,9 +7,9 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.MOVE_DICE_ACCEPTED;
-import static it.polimi.ingsw.costants.GameConstants.MOVE_DICE_ERROR;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.MOVE_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ACCEPTED;
+import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ERROR;
 
 public class MoveDiceState extends State {
     private static String state = MOVE_DICE_STATE;

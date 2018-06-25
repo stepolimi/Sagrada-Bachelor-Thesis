@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class RoundTest {
@@ -51,7 +51,7 @@ public class RoundTest {
     @Test
     void ChangeStateCheck(){
         TestInit();
-        round = new Round(player,board,null);
+        round = new Round(player,board,null, null );
         round.roundInit();
 
         //Round switch states correctly
@@ -82,8 +82,8 @@ public class RoundTest {
     @Test
     void ChangeCurrentPlayerCheck (){
         TestInit();
-        round = new Round(player,board,null);
-        round2 = new Round(player2,board,null);
+        round = new Round(player,board,null, null);
+        round2 = new Round(player2,board,null, null);
         round.roundInit();
         round2.roundInit();
         action.add("EndTurn");

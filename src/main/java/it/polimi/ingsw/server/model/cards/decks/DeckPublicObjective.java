@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.DECK_PUBLIC_OBJECTIVES_SIZE;
+import static it.polimi.ingsw.server.costants.Constants.DECK_PUBLIC_OBJECTIVES_SIZE;
 
 public class DeckPublicObjective {
     private ArrayList<ObjectiveCard> deckPub;

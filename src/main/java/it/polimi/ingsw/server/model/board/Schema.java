@@ -21,14 +21,13 @@ import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
 public class Schema extends Observable {
     private String name;  //name of schema card

@@ -7,8 +7,8 @@ import it.polimi.ingsw.server.model.board.RoundTrack;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.SWAP_DICE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.SWAP_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_ACCEPTED;
 
 public class SwapDiceState extends State {
     private static String state = SWAP_DICE_STATE;

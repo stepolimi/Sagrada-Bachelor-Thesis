@@ -1,8 +1,9 @@
-package it.polimi.ingsw.client.clientConnection;
+package it.polimi.ingsw.client.clientConnection.rmi;
 
 
+import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.view.Handler;
-import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
+import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -11,10 +12,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.List;
 
-import static it.polimi.ingsw.client.clientConstants.Constants.RMI_SETUP_FILE;
+import static it.polimi.ingsw.client.constants.SetupConstants.RMI_SETUP_FILE;
 
 public class RmiConnection implements Connection {
     private RmiServerMethodInterface server;

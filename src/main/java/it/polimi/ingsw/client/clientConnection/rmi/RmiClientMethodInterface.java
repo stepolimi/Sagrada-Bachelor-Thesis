@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.clientConnection;
+package it.polimi.ingsw.client.clientConnection.rmi;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -94,5 +94,7 @@ public interface RmiClientMethodInterface extends Remote {
 
     void chooseValueError() throws RemoteException;
 
+    void setWinner(String nickname) throws RemoteException;
 
+    void setRankings(List<String> players, List<Integer> scores) throws RemoteException;
 }

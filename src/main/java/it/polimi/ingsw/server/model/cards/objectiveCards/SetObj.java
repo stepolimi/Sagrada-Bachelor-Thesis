@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.Arrays;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.MAX_SCHEMA_DICES;
+import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
 
 public class SetObj extends ObjectiveCard {
 

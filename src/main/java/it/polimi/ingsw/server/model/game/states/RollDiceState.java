@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.model.game.states;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.ROLL_DICE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.ROLL_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.ROLL_DICE_ACCEPTED;
 
 public class RollDiceState extends State {
     private static String state = ROLL_DICE_STATE;

@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.board.Dice;
 
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.*;
 
 public class ExtractDiceState extends State {
     private static String state = EXTRACT_DICE_STATE;

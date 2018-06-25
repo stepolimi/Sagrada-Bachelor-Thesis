@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class ChangeValueTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
-    Round round = new Round(new Player("player 1"),board,null);
+    Round round = new Round(new Player("player 1"),board,null, null);
     ChangeValueState state = new ChangeValueState();
     List action = new ArrayList();
 

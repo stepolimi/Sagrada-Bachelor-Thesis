@@ -5,8 +5,8 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.PLACE_DICE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.PLACE_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_ACCEPTED;
 
 public class PlaceDiceState extends State {
     private static String state = PLACE_DICE_STATE;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.builders;
+package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.board.Box;
@@ -7,8 +7,8 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.io.*;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
 public class SchemaBuilder {
     private static SchemaBuilder instance = null;

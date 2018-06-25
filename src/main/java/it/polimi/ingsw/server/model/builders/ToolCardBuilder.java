@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.builders;
+package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;

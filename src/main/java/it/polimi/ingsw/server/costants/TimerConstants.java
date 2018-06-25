@@ -1,10 +1,10 @@
-package it.polimi.ingsw.costants;
+package it.polimi.ingsw.server.costants;
 
-public class TimerCostants {
-    private TimerCostants() {}
+public class TimerConstants {
+    private TimerConstants() {}
 
     public static final int LOBBY_TIMER_VALUE = 10;
-    public static final int TURN_TIMER_VALUE = 1000;
+    public static final int TURN_TIMER_VALUE = 10000;
     public static final int SCHEMA_TIMER_VALUE = 30;
     public static final String LOBBY_TIMER_PING = "lobbyTimerPing";
     public static final String LOBBY_TIMER_ELAPSED = "lobbyTimerElapsed";

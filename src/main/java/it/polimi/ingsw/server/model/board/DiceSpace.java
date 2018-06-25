@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class DiceSpace extends Observable {
     private List<Dice> dices;

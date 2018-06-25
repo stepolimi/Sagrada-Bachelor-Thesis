@@ -1,5 +1,7 @@
-package it.polimi.ingsw.server.serverConnection;
+package it.polimi.ingsw.server.serverConnection.socket;
 
+import it.polimi.ingsw.server.serverConnection.Connected;
+import it.polimi.ingsw.server.serverConnection.Connection;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.io.BufferedReader;
@@ -11,9 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class SocketConnection implements Runnable,Connection {
     private Socket s;
@@ -99,7 +99,7 @@ public class SocketConnection implements Runnable,Connection {
     }
 
     public void createGame() {
-        out.println(STARTING_GAME_MSG);
+        out.println(START_GAME);
         out.flush();
     }
 
@@ -326,6 +326,20 @@ public class SocketConnection implements Runnable,Connection {
         out.flush();
     }
 
+    public void setWinner(String nickname) {
+        out.println(SET_WINNER + "-" + nickname);
+        out.flush();
+    }
+
+    public void setRankings(List<String> players, List<Integer> scores) {
+        String message = SET_RANKINGS;
+        for(int i= 0; i<players.size(); i++){
+            message+="-" + players.get(i);
+            message+="-" + scores.get(i);
+        }
+        out.println(message);
+        out.flush();
+    }
 
 
     private void forwardAction(List action) { virtual.forwardAction(action); }

@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.builders.ToolCardBuilder.buildToolCard;
-import static it.polimi.ingsw.server.serverCostants.Constants.DECK_TOOL_CARDS_SIZE;
-import static it.polimi.ingsw.server.serverCostants.Constants.NUM_TOOL_CARDS;
+import static it.polimi.ingsw.server.model.builders.ToolCardBuilder.buildToolCard;
+import static it.polimi.ingsw.server.costants.Constants.DECK_TOOL_CARDS_SIZE;
+import static it.polimi.ingsw.server.costants.Constants.NUM_TOOL_CARDS;
 
 public class DeckToolsCard {
     private List<ToolCard> toolCards;

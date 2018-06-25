@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class RollDiceTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
-    Round round = new Round(new Player("player 1"),board,null);
+    Round round = new Round(new Player("player 1"),board,null, null );
     RollDiceState state = new RollDiceState();
     List action = new ArrayList();
 

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.builders.PrivateObjectiveBuilder.buildPrivateObjective;
-import static it.polimi.ingsw.server.serverCostants.Constants.NUM_PRIVATE_OBJECTIVES;
+import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
+import static it.polimi.ingsw.server.costants.Constants.NUM_PRIVATE_OBJECTIVES;
 
 public class DeckPrivateObjective {
     private ArrayList<PrivateObjective> privateObjectives;

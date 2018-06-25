@@ -4,9 +4,9 @@ import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.CHOOSE_VALUE_ACCEPTED;
-import static it.polimi.ingsw.costants.GameConstants.CHOOSE_VALUE_ERROR;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.CHOOSE_VALUE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE_ACCEPTED;
+import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE_ERROR;
 
 public class ChooseValueState extends State {
     private static String state = CHOOSE_VALUE_STATE;

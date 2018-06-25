@@ -1,7 +1,6 @@
 //it's the player class with every attributes to report his status during the game (about his turn,
 //if it's connected ecc) , and the other object (privateCard, favour and his schema)
 package it.polimi.ingsw.server.model.board;
-import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
 import java.util.ArrayList;
@@ -10,7 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class Player extends Observable {
     private String nickname;
@@ -111,10 +110,7 @@ public class Player extends Observable {
         return score;
     }
 
-    public void setScore(int score) {
-        this.score = score;
-        notifyChanges("setScore");
-    }
+    public void setScore(int score) { this.score = score; }
 
     public boolean isMyTurn() {
         return myTurn;
@@ -157,9 +153,7 @@ public class Player extends Observable {
 
         switch (string) {
             case SET_SCHEMAS:
-                action = schemas.stream()
-                        .map(Schema::getName)
-                        .collect(Collectors.toList());
+                schemas.forEach(sch -> action.add(sch.getName()));
                 break;
             case SET_PRIVATE_CARD:
                 action.add(prCard.getColour());
@@ -169,9 +163,6 @@ public class Player extends Observable {
                 break;
             case APPROVED_SCHEMA_CUSTOM:
                 action.add(schema.getName());
-                break;
-            case "setScore":
-                action.add(((Integer) score).toString());
                 break;
             default:
                 break;

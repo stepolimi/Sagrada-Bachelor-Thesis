@@ -4,51 +4,80 @@ import java.util.List;
 
 public interface View {
     void setScene(String scene);
+
     void startScene();
+
     void login(String str);
+
     void setHandler(Handler hand);
+
     String getName();
+
     void timerPing(String time);
+
     void createGame();
+
     void setSchemas(List<String> schemas);
+
     void setPrivateCard(String colour);
+
     void setPublicObjectives(List<String> cards);
-    void setToolCards(List<String> cards);
+
+    void setToolCards(List<Integer> cards);
+
     void playerConnected(String name);
+
     void playerDisconnected(String name);
+
     void chooseSchema(String name);
-    void setOpponentsSchemas(List <String>schemas);
+
+    void setOpponentsSchemas(List<String> schemas);
+
     void setNumberPlayer(int nPlayer);
-    void startRound() ;
-    void startTurn(String name) ;
-    void setActions(List <String> actions);
-    void setDiceSpace(List <String> dices);
+
+    void startRound();
+
+    void startTurn(String name);
+
+    void setActions(List<String> actions);
+
+    void setDiceSpace(List<String> colours, List<Integer> values);
+
     void insertDiceAccepted();
+
     void draftDiceAccepted();
+
     void moveDiceAccepted();
 
-    void pickDiceSpace(List action) throws InterruptedException;
+    void pickDiceSpace(int index) throws InterruptedException;
+
     void pickDiceSpaceError();
 
-    void placeDiceSchema(List action);
+    void placeDiceSchema(String nickname, int row, int column, String colour, int value);
+
     void placeDiceSchemaError();
 
-    void pickDiceSchema(List action);
+    void pickDiceSchema(String nickname, int row, int column);
+
     void pickDiceSchemaError();
 
     void useToolCardAccepted(int favor);
+
     void useToolCardError();
 
     void changeValueAccepted();
+
     void changeValueError();
 
     void placeDiceAccepted();
+
     void rollDiceAccepted(int value);
 
-    void pickDiceRoundTrack(List action);
+    void pickDiceRoundTrack(int nRound, int nDice);
+
     void pickDiceRoundTrackError();
 
-    void placeDiceRoundTrack(List action);
+    void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values);
 
     void swapDiceAccepted();
 
@@ -58,16 +87,22 @@ public interface View {
 
     void placeDiceSpaceAccepted();
 
-    void placeDiceSpace(List action);
+    void placeDiceSpace(String colour, int value);
 
-    void rollDiceSpaceAccepted(List action);
+    void rollDiceSpaceAccepted();
 
-    void swapDiceBagAccepted(List action);
+    void swapDiceBagAccepted(String colour, int value);
 
     void chooseValueAccepted();
+
     void chooseValueError();
 
     void schemaCustomAccepted(String name);
 
-    void setOpponentsCustomSchemas(List <String> action);
+    void setOpponentsCustomSchemas(List<String> opponentsSchemas);
+
+    void setWinner(String nickname);
+
+    void setRankings(List<String> players, List<Integer> scores);
+
 }

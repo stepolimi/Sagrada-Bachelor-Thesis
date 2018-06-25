@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.controller.ServerController;
 import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.serverConnection.MultiSocketServer;
-import it.polimi.ingsw.server.serverConnection.RmiServerMethod;
-import it.polimi.ingsw.server.serverConnection.RmiServerMethodInterface;
+import it.polimi.ingsw.server.serverConnection.socket.MultiSocketServer;
+import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethod;
+import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.Naming;

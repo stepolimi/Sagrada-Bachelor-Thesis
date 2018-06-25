@@ -1,18 +1,13 @@
-package it.polimi.ingsw.server.serverConnection;
+package it.polimi.ingsw.server.serverConnection.rmi;
 
-import it.polimi.ingsw.client.clientConnection.RmiClientMethodInterface;
+import it.polimi.ingsw.client.clientConnection.rmi.RmiClientMethodInterface;
+import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;
 import java.util.*;
 
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameCreationMessages.END_TURN;
-import static it.polimi.ingsw.costants.GameCreationMessages.PICK_DICE;
-import static it.polimi.ingsw.costants.LoginMessages.DISCONNECTED;
-import static it.polimi.ingsw.costants.LoginMessages.LOGIN;
-import static it.polimi.ingsw.server.serverCostants.Constants.DRAFT_DICE;
-import static it.polimi.ingsw.server.serverCostants.Constants.USE_TOOL_CARD;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
     private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
@@ -64,7 +59,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void insertDice(int indexDiceSpace, int row, int column) {
         List action = new ArrayList();
-        action.add(PICK_DICE);
+        action.add(INSERT_DICE);
         action.add(((Integer)indexDiceSpace).toString());
         action.add(((Integer)row).toString());
         action.add(((Integer)column).toString());

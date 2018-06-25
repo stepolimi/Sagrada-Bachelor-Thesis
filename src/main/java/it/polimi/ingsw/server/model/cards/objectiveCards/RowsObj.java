@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-import static it.polimi.ingsw.server.serverCostants.Constants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.serverCostants.Constants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
 public class RowsObj extends ObjectiveCard {
     private String name;

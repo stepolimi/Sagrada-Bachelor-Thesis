@@ -5,8 +5,8 @@ import it.polimi.ingsw.server.model.board.Dice;
 
 import java.util.List;
 
-import static it.polimi.ingsw.costants.GameConstants.DRAFT_DICE_ACCEPTED;
-import static it.polimi.ingsw.server.serverCostants.Constants.*;
+import static it.polimi.ingsw.server.costants.Constants.DRAFT_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.DRAFT_DICE_ACCEPTED;
 
 public class DraftDiceState extends State {
     private static String state = DRAFT_DICE_STATE;

@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client.clientConnection;
+package it.polimi.ingsw.client.clientConnection.socket;
 
+import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.View;
 
@@ -9,12 +10,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.client.clientConstants.Constants.SOCKET_SETUP_FILE;
-import static it.polimi.ingsw.costants.GameConstants.*;
-import static it.polimi.ingsw.costants.GameConstants.SET_DICE_SPACE;
-import static it.polimi.ingsw.costants.GameCreationMessages.*;
-import static it.polimi.ingsw.costants.LoginMessages.*;
+import static it.polimi.ingsw.client.constants.SetupConstants.SOCKET_SETUP_FILE;
+import static it.polimi.ingsw.client.constants.MessageConstants.*;
 
 public class SocketConnection implements Connection,Runnable {
 
@@ -48,7 +47,7 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     public void sendSchema(String str) {
-        String action = "ChooseSchema-";
+        String action = CHOOSE_SCHEMA+"-";
         action += hand.getView().getName() + "-";
         action += str;
         out.println(action);
@@ -57,13 +56,13 @@ public class SocketConnection implements Connection,Runnable {
 
 
     public void login(String nickname) {
-        out.println("Login-" + nickname);
+        out.println(LOGIN +"-"+ nickname);
         out.flush();
     }
 
     public void disconnect() {
         stopRunning();
-        out.println("Disconnected");
+        out.println(DISCONNECTED);
         out.flush();
         out.close();
         try {
@@ -80,42 +79,42 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     public void useToolCard(int toolNumber) {
-        out.println("UseToolCard" + "-" + toolNumber);
+        out.println(USE_TOOL_CARD + "-" + toolNumber);
         out.flush();
     }
 
     public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) {
-        out.println("MoveDice" + "-" + oldRow + "-" + oldColumn + "-" + newRow + "-" + newColumn);
+        out.println(MOVE_DICE + "-" + oldRow + "-" + oldColumn + "-" + newRow + "-" + newColumn);
         out.flush();
     }
 
     public void sendDraft(int indexDiceSpace) {
-        out.println("DraftDice" + "-" + indexDiceSpace);
+        out.println(DRAFT_DICE + "-" + indexDiceSpace);
         out.flush();
     }
 
     public void sendPlaceDice(int row, int column) {
-        out.println("PlaceDice" + "-" + row + "-" + column);
+        out.println(PLACE_DICE + "-" + row + "-" + column);
         out.flush();
     }
 
     public void changeValue(String change) {
-        out.println("ChangeValue" + "-" + change);
+        out.println(CHANGE_VALUE + "-" + change);
         out.flush();
     }
 
     public void rollDice() {
-        out.println("RollDice");
+        out.println(ROLL_DICE);
         out.flush();
     }
 
     public void swapDice(int numRound, int indexDice) {
-        out.println("SwapDice" + "-" + numRound + "-" + indexDice);
+        out.println(SWAP_DICE + "-" + numRound + "-" + indexDice);
         out.flush();
     }
 
     public void cancelUseToolCard() {
-        out.println("CancelUseToolCard");
+        out.println(CANCEL_USE_TOOL_CARD);
         out.flush();
     }
 
@@ -125,32 +124,32 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     public void flipDice() {
-        out.println("FlipDice");
+        out.println(FLIP_DICE);
         out.flush();
     }
 
     public void placeDiceSpace() {
-        out.println("PlaceDiceSpace");
+        out.println(PLACE_DICE_SPACE);
         out.flush();
     }
 
     public void rollDiceSpace() {
-        out.println("RollDiceSpace");
+        out.println(ROLL_DICE_SPACE);
         out.flush();
     }
 
     public void swapDiceBag() {
-        out.println("SwapDiceBag");
+        out.println(SWAP_DICE_BAG);
         out.flush();
     }
 
     public void chooseValue(int chooseValue) {
-        out.println("ChooseValue" + "-" + chooseValue);
+        out.println(CHOOSE_VALUE + "-" + chooseValue);
         out.flush();
     }
 
     public void sendCustomSchema(String schema) {
-        out.println("CustomSchema" + "-" + hand.getView().getName() + "-" + schema);
+        out.println(CUSTOM_SCHEMA + "-" + hand.getView().getName() + "-" + schema);
         out.flush();
     }
 
@@ -190,7 +189,7 @@ public class SocketConnection implements Connection,Runnable {
             v.playerDisconnected(action.get(1));
         } else if (action.get(0).equals(TIMER_PING)) {
             v.timerPing(action.get(1));
-        } else if (action.get(0).equals(STARTING_GAME_MSG)) {
+        } else if (action.get(0).equals(START_GAME)) {
             v.createGame();
         } else if (action.get(0).equals(SET_SCHEMAS)) {
             v.setSchemas(action.subList(1, 5));
@@ -199,7 +198,9 @@ public class SocketConnection implements Connection,Runnable {
         } else if (action.get(0).equals(SET_PUBLIC_OBJECTIVES)) {
             v.setPublicObjectives(action.subList(1, 4));
         } else if (action.get(0).equals(SET_TOOL_CARDS)) {
-            v.setToolCards(action.subList(1, 4));
+            action.remove(0);
+            List<Integer> toolCards = action.stream().map(Integer::parseInt).collect(Collectors.toList());
+            v.setToolCards(toolCards);
         } else if (action.get(0).equals(APPROVED_SCHEMA)) {
             v.chooseSchema(action.get(1));
         } else if (action.get(0).equals(SET_OPPONENTS_SCHEMAS)) {
@@ -211,12 +212,18 @@ public class SocketConnection implements Connection,Runnable {
         } else if (action.get(0).equals(SET_ACTIONS)) {
             v.setActions(action.subList(1, action.size()));
         } else if (action.get(0).equals(SET_DICE_SPACE)) {
-            v.setDiceSpace(action.subList(1, action.size()));
+            List<String> colours= new ArrayList<>();
+            List<Integer> values = new ArrayList<>();
+            for(int i=1; i<action.size(); i+=2){
+                colours.add(action.get(i));
+                values.add(Integer.parseInt(action.get(i+1)));
+            }
+            v.setDiceSpace(colours, values);
         } else if (action.get(0).equals(INSERT_DICE_ACCEPTED)) {
             v.insertDiceAccepted();
         } else if (action.get(0).equals(PICK_DICE_SPACE)) {
             try {
-                v.pickDiceSpace(action.subList(1, action.size()));
+                v.pickDiceSpace(Integer.parseInt(action.get(1)));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -225,7 +232,7 @@ public class SocketConnection implements Connection,Runnable {
         } else if (action.get(0).equals(PLACE_DICE_SCHEMA_ERROR)) {
             v.placeDiceSchemaError();
         } else if (action.get(0).equals(PLACE_DICE_SCHEMA)) {
-            v.placeDiceSchema(action.subList(1, action.size()));
+            v.placeDiceSchema(action.get(1),Integer.parseInt(action.get(2)),Integer.parseInt(action.get(3)),action.get(4),Integer.parseInt(action.get(5)));
         } else if (action.get(0).equals(USE_TOOL_CARD_ACCEPTED)) {
             v.useToolCardAccepted(Integer.parseInt(action.get(1)));
         } else if (action.get(0).equals(USE_TOOL_CARD_ERROR)) {
@@ -237,43 +244,59 @@ public class SocketConnection implements Connection,Runnable {
         } else if (action.get(0).equals(PICK_DICE_SCHEMA_ERROR)) {
             v.pickDiceSchemaError();
         } else if (action.get(0).equals(PICK_DICE_SCHEMA)) {
-            v.pickDiceSchema(action.subList(1, action.size()));
+            v.pickDiceSchema(action.get(1),Integer.parseInt(action.get(2)),Integer.parseInt(action.get(3)));
         } else if (action.get(0).equals(PLACE_DICE_ACCEPTED)) {
             v.placeDiceAccepted();
-        } else if (action.get(0).equals("ChangeValueAccepted")) {
+        } else if (action.get(0).equals(CHANGE_VALUE_ACCEPTED)) {
             v.changeValueAccepted();
-        } else if (action.get(0).equals("ChangeValueError")) {
+        } else if (action.get(0).equals(CHANGE_VALUE_ERROR)) {
             v.changeValueError();
-        } else if (action.get(0).equals("RollDiceAccepted")) {
+        } else if (action.get(0).equals(ROLL_DICE_ACCEPTED)) {
             v.rollDiceAccepted(Integer.parseInt(action.get(1)));
         } else if (action.get(0).equals(PLACE_DICE_ROUND_TRACK)) {
-            v.placeDiceRoundTrack(action.subList(1, action.size()));
+            List<String> colours= new ArrayList<>();
+            List<Integer> values = new ArrayList<>();
+            for(int i=2; i<action.size(); i+=2){
+                colours.add(action.get(i));
+                values.add(Integer.parseInt(action.get(i+1)));
+            }
+            v.placeDiceRoundTrack(Integer.parseInt(action.get(1)), colours, values);
         } else if (action.get(0).equals(PICK_DICE_ROUND_TRACK_ERROR)) {
             v.pickDiceRoundTrackError();
         } else if (action.get(0).equals(PICK_DICE_ROUND_TRACK)) {
-            v.pickDiceRoundTrack(action.subList(1, action.size()));
+            v.pickDiceRoundTrack(Integer.parseInt(action.get(1)),Integer.parseInt(action.get(2)));
         } else if (action.get(0).equals(SWAP_DICE_ACCEPTED)) {
             v.swapDiceAccepted();
-        } else if (action.get(0).equals("cancelUseToolCardAccepted")) {
+        } else if (action.get(0).equals(CANCEL_USE_TOOL_CARD_ACCEPTED)) {
             v.cancelUseToolCardAccepted(Integer.parseInt(action.get(1)));
-        } else if (action.get(0).equals("flipDiceAccepted")) {
+        } else if (action.get(0).equals(FLIP_DICE_ACCEPTED)) {
             v.flipDiceAccepted(Integer.parseInt(action.get(1)));
-        } else if (action.get(0).equals("placeDiceSpace")) {
-            v.placeDiceSpace(action.subList(1, action.size()));
-        } else if (action.get(0).equals("placeDiceSpaceAccepted")) {
+        } else if (action.get(0).equals(PLACE_DICE_DICESPACE)) {
+            v.placeDiceSpace(action.get(1),Integer.parseInt(action.get(2)));
+        } else if (action.get(0).equals(PLACE_DICE_SPACE_ACCEPTED)) {
             v.placeDiceSpaceAccepted();
-        } else if (action.get(0).equals("rollDiceSpaceAccepted")) {
-            v.rollDiceSpaceAccepted(action.subList(1, action.size()));
-        } else if (action.get(0).equals("swapDiceBagAccepted")) {
-            v.swapDiceBagAccepted(action.subList(1, action.size()));
-        } else if (action.get(0).equals("chooseValueAccepted")) {
+        } else if (action.get(0).equals(ROLL_DICE_SPACE_ACCEPTED)) {
+            v.rollDiceSpaceAccepted();
+        } else if (action.get(0).equals(SWAP_DICE_BAG_ACCEPTED)) {
+            v.swapDiceBagAccepted(action.get(1),Integer.parseInt(action.get(2)));
+        } else if (action.get(0).equals(CHOOSE_VALUE_ACCEPTED)) {
             v.chooseValueAccepted();
-        } else if (action.get(0).equals("chooseValueError")) {
+        } else if (action.get(0).equals(CHOOSE_VALUE_ERROR)) {
             v.chooseValueError();
         } else if (action.get(0).equals(APPROVED_SCHEMA_CUSTOM)) {
             v.schemaCustomAccepted(action.get(1));
         } else if (action.get(0).equals(SET_OPPONENTS_CUSTOM_SCHEMAS)) {
             v.setOpponentsCustomSchemas(action.subList(1, action.size()));
+        }else if (action.get(0).equals(SET_WINNER)) {
+            v.setWinner(action.get(1));
+        }else if (action.get(0).equals(SET_RANKINGS)) {
+            List<String> players = new ArrayList<>();
+            List<Integer> scores = new ArrayList<>();
+            for(int i=1; i<action.size(); i+=2){
+                players.add(action.get(i));
+                scores.add(Integer.parseInt(action.get(i+1)));
+            }
+            v.setRankings(players,scores);
         }
     }
 }

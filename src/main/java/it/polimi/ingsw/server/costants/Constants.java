@@ -1,4 +1,4 @@
-package it.polimi.ingsw.server.serverCostants;
+package it.polimi.ingsw.server.costants;
 
 public class Constants {
     private Constants() {}
@@ -34,11 +34,6 @@ public class Constants {
     public static final String SWAP_DICE_STATE = "SwapDiceState";
     public static final String USE_TOOL_CARD_STATE = "UseToolCardState";
 
-    //default nextActions
-    public static final String INSERT_DICE = "InsertDice";
-    public static final String USE_TOOL_CARD = "UseToolCard";
-    public static final String END_TURN = "EndTurn";
-
     //type of toolCard's restrictions and toolCard's restrictions
     public static final String ACTION_RESTRICTION = "action";
     public static final String BEFORE_ACTION_RESTRICTION = "beforeAction";
@@ -46,7 +41,6 @@ public class Constants {
     public static final String SCHEMA_RESTRICTION = "schema";
     public static final String TURN_RESTRICTION = "turn";
 
-    public static final String DRAFT_DICE = "DraftDice";
     public static final String NOT_EMPTY = "notEmpty";
     public static final String FIRST = "first";
     public static final String SECOND = "second";

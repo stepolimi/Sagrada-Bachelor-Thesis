@@ -1,9 +1,8 @@
-package it.polimi.ingsw.server.timer;
+package it.polimi.ingsw.server.model.timer;
 
 import java.util.TimerTask;
 
-import static it.polimi.ingsw.costants.LoginMessages.TIMER_ELAPSED;
-import static it.polimi.ingsw.costants.LoginMessages.TIMER_PING;
+import static it.polimi.ingsw.server.costants.MessageConstants.TIMER_PING;
 
 public class GameTimer extends TimerTask{
     private Long startingTime = 0L;

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static it.polimi.ingsw.server.builders.SchemaBuilder.buildSchema;
-import static it.polimi.ingsw.server.serverCostants.Constants.NUM_SCHEMAS;
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
+import static it.polimi.ingsw.server.costants.Constants.NUM_SCHEMAS;
 
 public class DeckSchemas {
     private List<Schema> schemas;
