@@ -88,7 +88,7 @@
       </GridPane>
       <ImageView fitHeight="142.0" fitWidth="260.0" layoutX="73.0" layoutY="456.0" onMouseClicked="#newGame" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../../Downloads/100382.png" />
+            <Image url="@../assets/image/continueAction.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

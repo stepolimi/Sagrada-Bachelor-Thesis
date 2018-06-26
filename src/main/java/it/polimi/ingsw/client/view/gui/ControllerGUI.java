@@ -49,209 +49,133 @@ import static java.lang.Thread.sleep;
 
 public class ControllerGUI implements View {
 
-
-    private static String text;
-
+    //attributes used to communicate outside GUI
     private Connection connection;
-
     private Thread t;
     private Handler hand;
-    private Schema mySchema;
+
+    //attributes refered to board information (schemas etc..)
     private List<Schema> schemas;
-
     private String schemaChoosen;
+    private Integer roundNumber, roundIndex;
+    private List<String> diceExtract;
+    private static String text;
+    private int currentTool;
+    List<Object> schemaPlayers;
+    private int indexDiceSpace;
+    private Image dragImage;
+    Object lock = new Object();
+    private List<String> schemasClient;
+    private ImageView imageMoved, schemaCell, roundDice;
 
-    private Font ea;
-
-
-    private Integer roundNumber;
-    private Integer roundIndex;
-
-    private boolean diceChanged;
-
+    //attributes used during ToolCard aciton
+    private Integer x1, y1, x2, y2;
+    private boolean diceChanged, isFirst, decrement, correctInsertion;
     private String colorMoved;
     private int numberMoved;
 
-    private List<String> diceExtract;
-
-    private boolean isFirst = true;
-
-    private ImageView Tool;
-
-
-    private int currentTool;
-
-    private boolean decrement;
-
-    List<Object> schemaPlayers;
-
-    private Integer x1, y1;
-    private Integer x2, y2;
-
-    private boolean correctInsertion;
-
-    private int indexDiceSpace;
-    private Image dragImage;
-
-    Object lock = new Object();
-
-    private List<String> schemasClient;
-
-    ImageView imageMoved;
-
-    ImageView schemaCell;
-
-    private ImageView roundDice;
-
-
+    //fx-Id declared in  @FXML
+    private Font ea;
     @FXML
     private Button repeatLogin;
     @FXML
     private Button loginAction;
-
     @FXML
     private GridPane schemaConstrain;
-
     @FXML
     private ImageView cancelButton;
-
     @FXML
     private ImageView pendingDice;
-
-
     @FXML
     private ImageView use1;
-
     @FXML
     private ImageView use2;
-
     @FXML
     private ImageView use3;
-
     @FXML
     private GridPane schema2;
-
     @FXML
     private GridPane constrain2;
-
     @FXML
     private GridPane schema3;
-
     @FXML
     private GridPane constrain3;
-
     @FXML
     private GridPane schema4;
-
     @FXML
     private GridPane constrain4;
-
     @FXML
     private ImageView iconTool;
-
-
     @FXML
     private GridPane gridPane;
-
     @FXML
     private Text textflow;
-
-
     @FXML
     private ImageView endTurn;
-
     @FXML
     private ImageView imageZoomed;
-
     @FXML
     private Text nickname2;
-
     @FXML
     private Text nickname3;
-
     @FXML
     private Text nickname4;
-
     @FXML
     private ProgressBar progressBar;
-
     @FXML
     private Button closeButton;
-
     @FXML
     private ImageView playButton;
-
     @FXML
     private ImageView RMIButton;
-
     @FXML
     private ImageView SocketButton;
-
     @FXML
     private TextField nickname;
-
     @FXML
     private ImageView schemaA;
-
     @FXML
     private ImageView schemaB;
-
     @FXML
     private ImageView schemaC;
-
     @FXML
     private ImageView schemaD;
-
     @FXML
     private ImageView toolCard1;
-
     @FXML
     private ImageView toolCard2;
-
     @FXML
     private ImageView toolCard3;
-
     @FXML
     private ImageView publObj1;
-
     @FXML
     private ImageView publObj2;
-
     @FXML
     private ImageView publObj3;
-
     @FXML
     private ImageView schema1;
-
-
     @FXML
     private ImageView privateCard;
-
     @FXML
     private Text waitingMessage;
-
     @FXML
     private Text nFavour;
-
     @FXML
     private GridPane diceSpace;
-
     @FXML
     private GridPane roundTrack;
-
     @FXML
     private GridPane score;
 
 
     public ControllerGUI(Handler hand) {
+        this.isFirst = true;
         this.hand = hand;
         diceChanged = false;
         diceExtract = new ArrayList<>();
-        Tool = new ImageView();
     }
 
     public void setMySchema(Schema mySchema) {
-        this.mySchema = mySchema;
     }
 
     @FXML
@@ -1579,9 +1503,7 @@ public class ControllerGUI implements View {
                 ImageView imageView = (ImageView) anchorPane.getChildren().get(j);
                 if (imageView.getImage() == null)
                     return imageView;
-
             }
-
         }
         return null;
 
@@ -1589,7 +1511,6 @@ public class ControllerGUI implements View {
 
 
     public ImageView getRoundCell(int round, int roundIndex, GridPane roundTrack) {
-
 
         int index = 3 * round;
         AnchorPane anchorPane;
@@ -1680,9 +1601,7 @@ public class ControllerGUI implements View {
 
 
     public void printConstrain(GridPane mySchema, Schema sch) {
-
         AtomicInteger count = new AtomicInteger();
-
         IntStream.range(0, 4)
                 .forEach(i -> {
                     IntStream.range(0, 5)
@@ -1709,9 +1628,7 @@ public class ControllerGUI implements View {
     }
 
     public void rotateImage(ImageView diceRolling) {
-
         RotateTransition rt;
-
         rt = new RotateTransition(Duration.millis(3000), diceRolling);
         rt.setByAngle(360);
         rt.setCycleCount(Animation.INDEFINITE);
