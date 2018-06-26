@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
-import it.polimi.ingsw.client.view.Colour;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.Schema;
 import it.polimi.ingsw.client.view.View;
@@ -50,51 +49,49 @@ import static java.lang.Thread.sleep;
 
 public class ControllerGUI implements View {
 
-    public static String text;
-    public Button repeatLogin;
-    public Button loginAction;
-    public Connection connection;
-    public Thread t;
-    public Handler hand;
-    public Schema mySchema;
-    public List<Schema> schemas;
 
-    public String schemaChoosen;
+    private static String text;
 
-    public Font ea;
+    private Connection connection;
 
+    private Thread t;
+    private Handler hand;
+    private Schema mySchema;
+    private List<Schema> schemas;
 
-    public Integer roundNumber;
-    public Integer roundIndex;
+    private String schemaChoosen;
 
-    public boolean diceChanged;
-
-    public String colorMoved;
-    public int numberMoved;
-
-    public List<String> diceExtract;
-
-    public boolean isFirst = true;
-
-    public ImageView Tool;
+    private Font ea;
 
 
-    public int currentTool;
+    private Integer roundNumber;
+    private Integer roundIndex;
 
-    public boolean decrement;
+    private boolean diceChanged;
+
+    private String colorMoved;
+    private int numberMoved;
+
+    private List<String> diceExtract;
+
+    private boolean isFirst = true;
+
+    private ImageView Tool;
+
+
+    private int currentTool;
+
+    private boolean decrement;
 
     List<Object> schemaPlayers;
 
-    public Integer x1, y1;
-    public Integer x2, y2;
+    private Integer x1, y1;
+    private Integer x2, y2;
 
     private boolean correctInsertion;
 
     private int indexDiceSpace;
     private Image dragImage;
-    public ImageView drag;
-
-    public ImageView drop;
 
     Object lock = new Object();
 
@@ -104,16 +101,22 @@ public class ControllerGUI implements View {
 
     ImageView schemaCell;
 
-    @FXML
-    public GridPane schemaConstrain;
+    private ImageView roundDice;
 
-    public ImageView roundDice;
 
     @FXML
-    public ImageView cancelButton;
+    private Button repeatLogin;
+    @FXML
+    private Button loginAction;
 
     @FXML
-    public ImageView pendingDice;
+    private GridPane schemaConstrain;
+
+    @FXML
+    private ImageView cancelButton;
+
+    @FXML
+    private ImageView pendingDice;
 
 
     @FXML
@@ -125,117 +128,116 @@ public class ControllerGUI implements View {
     @FXML
     private ImageView use3;
 
+    @FXML
+    private GridPane schema2;
 
     @FXML
-    GridPane schema2;
+    private GridPane constrain2;
 
     @FXML
-    GridPane constrain2;
+    private GridPane schema3;
 
     @FXML
-    GridPane schema3;
+    private GridPane constrain3;
 
     @FXML
-    GridPane constrain3;
+    private GridPane schema4;
 
     @FXML
-    GridPane schema4;
+    private GridPane constrain4;
 
     @FXML
-    GridPane constrain4;
-
-    @FXML
-    ImageView iconTool;
-
-
-    @FXML
-    GridPane gridPane;
-
-    @FXML
-    public Text textflow;
+    private ImageView iconTool;
 
 
     @FXML
-    public ImageView endTurn;
+    private GridPane gridPane;
+
+    @FXML
+    private Text textflow;
+
+
+    @FXML
+    private ImageView endTurn;
 
     @FXML
     private ImageView imageZoomed;
 
     @FXML
-    public Text nickname2;
+    private Text nickname2;
 
     @FXML
-    public Text nickname3;
+    private Text nickname3;
 
     @FXML
-    public Text nickname4;
+    private Text nickname4;
 
     @FXML
-    public ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     @FXML
-    public Button closeButton;
+    private Button closeButton;
 
     @FXML
-    public ImageView playButton;
+    private ImageView playButton;
 
     @FXML
-    public ImageView RMIButton;
+    private ImageView RMIButton;
 
     @FXML
-    public ImageView SocketButton;
+    private ImageView SocketButton;
 
     @FXML
-    public TextField nickname;
+    private TextField nickname;
 
     @FXML
-    public ImageView schemaA;
+    private ImageView schemaA;
 
     @FXML
-    public ImageView schemaB;
+    private ImageView schemaB;
 
     @FXML
-    public ImageView schemaC;
+    private ImageView schemaC;
 
     @FXML
-    public ImageView schemaD;
+    private ImageView schemaD;
 
     @FXML
-    public ImageView toolCard1;
+    private ImageView toolCard1;
 
     @FXML
-    public ImageView toolCard2;
+    private ImageView toolCard2;
 
     @FXML
-    public ImageView toolCard3;
+    private ImageView toolCard3;
 
     @FXML
-    public ImageView publObj1;
+    private ImageView publObj1;
 
     @FXML
-    public ImageView publObj2;
+    private ImageView publObj2;
 
     @FXML
-    public ImageView publObj3;
+    private ImageView publObj3;
 
     @FXML
-    public ImageView schema1;
+    private ImageView schema1;
 
 
     @FXML
-    public ImageView privateCard;
+    private ImageView privateCard;
 
     @FXML
-    public Text waitingMessage;
+    private Text waitingMessage;
 
     @FXML
     private Text nFavour;
 
     @FXML
-    public GridPane diceSpace;
+    private GridPane diceSpace;
 
     @FXML
-    public GridPane roundTrack;
+    private GridPane roundTrack;
 
     @FXML
     private GridPane score;
@@ -244,7 +246,7 @@ public class ControllerGUI implements View {
     public ControllerGUI(Handler hand) {
         this.hand = hand;
         diceChanged = false;
-        diceExtract = new ArrayList<String>();
+        diceExtract = new ArrayList<>();
         Tool = new ImageView();
     }
 
@@ -305,7 +307,7 @@ public class ControllerGUI implements View {
         Pane p = null;
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/FXML/"+ FxmlConstant.GO_TO_SCHEMA_EDITOR + ".fxml"));
+            loader.setLocation(getClass().getResource("/FXML/" + FxmlConstant.GO_TO_SCHEMA_EDITOR + ".fxml"));
             p = loader.load();
             // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
         } catch (IOException e) {
@@ -385,20 +387,20 @@ public class ControllerGUI implements View {
     }
 
     public void playerDisconnected(final String name) {
-        Platform.runLater(() -> waitingMessage.setText(name + GameMessage.PLAYER_DISCONNECTED ));
+        Platform.runLater(() -> waitingMessage.setText(name + GameMessage.PLAYER_DISCONNECTED));
     }
 
     public void timerPing(final String time) {
 
         Platform.runLater(() -> {
-            String text = time;
+                    String text = time;
 
-            double seconds = Integer.parseInt(text);
-            double tot = LOBBY_TIMER_VALUE * 1000;
-            double full = 1.000;
-            double result = full - seconds / tot;
-            progressBar.setProgress(result);
-                          }
+                    double seconds = Integer.parseInt(text);
+                    double tot = LOBBY_TIMER_VALUE * 1000;
+                    double full = 1.000;
+                    double result = full - seconds / tot;
+                    progressBar.setProgress(result);
+                }
         );
 
     }
@@ -406,13 +408,13 @@ public class ControllerGUI implements View {
     public void createGame() {
         Platform.runLater(() -> {
 
-                changeScene(FxmlConstant.NEW_GAME);
-                ea =
-                        Font.loadFont(getClass()
-                                .getResourceAsStream(UrlConstant.FONT), 20);
-                textflow.setFont(ea);
-                Stage stage = (Stage) progressBar.getScene().getWindow();
-                stage.close();
+            changeScene(FxmlConstant.NEW_GAME);
+            ea =
+                    Font.loadFont(getClass()
+                            .getResourceAsStream(UrlConstant.FONT), 20);
+            textflow.setFont(ea);
+            Stage stage = (Stage) progressBar.getScene().getWindow();
+            stage.close();
 
 
         });
@@ -948,8 +950,7 @@ public class ControllerGUI implements View {
                 GridPane gridPane = (GridPane) schemaPlayers.get(i);
                 if (gridPane.getId().equals(nickname)) {
                     ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
-
-                    setDice(imageView, colour, ((Integer)value).toString());
+                    setDice(imageView, colour, ((Integer) value).toString());
                 }
             }
         });
@@ -1014,7 +1015,6 @@ public class ControllerGUI implements View {
 
     public void changeValueAccepted() {
         Platform.runLater(() -> {
-
             if (decrement)
                 numberMoved--;
             else numberMoved++;
@@ -1093,7 +1093,7 @@ public class ControllerGUI implements View {
                     .limit(colours.size())
                     .forEach(i -> {
                         String color = colours.get(i);
-                        String number =  values.get(i).toString();
+                        String number = values.get(i).toString();
                         ImageView imageView = getLastRoundCell(round, roundTrack);
                         setDice(imageView, color, number);
 
@@ -1189,7 +1189,6 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             Schema sch;
             Gson g = new Gson();
-
             sch = g.fromJson(schemaChoosen, Schema.class);
             printConstrain(schemaConstrain, sch);
             Stage stage = (Stage) schemaA.getScene().getWindow();
@@ -1231,7 +1230,7 @@ public class ControllerGUI implements View {
     @Override
     public void setWinner(String nick) {
         Platform.runLater(() -> {
-            if(nick.equals(nickname.getText()))
+            if (nick.equals(nickname.getText()))
                 changeScene(FxmlConstant.WINNER_SCENE);
             else changeScene(FxmlConstant.LOSE_SCENE);
         });
@@ -1244,11 +1243,11 @@ public class ControllerGUI implements View {
             final int[] count = {0};
             IntStream.iterate(0, i -> i + 1)
                     .limit(scores.size())
-                    .forEach(i-> {
-                        ((Text)score.getChildren().get(count[0])).setText(players.get(i));
-                        ((Text)score.getChildren().get(count[0])).setFont(ea);
-                        ((Text)score.getChildren().get(count[0] + 1)).setText(String.valueOf(scores.get(i)));
-                        ((Text)score.getChildren().get(count[0] + 1 )).setFont(ea);
+                    .forEach(i -> {
+                        ((Text) score.getChildren().get(count[0])).setText(players.get(i));
+                        ((Text) score.getChildren().get(count[0])).setFont(ea);
+                        ((Text) score.getChildren().get(count[0] + 1)).setText(String.valueOf(scores.get(i)));
+                        ((Text) score.getChildren().get(count[0] + 1)).setFont(ea);
 
                         count[0] += 2;
                     });
@@ -1320,7 +1319,6 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             Schema schema = new Schema();
             schema = schema.InitSchema("SchemaClient/" + nameSchema);
-
             printConstrain(schemaConstrain, schema);
 
         });
@@ -1331,22 +1329,29 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             String path = UrlConstant.CONSTRAIN_PATH;
-            if (constrain.equals(Colour.ANSI_GREEN.escape()))
-                imageView.setImage(new Image(path + "green.png"));
-            else if (constrain.equals(Colour.ANSI_RED.escape()))
-                imageView.setImage(new Image(path + "red.png"));
-            else if (constrain.equals(Colour.ANSI_YELLOW.escape()))
-                imageView.setImage(new Image(path + "yellow.png"));
 
-            else if (constrain.equals(Colour.ANSI_BLUE.escape()))
-                imageView.setImage(new Image(path + "blue.png"));
+            switch (constrain) {
+                case ColorConstant.GREEN:
+                    imageView.setImage(new Image(path + "green.png"));
+                    break;
+                case ColorConstant.RED:
+                    imageView.setImage(new Image(path + "red.png"));
+                    break;
+                case ColorConstant.YELLOW:
+                    imageView.setImage(new Image(path + "yellow.png"));
+                    break;
+                case ColorConstant.BLUE:
+                    imageView.setImage(new Image(path + "blue.png"));
+                    break;
+                case ColorConstant.PURPLE:
+                    imageView.setImage(new Image(path + "purple.png"));
+                    break;
+                default:
+                    imageView.setImage(new Image(path + constrain + ".png"));
+                    break;
 
-            else if (constrain.equals(Colour.ANSI_PURPLE.escape()))
-                imageView.setImage(new Image(path + "purple.png"));
 
-            else
-                imageView.setImage(new Image(path + constrain + ".png"));
-
+            }
         });
 
     }
@@ -1354,7 +1359,6 @@ public class ControllerGUI implements View {
 
     public Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         int count = 0;
-
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
                 Node node = gridPane.getChildren().get(count);
@@ -1371,7 +1375,6 @@ public class ControllerGUI implements View {
     void useToolCard(final MouseEvent event) {
         Platform.runLater(() -> {
             ImageView tool = (ImageView) event.getSource();
-
             int numberTool = Integer.parseInt(tool.getId());
 
             if (currentTool == 7) {
@@ -1520,7 +1523,6 @@ public class ControllerGUI implements View {
             ImageView imageView = (ImageView) event.getTarget();
             decrement = imageView.getId().equals(GameMessage.DICE_DECREMENT);
             connection.changeValue(imageView.getId());
-
             Stage stage = (Stage) imageView.getScene().getWindow();
             stage.close();
 
@@ -1556,13 +1558,10 @@ public class ControllerGUI implements View {
             roundDice.setImage(imageView.getImage());
             Node source = ((Node) event.getSource());
             Node source2 = source.getParent();
-
             roundNumber = GridPane.getColumnIndex(source2);
             roundIndex = Integer.parseInt((source).getId());
-
             if (roundNumber == null)
                 roundNumber = 0;
-
             connection.swapDice(roundNumber, roundIndex);
 
         });
@@ -1637,7 +1636,8 @@ public class ControllerGUI implements View {
                 .filter(imageView -> (((ImageView) imageView).getImage() == (null)))
                 .findFirst();
 
-        return (ImageView) result.get();
+        if (result.isPresent()) return (ImageView) result.get();
+        else return null;
     }
 
     public void setDice(ImageView imageView, String color, Object number) {
@@ -1684,7 +1684,7 @@ public class ControllerGUI implements View {
         AtomicInteger count = new AtomicInteger();
 
         IntStream.range(0, 4)
-                .forEach(i ->{
+                .forEach(i -> {
                     IntStream.range(0, 5)
                             .forEach(j -> {
                                 ImageView imageView = (ImageView) mySchema.getChildren().get(count.get());
@@ -1696,7 +1696,7 @@ public class ControllerGUI implements View {
                 });
 
 
-        }
+    }
 
 
     public void disableToolNumber(String n, boolean value) {
@@ -1717,6 +1717,17 @@ public class ControllerGUI implements View {
         rt.setCycleCount(Animation.INDEFINITE);
         rt.setInterpolator(Interpolator.LINEAR);
         rt.play();
+    }
+
+    @FXML
+    void newGame(MouseEvent event) {
+        connection.disconnect();
+        ImageView imageView = (ImageView) event.getTarget();
+        Stage stage = (Stage) imageView.getScene().getWindow();
+        stage.close();
+        stage = (Stage) gridPane.getScene().getWindow();
+        stage.close();
+        changeScene(UrlConstant.FIRST_SCENE);
     }
 
 

@@ -14,5 +14,6 @@ public class UrlConstant {
     static final String TOOLCARD_PATH = "/assets/image/Cards/ToolCard/";
     static final String CONSTRAIN_PATH = "/assets/image/SchemaElement/";
     static final String DICE_PATH = "/assets/image/Dice";
+    static final String FIRST_SCENE = "play";
 
 }
