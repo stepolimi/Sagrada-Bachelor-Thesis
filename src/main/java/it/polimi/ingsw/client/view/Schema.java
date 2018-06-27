@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.model.builders.SchemaBuilder;
 
 import java.io.*;
 
@@ -54,7 +53,7 @@ public class Schema {
         //json file form /src/main/data/Schema/i.json
 
         String sc="";
-        InputStream is = SchemaBuilder.class.getResourceAsStream(filePath);
+        InputStream is = Schema.class.getResourceAsStream(filePath);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         try {
             sc = reader.readLine();

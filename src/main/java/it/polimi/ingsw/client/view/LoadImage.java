@@ -6,8 +6,7 @@ public class LoadImage {
 
     public void displayImage(String file) throws IOException
     {
-        final String filePath = "/data/CliImage/"+file;  //import every schema from
-        //json file form /src/main/data/Schema/i.json
+        final String filePath = "/data/CliImage/"+file;
         InputStream is = LoadImage.class.getResourceAsStream(filePath);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         Colour colour;

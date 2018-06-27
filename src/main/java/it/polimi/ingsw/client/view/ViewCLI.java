@@ -49,7 +49,7 @@ public class ViewCLI implements View {
     public ViewCLI() {
         load = new LoadImage();
         opVal = 0;
-        round = 0;
+        round = 1;
         username = "";
         gameRunning = true;
         moves = new ArrayList<String>();
@@ -185,7 +185,7 @@ public class ViewCLI implements View {
 
     // set private objective card
     public void setPrivateCard(String colour) {
-        console.print("il tuo obiettivo privato sarà il colore: " + colour + "\n",TypeMessage.INFO_MESSAGE);
+        console.print("Il tuo obiettivo privato sarà il colore: " + colour + "\n",TypeMessage.INFO_MESSAGE);
         privateObjective = colour;
     }
 
@@ -389,7 +389,6 @@ public class ViewCLI implements View {
 
     // invoked when start the rounds
     public void startRound() {
-        round++;
         if (round == 1) {
             Thread thread = new Thread(() -> {
                 while (gameRunning)
@@ -974,6 +973,7 @@ public class ViewCLI implements View {
     }
 
     public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
+        round++;
         int roundNumber = nRound;
         if (roundNumber > roundTrack.size() - 1)
             roundTrack.add(new ArrayList<Dices>());
@@ -1131,20 +1131,26 @@ public class ViewCLI implements View {
 
     public void setWinner(String nickname) {
         clearScreen();
+        String winner;
         if(nickname.equals(username))
-            console.print("Hai vinto!Complimenti!",TypeMessage.CONFIRM_MESSAGE);
+            winner = "haiVinto.txt";
         else
-            console.print("Hai perso, gioca di nuovo per rifarti!",TypeMessage.CONFIRM_MESSAGE);
+            winner = "haiPerso.txt";
+
+        try {
+            load.displayImage(winner);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     public void setRankings(List<String> players, List<Integer> scores) {
-        //todo;
         System.out.println("Classifica: ");
         System.out.println("Pos    Giocatore     Punteggio");
         for(int i = 0; i < players.size(); i++){
             console.print("┏---┓--------------┓-----------┓",TypeMessage.INFO_MESSAGE);
-            console.print("║ "+(i+1) + " ║  "+ players.get(i),TypeMessage.INFO_MESSAGE);
+            System.out.print("║ "+(i+1) + " ║  "+ players.get(i));
 
             for(int j = players.get(i).length();j<12;j++)
             {
@@ -1161,21 +1167,35 @@ public class ViewCLI implements View {
         }
     }
 
-    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
-        //todo;
-        Gson gson = new Gson();
-        players.forEach(player  ->System.out.println(player));
-        schemas.forEach(schemaString -> {
-            Schema schema = gson.fromJson(schemaString,Schema.class);
-            System.out.println(schema.getName());
-            System.out.println(schema.getDifficult());
-            for(int i=0; i< 4; i++) {
-                for (int j = 0; j < 5; j++) {
-                    System.out.print(schema.getGrid()[i][j].toString());
-                }
-                System.out.println();
-            }
+    public void setSchemasOnReconnect(List<String> players, List<String> schemasPlayer) {
+
+        Thread thread = new Thread(() -> {
+            while (gameRunning)
+                chooseMoves();
         });
+        thread.start();
+
+        Gson gson = new Gson();
+        for(String schema: schemasPlayer)
+            System.out.println(schema);
+
+        for(int i = 0; i<players.size();i++)
+        {
+            Schema schema = gson.fromJson(schemasPlayer.get(i),Schema.class);
+            schemas.put(players.get(i),schema);
+        }
+
+        try {
+            load.displayImage("Round" + round + ".txt");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        console.print("\nIl tuo schema:",TypeMessage.INFO_MESSAGE);
+        showMyschema();
+        showDiceSpace();
+        setActions(null);
+        showMoves();
+
     }
 
 }

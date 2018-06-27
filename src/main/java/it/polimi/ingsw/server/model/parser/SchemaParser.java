@@ -25,7 +25,7 @@ public class SchemaParser {
                 if(box.getNumber()!= 0)
                     schemaClient.setDiceConstraint(i,j,((Integer)box.getNumber()).toString());
                 else if(box.getC()!= null)
-                    schemaClient.setDiceConstraint(i,j,box.getC().toString());
+                    schemaClient.setDiceConstraint(i,j,box.getC().escape());
             }
         }
         return schemaClient;
