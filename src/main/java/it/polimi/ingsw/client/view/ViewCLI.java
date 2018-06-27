@@ -105,6 +105,10 @@ public class ViewCLI implements View {
         while (username.equals("")) {
             console.print("Inserisci il tuo username:",TypeMessage.INFO_MESSAGE);
             username = input.nextLine();
+            if(username.length()>8){
+                console.print("Errore, nickname troppo lungo",TypeMessage.ERROR_MESSAGE);
+                username ="";
+            }
         }
         connection.login(username);
 
@@ -1126,15 +1130,34 @@ public class ViewCLI implements View {
     }
 
     public void setWinner(String nickname) {
-        //todo ;
-        System.out.println("THE WINNER IS: " + nickname);
+        clearScreen();
+        if(nickname.equals(username))
+            console.print("Hai vinto!Complimenti!",TypeMessage.CONFIRM_MESSAGE);
+        else
+            console.print("Hai perso, gioca di nuovo per rifarti!",TypeMessage.CONFIRM_MESSAGE);
+
     }
 
     public void setRankings(List<String> players, List<Integer> scores) {
         //todo;
-        System.out.println("Rankings: ");
+        System.out.println("Classifica: ");
+        System.out.println("Pos    Giocatore     Punteggio");
         for(int i = 0; i < players.size(); i++){
-            System.out.println(i+1 + " - " + players.get(i) + ": " + scores.get(i));
+            console.print("┏---┓--------------┓-----------┓",TypeMessage.INFO_MESSAGE);
+            console.print("║ "+(i+1) + " ║  "+ players.get(i),TypeMessage.INFO_MESSAGE);
+
+            for(int j = players.get(i).length();j<12;j++)
+            {
+                System.out.print(" ");
+            }
+            System.out.print("║    ");
+            System.out.print(scores.get(i));
+            for(int j = scores.get(i).toString().length();j<7;j++)
+            {
+                System.out.print(" ");
+            }
+            console.print("║",TypeMessage.INFO_MESSAGE);
+            console.print("┗---┛--------------┛-----------┛",TypeMessage.INFO_MESSAGE);
         }
     }
 
