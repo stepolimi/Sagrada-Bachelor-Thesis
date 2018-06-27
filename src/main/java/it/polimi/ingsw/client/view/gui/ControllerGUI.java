@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
+import static java.lang.Integer.parseInt;
 import static java.lang.Thread.sleep;
 
 
@@ -319,7 +320,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
                     String text = time;
 
-                    double seconds = Integer.parseInt(text);
+                    double seconds = parseInt(text);
                     double tot = LOBBY_TIMER_VALUE * 1000;
                     double full = 1.000;
                     double result = full - seconds / tot;
@@ -337,9 +338,10 @@ public class ControllerGUI implements View {
                     Font.loadFont(getClass()
                             .getResourceAsStream(UrlConstant.FONT), 20);
             textflow.setFont(ea);
-            Stage stage = (Stage) progressBar.getScene().getWindow();
-            stage.close();
-
+            if(progressBar != null) {
+                Stage stage = (Stage) progressBar.getScene().getWindow();
+                stage.close();
+            }
 
         });
     }
@@ -506,7 +508,7 @@ public class ControllerGUI implements View {
     void sendSchema(MouseEvent event) {
         ImageView imageView = (ImageView) event.getTarget();
 
-        connection.sendSchema(schemasClient.get(Integer.parseInt(imageView.getId())));
+        connection.sendSchema(schemasClient.get(parseInt(imageView.getId())));
     }
 
     @FXML
@@ -606,7 +608,7 @@ public class ControllerGUI implements View {
         ImageView imageView = (ImageView) event.getTarget();
         dragImage = imageView.getImage();
         Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-        indexDiceSpace = Integer.parseInt(imageView.getId());
+        indexDiceSpace = parseInt(imageView.getId());
         gridPane.setDisable(false);
 
         ClipboardContent cb = new ClipboardContent();
@@ -914,7 +916,6 @@ public class ControllerGUI implements View {
 
     public void useToolCardAccepted(final int favor) {
 
-        //todo: one descripton for every tool card
         Platform.runLater(() -> {
             iconTool.setVisible(false);
 
@@ -1143,10 +1144,7 @@ public class ControllerGUI implements View {
                     printConstrain((GridPane) schemaPlayers.get(i + 1), s);
                     ((GridPane) schemaPlayers.get(i + 1)).setId(opponentsSchemas.get(j));
                 }
-
             }
-
-
         });
 
     }
@@ -1181,7 +1179,33 @@ public class ControllerGUI implements View {
 
     @Override
     public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
-        //todo;
+
+
+        Platform.runLater(() -> {
+            int index;
+                Stage stage = (Stage) loginAction.getScene().getWindow();
+                stage.close();
+                schemaPlayers = new ArrayList<>();
+                schemaPlayers = Arrays.asList(nickname2, constrain2,
+                nickname3, constrain3, nickname4, constrain4);
+
+                if(players.contains(nickname.getText())) {
+                    index = players.indexOf(nickname.getText());
+                    resetMySchema(schemaConstrain, gridPane, schemas.get(index));
+                    schemas.remove(index);
+                    players.remove(index);
+                }
+
+            AtomicInteger count = new AtomicInteger();
+            IntStream.iterate(0, i -> i + 1)
+                    .limit(players.size())
+                    .forEach(i -> {
+                        ((Text) (schemaPlayers.get(count.get()))).setText(players.get(i));
+                        resetSchema((GridPane) schemaPlayers.get(count.get() +1), schemas.get(i));
+                        ((GridPane) schemaPlayers.get(count.get() +1)).setId(players.get(i));
+                        count.set(count.get() + 2);
+                    });
+        });
     }
 
     public void diceSpaceSort() {
@@ -1304,7 +1328,7 @@ public class ControllerGUI implements View {
     void useToolCard(final MouseEvent event) {
         Platform.runLater(() -> {
             ImageView tool = (ImageView) event.getSource();
-            int numberTool = Integer.parseInt(tool.getId());
+            int numberTool = parseInt(tool.getId());
 
             if (currentTool == 7) {
                 connection.rollDiceSpace();
@@ -1467,9 +1491,9 @@ public class ControllerGUI implements View {
                 if ((currentTool == 1 || currentTool == 6 || currentTool == 5 ||
                         currentTool == 10 || currentTool == 11) && !diceChanged) {
                     pendingDice.setImage(((ImageView) event.getTarget()).getImage());
-                    indexDiceSpace = Integer.parseInt(((ImageView) event.getTarget()).getId());
+                    indexDiceSpace = parseInt(((ImageView) event.getTarget()).getId());
                     colorMoved = diceExtract.get(2 * indexDiceSpace);
-                    numberMoved = Integer.parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+                    numberMoved = parseInt(diceExtract.get(2 * indexDiceSpace + 1));
                     connection.sendDraft(indexDiceSpace);
                 } else if (diceChanged)
                     connection.placeDiceSpace();
@@ -1488,7 +1512,7 @@ public class ControllerGUI implements View {
             Node source = ((Node) event.getSource());
             Node source2 = source.getParent();
             roundNumber = GridPane.getColumnIndex(source2);
-            roundIndex = Integer.parseInt((source).getId());
+            roundIndex = parseInt((source).getId());
             if (roundNumber == null)
                 roundNumber = 0;
             connection.swapDice(roundNumber, roundIndex);
@@ -1597,7 +1621,7 @@ public class ControllerGUI implements View {
             ImageView imageView = (ImageView) event.getTarget();
             Stage stage = (Stage) imageView.getScene().getWindow();
             stage.close();
-            numberMoved = Integer.parseInt(imageView.getId());
+            numberMoved = parseInt(imageView.getId());
             connection.chooseValue(numberMoved);
         });
 
@@ -1651,6 +1675,53 @@ public class ControllerGUI implements View {
         stage.close();
         changeScene(UrlConstant.FIRST_SCENE);
     }
+
+
+    public void resetMySchema(GridPane constrains, GridPane gridPane, String schemaString){
+        Gson gson = new Gson();
+        Schema schema = gson.fromJson(schemaString,Schema.class);
+        printConstrain(constrains, schema);
+        AtomicInteger count = new AtomicInteger();
+        IntStream.range(0, 4)
+                .forEach(i->{
+                    IntStream.range(0, 5)
+                            .forEach(j ->{
+                                if(schema.getGrid()[i][j].getColour() !=null) {
+                                    ImageView imageView = (ImageView) gridPane.getChildren().get(count.get());
+                                    String color = schema.getGrid()[i][j].getColour().toString();
+                                    int number = schema.getGrid()[i][j].getNumber();
+                                    setDice(imageView, color, number);
+                                }
+                                count.getAndIncrement();
+                            });
+                });
+
+    }
+
+
+    public void resetSchema(GridPane constrains, String schemaString){
+        Gson gson = new Gson();
+        Schema schema = gson.fromJson(schemaString,Schema.class);
+        printConstrain(constrains, schema);
+        AtomicInteger count = new AtomicInteger();
+        IntStream.range(0, 4)
+                .forEach(i->{
+                    IntStream.range(0, 5)
+                            .forEach(j ->{
+                                if(schema.getGrid()[i][j].getColour() !=null) {
+                                    ImageView imageView = (ImageView) constrains.getChildren().get(count.get());
+                                    String color = schema.getGrid()[i][j].getColour().toString();
+                                    int number = schema.getGrid()[i][j].getNumber();
+                                    setDice(imageView, color, number);
+                                }
+                                count.getAndIncrement();
+                            });
+                });
+
+    }
+
+
+
 
 
 }
