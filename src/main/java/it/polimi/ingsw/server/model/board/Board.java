@@ -43,6 +43,10 @@ public class Board extends Observable {
 
     }
 
+    /**
+     * Sets the observer and adds it to the round track.
+     * @param obs is the observer to be set.
+     */
     public void setObserver(Observer obs) {
         this.obs = obs;
         roundTrack.addObserver(obs);
@@ -64,6 +68,11 @@ public class Board extends Observable {
         return this.playerList.get(index);
     }
 
+    /**
+     * Searches and returns the instance of the player with the specified name. If no player has been found, returns null.
+     * @param name is the name of a player
+     * @return the instance of the player with the specified name or null if no player has been found
+     */
     public Player getPlayer(String name) {
         for (Player p : playerList)
             if (p.getNickname().equals(name))
@@ -83,6 +92,10 @@ public class Board extends Observable {
         return dicebag;
     }
 
+    /**
+     * Creates a new dice space, sets the list of dice and the observer to it.
+     * @param dices is a list of dice to be set to the dice space.
+     */
     public void setDiceSpace(List<Dice> dices) {
         diceSpace = new DiceSpace();
         diceSpace.addObserver(obs);
@@ -101,6 +114,12 @@ public class Board extends Observable {
         return deckTool;
     }
 
+    /**
+     * Searches and returns the instance of the specified tool card. If no tool card has been fund, throws an exception.
+     * @param number number of a tool card.
+     * @return the instance of the tool card with the specified number.
+     * @throws UseToolException if the tool card wasn't found.
+     */
     public ToolCard getToolCard(int number) throws UseToolException {
         for (ToolCard card : deckTool) {
             if (card.getNumber() == number)
@@ -113,6 +132,10 @@ public class Board extends Observable {
         return deckPublic;
     }
 
+    /**
+     * Adds the schema to the list of schemas. If all the players have chosen a schema, sends them to players.
+     * @param schema is the schema that was chosen by one player.
+     */
     public void addDefaultSchema(Schema schema) {
         this.deckSchemas.add(schema);
         this.deckDefaultSchemas.add(schema);
@@ -122,6 +145,10 @@ public class Board extends Observable {
         }
     }
 
+    /**
+     * Adds the custom schema to the list of schemas. If all the players have chosen a schema, sends them to players.
+     * @param schema custom schema that was chosen by one player.
+     */
     public void addCustomSchema(Schema schema) {
         this.deckSchemas.add(schema);
         this.deckCustomSchemas.add(schema);
@@ -131,6 +158,10 @@ public class Board extends Observable {
         }
     }
 
+    /**
+     * Sets the public objectives that has been extracted.
+     * @param deck list of the public objectives that has been extracted for the game.
+     */
     public void setDeckPublic(List<ObjectiveCard> deck) {
         this.deckPublic = deck;
         notifyChanges(SET_PUBLIC_OBJECTIVES,EVERYONE);
@@ -140,11 +171,19 @@ public class Board extends Observable {
         this.deckPrivate.add(privateObjective);
     }
 
+    /**
+     * Sets the tool cards that has been extracted.
+     * @param deckTool list of the tool cards that has been extracted for the game.
+     * */
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
         notifyChanges(SET_TOOL_CARDS,EVERYONE);
     }
 
+    /**
+     * Counts and returns the number of players connected to the game at the moment.
+     * @return the number of players connected to the game.
+     */
     public int getConnected() {
         int count = 0;
         for (Player p : playerList) {
@@ -154,12 +193,21 @@ public class Board extends Observable {
         return count;
     }
 
+    /**
+     * Sends the public objectives, the tool cards and the schemas of the players to the player that is going to reconnect.
+     * @param player is the player that is going to reconnect to the game.
+     */
     public void reconnectPlayer(Player player){
         notifyChanges(SET_PUBLIC_OBJECTIVES_ON_RECONNECT,player.getNickname());
         notifyChanges(SET_TOOL_CARDS_ON_RECONNECT,player.getNickname());
         notifyChanges(SET_SCHEMAS_ON_RECONNECT,player.getNickname());
     }
 
+    /**
+     * Notifies different changes to the observer.
+     * @param string head of the message that will be sent to the observer.
+     * @param player name of the player to whom the message will be sent. Can be sent to all of them.
+     */
     public void notifyChanges(String string,String player) {
         List action = new ArrayList();
 

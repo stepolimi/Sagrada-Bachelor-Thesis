@@ -1,7 +1,9 @@
-//colour assumed by dices or box in a schema
 
 package it.polimi.ingsw.server.model.board;
 
+/**
+ * Are the possible colours of a dice or a box's colour restriction.
+ */
 public enum Colour {
     ANSI_RED("\u001B[31m"),
     ANSI_GREEN("\u001B[32m"),

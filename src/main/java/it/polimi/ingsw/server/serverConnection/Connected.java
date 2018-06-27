@@ -63,6 +63,12 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         users.forEach((connection,name) -> connection.login(nickname,lobbySize));
     }
 
+    public void reconnectPlayer(String nickname){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.createGame();
+    }
+
     public void loginError(String nickname, String cause) {
         Connection connection = getPlayerConnection(nickname);
         if(connection!= null) {

@@ -264,6 +264,8 @@ public class Round extends Observable implements TimedComponent {
         disconnectPlayer();
     }
 
+    public void timerPing(){ notifyChanges(TIMER_PING); }
+
     /**
      * Sets the current player as disconnected and makes the turn end.
      * If the turn was the last one of the game, makes the game end.

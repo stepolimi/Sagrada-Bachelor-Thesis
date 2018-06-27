@@ -6,6 +6,9 @@ it represent in the model a single cell of every schema (every schema has 4*5= 2
 package it.polimi.ingsw.server.model.board;
 
 
+/**
+ * Is a box of a schema, it has the colour and the number restriction and the possible dice.
+ */
 public class Box {
     private Colour c;   //colour of box. null if box is white
     private int number;  //number of box. 0 if there's no number
@@ -34,8 +37,7 @@ public class Box {
     }
 
     @Override
-    public String toString() {     //method used to print every scema. now this is situated in a class of model part
-        //to MOVE in the view part
+    public String toString() {
         if (this.dice != null)
             return "[ " + this.dice.toString() + " ]";
         else if (this.getNumber() != 0) {

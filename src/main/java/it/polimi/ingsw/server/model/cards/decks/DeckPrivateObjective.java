@@ -20,6 +20,10 @@ public class DeckPrivateObjective {
         createPrivateObjectives(nPlayers);
     }
 
+    /**
+     * Crates randomly a number of private objectives based on the number of players in the game.
+     * @param nPlayers number of players in the game
+     */
     private void createPrivateObjectives(int nPlayers){
         Random rand = new Random();
 
