@@ -55,6 +55,7 @@ public class MessageConstants {
     public static final String SWAP_DICE_BAG_ACCEPTED = "swapDiceBagAccepted";
     public static final String SET_WINNER = "winner";
     public static final String SET_RANKINGS = "setRankings";
+    public static final String SET_SCHEMAS_ON_RECONNECT = "setSchemasOnReconnect";
 
     //client -> server messages
     public static final String DISCONNECTED = "Disconnected";
@@ -77,5 +78,10 @@ public class MessageConstants {
     public static final String END_TURN ="EndTurn";
     public static final String INSERT_DICE = "InsertDice";
 
-    public static final int PAINT_ROW=9;
+
+    // in server messages
+    public static final String SET_PUBLIC_OBJECTIVES_ON_RECONNECT = "setPublicObjectivesOnRec";
+    public static final String SET_TOOL_CARDS_ON_RECONNECT = "setToolCardsOnRec";
+    public static final String SET_DICE_SPACE_ON_RECONNECT = "setDiceSpaceOnRec";
+    public static final String PLACE_DICE_ROUND_TRACK_ON_RECONNECT = "placeDiceRoundTrackOnRec";
 }

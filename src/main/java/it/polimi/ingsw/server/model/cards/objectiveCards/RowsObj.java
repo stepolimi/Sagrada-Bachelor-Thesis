@@ -18,6 +18,11 @@ public class RowsObj extends ObjectiveCard {
         this.points = points;
     }
 
+    /**
+     * Calculates the score relative to the rows objective for one player and returns it.
+     * @param sch is the schema on which the score must be calculated
+     * @return the score of the specified schema
+     */
     @Override
     public int scoreCard(Schema sch) {
         int score = 0;
@@ -36,6 +41,11 @@ public class RowsObj extends ObjectiveCard {
         return score;
     }
 
+    /**
+     * Checks if the list of dices specified has duplicate colours.
+     * @param container is a list of dices corresponding to a row of the schema
+     * @return if the container has duplicate colours
+     */
     private boolean noColourDuplicates(List<Dice> container) {
         for (int i = 0; i < container.size() - 1; i++)
             for (int j = i + 1; j < container.size(); j++)
@@ -44,6 +54,11 @@ public class RowsObj extends ObjectiveCard {
         return true;
     }
 
+    /**
+     * Checks if the list of dices specified has duplicate numbers.
+     * @param container is a list of dices corresponding to a row of the schema
+     * @return if the container has duplicate numbers
+     */
     private boolean noNumberDuplicates(List<Dice> container) {
         for (int i = 0; i < container.size() - 1; i++)
             for (int j = i + 1; j < container.size(); j++)

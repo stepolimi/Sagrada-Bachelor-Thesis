@@ -384,6 +384,14 @@ public class RmiServerConnection implements Connection {
         }
     }
 
+    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
+        try {
+            client.setSchemasOnReconnect(players,schemas);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(this.client);
+        }
+    }
+
 
     @Override
     public boolean equals(Object obj) {

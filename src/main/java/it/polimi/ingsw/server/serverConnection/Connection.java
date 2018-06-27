@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.serverConnection;
 
+import it.polimi.ingsw.server.virtualView.SchemaClient;
+
 import java.util.List;
 
 public interface Connection {
@@ -95,4 +97,6 @@ public interface Connection {
     void setWinner(String nickname);
 
     void setRankings(List<String> players, List<Integer> scores);
+
+    void setSchemasOnReconnect(List<String> players, List<String> schemas);
 }

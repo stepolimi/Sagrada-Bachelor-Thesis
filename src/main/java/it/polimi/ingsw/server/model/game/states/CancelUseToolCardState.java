@@ -8,6 +8,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.CANCEL_USE_TOOL_C
 public class CancelUseToolCardState extends State {
     private static String state = CANCEL_USE_TOOL_CARD_STATE;
 
+    /**
+     * Sets everything at the value that they had before the tool card was used.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         round.getNextActions().clear();
         round.getCurrentPlayer().incrementFavor(round.getFavorsDecremented());

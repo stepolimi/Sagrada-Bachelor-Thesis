@@ -105,4 +105,6 @@ public interface View {
 
     void setRankings(List<String> players, List<Integer> scores);
 
+    void setSchemasOnReconnect(List<String> players, List<String> schemas);
+
 }

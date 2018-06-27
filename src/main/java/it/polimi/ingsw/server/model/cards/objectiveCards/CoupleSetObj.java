@@ -16,6 +16,11 @@ public class CoupleSetObj extends ObjectiveCard {
         this.b = b;
     }
 
+    /**
+     * Calculates the score relative to the couple objective for one player and returns it.
+     * @param sch is the schema on which the score must be calculated
+     * @return the score of the specified schema
+     */
     @Override
     public int scoreCard(Schema sch) {
         int count1 = 0;

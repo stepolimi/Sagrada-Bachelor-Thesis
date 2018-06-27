@@ -53,11 +53,8 @@ public class SessionTest {
         assertTrue(session.getGame()!= null);
 
         //no player can join the game if it's already running
-        session.joinPlayer(players.get(3));
         session.joinPlayer(p5);
         assertEquals(4,session.getPlayers().size());
-
-
 
     }
 

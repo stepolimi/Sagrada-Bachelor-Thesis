@@ -8,6 +8,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.ROLL_DICE_ACCEPTE
 public class RollDiceState extends State {
     private static String state = ROLL_DICE_STATE;
 
+    /**
+     * Changes randomly the value of the pending dice.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         round.getPendingDice().rollDice();
         round.getNextActions().remove(0);

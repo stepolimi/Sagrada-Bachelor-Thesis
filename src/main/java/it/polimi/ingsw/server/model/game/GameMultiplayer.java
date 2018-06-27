@@ -38,6 +38,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         this.roundManager = new RoundManager(board, this);
     }
 
+    /**
+     * Adds Observer to Board and RoundManager.
+     * @param obs observer to be set
+     */
     public void setObserver(Observer obs) {
         this.obs = obs;
         board.addObserver(obs);
@@ -45,6 +49,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         roundManager.setObserver(obs);
     }
 
+    /**
+     * Extracts and sets private objectives, public objectives, tool cards and 4 schema for each player.
+     * Makes the timer for schema's choice start.
+     */
     public void gameInit() {
         //set one set of 3 Public Objective and one of 3 Tool Cards in the board
         DeckPublicObjective deckPublic = new DeckPublicObjective();
@@ -68,6 +76,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         timer.schedule(schemaTimer, 0L, 5000L);
     }
 
+    /**
+     * Generate the rankings of players at the end of the game.
+     * @param lastPlayer last player of the game.
+     */
     public void endGame(Player lastPlayer) {
         System.out.println("calcolo punteggio");
 
@@ -96,11 +108,20 @@ public class GameMultiplayer extends Observable implements TimedComponent {
                 }
             }
         }
+
+        players.forEach(player -> {
+            if(!player.isConnected())
+                rankings.add(player);
+        });
+
         rankings.forEach(player -> System.out.println(player.getNickname() +": " + player.getScore()));
         notifyChanges(SET_WINNER);
         notifyChanges(SET_RANKINGS);
     }
 
+    /**
+     * Calculates score of every connected player at the end of the game
+     */
     private void calculateScores() {
         players.stream()
                 .filter(Player::isConnected)
@@ -121,9 +142,16 @@ public class GameMultiplayer extends Observable implements TimedComponent {
                 });
     }
 
+    /**
+     * Sets the player as connected sends all game information to him.
+     * @param player is the player that is going to reconnect to the game
+     */
     public void reconnectPlayer(Player player) {
         player.setConnected(true);
-
+        player.reconnectPlayer();
+        board.getDiceSpace().reconnectPlayer(player);
+        board.getRoundTrack().reconnectPlayer(player);
+        board.reconnectPlayer(player);
     }
 
     public List<Player> getPlayers() {
@@ -142,6 +170,9 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         return timer;
     }
 
+    /**
+     * Set's a default schema to each player that has not choose one when timer elapses
+     */
     public void timerElapsed() {
         System.out.println("Choosing schema timer elapsed\n" + "---");
         players.stream()
@@ -154,6 +185,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         roundManager.startNewRound();
     }
 
+    /**
+     * Notifies different changes to the observer
+     * @param string head of the message that will be sent to the observer
+     */
     public void notifyChanges(String string) {
         List action = new ArrayList<>();
 

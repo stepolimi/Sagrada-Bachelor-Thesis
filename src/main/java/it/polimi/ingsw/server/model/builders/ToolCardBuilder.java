@@ -9,15 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class ToolCardBuilder {
-    private static ToolCardBuilder instance = null;
-
     private ToolCardBuilder(){}
-
-    public static ToolCardBuilder getToolCardBuilder(){
-        if(instance == null)
-            instance = new ToolCardBuilder();
-        return instance;
-    }
 
     public static ToolCard buildToolCard(int n){
         ToolCard toolCard = new ToolCard();

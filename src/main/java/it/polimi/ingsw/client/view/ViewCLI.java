@@ -1161,6 +1161,23 @@ public class ViewCLI implements View {
         }
     }
 
+    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
+        //todo;
+        Gson gson = new Gson();
+        players.forEach(player  ->System.out.println(player));
+        schemas.forEach(schemaString -> {
+            Schema schema = gson.fromJson(schemaString,Schema.class);
+            System.out.println(schema.getName());
+            System.out.println(schema.getDifficult());
+            for(int i=0; i< 4; i++) {
+                for (int j = 0; j < 5; j++) {
+                    System.out.print(schema.getGrid()[i][j].toString());
+                }
+                System.out.println();
+            }
+        });
+    }
+
 }
 enum TypeMessage{
     ERROR_MESSAGE("\u001B[31m"),

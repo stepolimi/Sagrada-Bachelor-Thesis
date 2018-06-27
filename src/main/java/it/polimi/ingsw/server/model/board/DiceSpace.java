@@ -11,7 +11,7 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 public class DiceSpace extends Observable {
     private List<Dice> dices;
 
-    public void setDices(List<Dice> dices) {
+    public synchronized void setDices(List<Dice> dices) {
         List action = new ArrayList();
         this.dices = dices;
         action.add(SET_DICE_SPACE);
@@ -27,7 +27,7 @@ public class DiceSpace extends Observable {
         return this.dices;
     }
 
-    public void insertDice(Dice d) {
+    public synchronized void insertDice(Dice d) {
         List action = new ArrayList();
         this.dices.add(d);
         action.add(PLACE_DICE_DICESPACE);
@@ -49,7 +49,7 @@ public class DiceSpace extends Observable {
         throw new RemoveDiceException();
     }
 
-    public Dice removeDice(int index) throws RemoveDiceException {
+    public synchronized Dice removeDice(int index) throws RemoveDiceException {
         List action = new ArrayList();
         if (index < dices.size() && index >= 0)
         {
@@ -64,10 +64,22 @@ public class DiceSpace extends Observable {
         throw new RemoveDiceException();
     }
 
-    public void rollDices() {
+    public synchronized void rollDices() {
         List action = new ArrayList();
         dices.forEach(Dice::rollDice);
         action.add(SET_DICE_SPACE);
+        dices.forEach(d ->{
+            action.add(d.getColour().toString());
+            action.add(d.getValue());
+        });
+        setChanged();
+        notifyObservers(action);
+    }
+
+    public synchronized void reconnectPlayer(Player player){
+        List action = new ArrayList();
+        action.add(SET_DICE_SPACE_ON_RECONNECT);
+        action.add(player.getNickname());
         dices.forEach(d ->{
             action.add(d.getColour().toString());
             action.add(d.getValue());

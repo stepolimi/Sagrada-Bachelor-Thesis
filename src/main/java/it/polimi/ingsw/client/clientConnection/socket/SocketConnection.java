@@ -297,6 +297,14 @@ public class SocketConnection implements Connection,Runnable {
                 scores.add(Integer.parseInt(action.get(i+1)));
             }
             v.setRankings(players,scores);
+        }else if (action.get(0).equals(SET_SCHEMAS_ON_RECONNECT)) {
+            List<String> players = new ArrayList<>();
+            List<String> schemas = new ArrayList<>();
+            for(int i=1; i<action.size(); i+=2){
+                players.add(action.get(i));
+                schemas.add(action.get(i+1));
+            }
+            v.setSchemasOnReconnect(players,schemas);
         }
     }
 }

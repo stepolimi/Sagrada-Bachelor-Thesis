@@ -21,9 +21,13 @@ public class RoundManager  {
     public RoundManager(Board board, GameMultiplayer game){
         this.board = board;
         this.game = game;
+        round = null;
         rounds = new ArrayList<>();
     }
 
+    /**
+     * Create a new round and makes it start, calculates the next round's first player
+     */
     public void startNewRound() {
         if(roundNum <10){
             boolean playerConnected = false;
@@ -45,6 +49,9 @@ public class RoundManager  {
         }
     }
 
+    /**
+     * Set's the first player of the game randomly
+     */
     public void setFirstPlayer(){
         Random rand = new Random();
         firstPlayerIndex = rand.nextInt(board.numPlayers());
@@ -52,7 +59,7 @@ public class RoundManager  {
 
     public int getRoundNumber(){return roundNum;}
 
-    public Round getRound(){ return rounds.get(roundNum - 1);}
+    public Round getRound(){ return round;}
 
     public void setObserver(Observer obs){
         this.obs = obs;

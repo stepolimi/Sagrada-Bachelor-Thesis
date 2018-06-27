@@ -21,6 +21,11 @@ public class SetObj extends ObjectiveCard {
     }
 
 
+    /**
+     * Calculates the score relative to the set objective for one player and returns it.
+     * @param sch is the schema on which the score must be calculated
+     * @return the score of the specified schema
+     */
     @Override
     public int scoreCard(Schema sch) {
         int[] count;
@@ -46,6 +51,11 @@ public class SetObj extends ObjectiveCard {
         return points * min;
     }
 
+    /**
+     * Checks the colour of the dice and increments the relative counter.
+     * @param count is the counter for each possible colour of a dice
+     * @param dice is the dice to check
+     */
     private void colourCounter(int[] count, Dice dice) {
         if (dice.getColour() == Colour.ANSI_RED)
             count[0]++;
@@ -59,6 +69,11 @@ public class SetObj extends ObjectiveCard {
             count[4]++;
     }
 
+    /**
+     * Checks the value of the dice and increments the relative counter.
+     * @param count is the counter for each possible value of a dice
+     * @param dice is the dice to check
+     */
     private void valueCounter(int[] count, Dice dice) {
         if (dice.getValue() == 1)
             count[0]++;

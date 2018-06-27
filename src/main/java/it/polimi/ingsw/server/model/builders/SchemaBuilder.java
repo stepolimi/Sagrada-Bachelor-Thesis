@@ -11,15 +11,7 @@ import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
 public class SchemaBuilder {
-    private static SchemaBuilder instance = null;
-
     private SchemaBuilder(){}
-
-    public static SchemaBuilder getSchemaBuilder(){
-        if(instance == null)
-            instance = new SchemaBuilder();
-        return instance;
-    }
 
     public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
         Schema sch = new Schema();

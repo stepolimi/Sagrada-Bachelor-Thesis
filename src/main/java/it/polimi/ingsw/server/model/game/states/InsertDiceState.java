@@ -13,6 +13,13 @@ import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE_ACCEP
 public class InsertDiceState extends State {
     private static String state = INSERT_DICE_STATE;
 
+    /**
+     * Drafts a dice from the dice space, the puts it in the current player's schema at the row and column specified in
+     * the action list.
+     * @param round is the current round
+     * @param action contains the current state, an index of the dice space and the indexes of row and column of the
+     *               current player's schema
+     */
     public void execute(Round round, List action) {
         Schema schema = round.getCurrentPlayer().getSchema();
         int indexDiceSpace = Integer.parseInt((String) action.get(1));
@@ -26,8 +33,8 @@ public class InsertDiceState extends State {
                 round.getNextActions().remove(0);
             round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
             schema.insertDice(rowDiceSchema, columnDiceSchema, dice);
-            if (!round.isInsertedDice())
-                round.setInsertedDice(true);
+            if (!round.isDraftedDice())
+                round.setDraftedDice(true);
             else
                 round.setBonusInsertDice(false);
             System.out.println("dice inserted\n" + " ---" + dice.toString());

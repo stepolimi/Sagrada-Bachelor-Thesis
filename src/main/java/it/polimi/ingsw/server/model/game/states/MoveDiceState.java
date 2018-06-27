@@ -14,6 +14,13 @@ import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ERROR;
 public class MoveDiceState extends State {
     private static String state = MOVE_DICE_STATE;
 
+    /**
+     * Moves a dice from a position to another of the current player's schema.
+     * If a tool card with special restrictions has been used, checks if those are respected.
+     * @param round is the current round
+     * @param action contains the current state, the indexes of row and column of the current player's schema from where a dice
+     *               will be removed and the indexes of row and column of the current player's schema where the dice will be put.
+     */
     public void execute(Round round, List action) {
         Schema schema = round.getCurrentPlayer().getSchema();
         int oldRowSchema = Integer.parseInt((String) action.get(1));

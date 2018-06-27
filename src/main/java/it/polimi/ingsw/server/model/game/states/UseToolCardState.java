@@ -12,13 +12,18 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 public class UseToolCardState extends State {
     private static String state = USE_TOOL_CARD_STATE;
 
+    /**
+     * Checks the restrictions of the specified tool card and if the player have enough favors to use it.
+     * If those are ok, sets the player's new favors, the next actions of the tool card and the tool card that has been used.
+     * @param round is the current round
+     * @param action contains the current state and the number of the tool card that will be used.
+     */
     public void execute(Round round, List action) {
         try {
             ToolCard card = round.getBoard().getToolCard(Integer.parseInt((String) action.get(1)));
             int favor = round.getCurrentPlayer().getFavour();
 
             checkRestrictions(card, round);
-            checkSpecialEffects(card, round);
 
             if (favor > 1) {
                 if (card.isUsed()) {
@@ -52,6 +57,8 @@ public class UseToolCardState extends State {
                 throw new UseToolException();
             }
 
+            checkSpecialEffects(card, round);
+
         } catch (UseToolException e) {
             System.out.println(e.getMessage());
             round.notifyChanges(USE_TOOL_CARD_ERROR);
@@ -60,6 +67,12 @@ public class UseToolCardState extends State {
         giveLegalActions(round);
     }
 
+    /**
+     * Checks if the tool card has special restrictions and eventually if they are respected.
+     * @param card is the tool card that has been used
+     * @param round is the current round
+     * @throws UseToolException is thrown when a restriction has not been respected
+     */
     private void checkRestrictions(ToolCard card, Round round) throws UseToolException {
         Map<String, String> restrictions = card.getRestrictions();
 
@@ -80,21 +93,46 @@ public class UseToolCardState extends State {
 
     }
 
+
+    /**
+     * Checks if the specified restriction has been respected.
+     * @param restriction is the actions' restriction to be checked
+     * @param round is the current round
+     * @throws UseToolException is thrown if the restriction has not been respected
+     */
     private void checkActionRestriction(String restriction, Round round) throws UseToolException {
-        if ((restriction.equals(DRAFT_DICE) || restriction.equals(INSERT_DICE)) && round.isInsertedDice())
+        if ((restriction.equals(DRAFT_DICE) || restriction.equals(INSERT_DICE)) && round.isDraftedDice())
             throw new UseToolException();
     }
 
+    /**
+     * Checks if the specified restriction has been respected.
+     * @param restriction is the round track's restriction to be checked
+     * @param round is the current round
+     * @throws UseToolException is thrown if the restriction has not been respected
+     */
     private void checkRoundTrackRestriction(String restriction, Round round) throws UseToolException {
         if (restriction.equals(NOT_EMPTY) && round.getBoard().getRoundTrack().isEmpty())
             throw new UseToolException();
     }
 
+    /**
+     * Checks if the specified restriction has been respected.
+     * @param restriction is the schema's restriction to be checked
+     * @param round is the current round
+     * @throws UseToolException is thrown if the restriction has not been respected
+     */
     private void checkSchemaRestriction(String restriction, Round round) throws UseToolException {
         if (restriction.equals(NOT_EMPTY) && round.getCurrentPlayer().getSchema().isEmpty())
             throw new UseToolException();
     }
 
+    /**
+     * Checks if the specified restriction has been respected.
+     * @param restriction is the turn's restriction to be checked
+     * @param round is the current round
+     * @throws UseToolException is thrown if the restriction has not been respected
+     */
     private void checkTurnRestriction(String restriction, Round round) throws UseToolException {
         if (restriction.equals(FIRST) && round.getTurnNumber() >= round.getBoard().numPlayers())
             throw new UseToolException();
@@ -102,11 +140,22 @@ public class UseToolCardState extends State {
             throw new UseToolException();
     }
 
+    /**
+     * Checks if the specified restriction has been respected.
+     * @param restriction is the "before action" 's restriction to be checked
+     * @param round is the current round
+     * @throws UseToolException is thrown if the restriction has not been respected
+     */
     private void checkBeforeActionRestriction(String restriction, Round round) throws UseToolException {
-        if (restriction.equals(INSERT_DICE) && round.isInsertedDice())
+        if (restriction.equals(INSERT_DICE) && round.isDraftedDice())
             throw new UseToolException();
     }
 
+    /**
+     * Checks if the tool card has special effects.
+     * @param card is the tool card that has been used
+     * @param round is the current round
+     */
     private void checkSpecialEffects(ToolCard card, Round round) {
         if (card.getSpecialEffects().contains(SKIP_NEXT_TURN)) {
             round.incrementTurnNumber();

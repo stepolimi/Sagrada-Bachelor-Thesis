@@ -1179,6 +1179,11 @@ public class ControllerGUI implements View {
         });
     }
 
+    @Override
+    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
+        //todo;
+    }
+
     public void diceSpaceSort() {
 
         List<Image> dice = new ArrayList<>();

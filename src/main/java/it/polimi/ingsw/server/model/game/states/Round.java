@@ -36,7 +36,7 @@ public class Round extends Observable implements TimedComponent {
     private boolean cardWasUsed;
 
     private boolean usedCard;
-    private boolean insertedDice;
+    private boolean draftedDice;
     private boolean bonusInsertDice;
 
     private GameTimer turnTimer;
@@ -54,7 +54,7 @@ public class Round extends Observable implements TimedComponent {
         firstPlayer = first;
         this.board = board;
         usedCard = false;
-        insertedDice = false;
+        draftedDice = false;
         bonusInsertDice = false;
         nextActions = new ArrayList<>();
         movedDiceColour = null;
@@ -62,6 +62,9 @@ public class Round extends Observable implements TimedComponent {
         favorsDecremented = 0;
     }
 
+    /**
+     * Creates one instance of each state, extracts the dices for the round and makes the turn's timer start.
+     */
     public void roundInit() {
         currentPlayer = firstPlayer;
         states.put(EXTRACT_DICE_STATE, new ExtractDiceState());
@@ -95,6 +98,10 @@ public class Round extends Observable implements TimedComponent {
         timer.schedule(turnTimer, 0L, 5000L);
     }
 
+    /**
+     * Changes the current state to the specified one and then execute it. Resets the turn's timer.
+     * @param action contains the next state and eventually parameters for it
+     */
     public void execute(List action) {
         if (legalActions.contains(action.get(0))) {
             timer.cancel();
@@ -195,12 +202,12 @@ public class Round extends Observable implements TimedComponent {
         this.usedCard = usedCard;
     }
 
-    boolean isInsertedDice() {
-        return insertedDice;
+    boolean isDraftedDice() {
+        return draftedDice;
     }
 
-    void setInsertedDice(boolean insertedDice) {
-        this.insertedDice = insertedDice;
+    void setDraftedDice(boolean draftedDice) {
+        this.draftedDice = draftedDice;
     }
 
     boolean hasBonusInsertDice() {
@@ -227,6 +234,9 @@ public class Round extends Observable implements TimedComponent {
         this.movedDiceColour = movedDiceColour;
     }
 
+    /**
+     * Calculates the players' turn order of the round.
+     */
     private void setPlayersOrder() {
         int playerIndex = board.getIndex(firstPlayer);
         playersOrder.add(firstPlayer);
@@ -246,16 +256,23 @@ public class Round extends Observable implements TimedComponent {
         }
     }
 
+    /**
+     * Disconnects the current player.
+     */
     public void timerElapsed() {
         System.out.println("TurnTimer elapsed\n" + " ---");
         disconnectPlayer();
     }
 
+    /**
+     * Sets the current player as disconnected and makes the turn end.
+     * If the turn was the last one of the game, makes the game end.
+     */
     public void disconnectPlayer(){
         System.out.println(currentPlayer.getNickname() + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---");
         currentPlayer.setConnected(false);
         notifyChanges(LOGOUT);
-        insertedDice = false;
+        draftedDice = false;
         usedCard = false;
         usingTool = null;
         if(board.getConnected() == 1) {
@@ -282,6 +299,10 @@ public class Round extends Observable implements TimedComponent {
         }
     }
 
+    /**
+     * Notifies different changes to the observer.
+     * @param string head of the message that will be sent to the observer
+     */
     public void notifyChanges(String string) {
         List action = new ArrayList<>();
         switch (string) {

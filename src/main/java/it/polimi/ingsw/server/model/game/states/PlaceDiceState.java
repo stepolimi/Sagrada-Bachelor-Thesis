@@ -11,6 +11,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_ACCEPT
 public class PlaceDiceState extends State {
     private static String state = PLACE_DICE_STATE;
 
+    /**
+     * Puts the pending dice in the specified row and column of the current player's schema.
+     * @param round is the current round
+     * @param action contains the current state and the indexes of row and column of the current player's schema
+     */
     public void execute(Round round, List action) {
         Schema schema = round.getCurrentPlayer().getSchema();
         int rowSchema = Integer.parseInt((String) action.get(1));

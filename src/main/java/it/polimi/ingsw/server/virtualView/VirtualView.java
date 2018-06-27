@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.virtualView;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.serverConnection.Connected;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class VirtualView extends Observable implements Observer {
         List action = (List)arg;
         List<String> colours;
         List<Integer> values;
+        List<String> players;
 
         switch (command){
             case LOGIN_SUCCESSFUL:
@@ -186,13 +188,53 @@ public class VirtualView extends Observable implements Observer {
                 connection.setWinner((String)action.get(1));
                 break;
             case SET_RANKINGS:
-                List<String> players = new ArrayList<>();
+                players = new ArrayList<>();
                 List<Integer> scores = new ArrayList<>();
                 for(int i=1; i<action.size(); i+=2){
                     players.add((String) action.get(i));
                     scores.add((Integer)action.get(i+1));
                 }
                 connection.setRankings(players,scores);
+                break;
+            case SET_SCHEMAS_ON_RECONNECT:
+                Gson gson = new Gson();
+                players = new ArrayList<>();
+                List<String> schemas= new ArrayList<>();
+                for(int i=2; i<action.size(); i+=2){
+                    players.add((String) action.get(i));
+                    schemas.add(gson.toJson(action.get(i+1)));
+                }
+                connection.setSchemasOnReconnect((String)action.get(1),players,schemas);
+                break;
+            case SET_PUBLIC_OBJECTIVES_ON_RECONNECT:
+                action.remove(0);
+                nickname = (String)action.get(0);
+                action.remove(0);
+                connection.setPublicObjectivesOnReconnect(nickname,action);
+                break;
+            case SET_TOOL_CARDS_ON_RECONNECT:
+                action.remove(0);
+                nickname = (String)action.get(0);
+                action.remove(0);
+                connection.setToolCardsOnReconnect(nickname,action);
+                break;
+            case SET_DICE_SPACE_ON_RECONNECT:
+                colours = new ArrayList<>();
+                values = new ArrayList<>();
+                for(int i=2; i<action.size(); i+=2){
+                    colours.add((String) action.get(i));
+                    values.add((Integer)action.get(i+1));
+                }
+                connection.setDiceSpaceOnReconnect((String)action.get(1),colours,values);
+                break;
+            case PLACE_DICE_ROUND_TRACK_ON_RECONNECT:
+                colours = new ArrayList<>();
+                values = new ArrayList<>();
+                for(int i=3; i<action.size(); i+=2){
+                    colours.add((String) action.get(i));
+                    values.add((Integer)action.get(i+1));
+                }
+                connection.placeDiceRoundTrackOnReconnect((String)action.get(1),(Integer)action.get(2),colours,values);
                 break;
             default:
                 break;

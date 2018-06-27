@@ -15,6 +15,7 @@ public class Constants {
     public static final int ROWS_SCHEMA = 4;
     public static final int COLUMNS_SCHEMA = 5;
     public static final int MAX_SCHEMA_DICES = 20;
+    public static final int PAINT_ROW=9;
 
     //states
     public static final String END_TURN_STATE = "EndTurnState";
@@ -55,5 +56,13 @@ public class Constants {
     public static final String DICES_RESTRICTION = "Dices";
     public static final String EMPTY_RESTRICTION = "EmptyBox";
     public static final String NUMBER_RESTRICTION = "Number";
+
+    //others
+    public static final String EVERYONE = "";
+    public static final String GREEN = "verde";
+    public static final String BLUE = "blu";
+    public static final String RED = "rosso";
+    public static final String PURPLE = "viola";
+    public static final String YELLOW = "giallo";
 
 }

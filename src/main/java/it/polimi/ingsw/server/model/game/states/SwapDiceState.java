@@ -13,6 +13,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_ACCEPTE
 public class SwapDiceState extends State {
     private static String state = SWAP_DICE_STATE;
 
+    /**
+     * Swaps the pending dice with the specified dice of the specified round of the round track.
+     * @param round is the current round
+     * @param action contains the current state, an index of a round track's round and an index of a dice of that round
+     */
     public void execute(Round round, List action) {
         RoundTrack roundTrack = round.getBoard().getRoundTrack();
         int indexRound = Integer.parseInt((String) action.get(1));

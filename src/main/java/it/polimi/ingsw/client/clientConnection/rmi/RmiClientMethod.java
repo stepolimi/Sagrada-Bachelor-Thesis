@@ -179,6 +179,10 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.setRankings(players,scores);
     }
 
+    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
+        v.setSchemasOnReconnect(players,schemas);
+    }
+
     public void schemaCustomAccepted(String schema){
         v.schemaCustomAccepted(schema);
     }

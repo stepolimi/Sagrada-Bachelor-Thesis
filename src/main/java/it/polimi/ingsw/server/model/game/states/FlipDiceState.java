@@ -8,6 +8,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.FLIP_DICE_ACCEPTE
 public class FlipDiceState extends State {
     private static String state = FLIP_DICE_STATE;
 
+    /**
+     * Flips the pending dice.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         round.getPendingDice().flipDice();
         round.getNextActions().remove(0);

@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import static it.polimi.ingsw.server.costants.MessageConstants.PICK_DICE_ROUND_TRACK;
-import static it.polimi.ingsw.server.costants.MessageConstants.PICK_DICE_ROUND_TRACK_ERROR;
-import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_ROUND_TRACK;
 import static it.polimi.ingsw.server.costants.Constants.TOT_ROUNDS;
+import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RoundTrack extends Observable {
     private List<Dice>[] listRounds;
@@ -105,6 +103,26 @@ public class RoundTrack extends Observable {
 
     public boolean isEmpty() {
         return listRounds[0].isEmpty();
+    }
+
+    public void reconnectPlayer(Player player){
+        List action = new ArrayList<>();
+        for(int i=0; i<TOT_ROUNDS; i++){
+            if(!listRounds[i].isEmpty()) {
+                action.clear();
+                action.add(PLACE_DICE_ROUND_TRACK_ON_RECONNECT);
+                action.add(player.getNickname());
+                action.add(i);
+                listRounds[i].forEach(d -> {
+                    action.add(d.getColour().toString());
+                    action.add(d.getValue());
+                });
+                setChanged();
+                notifyObservers(action);
+            }
+            else
+                break;
+        }
     }
 
     @Override

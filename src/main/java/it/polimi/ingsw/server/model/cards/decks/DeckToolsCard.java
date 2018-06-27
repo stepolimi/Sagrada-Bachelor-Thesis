@@ -25,6 +25,9 @@ public class DeckToolsCard {
         return toolCards;
     }
 
+    /**
+     * Randomizes and creates 3 tool cards.
+     */
     public void extract() {
         Random rand = new Random();
 

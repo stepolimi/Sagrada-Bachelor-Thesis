@@ -13,7 +13,9 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.stream.Collectors;
 
+import static it.polimi.ingsw.server.costants.Constants.EVERYONE;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.model.parser.SchemaParser.parseSchema;
 
 public class Board extends Observable {
     private List<Player> playerList;
@@ -115,8 +117,8 @@ public class Board extends Observable {
         this.deckSchemas.add(schema);
         this.deckDefaultSchemas.add(schema);
         if (deckSchemas.size() == playerList.size()) {
-            notifyChanges(SET_OPPONENTS_SCHEMAS);
-            notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS);
+            notifyChanges(SET_OPPONENTS_SCHEMAS,EVERYONE);
+            notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS,EVERYONE);
         }
     }
 
@@ -124,14 +126,14 @@ public class Board extends Observable {
         this.deckSchemas.add(schema);
         this.deckCustomSchemas.add(schema);
         if (deckSchemas.size() == playerList.size()) {
-            notifyChanges(SET_OPPONENTS_SCHEMAS);
-            notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS);
+            notifyChanges(SET_OPPONENTS_SCHEMAS,EVERYONE);
+            notifyChanges(SET_OPPONENTS_CUSTOM_SCHEMAS,EVERYONE);
         }
     }
 
     public void setDeckPublic(List<ObjectiveCard> deck) {
         this.deckPublic = deck;
-        notifyChanges(SET_PUBLIC_OBJECTIVES);
+        notifyChanges(SET_PUBLIC_OBJECTIVES,EVERYONE);
     }
 
     public void addPrivate(PrivateObjective privateObjective) {
@@ -140,7 +142,7 @@ public class Board extends Observable {
 
     public void setDeckTool(List<ToolCard> deckTool) {
         this.deckTool = deckTool;
-        notifyChanges(SET_TOOL_CARDS);
+        notifyChanges(SET_TOOL_CARDS,EVERYONE);
     }
 
     public int getConnected() {
@@ -152,7 +154,13 @@ public class Board extends Observable {
         return count;
     }
 
-    public void notifyChanges(String string) {
+    public void reconnectPlayer(Player player){
+        notifyChanges(SET_PUBLIC_OBJECTIVES_ON_RECONNECT,player.getNickname());
+        notifyChanges(SET_TOOL_CARDS_ON_RECONNECT,player.getNickname());
+        notifyChanges(SET_SCHEMAS_ON_RECONNECT,player.getNickname());
+    }
+
+    public void notifyChanges(String string,String player) {
         List action = new ArrayList();
 
         switch (string) {
@@ -180,6 +188,25 @@ public class Board extends Observable {
                         action.add(p.getSchema().getJson());
                     }
                 }
+                break;
+            case SET_SCHEMAS_ON_RECONNECT:
+                action.add(player);
+                for (Player p : playerList) {
+                    action.add(p.getNickname());
+                    action.add(parseSchema(p.getSchema()));
+                }
+                break;
+            case SET_PUBLIC_OBJECTIVES_ON_RECONNECT:
+                action = deckPublic.stream()
+                        .map(ObjectiveCard::getName)
+                        .collect(Collectors.toList());
+                action.add(0,player);
+                break;
+            case SET_TOOL_CARDS_ON_RECONNECT:
+                action = deckTool.stream()
+                        .map(ToolCard::getNumber)
+                        .collect(Collectors.toList());
+                action.add(0,player);
                 break;
             default:
                 break;

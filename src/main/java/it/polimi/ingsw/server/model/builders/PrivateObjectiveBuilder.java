@@ -9,15 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class PrivateObjectiveBuilder {
-    private static PrivateObjectiveBuilder instance = null;
-
     private PrivateObjectiveBuilder(){}
-
-    public static PrivateObjectiveBuilder getPrivateObjectivebuilder(){
-        if(instance == null)
-            instance = new PrivateObjectiveBuilder();
-        return instance;
-    }
 
     public static PrivateObjective buildPrivateObjective(int n){
         PrivateObjective privateObjective = new PrivateObjective();

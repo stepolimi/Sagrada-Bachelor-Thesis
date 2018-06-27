@@ -64,7 +64,6 @@ public  class Session extends Observable implements TimedComponent {
             for(Player p: game.getPlayers()){
                 if(p.getNickname().equals(player)){
                     game.reconnectPlayer(p);
-                    notifyChanges(WELCOME_BACK);
                     return ;
                 }
             }
@@ -92,7 +91,7 @@ public  class Session extends Observable implements TimedComponent {
             notifyChanges(LOGOUT);
         }
         else {
-            if(game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
+            if(game.getRoundManager().getRound()!= null && game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
                 game.getRoundManager().getRound().disconnectPlayer();
             else {
                 for (Player p : game.getPlayers()) {
@@ -164,10 +163,6 @@ public  class Session extends Observable implements TimedComponent {
                 action.add(string);
                 action.add(player);
                 action.add(lobby.size());
-                break;
-            case WELCOME_BACK:
-                //action.add(string);
-                //action.add(player);
                 break;
             default:
                 break;

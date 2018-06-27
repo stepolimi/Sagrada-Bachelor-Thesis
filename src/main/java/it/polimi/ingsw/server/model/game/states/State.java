@@ -14,18 +14,22 @@ public abstract class State {
         return action.get(0) + "State";
     }
 
+    /**
+     * Sets the turn's possible actions remaining.
+     * @param round is the current round
+     */
     void giveLegalActions(Round round){
         List<String> legalActions = new ArrayList<>();
         if(round.getUsingTool() == null || round.getNextActions().isEmpty()){
             round.setUsingTool(null);
-            if(!round.isInsertedDice() || round.hasBonusInsertDice())
+            if(!round.isDraftedDice() || round.hasBonusInsertDice())
                 legalActions.add(INSERT_DICE);
             if(!round.isUsedCard())
                 legalActions.add(USE_TOOL_CARD);
             legalActions.add(END_TURN);
         } else{
             legalActions.addAll(round.getNextActions().get(0));
-            if(legalActions.contains(INSERT_DICE) && round.isInsertedDice())
+            if(legalActions.contains(INSERT_DICE) && round.isDraftedDice())
                 legalActions.remove(INSERT_DICE);
         }
         round.setLegalActions(legalActions);

@@ -10,7 +10,11 @@ import static it.polimi.ingsw.server.costants.Constants.*;
 public class ExtractDiceState extends State {
     private static String state = EXTRACT_DICE_STATE;
 
-
+    /**
+     * Extracts the dices for the current round and put them into the dice space.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         Board board = round.getBoard();
         List<Dice> dices = board.getDiceBag().extract(board.numPlayers());

@@ -299,5 +299,34 @@ private HashMap <Connection,String> users = new HashMap<Connection,String>();
         users.forEach((connection,name) -> connection.setRankings(players,scores));
     }
 
+    public void setSchemasOnReconnect(String nickname, List<String> players, List<String> schemas){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.setSchemasOnReconnect(players,schemas);
+    }
+
+    public void setPublicObjectivesOnReconnect(String nickname, List<String> schemas){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.setPublicObjectives(schemas);
+    }
+
+    public void setToolCardsOnReconnect(String nickname, List<Integer> toolCards){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.setToolCards(toolCards);
+    }
+
+    public void setDiceSpaceOnReconnect(String nickname, List<String> colours, List<Integer> values){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.setDiceSpace(colours,values);
+    }
+
+    public void placeDiceRoundTrackOnReconnect(String nickname, int nRound, List<String> colours, List<Integer> values){
+        Connection connection = getPlayerConnection(nickname);
+        if(connection!= null)
+            connection.placeDiceRoundTrack(nRound,colours,values);
+    }
 
 }

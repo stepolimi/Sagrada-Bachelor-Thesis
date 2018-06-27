@@ -11,6 +11,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE_ERRO
 public class ChooseValueState extends State {
     private static String state = CHOOSE_VALUE_STATE;
 
+    /**
+     * Sets the value contained in the action list to the pending dice.
+     * @param round is the current state
+     * @param action contains the current state and the value to be set to the pending dice
+     */
     public void execute(Round round, List action) {
         try {
             round.getPendingDice().setValue(Integer.parseInt((String) action.get(1)));

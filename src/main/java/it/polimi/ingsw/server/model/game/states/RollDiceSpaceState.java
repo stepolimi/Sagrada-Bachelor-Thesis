@@ -8,6 +8,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.ROLL_DICE_SPACE_A
 public class RollDiceSpaceState extends State {
     private static String state = ROLL_DICE_SPACE_STATE;
 
+    /**
+     * Changes randomly the values of every dice of the dice space.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         round.getBoard().getDiceSpace().rollDices();
         round.notifyChanges(ROLL_DICE_SPACE_ACCEPTED);

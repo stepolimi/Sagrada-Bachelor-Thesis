@@ -10,6 +10,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_BAG_ACC
 public class SwapDiceBagState extends State {
     private static String state = SWAP_DICE_BAG_STATE;
 
+    /**
+     * Puts the pending dice into the dice bag, then extracts a new one and sets it as the pending dice.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         DiceBag diceBag = round.getBoard().getDiceBag();
         diceBag.insertDice(round.getPendingDice());

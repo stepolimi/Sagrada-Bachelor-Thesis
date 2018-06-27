@@ -11,6 +11,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ERRO
 public class ChangeValueState extends State {
     private static String state = CHANGE_VALUE_STATE;
 
+    /**
+     * Increments or decrements the value of the drafted dice by one.
+     * @param round is the current round
+     * @param action contains current state and "Increment" or "Decrement" instruction for the pending dice
+     */
     public void execute(Round round, List action) {
         try {
             if (action.get(1).equals("Increment")) {

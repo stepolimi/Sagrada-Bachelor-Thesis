@@ -7,8 +7,14 @@ import static it.polimi.ingsw.server.costants.Constants.*;
 public class EndTurnState extends State {
     private static String state = END_TURN_STATE;
 
+    /**
+     * Ends the current turn, resets all of the round's values of the old turn at the default's value and calculate the
+     * next turn's player.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
-        round.setInsertedDice(false);
+        round.setDraftedDice(false);
         round.setUsedCard(false);
         round.setBonusInsertDice(false);
         round.setMovedDiceColour(null);

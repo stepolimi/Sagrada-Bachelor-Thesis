@@ -8,6 +8,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_SPACE_
 public class PlaceDiceSpaceState extends State {
     private static String state = PLACE_DICE_SPACE_STATE;
 
+    /**
+     * Puts the pending dice into the dice space.
+     * @param round is the current round
+     * @param action contains the current state
+     */
     public void execute(Round round, List action) {
         round.getBoard().getDiceSpace().insertDice(round.getPendingDice());
         round.setPendingDice(null);

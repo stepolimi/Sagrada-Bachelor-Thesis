@@ -341,6 +341,16 @@ public class SocketConnection implements Runnable,Connection {
         out.flush();
     }
 
+    public void setSchemasOnReconnect(List<String> players, List<String> schemas) {
+        String message = SET_SCHEMAS_ON_RECONNECT;
+        for(int i= 0; i<players.size(); i++){
+            message+="-" + players.get(i);
+            message+="-" + schemas.get(i);
+        }
+        out.println(message);
+        out.flush();
+    }
+
 
     private void forwardAction(List action) { virtual.forwardAction(action); }
 }

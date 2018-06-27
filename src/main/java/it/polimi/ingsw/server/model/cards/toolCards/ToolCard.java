@@ -43,6 +43,9 @@ public class ToolCard {
         return restrictions;
     }
 
+    /**
+     * @return a copy of the "nextActions"
+     */
     public List<List<String>> getNextActions() {
         List<List<String>> copy = new ArrayList<>();
         nextActions.forEach(list -> {

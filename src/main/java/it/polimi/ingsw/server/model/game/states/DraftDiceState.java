@@ -11,6 +11,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.DRAFT_DICE_ACCEPT
 public class DraftDiceState extends State {
     private static String state = DRAFT_DICE_STATE;
 
+    /**
+     * Drafts a dice from the dice space and sets it as pending.
+     * @param round is the current round
+     * @param action contains the current state and an index of the dice space
+     */
     public void execute(Round round, List action) {
         try {
             int indexDiceSpace = Integer.parseInt((String) action.get(1));
@@ -19,7 +24,7 @@ public class DraftDiceState extends State {
             round.getNextActions().remove(0);
             round.getBoard().getDiceSpace().removeDice(indexDiceSpace);
             round.setPendingDice(dice);
-            round.setInsertedDice(true);
+            round.setDraftedDice(true);
         } catch (RemoveDiceException e) {
             System.out.println(e.getMessage());
         }

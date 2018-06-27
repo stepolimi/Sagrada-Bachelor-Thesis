@@ -54,6 +54,7 @@ public class MessageConstants {
     public static final String SWAP_DICE_BAG_ACCEPTED = "swapDiceBagAccepted";
     public static final String SET_WINNER = "winner";
     public static final String SET_RANKINGS = "setRankings";
+    public static final String SET_SCHEMAS_ON_RECONNECT = "setSchemasOnReconnect";
 
     //client -> server messages
     public static final String DISCONNECTED = "Disconnected";

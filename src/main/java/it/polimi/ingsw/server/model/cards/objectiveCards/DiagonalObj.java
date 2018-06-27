@@ -20,6 +20,11 @@ public class DiagonalObj extends ObjectiveCard {
         diagonals[3] = 7;
     }
 
+    /**
+     * Calculates the score relative to the diagonal objective for one player and returns it.
+     * @param sch is the schema on which the score must be calculated
+     * @return the score of the specified schema
+     */
     @Override
     public int scoreCard(Schema sch) {
         int score = 0;
@@ -36,6 +41,12 @@ public class DiagonalObj extends ObjectiveCard {
         return score;
     }
 
+    /**
+     * Checks if there is another dice on the diagonals that has the same colour of the dice specified.
+     * @param dices is a list of dices
+     * @param dice is a dice
+     * @return 1 if there is a dice on the diagonals that has the same colour of the dice specified. Otherwise it returns 0
+     */
     private int checkNearDices(List<Dice> dices, Dice dice) {
         for (int index : diagonals)
             if (dices.get(index) != null)

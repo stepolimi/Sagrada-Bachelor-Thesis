@@ -135,6 +135,10 @@ public class Player extends Observable {
                 .collect(Collectors.toList());
     }
 
+    public void reconnectPlayer(){
+        notifyChanges(SET_PRIVATE_CARD);
+    }
+
     @Override
     public String toString() {
         String src = "";
