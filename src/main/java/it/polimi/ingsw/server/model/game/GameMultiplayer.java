@@ -185,6 +185,8 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         roundManager.startNewRound();
     }
 
+    public void timerPing(){ notifyChanges(TIMER_PING); }
+
     /**
      * Notifies different changes to the observer
      * @param string head of the message that will be sent to the observer

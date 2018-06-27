@@ -11,7 +11,6 @@ public class MessageConstants {
     public static final String LOGIN_SUCCESSFUL = "Welcome";
     public static final String TIMER_PING = "timerPing";
     public static final String LOGOUT = "logout";
-    public static final String WELCOME_BACK = "welcomeBack";
     public static final String START_GAME = "startingGameMsg";
     public static final String SET_PRIVATE_CARD = "setPrivateCard";
     public static final String SET_SCHEMAS = "setSchemas";
@@ -79,7 +78,8 @@ public class MessageConstants {
     public static final String INSERT_DICE = "InsertDice";
 
 
-    // in server messages
+    // in-server messages
+    public static final String RECONNECT_PLAYER = "reconnectPlayer";
     public static final String SET_PUBLIC_OBJECTIVES_ON_RECONNECT = "setPublicObjectivesOnRec";
     public static final String SET_TOOL_CARDS_ON_RECONNECT = "setToolCardsOnRec";
     public static final String SET_DICE_SPACE_ON_RECONNECT = "setDiceSpaceOnRec";

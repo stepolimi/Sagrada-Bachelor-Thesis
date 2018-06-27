@@ -19,10 +19,10 @@ public class GameTimer extends TimerTask{
         if(startingTime == 0)
             startingTime = System.currentTimeMillis();
         if (System.currentTimeMillis() < startingTime + waitTime * 1000) {
-            timedComponent.notifyChanges(TIMER_PING);
+            timedComponent.timerPing();
         }
         else{
-            timedComponent.notifyChanges(TIMER_PING);
+            timedComponent.timerPing();
             timedComponent.timerElapsed();
             this.cancel();
         }

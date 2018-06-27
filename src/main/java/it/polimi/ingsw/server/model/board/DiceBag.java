@@ -1,4 +1,3 @@
-//it's the set of dice given at the beginning of every game. there only the constructor with 18 dices for each colour
 
 package it.polimi.ingsw.server.model.board;
 
@@ -10,6 +9,9 @@ import static it.polimi.ingsw.server.costants.Constants.TOT_DICES;
 public class DiceBag {
     private List<Dice> dices;
 
+    /**
+     * Creates 90 dices, 18 for each colour.
+     */
     public DiceBag() {
         dices = new ArrayList<>();
 
@@ -25,12 +27,14 @@ public class DiceBag {
             } else {
                 dices.add(new Dice(Colour.ANSI_YELLOW, 0));
             }
-
         }
-
-
     }
 
+    /**
+     * Extracts randomly 2* number of players in the game + 1 dices and sets randomly their value.
+     * @param nPlayer is the number of players in the game.
+     * @return a list with the extracted dices.
+     */
     public List<Dice> extract(int nPlayer) {
         List<Dice> extra = new ArrayList<>();
         int nDice = 2 * nPlayer + 1;
@@ -44,10 +48,13 @@ public class DiceBag {
             extra.add(dices.get(casual));
             dices.remove(casual);
         }
-
         return extra;
     }
 
+    /**
+     * Resets the value of the dice to 0 and adds it to the list of dice.
+     * @param dice is a dice that will be added to the lst of dice.
+     */
     public void insertDice(Dice dice) {
         dice.resetValue();
         this.dices.add(dice);
@@ -55,6 +62,19 @@ public class DiceBag {
 
     public List<Dice> getDices() {
         return this.dices;
+    }
+
+    /**
+     * Selects randomly a dice from the list and sets randomly it's value
+     * @return a dice from the list of dice.
+     */
+    public Dice takeDice() {
+        Dice d;
+        int random = (int) (Math.random() * this.dices.size());
+        d = dices.get(random);
+        dices.remove(random);
+        d.rollDice();
+        return d;
     }
 
     @Override
@@ -86,15 +106,6 @@ public class DiceBag {
             }
         str += "Red:" + r + "\nGreen:" + g + "\nYellow:" + y + "\nBlue:" + b + "\nPurple:" + p;
         return str;
-    }
-
-    public Dice takeDice() {
-        Dice d;
-        int random = (int) (Math.random() * this.dices.size());
-        d = dices.get(random);
-        dices.remove(random);
-        d.rollDice();
-        return d;
     }
 
     public void dump() {

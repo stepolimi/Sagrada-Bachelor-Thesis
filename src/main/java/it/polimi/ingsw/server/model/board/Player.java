@@ -42,6 +42,11 @@ public class Player extends Observable {
         return schema;
     }
 
+    /**
+     * Sets the schema which have the specified name as the schema of the player, adds the observer to it and sends a
+     * confirm message to the player.
+     * @param name is the name of the schema that the player has chosen.
+     */
     public void setSchema(String name) {
         for (Schema s : schemas) {
             if (s.getName().equals(name)) {
@@ -56,6 +61,10 @@ public class Player extends Observable {
         notifyChanges(SET_SCHEMAS);
     }
 
+    /**
+     * Sets the specified schema as the schema of the player, adds the observer to it and sends a confirm message to the player.
+     * @param schema is the schema that the player has chosen.
+     */
     public void setSchema(Schema schema) {
         this.schema = schema;
         favour = schema.getDifficult();
@@ -64,6 +73,10 @@ public class Player extends Observable {
         notifyChanges(APPROVED_SCHEMA);
     }
 
+    /**
+     * Sets the specified schema as the schema of the player, adds the observer to it and sends a confirm message to the player.
+     * @param schema is the schema that the player has chosen.
+     */
     public void setCustomSchema(Schema schema) {
         this.schema = schema;
         favour = schema.getDifficult();
@@ -76,10 +89,18 @@ public class Player extends Observable {
         return favour;
     }
 
+    /**
+     * Increment's the player's favors by the specified value.
+     * @param value value to be decremented the player's favors.
+     */
     public void decrementFavor(int value) {
         this.favour -= value;
     }
 
+    /**
+     * Increment's the player's favors by the specified value.
+     * @param value value to be decremented the player's favors.
+     * */
     public void incrementFavor(int value) {
         this.favour += value;
     }
@@ -129,12 +150,18 @@ public class Player extends Observable {
         return schemas;
     }
 
+    /**
+     * @return a list with the name of schemas that has been extracted for the player.
+     */
     public List<String> getNameSchemas() {
         return schemas.stream()
                 .map((Schema::getName))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Sends the private objective's identifier to the player.
+     */
     public void reconnectPlayer(){
         notifyChanges(SET_PRIVATE_CARD);
     }
@@ -152,6 +179,10 @@ public class Player extends Observable {
         System.out.println(this);
     }
 
+    /**
+     * Notifies different changes to the observer.
+     * @param string head of the message that will be sent to the observer.
+     */
     public void notifyChanges(String string) {
         List<String> action = new ArrayList<>();
 

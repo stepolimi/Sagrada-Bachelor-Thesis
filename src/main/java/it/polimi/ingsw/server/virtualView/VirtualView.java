@@ -33,6 +33,9 @@ public class VirtualView extends Observable implements Observer {
             case LOGIN_SUCCESSFUL:
                 connection.login((String)action.get(1),(Integer)action.get(2));
                 break;
+            case RECONNECT_PLAYER:
+                connection.reconnectPlayer((String)action.get(1));
+                break;
             case LOGIN_ERROR:
                 connection.loginError((String)action.get(1),(String)action.get(2));
                 break;

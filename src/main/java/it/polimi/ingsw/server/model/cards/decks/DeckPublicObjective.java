@@ -11,6 +11,9 @@ import static it.polimi.ingsw.server.costants.Constants.DECK_PUBLIC_OBJECTIVES_S
 public class DeckPublicObjective {
     private ArrayList<ObjectiveCard> deckPub;
 
+    /**
+     * Creates the public objectives.
+     */
     public DeckPublicObjective() {
         this.deckPub = new ArrayList<>();
         RowsObj card1 = new RowsObj("Colori diversi_riga", "Righe senza colori ripetuti", 6);
@@ -41,6 +44,10 @@ public class DeckPublicObjective {
         return this.deckPub;
     }
 
+    /**
+     * Selects 3 random public objectives from those available.
+     * @return a list with the 3 public objectives selected
+     */
     public List<ObjectiveCard> extract() {
         ArrayList<ObjectiveCard> objectiveCards = new ArrayList<>();
         Random random = new Random();

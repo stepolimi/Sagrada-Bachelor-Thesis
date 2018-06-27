@@ -17,11 +17,19 @@ public class DeckSchemas {
         this.createSchemas(nPlayers);
     }
 
-    // take the player's index and returns the set of schemas from which the player will choose one
+    /**
+     * Gives a list of four schemas to a player from which he will choose one.
+     * @param nPlayer index of a player.
+     * @return a list with four schemas for the player.
+     */
     public List<Schema> deliver(int nPlayer) {
         return schemas.subList(nPlayer * 4, nPlayer * 4 + 4);
     }
 
+    /**
+     * Creates 4 random schemas for each player in the game.
+     * @param nPlayers number of players in the game.
+     */
     private void createSchemas(int nPlayers) {
         Random rand = new Random();
         for (int i = 1; i <= NUM_SCHEMAS; i++)
