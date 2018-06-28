@@ -122,6 +122,10 @@ public class Player extends Observable {
         return prCard;
     }
 
+    /**
+     * Sets the private objective to the player and notifies it to him.
+     * @param prCard is the private objective to be set to the player.
+     */
     public void setPrCard(PrivateObjective prCard) {
         this.prCard = prCard;
         notifyChanges(SET_PRIVATE_CARD);
@@ -141,6 +145,10 @@ public class Player extends Observable {
         this.myTurn = myTurn;
     }
 
+    /**
+     * Sets the list of schema to the player and notifies it to him.
+     * @param schemas is the list of schema extracted for the player.
+     */
     public void setSchemas(List<Schema> schemas) {
         this.schemas = schemas;
         notifyChanges(SET_SCHEMAS);

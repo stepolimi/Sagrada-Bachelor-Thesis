@@ -50,7 +50,7 @@ public class RoundManager  {
     }
 
     /**
-     * Set's the first player of the game randomly
+     * Sets the first player of the game randomly
      */
     public void setFirstPlayer(){
         Random rand = new Random();

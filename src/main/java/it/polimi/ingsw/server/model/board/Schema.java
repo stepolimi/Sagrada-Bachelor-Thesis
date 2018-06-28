@@ -1,17 +1,3 @@
-/*
-class used to construct and represent the schema of every player.
-
-***to do yet***
-* -----create method that create 4 schema card
-        for each player (for a maximum of 16 schema obj). firstly it exracts 2 card for every player with
-         random function; then, it associates every (front) card with his back card.
-         [for example first extract--> schema2 and schema7
-                (we associated their back card with increment of 12)
-                --> (schema2/schema14 and schema7/schema19)
- */
-
-
-
 package it.polimi.ingsw.server.model.board;
 
 
@@ -30,7 +16,7 @@ import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
 public class Schema extends Observable {
-    private String name;  //name of schema card
+    private String name;
     private int difficult;
     private Box[][] table;
     private boolean isEmpty = true;
@@ -38,6 +24,9 @@ public class Schema extends Observable {
     private int size = 0;
     private String json;
 
+    /**
+     * Creates a schema with "ROW_SCHEMA" * "COLUMN_SCHEMA"  boxes.
+     */
     public Schema() {
         this.name= "";
         this.difficult = 0;
@@ -73,6 +62,15 @@ public class Schema extends Observable {
         return table[i][j];
     }
 
+    /**
+     * Checks if it's possible to insert a dice in the specified row and column of the schema.
+     * If it is not possible notifies the error to the player.
+     * @param rows is the row of the schema where it is trying to insert the dice.
+     * @param columns is the column of the schema where it is trying to insert the dice.
+     * @param d is the dice to be inserted in the schema.
+     * @param toolCard is the eventual tool card used for the dice's insertion.
+     * @throws InsertDiceException if the insertion is not correct.
+     */
     public void testInsertDice(int rows, int columns, Dice d, ToolCard toolCard) throws InsertDiceException {
         List<String> action = new ArrayList<String>();
         if (!RulesManager.getRulesManager().checkRules(toolCard, rows, columns, d, this)) {
@@ -84,6 +82,12 @@ public class Schema extends Observable {
         }
     }
 
+    /**
+     * Puts the dice in the specified row and column of the schema and notifies it to the players.
+     * @param rows is the row of the schema where the dice will be inserted.
+     * @param columns is the column of the schema where the dice will be inserted.
+     * @param d is the dice that will be inserted in the schema.
+     */
     public void insertDice(int rows, int columns, Dice d) {
         List action = new ArrayList<>();
         this.isEmpty = false;
@@ -99,12 +103,26 @@ public class Schema extends Observable {
         notifyObservers(action);
     }
 
+    /**
+     * Puts the dice in the specified row and column of the schema without notifying it to the players.
+     * @param rows is the row of the schema where the dice will be inserted.
+     * @param columns is the column of the schema where the dice will be inserted.
+     * @param d is the dice that will be inserted in the schema.
+     */
     public void silentInsertDice(int rows, int columns, Dice d) {
         this.isEmpty = false;
         this.table[rows][columns].setDice(d);
         size++;
     }
 
+    /**
+     * Checks if it's possible to remove the dice in the specified row and column of the schema.
+     * If it is not possible notifies the error to the player.
+     * @param rows is the row of the schema where it is trying to remove the dice.
+     * @param columns is the column of the schema where it is trying to remove the dice.
+     * @return the dice in the specified position if it is present.
+     * @throws RemoveDiceException when there is no dices in the specified box of the schema.
+     */
     public Dice testRemoveDice(int rows, int columns) throws RemoveDiceException {
         List<String> action = new ArrayList<String>();
         if (this.table[rows][columns].getDice() == null) {
@@ -117,7 +135,13 @@ public class Schema extends Observable {
         return table[rows][columns].getDice();
     }
 
-    //it removed dice from rows-colomuns position. it throws exception if is already empty
+
+    /**
+     * Removes the dice in the specified row and column of the schema, returns it and notifies it to the players.
+     * @param rows is the row of the schema where the dice will be removed.
+     * @param columns is the column of the schema where the dice will be removed.
+     * @return the dice that was in the specified row and column of the schema.
+     */
     public Dice removeDice(int rows, int columns) {
         List action = new ArrayList<>();
         Dice d;
@@ -135,6 +159,11 @@ public class Schema extends Observable {
         return d;
     }
 
+    /**
+     * Removes the dice in the specified row and column of the schema.
+     * @param rows is the row of the schema where the dice will be removed.
+     * @param columns is the column of the schema where the dice will be removed.
+     */
     public void silentRemoveDice(int rows, int columns) {
         table[rows][columns].setDice(null);
         size--;
@@ -142,28 +171,44 @@ public class Schema extends Observable {
             isEmpty = true;
     }
 
-    public List<Dice> nearDice(int rows, int columns) {
+    /**
+     * Checks all the boxes near the specified position of the schema and returns a list with the dices found in those boxes.
+     * @param row is the row of the schema where is the wanted box.
+     * @param column is the column of the schema where is the wanted box.
+     * @return a list with the dices found near the specified position.
+     */
+    public List<Dice> nearDice(int row, int column) {
         List<Dice> nearDice = new ArrayList<Dice>(9);
 
         for (int i = -1; i < 2; i++)
             for (int j = -1; j < 2; j++)
-                nearDice.add(checkNearDice(rows + i, columns + j));
+                nearDice.add(checkNearDice(row + i, column + j));
         nearDice.remove(4);
         return nearDice;
 
     }
 
-    private Dice checkNearDice(int rows, int columns) {
+    /**
+     * Checks if it is present a dice in the specified row and column of the schema and returns it.
+     * @param row is the row of the schema where it will check for a dice.
+     * @param column is the column of the schema where it will check for a dice.
+     * @return the dice in the specified row and column of the schema if it is present. if it is not, returns null.
+     */
+    private Dice checkNearDice(int row, int column) {
         Dice d;
 
         try {
-            d = this.table[rows][columns].getDice();
+            d = this.table[row][column].getDice();
         } catch (ArrayIndexOutOfBoundsException e) {
             return null;
         }
         return d;
     }
 
+    /**
+     * Collects all the dices in the schema and returns them.
+     * @return all the dices in the schema.
+     */
     public List<Dice> getDices() {
         List<Dice> dices = new ArrayList<>();
 
@@ -175,6 +220,11 @@ public class Schema extends Observable {
         return dices;
     }
 
+    /**
+     * Collects all the dices in the specified row of the schema and returns them.
+     * @param x is the row where the dices will be searched.
+     * @return all the dices in the specified row of the schema.
+     */
     public List<Dice> getDicesInRow(int x) {
         List<Dice> dices = new ArrayList<>();
 
@@ -185,6 +235,11 @@ public class Schema extends Observable {
         return dices;
     }
 
+    /**
+     * Collects all the dices in the specified column of the schema and returns them.
+     * @param y is the column where the dices will be searched.
+     * @return all the dices in the specified column of the schema.
+     */
     public List<Dice> getDicesInColumn(int y) {
         List<Dice> dices = new ArrayList<>();
 

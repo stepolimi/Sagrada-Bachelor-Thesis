@@ -264,6 +264,9 @@ public class Round extends Observable implements TimedComponent {
         disconnectPlayer();
     }
 
+    /**
+     * Notifies the ping of the timer to the players.
+     */
     public void timerPing(){ notifyChanges(TIMER_PING); }
 
     /**

@@ -7,8 +7,6 @@ import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import java.util.ArrayList;
 import java.util.List;
 
-//manager for checking all the rules for a dice insertion in a schema
-
 public class RulesManager {
     private static RulesManager instance = null;
     private List<InsertionRule> rules = new ArrayList<InsertionRule>();

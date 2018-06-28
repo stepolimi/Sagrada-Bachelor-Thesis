@@ -10,6 +10,11 @@ import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 public class SchemaParser {
     private SchemaParser(){}
 
+    /**
+     * Transforms a schema of the server in a schema of the client.
+     * @param schema is the instance of the schema of the server.
+     * @return the schema transformed.
+     */
     public static SchemaClient parseSchema(Schema schema){
         SchemaClient schemaClient = new SchemaClient();
         schemaClient.setDifficult(schema.getDifficult());

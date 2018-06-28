@@ -8,12 +8,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static it.polimi.ingsw.server.costants.Constants.JSON_EXTENSION;
+import static it.polimi.ingsw.server.costants.Constants.PRIVATE_OBJECTIVE_PATH;
+
 public class PrivateObjectiveBuilder {
     private PrivateObjectiveBuilder(){}
 
+    /**
+     * Creates the specified private objective from file and returns it.
+     * @param n is the number of the private objective that is going to be created.
+     * @return the created private objectives.
+     */
     public static PrivateObjective buildPrivateObjective(int n){
         PrivateObjective privateObjective = new PrivateObjective();
-        final String filePath = "/data/privCard/" + n + ".json";
+        final String filePath = PRIVATE_OBJECTIVE_PATH + n + JSON_EXTENSION;
         Gson g = new Gson();
 
         InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);

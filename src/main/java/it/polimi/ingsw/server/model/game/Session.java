@@ -34,7 +34,8 @@ public  class Session extends Observable implements TimedComponent {
      * @param player name of the player that is going to join the lobby
      */
     public synchronized void joinPlayer(String player) {
-        if(game == null) {
+        checkEndedGames();
+        if(game == null || game.isEnded()) {
             if (lobby == null) {
                 lobby = new ArrayList<>();
             }else
@@ -62,8 +63,8 @@ public  class Session extends Observable implements TimedComponent {
         else {
             for(Player p: game.getPlayers()){
                 if(p.getNickname().equals(player)){
-                    game.reconnectPlayer(p);
                     notifyChanges(RECONNECT_PLAYER,player);
+                    game.reconnectPlayer(p);
                     return ;
                 }
             }
@@ -86,7 +87,7 @@ public  class Session extends Observable implements TimedComponent {
                 timer.cancel();
                 startingTime = 0L;
             }
-            System.out.println(player + " disconnected:\n" + "players in lobby: \n" + lobby.size() + " ---");
+            System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
             notifyChanges(LOGOUT,player);
         }
         else {
@@ -104,6 +105,16 @@ public  class Session extends Observable implements TimedComponent {
                     game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
                 }
             }
+        }
+    }
+
+    /**
+     * Checks if there is already a game and if it is finished. In that case it sets the game at null and clears the lobby.
+     */
+    private void checkEndedGames(){
+        if(game!=null && game.isEnded()){
+            game = null;
+            lobby.clear();
         }
     }
 
@@ -133,6 +144,9 @@ public  class Session extends Observable implements TimedComponent {
         startGame();
     }
 
+    /**
+     * Notifies the ping of the timer to the players.
+     */
     public void timerPing(){
         notifyChanges(TIMER_PING,EVERYONE);
     }

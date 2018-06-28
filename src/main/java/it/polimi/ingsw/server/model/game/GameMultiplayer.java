@@ -30,12 +30,14 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private Timer timer;
     private Long startingTime = 0L;
     private List<Player> rankings;
+    private boolean ended;
 
     public GameMultiplayer(List<Player> players) {
         this.players = new ArrayList<>();
         this.players.addAll(players);
         this.board = new Board(players);
         this.roundManager = new RoundManager(board, this);
+        ended = false;
     }
 
     /**
@@ -117,6 +119,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         rankings.forEach(player -> System.out.println(player.getNickname() +": " + player.getScore()));
         notifyChanges(SET_WINNER);
         notifyChanges(SET_RANKINGS);
+        ended = true;
     }
 
     /**
@@ -185,7 +188,12 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         roundManager.startNewRound();
     }
 
+    /**
+     * Notifies the ping of the timer to the players.
+     */
     public void timerPing(){ notifyChanges(TIMER_PING); }
+
+    public boolean isEnded() { return ended; }
 
     /**
      * Notifies different changes to the observer

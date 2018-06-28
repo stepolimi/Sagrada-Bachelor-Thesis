@@ -8,12 +8,19 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static it.polimi.ingsw.server.costants.Constants.TOOL_CARD_PATH;
+
 public class ToolCardBuilder {
     private ToolCardBuilder(){}
 
+    /**
+     * Creates the specified tool card from file and returns it.
+     * @param n is the number of the tool card that is going to be created.
+     * @return the created tool card.
+     */
     public static ToolCard buildToolCard(int n){
         ToolCard toolCard = new ToolCard();
-        final String filePath = "/data/toolCard/ToolCard" + n;
+        final String filePath = TOOL_CARD_PATH + n;
         Gson g = new Gson();
 
         InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);

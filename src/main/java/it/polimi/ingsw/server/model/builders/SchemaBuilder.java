@@ -7,15 +7,20 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.io.*;
 
-import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
-import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
+import static it.polimi.ingsw.server.costants.Constants.*;
 
 public class SchemaBuilder {
     private SchemaBuilder(){}
 
+    /**
+     * Creates the specified schema from file and returns it.
+     * @param n is the number of the schema that is going to be created.
+     * @return the created schema.
+     * @throws IOException when there is a problem with the file reading.
+     */
     public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
         Schema sch = new Schema();
-        final String filePath = "/data/schema/" + n + ".json";
+        final String filePath = SCHEMA_PATH + n + JSON_EXTENSION;
 
         Gson g = new Gson();
 
@@ -38,6 +43,11 @@ public class SchemaBuilder {
         return sch;
     }
 
+    /**
+     * Creates a schema from the String.
+     * @param schema is the String from which the schema will be created.
+     * @return the created schema.
+     */
     public static Schema buildSchema(String schema) {
         Gson g = new Gson();
         Schema schemaServer = new Schema();
