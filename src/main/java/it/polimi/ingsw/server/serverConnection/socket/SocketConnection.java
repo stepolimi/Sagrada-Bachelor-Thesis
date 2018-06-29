@@ -22,6 +22,7 @@ public class SocketConnection implements Runnable,Connection {
     private Connected connection;
     private ArrayList action= new ArrayList();
     private BufferedReader in;
+    private String nickname;
 
     SocketConnection(Socket s,VirtualView virtual,Connected connection) {
         this.s = s;
@@ -48,31 +49,32 @@ public class SocketConnection implements Runnable,Connection {
                 }
             }
         }catch(IOException e) {
-           this.logout();
+            this.logout();
         }
     }
 
-    public void login(String str) {
+    private void login(String str) {
         System.out.println(str + "'s trying to connect with socket:");
         if(connection.checkUsername(str)) {
-            connection.getUsers().put(this,str);
+            nickname = str;
+            connection.addPlayer(str,this);
             forwardAction(action);
         }else{
             loginError("username");
         }
     }
 
-    public void logout() {
+    private void logout() {
         try {
             in.close();
             out.close();
             s.close();
-            String name = connection.remove(this);
-            action.clear();
-            action.add(DISCONNECTED);
-            action.add(name);
-            if(name != null)
+            if(connection.removePlayer(nickname)) {
+                action.clear();
+                action.add(DISCONNECTED);
+                action.add(nickname);
                 forwardAction(action);
+            }
         }catch(IOException io) {
             System.out.println(io.getMessage());
         }
@@ -354,3 +356,4 @@ public class SocketConnection implements Runnable,Connection {
 
     private void forwardAction(List action) { virtual.forwardAction(action); }
 }
+

@@ -13,11 +13,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
 
-public class SetCTest {
+class SetCTest {
 
     private Schema s;
 
-    public void insertDice(){
+    private void insertDice(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {
@@ -56,7 +56,7 @@ public class SetCTest {
     }
 
     @Test
-    public void score_correct_colour() {
+    void score_correct_colour() {
         insertDice();
         SetObj card = new SetObj("name", "description", 4);
         card.dump();
@@ -65,7 +65,7 @@ public class SetCTest {
     }
 
     @Test
-    public void score_correct_number() {
+    void score_correct_number() {
         insertDice();
         SetObj card = new SetObj("name", "description", 5);
         card.dump();
@@ -75,7 +75,7 @@ public class SetCTest {
     }
 
     @Test
-    public void score_null(){
+    void score_null(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {

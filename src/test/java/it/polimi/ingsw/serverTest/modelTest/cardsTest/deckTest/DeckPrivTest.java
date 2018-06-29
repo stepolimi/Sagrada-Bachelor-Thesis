@@ -11,8 +11,7 @@ import static junit.framework.Assert.assertNotSame;
 /*test made to :
 ------the remaining card in Deck has the correct number.
  */
-public class DeckPrivTest {
-
+class DeckPrivTest {
     private PrivateObjective card1;
     private PrivateObjective card2;
     private PrivateObjective card3;
@@ -20,16 +19,14 @@ public class DeckPrivTest {
     private DeckPrivateObjective d = new DeckPrivateObjective(4);
 
 
-
     @Test
-    public void singleCorrectExtract(){
+    void singleCorrectExtract(){
         assertEquals(4,d.getDeckPrivate().size());
         card1=d.extract(0);
-
     }
 
     @Test
-    public void CorrectExtracts(){
+    void CorrectExtracts(){
         assertEquals(4, d.getDeckPrivate().size());
         card1=d.extract(0);
         card2=d.extract(1);
@@ -42,7 +39,5 @@ public class DeckPrivTest {
         assertNotSame(card2.getColour(),card3.getColour());
         assertNotSame(card2.getColour(),card4.getColour());
         assertNotSame(card3.getColour(),card4.getColour());
-
     }
-
 }

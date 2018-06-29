@@ -16,7 +16,7 @@ import java.util.List;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class RoundTest {
+class RoundTest {
     private List<Player> players = new ArrayList <Player>();
     private Player player = new Player("player 1");
     private Player player2 = new Player("player 2");

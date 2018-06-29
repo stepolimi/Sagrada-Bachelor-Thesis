@@ -12,10 +12,10 @@ import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DeckSchemasTest {
+class DeckSchemasTest {
     DeckSchemas set = new DeckSchemas(3);
 
-    public List<Schema> schemasList() {
+    private List<Schema> schemasList() {
         List<Schema> schemas = new ArrayList<Schema>();
         for (int i = 1; i < 13; i++) {
             try {
@@ -29,7 +29,7 @@ public class DeckSchemasTest {
     }
 
     @Test
-    public void deliverTest(){
+    void deliverTest(){
         List<Schema> schemas = schemasList();
         boolean found = false;
 

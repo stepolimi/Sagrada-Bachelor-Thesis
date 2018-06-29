@@ -157,6 +157,8 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         board.reconnectPlayer(player);
     }
 
+    public List<Player> getRankings() { return rankings; }
+
     public List<Player> getPlayers() {
         return players;
     }
@@ -199,7 +201,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
      * Notifies different changes to the observer
      * @param string head of the message that will be sent to the observer
      */
-    public void notifyChanges(String string) {
+    private void notifyChanges(String string) {
         List action = new ArrayList<>();
 
         switch (string) {

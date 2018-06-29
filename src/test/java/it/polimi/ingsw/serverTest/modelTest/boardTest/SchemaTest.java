@@ -12,14 +12,13 @@ import java.util.List;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SchemaTest {
+class SchemaTest {
     Gson g = new Gson();
     String sch = "{\"name\":\"Kaleidoscopic Dream\",\"difficult\":4,\"table\":[[{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":1,\"full\":false}],[{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":5,\"full\":false},{\"number\":0,\"full\":false},{\"number\":4,\"full\":false}],[{\"number\":3,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_RED\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false}],[{\"number\":2,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false}]]}\n" ;
     Schema s;
 
     @Test
-    void DicePlacement()
-    {
+    void DicePlacement() {
         s = g.fromJson(sch,Schema.class);
         Dice d = new Dice(Colour.ANSI_YELLOW,6);
         s.silentInsertDice(0,0,d);
@@ -32,14 +31,11 @@ public class SchemaTest {
         } catch (RemoveDiceException e) {
             e.printStackTrace();
         }
-
     }
-
-
+    
 
     @Test
-    void NearDicesAngle()
-    {
+    void NearDicesAngle() {
         s = g.fromJson(sch,Schema.class);
 
         Dice d1 = new Dice(Colour.ANSI_RED,1);
@@ -65,8 +61,7 @@ public class SchemaTest {
 
     // the list returned by nearDice must respect the order
     @Test
-    void OrderDice()
-    {
+    void OrderDice() {
         List <Dice> nearDice;
         s = g.fromJson(sch,Schema.class);
 
@@ -98,9 +93,6 @@ public class SchemaTest {
         assertTrue(nearDice.get(5).equals(d6));
         assertTrue(nearDice.get(6).equals(d7));
         assertTrue(nearDice.get(7).equals(d8));
-
-
-
     }
 
 }

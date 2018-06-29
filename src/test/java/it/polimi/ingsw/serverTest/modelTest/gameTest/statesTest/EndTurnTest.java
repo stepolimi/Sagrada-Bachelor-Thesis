@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class EndTurnTest {
+class EndTurnTest {
     private List <Player> players = new ArrayList<Player>();
     private Board board;
     private Round round;
@@ -23,12 +23,12 @@ public class EndTurnTest {
     private List action = new ArrayList();
 
     @Test
-    public void nameTest(){
+    void nameTest(){
         assertTrue(state.toString() == "EndTurnState");
     }
 
     @Test
-    public void nextStateTest(){
+    void nextStateTest(){
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         board = new Board(players);

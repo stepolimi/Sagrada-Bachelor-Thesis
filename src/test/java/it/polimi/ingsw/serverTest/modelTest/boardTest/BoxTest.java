@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BoxTest {    //in every schema we have only boxes that could have OR colour OR number restriction, not both
+class BoxTest {    //in every schema we have only boxes that could have OR colour OR number restriction, not both
 
     @Test
     void CorrectBoxFormat() {

@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ExtractDiceTest {
+class ExtractDiceTest {
     List <Player> players = new ArrayList<Player>();
     Board board = new Board(players);
     Round round = new Round(new Player("player 1"),board,null, null);
@@ -19,12 +19,12 @@ public class ExtractDiceTest {
     List action = new ArrayList();
 
     @Test
-    public void nameTest(){
+    void nameTest(){
         assertTrue(state.toString() == "ExtractDiceState");
     }
 
     @Test
-    public void nextStateTest(){
+    void nextStateTest(){
         action.add("DraftDice");
         assertTrue(state.nextState(action).toString().equals( "DraftDiceState"));
     }

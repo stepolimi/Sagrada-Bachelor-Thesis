@@ -10,9 +10,9 @@ import java.util.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
-    private HashMap<RmiClientMethodInterface,String > clients = new HashMap<RmiClientMethodInterface,String>();
     private VirtualView virtual;
     private Connected connection;
+    private String nickname;
 
     public RmiServerMethod(VirtualView virtual,Connected connection) throws RemoteException {
         this.virtual = virtual;
@@ -22,11 +22,13 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     public boolean login(RmiClientMethodInterface client,String name) {
         RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
-        action.add(LOGIN);
-        action.add(name);
         System.out.println(name + "'s trying to connect with rmi:");
+
         if(connection.checkUsername(name)) {
-            connection.getUsers().put(user, name);
+            nickname = name;
+            connection.addPlayer(name,user);
+            action.add(LOGIN);
+            action.add(name);
             virtual.forwardAction(action);
         }else {
             try {
@@ -39,12 +41,10 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public void disconnected(RmiClientMethodInterface client) {
-        RmiServerConnection c = new RmiServerConnection(client,this);
-        String name = connection.remove(c);
-        if(name != null) {
+        if(connection.removePlayer(nickname)){
             List action = new ArrayList();
             action.add(DISCONNECTED);
-            action.add(name);
+            action.add(nickname);
             virtual.forwardAction(action);
         }
     }
@@ -173,3 +173,5 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
 
 }
+
+

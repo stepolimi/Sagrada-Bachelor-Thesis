@@ -15,23 +15,23 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 
-public class PlayerTest {
+class PlayerTest {
+    Player player;
 
-        Player player;
-    public void setup1() {
+    private void setup1() {
         player = new Player("giocatore 1 ");
         player.setTurn(true);
         player.setConnected(false);
 
     }
 
-    public void setup2(){
+    private void setup2(){
         player = new Player("giocatore 1 ");
         player.setTurn(true);
         player.setConnected(true);
     }
 
-    public Schema schemaInit(int n){
+    private Schema schemaInit(int n){
         Schema schema = new Schema();
         try {
             schema = buildSchema(n);
@@ -40,28 +40,28 @@ public class PlayerTest {
         }
         return schema;
     }
-    public PrivateObjective objectiveInit(){
+    private PrivateObjective objectiveInit(){
         return buildPrivateObjective(2);
     }
 
-    public boolean correct_player_status(Player p){
+    private boolean correct_player_status(Player p){
         return(!p.isMyTurn() || p.isConnected());
     }
 
     @Test
-    public void wrong_behave(){
+    void wrong_behave(){
         setup1();
         assertFalse("impossibile that it's player's turn and he's disconnected", correct_player_status(player));
     }
 
     @Test
-    public void correct_behave(){
+    void correct_behave(){
         setup2();
         assertTrue("behavior correct", correct_player_status(player));
     }
 
     @Test
-    public void setAttributes(){
+    void setAttributes(){
         player = new Player("giocatore 1");
         Schema schema= this.schemaInit(1);
         Schema schema2 = this.schemaInit(2);

@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema. restriction we'll be tested in
 //other tests
 
-public class DiagonalCTest {
+class DiagonalCTest {
 
 
     private Schema s;
 
-    public void insertDice1(){
+    private void insertDice1(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {
@@ -51,7 +51,7 @@ public class DiagonalCTest {
         s.silentInsertDice(3,3,d10);
     }
 
-    public void insertDice2(){
+    private void insertDice2(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {
@@ -83,7 +83,7 @@ public class DiagonalCTest {
     }
 
     @Test
-    public void nullScore(){
+    void nullScore(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {

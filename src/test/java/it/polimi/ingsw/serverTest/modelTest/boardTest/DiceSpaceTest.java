@@ -12,24 +12,18 @@ import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class DiceSpaceTest {
-
-
+class DiceSpaceTest {
     Dice d1 = new Dice(Colour.ANSI_PURPLE,3);
-
     ArrayList<Dice> lista = new ArrayList<Dice>();
-
     DiceSpace diceSpace = new DiceSpace();
 
-
-
-    public void insertion(){
+    private void insertion(){
         diceSpace.setDices(lista);
         diceSpace.insertDice(d1);
 
     }
 
-    public Dice removing(){
+    private Dice removing(){
         try {
             Dice dice = diceSpace.removeDice(0);
             return dice;
@@ -39,21 +33,17 @@ public class DiceSpaceTest {
     }
 
     @Test
-    public void correct_insert() {
+    void correct_insert() {
         insertion();
         assertEquals(1, diceSpace.getListDice().size());
     }
 
     @Test
-    public void correct_remove(){
+    void correct_remove(){
         insertion();
         assertTrue(removing() == d1);
         assertEquals(0, diceSpace.getListDice().size());
 
         assertTrue(removing() == null);
-
     }
-
-
-
 }

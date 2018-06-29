@@ -9,10 +9,10 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 
-public class DiceBagTest {
+class DiceBagTest {
     DiceBag db = new DiceBag();
 
-    public boolean fullSetup(DiceBag db){
+    private boolean fullSetup(DiceBag db){
         int r = 0, y=0, p=0, g=0, b=0;
         int notZero =0;
         for(Dice d: db.getDices()){

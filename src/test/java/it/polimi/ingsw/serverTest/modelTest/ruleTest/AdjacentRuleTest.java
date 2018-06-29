@@ -15,7 +15,7 @@ import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AdjacentRuleTest {
+class AdjacentRuleTest {
     private Schema schema = new Schema();
     private Player player = new Player("player 1");
     private Dice dice_1 = new Dice(Colour.ANSI_BLUE, 4);
@@ -25,7 +25,7 @@ public class AdjacentRuleTest {
     private InsertionRule rule = new AdjacentRule();
 
     @Test
-    public void correctInsertion() throws IOException {
+    void correctInsertion() throws IOException {
         player.setObserver(new VirtualView());
         schema = buildSchema(24);
 
@@ -45,7 +45,7 @@ public class AdjacentRuleTest {
     }
 
     @Test
-    public void wrongInsertion() throws IOException {
+    void wrongInsertion() throws IOException {
         player.setObserver(new VirtualView());
         schema = buildSchema(24);
 

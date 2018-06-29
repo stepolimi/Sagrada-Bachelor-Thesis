@@ -10,12 +10,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BoardTest {
+class BoardTest {
     Board board;
     List <Player> players = new ArrayList<Player>();
     Player player,player2;
 
-    public void initBoard(){
+    private void initBoard(){
         player =new Player("player 1");
         player2 = new Player("player 2");
         players.add(player);
@@ -24,7 +24,7 @@ public class BoardTest {
     }
 
     @Test
-    public void playersTest(){
+    void playersTest(){
         initBoard();
         assertTrue(board.getPlayerList() == players);
         assertTrue(board.numPlayers() == players.size());

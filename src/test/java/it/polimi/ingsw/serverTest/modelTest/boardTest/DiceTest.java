@@ -9,25 +9,25 @@ import static junit.framework.Assert.assertTrue;
 
 
 
-public class DiceTest {
+class DiceTest {
 
-    public boolean CorrectDice(int n)
+    private boolean CorrectDice(int n)
     {
-        if((n > 0) && (n < 7))
+        if(n > 0 && n < 7)
             return true;
-        else return false;
+        return false;
     }
 
 
     @Test
-    public void  CorrectDiceFormat(){
+    void  CorrectDiceFormat(){
 
         Dice d =new Dice(Colour.ANSI_GREEN, 6);
         assertTrue("Dice's number is a right value", CorrectDice(d.getValue()));
     }
 
     @Test
-    public void WrongDiceFormat(){
+    void WrongDiceFormat(){
         Dice d =new Dice(Colour.ANSI_GREEN, 10);
         assertFalse("Number is wrong. " + d.getValue() + "is not a dice's value", CorrectDice(d.getValue()));
 

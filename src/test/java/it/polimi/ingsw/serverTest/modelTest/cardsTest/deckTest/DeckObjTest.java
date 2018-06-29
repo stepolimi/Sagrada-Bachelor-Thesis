@@ -14,37 +14,28 @@ import static junit.framework.Assert.assertEquals;
 ------the remaining card in Deck has the correct number
  */
 
-public class DeckObjTest {
-
+class DeckObjTest {
     List<ObjectiveCard> deckPub = new ArrayList<ObjectiveCard>();
     DeckPublicObjective d = new DeckPublicObjective();
 
-
     @Test
-    public void correctExtract(){
+    void correctExtract(){
         deckPub= d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
-
     }
 
     @Test
-    public void correctExtract2(){
+    void correctExtract2(){
         deckPub = d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
-
-
     }
+
     @Test
-    public void correctExtract3(){
+    void correctExtract3(){
         deckPub = d.extract();
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
-
-
     }
-
-
-
 }

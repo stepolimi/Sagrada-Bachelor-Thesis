@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.serverConnection;
 
-import it.polimi.ingsw.server.virtualView.SchemaClient;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SessionTest {
+class SessionTest {
     private String p1 = "Giocatore1";
     private String p2 = "Giocatore2";
     private String p3 = "Giocatore3";
@@ -20,9 +20,9 @@ public class SessionTest {
     private Session session;
     private VirtualView virtual;
 
-    ArrayList<String> players = new ArrayList<String>();
+    private ArrayList<String> players = new ArrayList<String>();
 
-    public void setup(){
+    private void setup(){
         players.add(p1);
         players.add(p2);
         players.add(p3);

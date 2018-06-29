@@ -14,11 +14,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //testing ONLY the correct calculus of score  IGNORING restriction of the current schema.
 
-public class PrivateCardTest {
+class PrivateCardTest {
 
     private Schema s;
 
-    public void insertDice(){
+    private void insertDice(){
         try {
             s = buildSchema(1);
         } catch (IOException e) {

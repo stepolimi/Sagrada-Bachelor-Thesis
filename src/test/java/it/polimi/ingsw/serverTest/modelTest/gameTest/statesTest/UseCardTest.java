@@ -11,20 +11,20 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UseCardTest {
-    List <Player> players = new ArrayList<Player>();
-    Board board = new Board(players);
-    Round round = new Round(new Player("player 1"),board,null, null);
-    UseToolCardState state = new UseToolCardState();
-    List action = new ArrayList();
+class UseCardTest {
+    private List <Player> players = new ArrayList<Player>();
+    private Board board = new Board(players);
+    private Round round = new Round(new Player("player 1"),board,null, null);
+    private UseToolCardState state = new UseToolCardState();
+    private List action = new ArrayList();
 
     @Test
-    public void nameTest(){
+    void nameTest(){
         assertTrue(state.toString() == "UseToolCardState");
     }
 
     @Test
-    public void nextStateTest(){
+    void nextStateTest(){
         action.add("DraftDice");
         assertTrue(state.nextState(action).toString().equals( "DraftDiceState"));
     }

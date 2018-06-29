@@ -9,13 +9,14 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ToolsDeck {
+class ToolsDeck {
     DeckToolsCard deck = new DeckToolsCard();
 
     @Test
     void correct_size(){
         assertEquals(3, deck.getToolCards().size());
     }
+
     @Test
     void correct_extract(){
         List<ToolCard> toolCards = deck.getToolCards();

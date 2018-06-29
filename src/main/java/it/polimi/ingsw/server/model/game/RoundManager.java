@@ -12,7 +12,6 @@ import java.util.Random;
 public class RoundManager  {
     private Board board;
     private GameMultiplayer game;
-    private List<Round> rounds;
     private Observer obs;
     private int firstPlayerIndex = 0;
     private int roundNum = 0;
@@ -22,7 +21,6 @@ public class RoundManager  {
         this.board = board;
         this.game = game;
         round = null;
-        rounds = new ArrayList<>();
     }
 
     /**
@@ -43,7 +41,6 @@ public class RoundManager  {
             }while (!playerConnected);
 
             round.addObserver(obs);
-            rounds.add(round);
             round.roundInit();
             roundNum ++;
         }
