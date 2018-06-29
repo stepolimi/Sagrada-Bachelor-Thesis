@@ -30,9 +30,7 @@ public class SwapDiceState extends State {
             round.getNextActions().remove(0);
             round.setPendingDice(dice);
 
-        } catch (InsertDiceException e) {
-            System.out.println(e.getMessage());
-        } catch (RemoveDiceException e) {
+        } catch (InsertDiceException | RemoveDiceException e) {
             System.out.println(e.getMessage());
         }
         giveLegalActions(round);

@@ -154,11 +154,11 @@ public class Round extends Observable implements TimedComponent {
 
     GameMultiplayer getGame(){ return game; }
 
-    Dice getPendingDice() {
+    public Dice getPendingDice() {
         return pendingDice;
     }
 
-    void setPendingDice(Dice dice) {
+    public void setPendingDice(Dice dice) {
         this.pendingDice = dice;
     }
 
@@ -170,7 +170,7 @@ public class Round extends Observable implements TimedComponent {
         this.favorsDecremented = favorsDecremented;
     }
 
-    boolean getCardWasUsed() {
+    public boolean getCardWasUsed() {
         return cardWasUsed;
     }
 
@@ -186,7 +186,7 @@ public class Round extends Observable implements TimedComponent {
         this.usingTool = using;
     }
 
-    ToolCard getUsingTool() {
+    public ToolCard getUsingTool() {
         return usingTool;
     }
 
@@ -202,7 +202,7 @@ public class Round extends Observable implements TimedComponent {
         this.usedCard = usedCard;
     }
 
-    boolean isDraftedDice() {
+    public boolean isDraftedDice() {
         return draftedDice;
     }
 
@@ -218,7 +218,7 @@ public class Round extends Observable implements TimedComponent {
         this.bonusInsertDice = bonusInsertDice;
     }
 
-    void setNextActions(List<List<String>> nextActions) {
+    public void setNextActions(List<List<String>> nextActions) {
         this.nextActions = nextActions;
     }
 

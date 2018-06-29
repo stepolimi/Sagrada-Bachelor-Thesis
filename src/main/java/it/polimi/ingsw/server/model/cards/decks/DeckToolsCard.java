@@ -28,7 +28,7 @@ public class DeckToolsCard {
     /**
      * Creates 3 random tool cards from those available.
      */
-    public void extract() {
+    private void extract() {
         Random rand = new Random();
 
         for (int i = 1; i <= NUM_TOOL_CARDS; i++)

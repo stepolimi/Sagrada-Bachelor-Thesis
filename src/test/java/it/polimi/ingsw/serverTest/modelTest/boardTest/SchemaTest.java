@@ -32,7 +32,7 @@ class SchemaTest {
             e.printStackTrace();
         }
     }
-    
+
 
     @Test
     void NearDicesAngle() {

@@ -92,7 +92,6 @@ public class RoundTrack extends Observable {
             if (listRounds[nRound].size() > nDice) {
                 if (listRounds[nRound].get(nDice) != null) {
                     dice = listRounds[nRound].get(nDice);
-                    listRounds[nRound].remove(nDice);
                     return dice;
                 }
             }
