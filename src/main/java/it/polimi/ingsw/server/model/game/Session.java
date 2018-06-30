@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.util.*;
 
@@ -11,6 +12,8 @@ import static it.polimi.ingsw.server.costants.Constants.EVERYONE;
 import static it.polimi.ingsw.server.costants.Constants.MAX_PLAYERS;
 import static it.polimi.ingsw.server.costants.Constants.MIN_PLAYERS;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.costants.NameCostants.LOBBY_TIMER;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 
 /**
  * Manages the process of game start; players can join/left the lobby before game starts.
@@ -23,9 +26,15 @@ public  class Session extends Observable implements TimedComponent {
     private Timer timer;
     private Long startingTime = 0L;
     private Observer obs;
-
+    private int lobbyTimerValue;
+    private TakeDataFile timerConfig;
     public void setObserver (Observer obs){ this.obs = obs; }
 
+    public Session()
+    {
+        timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
+    }
     /**
      * Adds players in the game's lobby until it starts.
      * If the player is the second one, the timer get started.
@@ -50,7 +59,7 @@ public  class Session extends Observable implements TimedComponent {
             System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
             if(lobby.size() == MIN_PLAYERS ) {
                 startingTime = System.currentTimeMillis();
-                lobbyTimer = new GameTimer(TimerConstants.LOBBY_TIMER_VALUE,this);
+                lobbyTimer = new GameTimer(lobbyTimerValue,this);
                 timer = new Timer();
                 timer.schedule(lobbyTimer,0L,5000L);
             }
@@ -165,7 +174,7 @@ public  class Session extends Observable implements TimedComponent {
                 break;
             case TIMER_PING:
                 action.add(string);
-                action.add((int) (TimerConstants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
+                action.add((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
                 break;
             case LOGIN_ERROR:
                 action.add(string);

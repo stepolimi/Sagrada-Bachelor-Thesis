@@ -9,12 +9,14 @@ import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.RoundManager;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.util.*;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
-import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_VALUE;
+import static it.polimi.ingsw.server.costants.NameCostants.TURN_TIMER;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class Round extends Observable implements TimedComponent {
@@ -42,9 +44,12 @@ public class Round extends Observable implements TimedComponent {
     private GameTimer turnTimer;
     private Timer timer;
     private Long startingTime = 0L;
-
+    private int turnTimerValue;
+    private TakeDataFile timerConfig;
 
     public Round(Player first, Board board, RoundManager roundManager, GameMultiplayer game) {
+        timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        turnTimerValue = Integer.parseInt(timerConfig.getParameter(TURN_TIMER));
         usingTool = null;
         this.roundManager = roundManager;
         this.game = game;
@@ -93,7 +98,7 @@ public class Round extends Observable implements TimedComponent {
         notifyChanges(SET_ACTIONS);
 
         startingTime = System.currentTimeMillis();
-        turnTimer = new GameTimer(TURN_TIMER_VALUE, this);
+        turnTimer = new GameTimer(turnTimerValue, this);
         timer = new Timer();
         timer.schedule(turnTimer, 0L, 5000L);
     }
@@ -111,7 +116,7 @@ public class Round extends Observable implements TimedComponent {
                 notifyChanges(START_TURN);
             notifyChanges(SET_ACTIONS);
             startingTime = System.currentTimeMillis();
-            turnTimer = new GameTimer(TURN_TIMER_VALUE, this);
+            turnTimer = new GameTimer(turnTimerValue, this);
             timer = new Timer();
             timer.schedule(turnTimer, 0L, 5000L);
         } else {
@@ -340,7 +345,7 @@ public class Round extends Observable implements TimedComponent {
             case TIMER_PING:
                 action.add(TURN_TIMER_PING);
                 action.add(currentPlayer.getNickname());
-                action.add(TURN_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000);
+                action.add(turnTimerValue - (System.currentTimeMillis() - startingTime) / 1000);
                 break;
             default:
                 // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,

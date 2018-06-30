@@ -4,13 +4,17 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.board.Box;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Schema;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.io.*;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.NameCostants.SCHEMA_PATH;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+
 
 public class SchemaBuilder {
-    private SchemaBuilder(){}
+    private SchemaBuilder() {}
 
     /**
      * Creates the specified schema from file and returns it.
@@ -19,8 +23,10 @@ public class SchemaBuilder {
      * @throws IOException when there is a problem with the file reading.
      */
     public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
+        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        String pathSchema = config.getParameter(SCHEMA_PATH);
         Schema sch = new Schema();
-        final String filePath = SCHEMA_PATH + n + JSON_EXTENSION;
+        final String filePath = pathSchema + n + JSON_EXTENSION;
 
         Gson g = new Gson();
 

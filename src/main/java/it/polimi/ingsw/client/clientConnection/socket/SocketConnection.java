@@ -1,18 +1,19 @@
 package it.polimi.ingsw.client.clientConnection.socket;
 
 import it.polimi.ingsw.client.clientConnection.Connection;
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.View;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static it.polimi.ingsw.client.constants.SetupConstants.SOCKET_SETUP_FILE;
+import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
+import static it.polimi.ingsw.client.constants.NameConstants.SOCKET_PORT;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
 
 public class SocketConnection implements Connection,Runnable {
@@ -34,16 +35,10 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     private void setConnection() throws IOException {
-        FileReader f;
-        f = new FileReader(SOCKET_SETUP_FILE);
-        BufferedReader b;
-        b = new BufferedReader(f);
-        try {
-            host = b.readLine();
-            port = Integer.parseInt(b.readLine());
-        } finally {
-            b.close();
-        }
+        TakeDataFile netConfig = new TakeDataFile(CONFIGURATION_FILE);
+
+            host = netConfig.getParameter(SERVER_IP);
+            port = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
     }
 
     public void sendSchema(String str) {

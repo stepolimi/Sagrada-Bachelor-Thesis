@@ -1,6 +1,5 @@
-package it.polimi.ingsw.client.constants;
+package it.polimi.ingsw.server.costants;
 
-public class SetupConstants {
-    private SetupConstants(){}
+public class SetupCostants {
     public static final String CONFIGURATION_FILE = "src/main/resources/DataConfiguration/config.txt";
 }

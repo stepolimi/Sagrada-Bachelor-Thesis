@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import static it.polimi.ingsw.server.costants.Constants.JSON_EXTENSION;
-import static it.polimi.ingsw.server.costants.Constants.PRIVATE_OBJECTIVE_PATH;
+import static it.polimi.ingsw.server.costants.NameCostants.PRIVATE_OBJECTIVE_PATH;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+
 
 public class PrivateObjectiveBuilder {
     private PrivateObjectiveBuilder(){}
@@ -20,8 +23,11 @@ public class PrivateObjectiveBuilder {
      * @return the created private objectives.
      */
     public static PrivateObjective buildPrivateObjective(int n){
+        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        String pathPrivateObjective = config.getParameter(PRIVATE_OBJECTIVE_PATH);
+
         PrivateObjective privateObjective = new PrivateObjective();
-        final String filePath = PRIVATE_OBJECTIVE_PATH + n + JSON_EXTENSION;
+        final String filePath = pathPrivateObjective + n + JSON_EXTENSION;
         Gson g = new Gson();
 
         InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);

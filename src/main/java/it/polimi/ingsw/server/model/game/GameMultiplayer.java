@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.game;
 
+
 import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.DeckSchemas;
@@ -10,6 +11,8 @@ import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
+
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,7 +21,9 @@ import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
 import static it.polimi.ingsw.server.costants.MessageConstants.SET_RANKINGS;
 import static it.polimi.ingsw.server.costants.MessageConstants.SET_WINNER;
 import static it.polimi.ingsw.server.costants.MessageConstants.TIMER_PING;
-import static it.polimi.ingsw.server.costants.TimerConstants.SCHEMA_TIMER_VALUE;
+import static it.polimi.ingsw.server.costants.NameCostants.LOBBY_TIMER;
+import static it.polimi.ingsw.server.costants.NameCostants.SCHEMA_TIMER;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.server.costants.TimerConstants.SCHEMAS_TIMER_PING;
 
 public class GameMultiplayer extends Observable implements TimedComponent {
@@ -31,8 +36,14 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private Long startingTime = 0L;
     private List<Player> rankings;
     private boolean ended;
+    private int lobbyTimerValue;
+    private int schemaTimerValue;
+    private TakeDataFile timerConfig;
 
     public GameMultiplayer(List<Player> players) {
+        timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
+        schemaTimerValue = Integer.parseInt(timerConfig.getParameter(SCHEMA_TIMER));
         this.players = new ArrayList<>();
         this.players.addAll(players);
         this.board = new Board(players);
@@ -73,7 +84,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
             board.addPrivate(p.getPrCard());
         });
         startingTime = System.currentTimeMillis();
-        schemaTimer = new GameTimer(SCHEMA_TIMER_VALUE, this);
+        schemaTimer = new GameTimer(schemaTimerValue, this);
         timer = new Timer();
         timer.schedule(schemaTimer, 0L, 5000L);
     }
@@ -204,10 +215,11 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     private void notifyChanges(String string) {
         List action = new ArrayList<>();
 
+
         switch (string) {
             case TIMER_PING:
                 action.add(SCHEMAS_TIMER_PING);
-                action.add((int) (TimerConstants.LOBBY_TIMER_VALUE - (System.currentTimeMillis() - startingTime) / 1000));
+                action.add((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
                 break;
             case SET_WINNER:
                 action.add(string);

@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
 import it.polimi.ingsw.client.exceptions.WrongInputException;
+import it.polimi.ingsw.client.setUp.TakeDataFile;
+
 
 import java.io.*;
 import java.rmi.RemoteException;
@@ -14,7 +16,8 @@ import java.util.List;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.client.constants.MessageConstants.PAINT_ROW;
-import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
+import static it.polimi.ingsw.client.constants.NameConstants.*;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 
 public class ViewCLI implements View {
     private Scanner input;
@@ -45,8 +48,19 @@ public class ViewCLI implements View {
     private int newColumn;
     private int diceValue;
     private Message console = new Message();
-
+    private List<List<Dices>> roundTrack;
+    private int lobbyTimerValue;
+    private TakeDataFile config;
+    private String pathCustomSchemas;
+    private String pathInitDefaultSchema;
+    private String pathInitCustomSchema;
     public ViewCLI() {
+        config = new TakeDataFile(CONFIGURATION_FILE);
+        lobbyTimerValue = Integer.parseInt(config.getParameter(LOBBY_TIMER));
+        pathCustomSchemas = config.getParameter(PATH_CUSTOM_SCHEMA);
+        pathInitCustomSchema = config.getParameter(PATH_INIT_CUSTOM_SCHEMA);
+        pathInitDefaultSchema = config.getParameter(PATH_INIT_DEFAULT_SCHEMA);
+        roundTrack = new ArrayList<List<Dices>>();
         load = new LoadImage();
         opVal = 0;
         round = 1;
@@ -63,12 +77,20 @@ public class ViewCLI implements View {
 
 
     // set method
+
+    /**
+     * set main parameters of game
+     * @param scene is parameter to set
+     */
     public void setScene(String scene) {
         if (scene.equals("connection")) this.setConnection();
         else if (scene.equals("login")) this.setLogin();
     }
 
-    // used to connect with server
+
+    /**
+     *  set connection with server
+     */
     private void setConnection() {
         correct = false;
         String choose;
@@ -99,7 +121,9 @@ public class ViewCLI implements View {
         this.startScene();
     }
 
-    // used to login with server
+    /**
+     * used to login with server
+     */
     private void setLogin() {
         username = "";
         while (username.equals("")) {
@@ -114,18 +138,21 @@ public class ViewCLI implements View {
 
     }
 
-    // used to choose the own schema
+    /**
+     * used to choose the own schema
+     * @param schemas are the patterns card that the user can choose
+     */
     public void setSchemas(List<String> schemas) {
         console.print("Scrivi il nome dello schema che preferisci tra:",TypeMessage.INFO_MESSAGE);
         HashMap<String, Schema> selSchema = new HashMap<String, Schema>();
         for (String nameSchema : schemas) {
-            selSchema.put(nameSchema, new Schema().InitSchema("SchemaClient/" + nameSchema));
+            selSchema.put(nameSchema, new Schema().InitSchema(pathInitDefaultSchema + nameSchema));
             selSchema.get(nameSchema).splitImageSchema();
         }
 
         showSchemas(selSchema);
 
-        console.print("\nOppure carica uno schema personalizzato(load)", TypeMessage.INFO_MESSAGE);
+        Message.print("\nOppure carica uno schema personalizzato(load)", TypeMessage.INFO_MESSAGE);
 
         schemaThread = new Thread(() -> {
             try {
@@ -137,14 +164,18 @@ public class ViewCLI implements View {
                     else
                         loadSchema();
             } catch (Exception e) {
-                console.print("Schema già inserito",TypeMessage.INFO_MESSAGE);
+                Message.print("Schema già inserito",TypeMessage.INFO_MESSAGE);
             }
         });
         schemaThread.start();
         System.out.println("\n");
     }
 
-    // used to set round's diceSpace
+    /**
+     * used to set round's diceSpace
+     * @param colours are the dice colors of the DiceSpace
+     * @param values are the dice value of the DiceSpace
+     */
     public void setDiceSpace(List<String> colours, List<Integer> values) {
         diceSpace.clear();
         for (int i = 0; i < colours.size(); i ++) {
@@ -152,7 +183,9 @@ public class ViewCLI implements View {
         }
     }
 
-    // invoked by server to accept InsertDice action
+    /**
+     * invoked by server to accept InsertDice action
+     */
     public void insertDiceAccepted() {
         diceSpace.get(indexDiceSpace).setConstraint(this.schemas.get(username).getGrid()[row][column].getConstraint());
         this.schemas.get(username).getGrid()[row][column] = diceSpace.get(indexDiceSpace);
@@ -160,17 +193,29 @@ public class ViewCLI implements View {
         schemas.get(username).showImage();
     }
 
-    // used to remove Dice from DiceSpace
+    /**
+     * used to remove Dice from DiceSpace
+     * @param index of Dice in DiceSpace
+     */
     public void pickDiceSpace(int index) {
         diceSpace.remove(index);
     }
 
-    // used to notify the user of an insertDiceSpace error
+    /**
+     *  used to notify the user of an insertDiceSpace error
+     */
     public void pickDiceSpaceError() {
-        console.print("Indice della riserva non corretto",TypeMessage.ERROR_MESSAGE);
+        Message.print("Indice della riserva non corretto",TypeMessage.ERROR_MESSAGE);
     }
 
-    // used to place a Dice in Schema
+    /**
+     * used to place a Dice in Schema
+     * @param nickname is the name of the player to insert the die in the scheme
+     * @param row is index of row of scheme
+     * @param column is inde of column of schema
+     * @param colour is colour of die
+     * @param value is value of die
+     */
     public void placeDiceSchema(String nickname, int row, int column, String colour, int value) {
         if (!nickname.equals(username)) {
             this.schemas.get(nickname).getGrid()[row][column] =
@@ -178,65 +223,88 @@ public class ViewCLI implements View {
         }
     }
 
-    // used to notify the user of an placeDiceSchema error
+    /**
+     * used to notify the user of an placeDiceSchema error
+     */
     public void placeDiceSchemaError() {
-        console.print("Errore nell'inserimento del dado",TypeMessage.ERROR_MESSAGE);
+        Message.print("Errore nell'inserimento del dado",TypeMessage.ERROR_MESSAGE);
     }
 
-    // set private objective card
+    /**
+     * set private objective card
+     * @param colour is colour of private objective card
+     */
     public void setPrivateCard(String colour) {
-        console.print("Il tuo obiettivo privato sarà il colore: " + colour + "\n",TypeMessage.INFO_MESSAGE);
+        Message.print("Il tuo obiettivo privato sarà il colore: " + colour + "\n",TypeMessage.INFO_MESSAGE);
         privateObjective = colour;
     }
 
-    // set public objective card used in the game
+    /**
+     * set public objective card used in the game
+     * @param cards is public objective card
+     */
     public void setPublicObjectives(List<String> cards) {
         publicObjcective = cards;
         System.out.println("\n");
     }
 
-    // set tool cards used in the game
+    /**
+     * set tool card used in the game
+     * @param cards is tool card
+     */
     public void setToolCards(List<Integer> cards) {
         toolCard = cards;
         System.out.println("\n");
     }
 
 
+    /**
+     * set handler
+     * @param hand is handler
+     */
     public void setHandler(Handler hand) {
         this.hand = hand;
     }
 
-    // create your custom schema
+    /**
+     * create your custom schema
+     */
     private void createSchema() {
         int nCostraint = 0;
-        console.print(" Hai scelto di creare la tua griglia: ",TypeMessage.INFO_MESSAGE);
+        Message.print(" Hai scelto di creare la tua griglia: ",TypeMessage.INFO_MESSAGE);
         Schema sc = new Schema();
-        console.print("Scegli il nome della griglia:",TypeMessage.INFO_MESSAGE);
+        Message.print("Scegli il nome della griglia:",TypeMessage.INFO_MESSAGE);
         sc.setName(input.nextLine());
 
         for (int i = 0; i < sc.getGrid().length; i++) {
             for (int j = 0; j < sc.getGrid()[0].length; j++) {
-                console.print("Inserisci la restrizione della cella:" + "[" + i + "][" + j + "]",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la restrizione della cella:" + "[" + i + "][" + j + "]",TypeMessage.INFO_MESSAGE);
                 if (setConstraint(sc, i, j))
                     nCostraint++;
             }
         }
         sc.setDifficult(nCostraint);
-        console.print("La griglia che hai creato è questa:",TypeMessage.INFO_MESSAGE);
+        Message.print("La griglia che hai creato è questa:",TypeMessage.INFO_MESSAGE);
         sc.splitImageSchema();
         sc.showImage();
-        console.print("Desideri apportare modifiche? y si",TypeMessage.INFO_MESSAGE);
+        Message.print("Desideri apportare modifiche? y si",TypeMessage.INFO_MESSAGE);
         if (input.nextLine().equals("y"))
             modifySchema(sc);
-        console.print("Vuoi salvare su file il tuo schema? y si",TypeMessage.INFO_MESSAGE);
+        Message.print("Vuoi salvare su file il tuo schema? y si",TypeMessage.INFO_MESSAGE);
         try {
             saveSchema(sc);
         } catch (IOException e) {
-            console.print("Errore con il salvataggio dello schema",TypeMessage.ERROR_MESSAGE);
+            Message.print("Errore con il salvataggio dello schema",TypeMessage.ERROR_MESSAGE);
         }
     }
 
-    // set constraint of custom scheme
+    /**
+     * set constraint of custom scheme
+     * @param sc is custom scheme
+     * @param i is index of row to set constraint
+     * @param j is index of column to set constraint
+     * @return true if set constraint otherwise false
+     */
     private boolean setConstraint(Schema sc, int i, int j) {
         boolean isConstraint = true;
         String constraint;
@@ -244,8 +312,8 @@ public class ViewCLI implements View {
         while (!correct) {
             correct = true;
             System.out.println("1) colore " + Colour.colorString("verde(g)-", Colour.ANSI_GREEN) + Colour.colorString("rosso(r)-", Colour.ANSI_RED) + Colour.colorString("blu(b)-", Colour.ANSI_BLUE) + Colour.colorString("giallo(y)", Colour.ANSI_YELLOW) + Colour.colorString("-viola(p)", Colour.ANSI_PURPLE));
-            console.print("2) numero 1-6",TypeMessage.INFO_MESSAGE);
-            console.print("3) nessuna restrizione (e)",TypeMessage.INFO_MESSAGE);
+            Message.print("2) numero 1-6",TypeMessage.INFO_MESSAGE);
+            Message.print("3) nessuna restrizione (e)",TypeMessage.INFO_MESSAGE);
             constraint = input.nextLine();
             char word = constraint.charAt(0);
             switch (word) {
@@ -293,14 +361,19 @@ public class ViewCLI implements View {
             }
             if (!sc.nearConstraint(i, j, sc.getGrid()[i][j].getConstraint())) {
                 correct = false;
-                console.print(" Restrizione già immessa nelle caselle adiacenti\nSelezionarne un'altra\n",TypeMessage.ERROR_MESSAGE);
+                Message.print(" Restrizione già immessa nelle caselle adiacenti\nSelezionarne un'altra\n",TypeMessage.ERROR_MESSAGE);
             }
         }
 
         return isConstraint;
     }
 
-    // used to modify custom schema
+
+
+    /**
+     * used to modify custom schema
+     * @param s is scheme i want to change
+     */
     private void modifySchema(Schema s) {
         int row, column;
         correct = false;
@@ -308,23 +381,23 @@ public class ViewCLI implements View {
 
 
             try {
-                console.print("Inserisci la riga che vuoi modificare",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la riga che vuoi modificare",TypeMessage.INFO_MESSAGE);
                 row = Integer.parseInt(input.nextLine());
 
-                console.print("Inserisci la colonna che vuoi modificare",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la colonna che vuoi modificare",TypeMessage.INFO_MESSAGE);
                 column = Integer.parseInt(input.nextLine());
 
-                console.print("Row" + row + "Column" + column,TypeMessage.INFO_MESSAGE);
+                Message.print("Row" + row + "Column" + column,TypeMessage.INFO_MESSAGE);
 
                 setConstraint(s, row - 1, column - 1);
 
-                console.print("Modifica avvenuta!",TypeMessage.CONFIRM_MESSAGE);
+                Message.print("Modifica avvenuta!",TypeMessage.CONFIRM_MESSAGE);
 
-                console.print("Questo è il tuo schema",TypeMessage.INFO_MESSAGE);
+                Message.print("Questo è il tuo schema",TypeMessage.INFO_MESSAGE);
                 s.splitImageSchema();
                 s.showImage();
 
-                console.print("Vuoi modificare ancora la griglia? y si",TypeMessage.INFO_MESSAGE);
+                Message.print("Vuoi modificare ancora la griglia? y si",TypeMessage.INFO_MESSAGE);
 
                 if (input.nextLine().equals("y"))
                     correct = false;
@@ -337,9 +410,13 @@ public class ViewCLI implements View {
         }
     }
 
-    // used to save custom schema
+    /**
+     * used to save custom schema
+     * @param s is scheme i want to save
+     * @throws IOException is invoked when there are problems with the file
+     */
+    //
     private void saveSchema(Schema s) throws IOException {
-        String path = "src/main/resources/data/SchemaPlayer/"; // todo metterlo da file di configurazione
         String schema;
         Gson g = new Gson();
         s.setPaint(null);
@@ -348,15 +425,15 @@ public class ViewCLI implements View {
 
         while (!correct) {
             String copyPath;
-            copyPath = path + s.getName() + ".json";
+            copyPath = pathCustomSchemas + s.getName() + ".json";
             FileWriter fw;
             BufferedWriter b;
             File file = new File(copyPath);
 
             if (file.exists())
-                console.print("Il file " + copyPath + " esiste già",TypeMessage.ERROR_MESSAGE);
+                Message.print("Il file " + copyPath + " esiste già",TypeMessage.ERROR_MESSAGE);
             else if (file.createNewFile()) {
-                console.print("Il file " + copyPath + " è stato creato",TypeMessage.CONFIRM_MESSAGE);
+                Message.print("Il file " + copyPath + " è stato creato",TypeMessage.CONFIRM_MESSAGE);
                 fw = new FileWriter(file);
                 b = new BufferedWriter(fw);
                 b.write(schema);
@@ -365,29 +442,37 @@ public class ViewCLI implements View {
                 b.close();
                 correct = true;
             } else
-                console.print("Il file " + path + " non può essere creato",TypeMessage.ERROR_MESSAGE);
+                Message.print("Il file " + copyPath + " non può essere creato",TypeMessage.ERROR_MESSAGE);
 
         }
 
     }
 
-    // used to set opponents schemas
+    /**
+     * used to set opponents schemas
+     * @param s are the schemas of opponents
+     */
     public void setOpponentsSchemas(List<String> s) {
         clearScreen();
         Schema temp = new Schema();
 
         for (int i = 0; i < s.size(); i = i + 2) {
             if (!s.get(i).equals(this.getName()))
-                schemas.put(s.get(i), temp.InitSchema("SchemaClient/" + s.get(i + 1)));
+                schemas.put(s.get(i), temp.InitSchema(pathInitDefaultSchema + s.get(i + 1)));
         }
     }
 
-    // used to set the number of player in the game
+    /**
+     * used to set the number of player in the game
+     * @param nPlayer is number of players
+     */
     public void setNumberPlayer(int nPlayer) {
         this.nPlayer = nPlayer;
     }
 
-    // invoked when start the rounds
+    /**
+     * invoked when start the rounds
+     */
     public void startRound() {
         if (round == 1) {
             Thread thread = new Thread(() -> {
@@ -398,7 +483,10 @@ public class ViewCLI implements View {
         }
     }
 
-    // used to set legal action
+    /**
+     * used to set legal action
+     * @param actions are the possible actions
+     */
     public void setActions(List<String> actions) {
         String move;
         moves.clear();
@@ -464,6 +552,9 @@ public class ViewCLI implements View {
     // show method
 
 
+    /**
+     * show  the dice space
+     */
     private void showDiceSpace() {
         for (Dices d : diceSpace)
             System.out.print(d.toString());
@@ -471,6 +562,10 @@ public class ViewCLI implements View {
         System.out.println("\n");
     }
 
+    /**
+     * show the opponents schema
+     * @param schema are the opponents schema
+     */
     private void showOpponentsSchemas(HashMap<String, Schema> schema) {
         schema.remove(username);
         for (String key : schema.keySet()) {
@@ -480,6 +575,11 @@ public class ViewCLI implements View {
         showSchemas(schema);
     }
 
+
+    /**
+     * show all schemas
+     * @param schema are the schemas
+     */
     private void showSchemas(HashMap<String, Schema> schema) {
         for (int i = 0; i < PAINT_ROW; i++) {
             for (String key : schema.keySet()) {
@@ -496,74 +596,89 @@ public class ViewCLI implements View {
         }
     }
 
+    /**
+     * show private objective
+     */
     private void showPrivateObjective() {
-        console.print("Il tuo obiettivo privato è:" + privateObjective,TypeMessage.INFO_MESSAGE);
+        Message.print("Il tuo obiettivo privato è:" + privateObjective,TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * show public objective
+     */
     private void showPublicObjective() {
-        console.print("Gli obiettivi pubblici della partita sono:",TypeMessage.INFO_MESSAGE);
+        Message.print("Gli obiettivi pubblici della partita sono:",TypeMessage.INFO_MESSAGE);
         for (String pub : publicObjcective)
-            console.print(pub,TypeMessage.INFO_MESSAGE);
+            Message.print(pub,TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * show all tool cards
+     */
     private void showToolCard() {
-        console.print("Le carte utensili sono:",TypeMessage.INFO_MESSAGE);
+        Message.print("Le carte utensili sono:",TypeMessage.INFO_MESSAGE);
         for (Integer tool : toolCard)
             try {
                 switch (tool) {
                     case 1:
-                        console.print("1)Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scelto di 1", TypeMessage.INFO_MESSAGE);
+                        Message.print("1)Dopo aver scelto un dado,aumenta o diminuisci il valore del dado scelto di 1", TypeMessage.INFO_MESSAGE);
                         break;
                     case 2:
-                        console.print("2)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore", TypeMessage.INFO_MESSAGE);
+                        Message.print("2)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di colore", TypeMessage.INFO_MESSAGE);
                         break;
                     case 3:
-                        console.print("3)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di valore", TypeMessage.INFO_MESSAGE);
+                        Message.print("3)Muovi un qualsiasi dado nella tua vetrata ignorando le restrizioni di valore", TypeMessage.INFO_MESSAGE);
                         break;
                     case 4:
-                        console.print("4)Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento", TypeMessage.INFO_MESSAGE);
+                        Message.print("4)Muovi esattamente due dadi, rispettando tutte le restrizioni di piazzamento", TypeMessage.INFO_MESSAGE);
                         break;
                     case 5:
-                        console.print("5)Dopo aver scelto un dado,scambia quel dado con un dado sul tracciato dei round", TypeMessage.INFO_MESSAGE);
+                        Message.print("5)Dopo aver scelto un dado,scambia quel dado con un dado sul tracciato dei round", TypeMessage.INFO_MESSAGE);
                         break;
                     case 6:
-                        console.print("6)Dopo aver scelto un dado, tira nuovamente quel dado", TypeMessage.INFO_MESSAGE);
+                        Message.print("6)Dopo aver scelto un dado, tira nuovamente quel dado", TypeMessage.INFO_MESSAGE);
                         break;
                     case 7:
-                        console.print("7)Tira nuovamente tutti i dadi della riserva", TypeMessage.INFO_MESSAGE);
+                        Message.print("7)Tira nuovamente tutti i dadi della riserva", TypeMessage.INFO_MESSAGE);
                         break;
                     case 8:
-                        console.print("8)Dopo il tuo primo turno scegli immediatamente un altro dado", TypeMessage.INFO_MESSAGE);
+                        Message.print("8)Dopo il tuo primo turno scegli immediatamente un altro dado", TypeMessage.INFO_MESSAGE);
                         break;
                     case 9:
-                        console.print("9)Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente a un altro dado", TypeMessage.INFO_MESSAGE);
+                        Message.print("9)Dopo aver scelto un dado, piazzalo in una casella che non sia adiacente a un altro dado", TypeMessage.INFO_MESSAGE);
                         break;
                     case 10:
-                        console.print("10)Dopo aver scelto un dado, giralo sulla faccia opposta", TypeMessage.INFO_MESSAGE);
+                        Message.print("10)Dopo aver scelto un dado, giralo sulla faccia opposta", TypeMessage.INFO_MESSAGE);
                         break;
                     case 11:
-                        console.print("11)Dopo aver scelto un dado, riponilo nel sacchetto, poi pescane uno dal sacchetto", TypeMessage.INFO_MESSAGE);
+                        Message.print("11)Dopo aver scelto un dado, riponilo nel sacchetto, poi pescane uno dal sacchetto", TypeMessage.INFO_MESSAGE);
                         break;
                     default:
-                        console.print("12)Muovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round", TypeMessage.INFO_MESSAGE);
+                        Message.print("12)Muovi fino a due dadi dello stesso colore di un solo dado sul tracciato dei round", TypeMessage.INFO_MESSAGE);
                 }
             } catch (NumberFormatException e) {
-                console.print("Errore con la visualizzazione della carta utensile",TypeMessage.ERROR_MESSAGE);
+                Message.print("Errore con la visualizzazione della carta utensile",TypeMessage.ERROR_MESSAGE);
             }
     }
 
+    /**
+     * show all possible moves
+     */
     private void showMoves() {
-        console.print("Scegli una tra le seguenti opzioni:", TypeMessage.INFO_MESSAGE);
+        Message.print("Scegli una tra le seguenti opzioni:", TypeMessage.INFO_MESSAGE);
         for (int i = 0; i < moves.size(); i++)
-            console.print((i + 1) + ")" + moves.get(i),TypeMessage.INFO_MESSAGE);
+            Message.print((i + 1) + ")" + moves.get(i),TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * show the round track
+     */
     private void showRoundTrack() {
         if (roundTrack.isEmpty())
-            console.print("Tracciato dei round vuoto",TypeMessage.ERROR_MESSAGE);
+            Message.print("Tracciato dei round vuoto",TypeMessage.ERROR_MESSAGE);
 
         for (int i = 0; i < roundTrack.size(); i++) {
-            console.print("Round" + (i + 1),TypeMessage.INFO_MESSAGE);
+            Message.print("Round" + (i + 1),TypeMessage.INFO_MESSAGE);
             for (Dices dices : roundTrack.get(i))
                 System.out.print(dices.toString());
             System.out.println("\n");
@@ -572,16 +687,20 @@ public class ViewCLI implements View {
 
     // action method
 
+
+    /**
+     * Create the start scene
+     */
     public void startScene() {
         int choose;
 
-        console.print("Prima di cominciare...",TypeMessage.INFO_MESSAGE);
+        Message.print("Prima di cominciare...",TypeMessage.INFO_MESSAGE);
         while (!correct) {
             try {
                 correct = true;
-                console.print("Desideri:",TypeMessage.INFO_MESSAGE);
-                console.print("1)Costruire il tuo schema",TypeMessage.INFO_MESSAGE);
-                console.print("2)Utilizzare schemi predefiniti",TypeMessage.INFO_MESSAGE);
+                Message.print("Desideri:",TypeMessage.INFO_MESSAGE);
+                Message.print("1)Costruire il tuo schema",TypeMessage.INFO_MESSAGE);
+                Message.print("2)Utilizzare schemi predefiniti",TypeMessage.INFO_MESSAGE);
                 choose = Integer.parseInt(input.nextLine());
                 switch (choose) {
                     case 1:
@@ -593,73 +712,88 @@ public class ViewCLI implements View {
                         correct = false;
                 }
             } catch (NumberFormatException e) {
-                console.print("Scelta non valida",TypeMessage.ERROR_MESSAGE);
+                Message.print("Scelta non valida",TypeMessage.ERROR_MESSAGE);
             }
         }
 
     }
 
-    // used to load a custom schema
+    /**
+     * used to load a custom schema
+     */
     private void loadSchema() {
         String name;
-        final String path = "src/main/resources/data/SchemaPlayer";
 
-        File f = new File(path);
+
+        File f = new File(pathCustomSchemas);
         Schema sc = new Schema();
 
-        console.print("Scegli il nome dello schema da caricare",TypeMessage.INFO_MESSAGE);
+        Message.print("Scegli il nome dello schema da caricare",TypeMessage.INFO_MESSAGE);
         if (f.list().length == 0) {
-            console.print(" Nessuno schema da caricare, te ne verrà assegnato uno allo scadere del tempo ",TypeMessage.ERROR_MESSAGE);
+            Message.print(" Nessuno schema da caricare, te ne verrà assegnato uno allo scadere del tempo ",TypeMessage.ERROR_MESSAGE);
             return;
         }
 
         for (String file : f.list())
-            console.print(file.substring(0, file.length() - 5),TypeMessage.INFO_MESSAGE);
+            Message.print(file.substring(0, file.length() - 5),TypeMessage.INFO_MESSAGE);
         name = input.nextLine();
         try {
-            connection.sendCustomSchema(sc.getGson("SchemaPlayer/" + name));
-            console.print("Hai caricato questo schema",TypeMessage.CONFIRM_MESSAGE);
-            schemas.put(username, sc.InitSchema("SchemaPlayer/" + name));
+            connection.sendCustomSchema(sc.getGson(pathInitCustomSchema + name));
+            Message.print("Hai caricato questo schema",TypeMessage.CONFIRM_MESSAGE);
+            schemas.put(username, sc.InitSchema(pathInitCustomSchema + name));
             schemas.get(username).splitImageSchema();
             schemas.get(username).showImage();
             correct = true;
         } catch (IOException e) {
-            console.print("Errore con lo schema da caricare,te ne verrà assegnato uno allo scadere del tempo",TypeMessage.ERROR_MESSAGE);
+            Message.print("Errore con lo schema da caricare,te ne verrà assegnato uno allo scadere del tempo",TypeMessage.ERROR_MESSAGE);
         }
 
     }
 
 
-    // invoked by server to log the player
+    /**
+     * invoked by server to log the player
+     * @param str todo
+     */
+
     public void login(String str) {
         if (str.equals("Welcome")) {
-            console.print("La partita inizierà a breve",TypeMessage.INFO_MESSAGE);
-            console.print("Aspettando altri giocatori...",TypeMessage.INFO_MESSAGE);
+            Message.print("La partita inizierà a breve",TypeMessage.INFO_MESSAGE);
+            Message.print("Aspettando altri giocatori...",TypeMessage.INFO_MESSAGE);
         } else if (str.equals("Login_error-username")) {
-            console.print("Errore, nickname già in uso", TypeMessage.ERROR_MESSAGE);
+            Message.print("Errore, nickname già in uso", TypeMessage.ERROR_MESSAGE);
             this.setLogin();
         } else if (str.equals("Login_error-game")) {
-            console.print("Errore, partita già in corso", TypeMessage.ERROR_MESSAGE);
-            console.print("Riprovare più tardi",TypeMessage.INFO_MESSAGE);
+            Message.print("Errore, partita già in corso", TypeMessage.ERROR_MESSAGE);
+            Message.print("Riprovare più tardi",TypeMessage.INFO_MESSAGE);
         }
     }
 
-    // notifies the user that another player has joined the game
+    /**
+     * notifies the user that another player has joined the game
+     * @param name is the name of player who connected
+     */
     public void playerConnected(String name) {
-        console.print(" \r"+name + " si è aggiunto alla lobby\n",TypeMessage.INFO_MESSAGE);
+        Message.print(" \r"+name + " si è aggiunto alla lobby\n",TypeMessage.INFO_MESSAGE);
         nPlayer++;
     }
 
-    // notifies the user that another player has left the game
+    /**
+     *  notifies the user that another player has left the game
+     * @param name is the name of player who disconnected
+     */
     public void playerDisconnected(String name) {
-        console.print("\r"+name + " si è disconnesso\n",TypeMessage.INFO_MESSAGE);
+        Message.print("\r"+name + " si è disconnesso\n",TypeMessage.INFO_MESSAGE);
         nPlayer--;
     }
 
-    // display timer connection
+    /**
+     * display timer connection
+     * @param time is the remaining time
+     */
     public void timerPing(String time) {
         Colour colour ;
-        int percent = (int) (((LOBBY_TIMER_VALUE - Double.parseDouble(time)) / LOBBY_TIMER_VALUE) * 100);
+        int percent = (int) (((lobbyTimerValue - Double.parseDouble(time)) / lobbyTimerValue) * 100);
         System.out.print("\r" + Colour.colorString("L", Colour.ANSI_GREEN) + Colour.colorString("o", Colour.ANSI_RED) + Colour.colorString("a", Colour.ANSI_BLUE) + Colour.colorString("d", Colour.ANSI_YELLOW) + Colour.colorString("i", Colour.ANSI_PURPLE) + Colour.colorString("n", Colour.ANSI_GREEN) + Colour.colorString("g", Colour.ANSI_BLUE));
         for (int i = 0; i < percent; i++) {
             switch (i / 20) {
@@ -687,24 +821,29 @@ public class ViewCLI implements View {
         System.out.print(Colour.colorString(percent + "%", Colour.ANSI_BLUE));
     }
 
-    // invoked when the game starts
+    /**
+     * invoked when the game starts
+     */
     public void createGame() {
         clearScreen();
-        console.print("\nPartita creata\n",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("\nPartita creata\n",TypeMessage.CONFIRM_MESSAGE);
     }
 
 
-    // invoked when user's schema has been accepted
+    /**
+     * invoked when user's schema has been accepted
+     * @param name is the scheme's name
+     */
     public void chooseSchema(String name) {
         Schema s = new Schema();
-        schemas.put(this.getName(), s.InitSchema("SchemaClient/" + name));
-        console.print("schema approvato: " + name,TypeMessage.CONFIRM_MESSAGE);
+        schemas.put(this.getName(), s.InitSchema(pathInitDefaultSchema + name));
+        Message.print("schema approvato: " + name,TypeMessage.CONFIRM_MESSAGE);
 
 
-        console.print("Aspettando la scelta degli altri giocatori...\n",TypeMessage.INFO_MESSAGE);
+        Message.print("Aspettando la scelta degli altri giocatori...\n",TypeMessage.INFO_MESSAGE);
         if (schemaThread.isAlive()) {
-            console.print("Tempo scaduto! Schema scelto dal server!", TypeMessage.CONFIRM_MESSAGE);
-            console.print("Premi invio!",TypeMessage.CONFIRM_MESSAGE);
+            Message.print("Tempo scaduto! Schema scelto dal server!", TypeMessage.CONFIRM_MESSAGE);
+            Message.print("Premi invio!",TypeMessage.CONFIRM_MESSAGE);
             schemaThread.interrupt();
             try {
                 schemaThread.join();
@@ -714,7 +853,10 @@ public class ViewCLI implements View {
         }
     }
 
-    // invoked when the turn starts
+    /**
+     * invoked when the turn starts
+     * @param name is the name of the player to whom the turn is assigned
+     */
     public void startTurn(String name) {
         clearScreen();
         try {
@@ -722,21 +864,24 @@ public class ViewCLI implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        console.print("\nIl tuo schema:",TypeMessage.INFO_MESSAGE);
+        Message.print("\nIl tuo schema:",TypeMessage.INFO_MESSAGE);
         showMyschema();
         showDiceSpace();
         if (!name.equals(username)) {
             myTurn = false;
-            console.print("Turno iniziato, tocca a: " + name,TypeMessage.CONFIRM_MESSAGE);
+            Message.print("Turno iniziato, tocca a: " + name,TypeMessage.CONFIRM_MESSAGE);
             setActions(null);
             showMoves();
         } else {
             myTurn = true;
-            console.print("Tocca a te!",TypeMessage.CONFIRM_MESSAGE);
+            Message.print("Tocca a te!",TypeMessage.CONFIRM_MESSAGE);
         }
     }
 
 
+    /**
+     * used to choose the moves
+     */
     private void chooseMoves() {
         String move;
         int choose;
@@ -793,40 +938,61 @@ public class ViewCLI implements View {
                 e.getMessage();
                 right = false;
             } catch (NumberFormatException e) {
-                console.print("Inserisci un numero",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci un numero",TypeMessage.INFO_MESSAGE);
                 right = false;
             }
         }
     }
 
+    /**
+     *  roll the dice in dice space
+     */
     private void rollDiceSpace() {
-        console.print("Rolliamo 'sti dadi",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Rolliamo 'sti dadi",TypeMessage.CONFIRM_MESSAGE);
         connection.rollDiceSpace();
     }
 
+
+    /**
+     * place the dice in dice space
+     */
     public void placeDiceSpace() {
         connection.placeDiceSpace();
     }
 
+
+    /**
+     * undo user tool card
+     */
     private void cancelToolCard() {
         connection.cancelUseToolCard();
     }
 
+
+    /**
+     * show my scheme
+     */
     private void showMyschema() {
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
     }
 
+    /**
+     * used to roll dice
+     */
     public void rollDice() {
-        console.print("Vuoi davvero rollare il dado?",TypeMessage.INFO_MESSAGE);
+        Message.print("Vuoi davvero rollare il dado?",TypeMessage.INFO_MESSAGE);
         input.nextLine();
-        console.print("Era retorico.",TypeMessage.CONFIRM_MESSAGE);
-        console.print("Rolliamo sto dado",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Era retorico.",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Rolliamo sto dado",TypeMessage.CONFIRM_MESSAGE);
         connection.rollDice();
     }
 
+    /**
+     * used to increment/decrement value of dice
+     */
     private void changeValue() {
-        console.print("Vuoi incrementare(I) o decrementare(D) il dado?",TypeMessage.INFO_MESSAGE);
+        Message.print("Vuoi incrementare(I) o decrementare(D) il dado?",TypeMessage.INFO_MESSAGE);
 
         boolean right = false;
         while (!right) {
@@ -847,7 +1013,7 @@ public class ViewCLI implements View {
                     break;
                 }
                 default: {
-                    console.print("Parametro non corretto",TypeMessage.ERROR_MESSAGE);
+                    Message.print("Parametro non corretto",TypeMessage.ERROR_MESSAGE);
                     right = false;
                 }
             }
@@ -855,53 +1021,65 @@ public class ViewCLI implements View {
         }
     }
 
+    /**
+     * place dice in schema
+     */
     private void placeDice() {
         boolean right = false;
         while (!right) {
             try {
-                console.print("Inserisci la riga in cui inserire il dado",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la riga in cui inserire il dado",TypeMessage.INFO_MESSAGE);
                 row = Integer.parseInt(input.nextLine()) - 1;
-                console.print("Inserisci la colonna in cui inserire il dado",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la colonna in cui inserire il dado",TypeMessage.INFO_MESSAGE);
                 column = Integer.parseInt(input.nextLine()) - 1;
                 if (row < 0 || row > 3 || column < 0 || column > 4)
                     throw new NumberFormatException();
                 right = true;
                 connection.sendPlaceDice(row, column);
             } catch (NumberFormatException ex) {
-                console.print("Inserimento non valido",TypeMessage.ERROR_MESSAGE);
+                Message.print("Inserimento non valido",TypeMessage.ERROR_MESSAGE);
                 right = false;
             }
         }
     }
 
+    /**
+     *  used to take dice from dice space
+     */
     private void draftDice() {
-        console.print("Inserisci l'indice del dado della riserva:(Da 1 a " + diceSpace.size() + ")",TypeMessage.INFO_MESSAGE);
+        Message.print("Inserisci l'indice del dado della riserva:(Da 1 a " + diceSpace.size() + ")",TypeMessage.INFO_MESSAGE);
         indexDiceSpace = Integer.parseInt(input.nextLine()) - 1;
         connection.sendDraft(indexDiceSpace);
     }
 
+    /**
+     * used to pass the turn
+     */
     private void passTurn() {
         this.myTurn = false;
         connection.sendEndTurn();
     }
 
+    /**
+     * used to insert dice
+     */
     public void insertDice() {
         correct = false;
         while (!correct) {
             try {
-                console.print("Inserisci l'indice del dado della riserva:(Da 1 a " + diceSpace.size() + ")",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci l'indice del dado della riserva:(Da 1 a " + diceSpace.size() + ")",TypeMessage.INFO_MESSAGE);
                 indexDiceSpace = Integer.parseInt(input.nextLine());
                 indexDiceSpace--;
                 if (indexDiceSpace < 0 || indexDiceSpace > diceSpace.size())
                     throw new NumberFormatException();
 
-                console.print("Inserisci la riga",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la riga",TypeMessage.INFO_MESSAGE);
                 row = Integer.parseInt(input.nextLine());
                 row--;
                 if (row < 0 || row > 3)
                     throw new NumberFormatException();
 
-                console.print("Inserisci la colonna",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci la colonna",TypeMessage.INFO_MESSAGE);
                 column = Integer.parseInt(input.nextLine());
                 column--;
                 if (column < 0 || column > 4)
@@ -911,67 +1089,107 @@ public class ViewCLI implements View {
                 connection.insertDice(indexDiceSpace, row, column);
 
             } catch (NumberFormatException e) {
-                console.print("Formato non valido", TypeMessage.ERROR_MESSAGE);
+                Message.print("Formato non valido", TypeMessage.ERROR_MESSAGE);
             }
         }
 
     }
 
+
+    /**
+     * used to clear screen
+     */
     private void clearScreen() {
         for (int i = 0; i < 10; i++)
             System.out.print("\n");
     }
 
+    /**
+     * invoked to use tool card
+     */
     private void useToolCard() {
         correct = false;
-        console.print("Scegli la tool card da utilizzare:",TypeMessage.INFO_MESSAGE);
+        Message.print("Scegli la tool card da utilizzare:",TypeMessage.INFO_MESSAGE);
         for (Integer s : toolCard)
-            console.print(s.toString(),TypeMessage.INFO_MESSAGE);
+            Message.print(s.toString(),TypeMessage.INFO_MESSAGE);
         int tool = Integer.parseInt(input.nextLine());
         connection.useToolCard(tool);
     }
 
+
+    /**
+     * confirms that the use of the toolcard has been accepted
+     * @param favor is favor remain
+     */
     public void useToolCardAccepted(int favor) {
-        console.print("Carta utilizzata! Favori rimanenti" + favor,TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Carta utilizzata! Favori rimanenti" + favor,TypeMessage.CONFIRM_MESSAGE);
     }
 
+    /**
+     * rejects the use of the toolcard
+     */
     public void useToolCardError() {
-        console.print("Non hai abbastanza favori oppure non è permesso l'azione svolta dalla toolCard",TypeMessage.ERROR_MESSAGE);
+        Message.print("Non hai abbastanza favori oppure non è permesso l'azione svolta dalla toolCard",TypeMessage.ERROR_MESSAGE);
     }
 
+    /**
+     * confirms that change value has been accepted
+     */
     public void changeValueAccepted() {
-        console.print(opVal+"",TypeMessage.INFO_MESSAGE);
+        Message.print(opVal+"",TypeMessage.INFO_MESSAGE);
         pendingDice.setNumber(pendingDice.getNumber() + opVal);
-        console.print("Cambiamento valore accettato " + pendingDice,TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Cambiamento valore accettato " + pendingDice,TypeMessage.CONFIRM_MESSAGE);
     }
 
+    /**
+     * rejects change value
+     */
     public void changeValueError() {
-        console.print("Errore di cambiamento del valore",TypeMessage.ERROR_MESSAGE);
+        Message.print("Errore di cambiamento del valore",TypeMessage.ERROR_MESSAGE);
     }
 
+    /**
+     * confirms place dice
+     */
     public void placeDiceAccepted() {
-        console.print("Dado inserito correttamente",TypeMessage.INFO_MESSAGE);
+        Message.print("Dado inserito correttamente",TypeMessage.INFO_MESSAGE);
         schemas.get(username).getGrid()[row][column].setNumber(pendingDice.getNumber());
         schemas.get(username).getGrid()[row][column].setColour(pendingDice.getColour());
         pendingDice = null;
     }
 
+    /**
+     * confirm roll dice
+     * @param value is the new value of dice
+     */
     public void rollDiceAccepted(int value) {
         pendingDice.setNumber(value);
-        console.print("Valore del dado " + pendingDice,TypeMessage.INFO_MESSAGE);
+        Message.print("Valore del dado " + pendingDice,TypeMessage.INFO_MESSAGE);
     }
 
-    private List<List<Dices>> roundTrack = new ArrayList<List<Dices>>();
-
+    /**
+     * pick dice from  round track
+     * @param nRound is the index of round track
+     * @param nDice  is the index of dice
+     */
     public void pickDiceRoundTrack(int nRound, int nDice) {
         pendingDice = roundTrack.get(nRound).get(nDice);
         roundTrack.get(nRound).remove(nDice);
     }
 
+    /**
+     * reject pick dice from round track
+     */
     public void pickDiceRoundTrackError() {
-        console.print("Errore,dado non trovato",TypeMessage.ERROR_MESSAGE);
+        Message.print("Errore,dado non trovato",TypeMessage.ERROR_MESSAGE);
     }
 
+    /**
+     * place dices to round track
+     * @param nRound is index of round track
+     * @param colours are colours of dices
+     * @param values are value of dices
+     */
     public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
         round++;
         int roundNumber = nRound;
@@ -982,93 +1200,143 @@ public class ViewCLI implements View {
         }
     }
 
+    /**
+     * confirm exchange dice
+     */
     public void swapDiceAccepted() {
-        console.print("Dado scambiato correttamente",TypeMessage.INFO_MESSAGE);
+        Message.print("Dado scambiato correttamente",TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * confirm the invocation of the method cancelUseToolCard
+     * @param favor is favors remain
+     */
     public void cancelUseToolCardAccepted(int favor) {
-        console.print("Azione annullata,favori rimanenti " + favor,TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Azione annullata,favori rimanenti " + favor,TypeMessage.CONFIRM_MESSAGE);
     }
 
+    /**
+     * confirm flip dice
+     * @param value is new value of the dice
+     */
     public void flipDiceAccepted(int value) {
-        console.print("Dado flippato",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Dado flippato",TypeMessage.CONFIRM_MESSAGE);
         pendingDice.setNumber(value);
     }
 
+
+    /**
+     * confirm place dice in dice space
+     */
     public void placeDiceSpaceAccepted() {
-        console.print("Dado inserito correttamente",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Dado inserito correttamente",TypeMessage.CONFIRM_MESSAGE);
         pendingDice = null;
     }
 
+    /**
+     * place dice in dice space
+     * @param colour is the colour of dice
+     * @param value is the value of dice
+     */
     public void placeDiceSpace(String colour, int value) {
         diceSpace.add(new Dices("", value, Colour.stringToColour((colour))));
     }
 
+
+    /**
+     * confirm roll dice space
+     */
     public void rollDiceSpaceAccepted() {
-        console.print("Abbiamo rollato 'sti dadi",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Abbiamo rollato 'sti dadi",TypeMessage.CONFIRM_MESSAGE);
         showDiceSpace();
     }
 
+    /**
+     * confirm swap dice bag
+     * @param colour is the new colour of dice
+     * @param value is the new value of dice
+     */
     public void swapDiceBagAccepted(String colour, int value) {
         pendingDice.setColour(Colour.stringToColour(colour));
         pendingDice.setNumber(value);
-        console.print("valore nuovo dado: " + pendingDice,TypeMessage.INFO_MESSAGE);
+        Message.print("valore nuovo dado: " + pendingDice,TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * confirm value accepted
+     */
     public void chooseValueAccepted() {
         pendingDice.setNumber(diceValue);
-        console.print("valore del dado cambiato: " + pendingDice.getNumber(),TypeMessage.INFO_MESSAGE);
+        Message.print("valore del dado cambiato: " + pendingDice.getNumber(),TypeMessage.INFO_MESSAGE);
     }
 
+
+    /**
+     * reject choose value
+     */
     public void chooseValueError() {
-        console.print("errore nel cambiamento del valore del dado",TypeMessage.ERROR_MESSAGE);
+        Message.print("Errore nel cambiamento del valore del dado",TypeMessage.ERROR_MESSAGE);
     }
 
+    /**
+     * used to take a dice from round track
+     */
     private void swapDice() {
         correct = false;
         while (!correct) {
             try {
-                console.print("Inserisci il numero del round da cui prendere il dado",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci il numero del round da cui prendere il dado",TypeMessage.INFO_MESSAGE);
                 int nRound = Integer.parseInt(input.nextLine()) - 1;
-                console.print(roundTrack.get(nRound)+"",TypeMessage.INFO_MESSAGE);
-                console.print("Inserisci il numero del dado che vuoi prendere dalla RoundTrack",TypeMessage.INFO_MESSAGE);
+                Message.print(roundTrack.get(nRound)+"",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci il numero del dado che vuoi prendere dalla RoundTrack",TypeMessage.INFO_MESSAGE);
                 int index = Integer.parseInt(input.nextLine()) - 1;
                 connection.swapDice(nRound, index);
                 correct = true;
             } catch (NumberFormatException e) {
-                console.print("Parametro non valido",TypeMessage.ERROR_MESSAGE);
+                Message.print("Parametro non valido",TypeMessage.ERROR_MESSAGE);
             } catch (IndexOutOfBoundsException ex) {
-                console.print("Indice non valido",TypeMessage.ERROR_MESSAGE);
+                Message.print("Indice non valido",TypeMessage.ERROR_MESSAGE);
             }
         }
     }
 
+
+    /**
+     * used to shift dice
+     */
     private void moveDice() {
         correct = false;
         while (!correct) {
             try {
-                console.print("Inserisci l'indice della riga da cui prendere il dado:",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci l'indice della riga da cui prendere il dado:",TypeMessage.INFO_MESSAGE);
                 oldRow = Integer.parseInt(input.nextLine()) - 1;
-                console.print("Inserisci l'indice della colonna da cui prendere il dado:",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci l'indice della colonna da cui prendere il dado:",TypeMessage.INFO_MESSAGE);
                 oldColumn = Integer.parseInt(input.nextLine()) - 1;
-                console.print("Inserisci l'indice della riga in cui spostare il dado:",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci l'indice della riga in cui spostare il dado:",TypeMessage.INFO_MESSAGE);
                 newRow = Integer.parseInt(input.nextLine()) - 1;
-                console.print("Inserisci l'indice della colonna in cui spostare il dado:",TypeMessage.INFO_MESSAGE);
+                Message.print("Inserisci l'indice della colonna in cui spostare il dado:",TypeMessage.INFO_MESSAGE);
                 newColumn = Integer.parseInt(input.nextLine()) - 1;
                 connection.moveDice(oldRow, oldColumn, newRow, newColumn);
                 correct = true;
             } catch (NumberFormatException e) {
-                console.print("Parametro non valido",TypeMessage.ERROR_MESSAGE);
+                Message.print("Parametro non valido",TypeMessage.ERROR_MESSAGE);
             }
         }
     }
 
+
+    /**
+     * confirm draft dice
+     */
     public void draftDiceAccepted() {
-        console.print("Azione accettata",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Azione accettata",TypeMessage.CONFIRM_MESSAGE);
         pendingDice = diceSpace.get(indexDiceSpace);
-        console.print(pendingDice.toString(),TypeMessage.INFO_MESSAGE);
+        Message.print(pendingDice.toString(),TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * confirm move dice
+     */
     public void moveDiceAccepted() {
         this.schemas.get(username).getGrid()[newRow][newColumn].setNumber(this.schemas.get(username).getGrid()[oldRow][oldColumn].getNumber());
         this.schemas.get(username).getGrid()[newRow][newColumn].setColour(this.schemas.get(username).getGrid()[oldRow][oldColumn].getColour());
@@ -1077,45 +1345,76 @@ public class ViewCLI implements View {
 
         schemas.get(username).splitImageSchema();
         schemas.get(username).showImage();
-        console.print("Dado spostato correttamente",TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Dado spostato correttamente",TypeMessage.CONFIRM_MESSAGE);
     }
 
+
+    /**
+     * pick dice from schema
+     * @param nickname is the owner of scheme
+     * @param row is index of row
+     * @param column is index of column
+     */
     public void pickDiceSchema(String nickname, int row, int column) {
         if (!nickname.equals(username))
             this.schemas.get(nickname).getGrid()[row][column] = new Dices("", 0, null);
     }
 
+    /**
+     * reject pick dice schema
+     */
     public void pickDiceSchemaError() {
-        console.print("Dado non trovato",TypeMessage.ERROR_MESSAGE);
+        Message.print("Dado non trovato",TypeMessage.ERROR_MESSAGE);
     }
 
+    /**
+     * @return return own name
+     */
     public String getName() {
         return this.username;
     }
 
+    /**
+     * flip dice
+     */
     private void flipDice() {
-        console.print("Flippa 'sto dado",TypeMessage.INFO_MESSAGE);
+        Message.print("Flippa 'sto dado",TypeMessage.INFO_MESSAGE);
         connection.flipDice();
     }
 
+    /**
+     * swap dice bag
+     */
     private void swapDiceBag() {
-        console.print("Lo swappo tutto 'sto dado",TypeMessage.INFO_MESSAGE);
+        Message.print("Lo swappo tutto 'sto dado",TypeMessage.INFO_MESSAGE);
         connection.swapDiceBag();
     }
 
+
+    /**
+     * choose value of dice
+     */
     private void chooseValue() {
-        console.print("Scegli il valore dal dado: ",TypeMessage.INFO_MESSAGE);
+        Message.print("Scegli il valore dal dado: ",TypeMessage.INFO_MESSAGE);
         diceValue = Integer.parseInt(input.nextLine());
         connection.chooseValue(diceValue);
     }
 
+    /**
+     * confirm custom schema
+     * @param name is name of custom schema
+     */
     public void schemaCustomAccepted(String name) {
         Schema s = new Schema();
-        schemas.put(this.getName(), s.InitSchema("SchemaPlayer/" + name));
-        console.print("schema approvato: " + name,TypeMessage.CONFIRM_MESSAGE);
-        console.print("Aspettando la scelta degli altri giocatori...\n",TypeMessage.INFO_MESSAGE);
+        schemas.put(this.getName(), s.InitSchema(pathInitCustomSchema + name));
+        Message.print("schema approvato: " + name,TypeMessage.CONFIRM_MESSAGE);
+        Message.print("Aspettando la scelta degli altri giocatori...\n",TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * set opponents custom schemas
+     * @param s are custom schemas
+     */
     public void setOpponentsCustomSchemas(List<String> s) {
         Gson g = new Gson();
         clearScreen();
@@ -1129,6 +1428,10 @@ public class ViewCLI implements View {
         }
     }
 
+    /**
+     * set winner player
+     * @param nickname is name of the winner
+     */
     public void setWinner(String nickname) {
         clearScreen();
         String winner;
@@ -1145,11 +1448,17 @@ public class ViewCLI implements View {
 
     }
 
+
+    /**
+     * set ranking
+     * @param players are the names of players
+     * @param scores are the scores of players
+     */
     public void setRankings(List<String> players, List<Integer> scores) {
         System.out.println("Classifica: ");
         System.out.println("Pos    Giocatore     Punteggio");
         for(int i = 0; i < players.size(); i++){
-            console.print("┏---┓--------------┓-----------┓",TypeMessage.INFO_MESSAGE);
+            Message.print("┏---┓--------------┓-----------┓",TypeMessage.INFO_MESSAGE);
             System.out.print("║ "+(i+1) + " ║  "+ players.get(i));
 
             for(int j = players.get(i).length();j<12;j++)
@@ -1162,11 +1471,15 @@ public class ViewCLI implements View {
             {
                 System.out.print(" ");
             }
-            console.print("║",TypeMessage.INFO_MESSAGE);
-            console.print("┗---┛--------------┛-----------┛",TypeMessage.INFO_MESSAGE);
+            Message.print("║",TypeMessage.INFO_MESSAGE);
+            Message.print("┗---┛--------------┛-----------┛",TypeMessage.INFO_MESSAGE);
         }
     }
 
+    /**
+     * @param players are the name of players
+     * @param schemasPlayer are the schemas of players
+     */
     public void setSchemasOnReconnect(List<String> players, List<String> schemasPlayer) {
 
         Thread thread = new Thread(() -> {
@@ -1190,7 +1503,7 @@ public class ViewCLI implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        console.print("\nIl tuo schema:",TypeMessage.INFO_MESSAGE);
+        Message.print("\nIl tuo schema:",TypeMessage.INFO_MESSAGE);
         showMyschema();
         showDiceSpace();
         setActions(null);
@@ -1198,18 +1511,4 @@ public class ViewCLI implements View {
 
     }
 
-}
-enum TypeMessage{
-    ERROR_MESSAGE("\u001B[31m"),
-    CONFIRM_MESSAGE("\u001B[33m"),
-    INFO_MESSAGE("");
-
-    private String colorString;
-     TypeMessage(String colorString){this.colorString = colorString;}
-     public String colorString(){return colorString;}
-}
-class Message {
-    public void print(String message, TypeMessage type) {
-        System.out.println(type.colorString() + message + Colour.RESET);
-    }
 }
