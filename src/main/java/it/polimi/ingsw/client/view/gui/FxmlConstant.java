@@ -4,6 +4,9 @@ public class FxmlConstant {
 
     private FxmlConstant() {}
 
+    static final String FXML_URL = "/FXML/";
+    static final String FXML = ".fxml";
+
     static final String CHANGE_VALUE = "changeDiceValue";
     static final String CHOOSE_SCHEMA = "choose_schema";
     static final String CHOOSE_VALUE = "chooseDiceNumber";
