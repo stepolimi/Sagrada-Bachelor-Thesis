@@ -24,6 +24,7 @@ public class FxmlConstant {
     static final String ZOOM_CARD = "zoomImage";
     static final String WINNER_SCENE = "win";
     static final String LOSE_SCENE = "lose";
+    static final String FIRST_SCENE = "play";
 
 
 }

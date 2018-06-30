@@ -4,9 +4,11 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.Schema;
 import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.server.costants.NameCostants;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -42,9 +44,13 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static it.polimi.ingsw.client.constants.NameConstants.PATH_INIT_DEFAULT_SCHEMA;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
+import static it.polimi.ingsw.server.costants.NameCostants.*;
 import static java.lang.Integer.parseInt;
-import static java.lang.System.*;
+import static java.lang.System.exit;
+import static java.lang.System.out;
 import static java.lang.Thread.sleep;
 
 
@@ -59,6 +65,8 @@ public class ControllerGUI implements View {
     //attributes used to communicate outside GUI
     private Connection connection;
     private Handler hand;
+    private TakeDataFile config;
+
 
     private String schemaChoosen;
     private Integer roundNumber;
@@ -181,6 +189,7 @@ public class ControllerGUI implements View {
      * @param hand : is about what type of view interface was choosen; in this case handler was set on GUI
      */
     public ControllerGUI(Handler hand) {
+        this.config = new TakeDataFile(CONFIGURATION_FILE);
         this.isFirst = true;
         this.hand = hand;
         this.diceChanged = false;
@@ -267,7 +276,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(UrlConstant.ICON_GAME);
+        Image image = new Image(NameCostants.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -390,7 +399,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
 
             changeScene(FxmlConstant.NEW_GAME);
-            ea = Font.loadFont(getClass().getResourceAsStream(UrlConstant.FONT), 20);
+            ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 20);
             textflow.setFont(ea);
             if (progressBar != null) {
                 Stage stage = (Stage) progressBar.getScene().getWindow();
@@ -408,7 +417,7 @@ public class ControllerGUI implements View {
     public void setSchemas(final List<String> schemas) {
         this.schemasClient = new ArrayList<>(schemas);
         Platform.runLater(() -> {
-            String path = UrlConstant.SCHEMI;
+            String path = config.getParameter(SCHEMI);
 
             changeScene(FxmlConstant.CHOOSE_SCHEMA);
             List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
@@ -431,8 +440,8 @@ public class ControllerGUI implements View {
     public void setPrivateCard(final String colour) {
 
         Platform.runLater(() -> {
-            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
-            Image image = new Image(UrlConstant.PRIVATE_OBJ_PATH + colour + ".png");
+            Image cursor = new Image(config.getParameter(ZOOM_CURSOR));
+            Image image = new Image(config.getParameter(PRIVATE_OBJ_PATH) + colour + ".png");
             privateCard.setImage(image);
             privateCard.setCursor(new ImageCursor(cursor));
         });
@@ -445,9 +454,9 @@ public class ControllerGUI implements View {
      */
     public void setPublicObjectives(final List<String> cards) {
         Platform.runLater(() -> {
-            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
+            Image cursor = new Image(config.getParameter(ZOOM_CURSOR));
             List<ImageView> imagePubl = Arrays.asList(publObj1, publObj2, publObj3);
-            String path = UrlConstant.PUBLIC_OBJ_PATH;
+            String path = config.getParameter(PUBLIC_OBJ_PATH);
             IntStream.range(0, 3)
                     .forEach(i -> {
                         Image image = new Image(path + cards.get(i) + ".png");
@@ -468,8 +477,8 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
 
-            String path = UrlConstant.TOOLCARD_PATH;
-            Image cursor = new Image(UrlConstant.ZOOM_CURSOR);
+            String path = config.getParameter(TOOLCARD_PATH);
+            Image cursor = new Image(config.getParameter(ZOOM_CURSOR));
             List<ImageView> tool = Arrays.asList(toolCard1, toolCard2, toolCard3);
             List<ImageView> useTool = Arrays.asList(use1, use2, use3);
 
@@ -517,7 +526,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("Sagrada");
-        Image image = new Image(UrlConstant.ICON_GAME);
+        Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -551,7 +560,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(UrlConstant.ICON_GAME);
+        Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -669,7 +678,7 @@ public class ControllerGUI implements View {
 
             printSchema(schemaConstrain, name);
 
-            schema = schema.InitSchema("SchemaClient/" + name);
+            schema = schema.InitSchema(config.getParameter(PATH_INIT_DEFAULT_SCHEMA) + name);
 
 
             nFavour.setText("x " + schema.getDifficult());
@@ -1218,8 +1227,8 @@ public class ControllerGUI implements View {
 
     /**
      * The dice in @nDice position of RoundTrack in the @nRound (number of round) was picked. Its ImageView is setted to null
-     * @param nRound
-     * @param nDice
+     * @param nRound number of round
+     * @param nDice index of dice in the round
      */
     public void pickDiceRoundTrack(int nRound, int nDice) {
         Platform.runLater(() -> {
@@ -1237,7 +1246,7 @@ public class ControllerGUI implements View {
 
     /**
      * Dices(colors and respective numbers) are placed in the @nRound in latest free position
-     * @param nRound
+     * @param nRound number of round
      * @param colours color of new Dice
      * @param values number of new Dice
      */
@@ -1568,7 +1577,7 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             Schema schema = new Schema();
-            schema = schema.InitSchema("SchemaClient/" + nameSchema);
+            schema = schema.InitSchema(config.getParameter(PATH_INIT_DEFAULT_SCHEMA) + nameSchema);
             printConstrain(schemaConstrain, schema);
         });
     }
@@ -1580,7 +1589,7 @@ public class ControllerGUI implements View {
      */
     private void putConstrain(final ImageView imageView, final String constrain) {
         Platform.runLater(() -> {
-            String path = UrlConstant.CONSTRAIN_PATH;
+            String path = config.getParameter(CONSTRAIN_PATH);
             switch (constrain) {
                 case ColorConstant.GREEN:
                     imageView.setImage(new Image(path + "green.png"));
@@ -1605,7 +1614,7 @@ public class ControllerGUI implements View {
 
     }
     /**
-     * @param gridPane
+     * @param gridPane of schema
      * @param col columns index
      * @param row row index
      * @return node placed on cell(@row, @col)
@@ -1943,7 +1952,7 @@ public class ControllerGUI implements View {
      */
     private void setDice(ImageView imageView, String color, Object number) {
 
-        String path = UrlConstant.DICE_PATH;
+        String path = config.getParameter(DICE_PATH);
 
         switch (color) {
             case GameMessage.BLUE:
@@ -2046,7 +2055,7 @@ public class ControllerGUI implements View {
         stage.close();
         stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
-        changeScene(UrlConstant.FIRST_SCENE);
+        changeScene(FxmlConstant.FIRST_SCENE);
     }
 
 

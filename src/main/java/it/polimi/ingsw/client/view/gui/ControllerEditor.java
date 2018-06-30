@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui;
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.view.*;
+import it.polimi.ingsw.server.costants.NameCostants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -251,7 +252,7 @@ public class ControllerEditor {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(UrlConstant.ICON_GAME);
+        Image image = new Image(NameCostants.ICON_GAME);
         stage.getIcons().add(image);
         stage.setResizable(false);
 
