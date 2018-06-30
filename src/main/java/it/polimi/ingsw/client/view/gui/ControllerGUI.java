@@ -84,7 +84,10 @@ public class ControllerGUI implements View {
     private ImageView roundDice;
 
     //attributes used during ToolCard aciton
-    private Integer x1, y1, x2, y2;
+    private Integer x1;
+    private Integer y1;
+    private Integer x2;
+    private Integer y2;
     private boolean diceChanged;
     private boolean isFirst;
     private boolean decrement;
@@ -513,16 +516,7 @@ public class ControllerGUI implements View {
         Stage stage = new Stage();
         Pane p = null;
 
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(this);
-            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
-            p = loader.load();
-
-            // parent = FXMLLoader.load(getClass().getResource("/FXML/"+ src +".fxml"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        p = loadFXML(src, p);
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("Sagrada");
@@ -541,6 +535,24 @@ public class ControllerGUI implements View {
     }
 
     /**
+     * @param src name of fxml file
+     * @param p pane used setted with fxml
+     * @return return Pane setted with FXML
+     */
+    private Pane loadFXML(String src, Pane p) {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setController(this);
+            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
+            p = loader.load();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return p;
+    }
+
+    /**
      * method used to open a new scene.
      * @param src is the name of FXML which it loads
      */
@@ -548,15 +560,7 @@ public class ControllerGUI implements View {
 
         Stage stage = new Stage();
         Pane p = null;
-        try {
-
-            FXMLLoader loader = new FXMLLoader();
-            loader.setController(this);
-            loader.setLocation(getClass().getResource("/FXML/" + src + ".fxml"));
-            p = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        p = loadFXML(src, p);
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
@@ -570,10 +574,11 @@ public class ControllerGUI implements View {
 
     @Override
     public void setScene(String scene) {
-        //empty because
+        //not implemented on gui
     }
 
     public void startScene() {
+        //not implemented on gui
     }
 
 
@@ -673,26 +678,15 @@ public class ControllerGUI implements View {
     public void chooseSchema(final String name) {
 
         Platform.runLater(() -> {
-
             Schema schema = new Schema();
-
             printSchema(schemaConstrain, name);
-
             schema = schema.InitSchema(config.getParameter(PATH_INIT_DEFAULT_SCHEMA) + name);
-
-
             nFavour.setText("x " + schema.getDifficult());
-
-
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
 
         });
-
-
     }
-
-
      /**
      * it load schema from the name of file given and print its constrain on the gridPane @schemaConstrain dynamically
       * of opponents Players
@@ -701,9 +695,7 @@ public class ControllerGUI implements View {
      */
 
     public void setOpponentsSchemas(final List<String> schemas) {
-
         List<String> stringList = new ArrayList<>(schemas);
-
         Platform.runLater(() -> {
             if (stringList == null)
                 return;
@@ -716,8 +708,6 @@ public class ControllerGUI implements View {
                 stringList.remove(stringList.indexOf(nickname.getText()) + 1);
                 stringList.remove(nickname.getText());
             }
-
-
             IntStream.iterate(0, i -> i + 2)
                     .limit(stringList.size() / 2)
                     .forEach(i -> {
@@ -725,8 +715,6 @@ public class ControllerGUI implements View {
                         printSchema((GridPane) schemaPlayers.get(i + 1), stringList.get(i + 1));
                         ((GridPane) schemaPlayers.get(i + 1)).setId(stringList.get(i));
                     });
-
-
         });
 
     }
@@ -1058,14 +1046,21 @@ public class ControllerGUI implements View {
 
     }
 
+    /**
+     * @param nickname nickname of player who placed dice in his schema
+     * @param row row index
+     * @param column column index
+     * @param colour color of dice placed
+     * @param value number of dice placed
+     */
     public void placeDiceSchema(final String nickname, int row, int column, String colour, int value) {
 
         Platform.runLater(() -> {
 
             for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
-                GridPane gridPane = (GridPane) schemaPlayers.get(i);
-                if (gridPane.getId().equals(nickname)) {
-                    ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
+                GridPane schemaGrid = (GridPane) schemaPlayers.get(i);
+                if (schemaGrid.getId().equals(nickname)) {
+                    ImageView imageView = (ImageView) getNodeFromGridPane(schemaGrid, column, row);
                     setDice(imageView, colour, ((Integer) value).toString());
                 }
             }
@@ -1542,7 +1537,7 @@ public class ControllerGUI implements View {
             e.printStackTrace();
         }
 
-        for (int i = index; i < 3 + index && count < 9; i++) {
+        for (int i = index; i < 3 + index ; i++) {
             anchorPane = (AnchorPane) roundTrack.getChildren().get(i);
 
             anchorPane.getChildren().stream()
@@ -1940,8 +1935,7 @@ public class ControllerGUI implements View {
                 .filter(imageView -> (((ImageView) imageView).getImage() == (null)))
                 .findFirst();
 
-        if (result.isPresent()) return (ImageView) result.get();
-        else return null;
+        return (ImageView) result.orElse(null);
     }
 
     /**
@@ -2001,16 +1995,14 @@ public class ControllerGUI implements View {
     private void printConstrain(GridPane mySchema, Schema sch) {
         AtomicInteger count = new AtomicInteger();
         IntStream.range(0, 4)
-                .forEach(i -> {
-                    IntStream.range(0, 5)
-                            .forEach(j -> {
-                                ImageView imageView = (ImageView) mySchema.getChildren().get(count.get());
-                                String constrain = sch.getGrid()[i][j].getConstraint();
-                                if (!sch.getGrid()[i][j].getConstraint().equals(""))
-                                    putConstrain(imageView, constrain);
-                                count.getAndIncrement();
-                            });
-                });
+                .forEach(i -> IntStream.range(0, 5)
+                        .forEach(j -> {
+                            ImageView imageView = (ImageView) mySchema.getChildren().get(count.get());
+                            String constrain = sch.getGrid()[i][j].getConstraint();
+                            if (!sch.getGrid()[i][j].getConstraint().equals(""))
+                                putConstrain(imageView, constrain);
+                            count.getAndIncrement();
+                        }));
 
 
     }
@@ -2018,7 +2010,7 @@ public class ControllerGUI implements View {
 
     /**
      * @param n number of tool
-     * @param value
+     * @param value boolean of setDisable action used in the method
      * set disable(bool) Toolcard number @n
      */
     private void disableToolNumber(String n, boolean value) {
@@ -2081,9 +2073,9 @@ public class ControllerGUI implements View {
     }
 
     /**
-     * @param constrains
-     * @param schemaString
-     * @param children
+     * @param constrains gridPane where constrain are placed
+     * @param schemaString name of schema
+     * @param children schema whre a re placed dices
      *
      * set every constrain and dice on schema's grdPane
      */
