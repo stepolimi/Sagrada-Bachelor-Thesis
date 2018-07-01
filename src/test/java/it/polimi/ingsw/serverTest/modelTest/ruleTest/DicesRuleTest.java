@@ -41,10 +41,10 @@ class DicesRuleTest {
         player.setObserver(new VirtualView());
         schema = buildSchema(24);
 
-        schema.silentInsertDice(0,0,dice_2);
+        schema.silentInsertDice(0,1,dice_2);
 
         //test for wrong generic insertion
-        assertFalse(rule.checkRule(0,1,dice_3, schema));
-        assertFalse(rule.checkRule(1,0,dice_3, schema));
+        assertFalse(rule.checkRule(0,2,dice_3, schema));
+        assertFalse(rule.checkRule(0,0,dice_3, schema));
     }
 }

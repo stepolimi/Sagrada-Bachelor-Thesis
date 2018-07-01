@@ -1,13 +1,12 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.states.ChooseValueState;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.model.game.states.SwapDiceState;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
@@ -15,74 +14,60 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE;
+import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-
-class SwapDiceStateTest {
-    private Board board;
+class ChooseValueStateTest {
     private Round round;
-    private SwapDiceState state;
-    private List action = new ArrayList();
+    private ChooseValueState state;
     private Dice dice;
-    private Dice dice2;
+    private List action = new ArrayList();
 
     private void testInit(){
-        state = new SwapDiceState();
+        state = new ChooseValueState();
         List<Player> players = new ArrayList<>();
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
+        dice = new Dice(Colour.ANSI_YELLOW, 5);
         VirtualView view = new VirtualView();
         view.setConnection(new Connected());
         GameMultiplayer game = new GameMultiplayer(players);
-        board = game.getBoard();
+        Board board = game.getBoard();
         board.setObserver(view);
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         round.roundInit();
-        dice = new Dice(Colour.ANSI_RED, 6);
-        dice2 = new Dice(Colour.ANSI_GREEN,5);
         List<List<String>> nextActions = new ArrayList<>();
+        nextActions.add(new ArrayList<>());
         nextActions.add(new ArrayList<>());
         round.setNextActions(nextActions);
     }
 
-    private void insertDiceRoundTrack() {
-        try {
-            board.getRoundTrack().insertDice( dice,0);
-        } catch (InsertDiceException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void swapDice(String nRound, String dice){
+    private void chooseValue(String value){
         action.clear();
-        action.add(SWAP_DICE);
-        action.add(nRound);
-        action.add(dice);
+        action.add(CHOOSE_VALUE);
+        action.add(value);
         state.execute(round,action);
     }
 
     @Test
     void execute(){
         testInit();
-        insertDiceRoundTrack();
-        round.setPendingDice(dice2);
+        round.setPendingDice(dice);
 
-        //correct swap dice
-        swapDice("0","0");
-        assertSame(dice2,board.getRoundTrack().getDice(0,0));
-        assertSame(dice,round.getPendingDice());
+        //changes dice's value correctly
+        chooseValue("4");
+        assertSame(4,round.getPendingDice().getValue());
+        assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
 
-        //incorrect swap dice for round index
-        swapDice("1","0");
-        assertSame(dice2,board.getRoundTrack().getDice(0,0));
-        assertSame(dice,round.getPendingDice());
+        //changes dice's value correctly
+        chooseValue("2");
+        assertSame(2,round.getPendingDice().getValue());
+        assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
 
-        //incorrect swap dice for dice index
-        swapDice("0","1");
-        assertSame(dice2,board.getRoundTrack().getDice(0,0));
-        assertSame(dice,round.getPendingDice());
-
+        //changes dice's value correctly
+        chooseValue("7");
+        assertSame(2,round.getPendingDice().getValue());
+        assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
     }
 }

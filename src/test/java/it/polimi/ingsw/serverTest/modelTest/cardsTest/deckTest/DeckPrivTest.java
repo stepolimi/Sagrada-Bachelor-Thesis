@@ -8,16 +8,12 @@ import org.junit.jupiter.api.Test;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotSame;
 
-/*test made to :
-------the remaining card in Deck has the correct number.
- */
 class DeckPrivTest {
     private PrivateObjective card1;
     private PrivateObjective card2;
     private PrivateObjective card3;
     private PrivateObjective card4;
     private DeckPrivateObjective d = new DeckPrivateObjective(4);
-
 
     @Test
     void singleCorrectExtract(){

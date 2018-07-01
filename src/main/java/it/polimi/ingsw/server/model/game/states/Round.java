@@ -140,7 +140,7 @@ public class Round extends Observable implements TimedComponent {
         turnNumber++;
     }
 
-    List<Player> getPlayersOrder() {
+    public List<Player> getPlayersOrder() {
         return playersOrder;
     }
 
@@ -166,7 +166,7 @@ public class Round extends Observable implements TimedComponent {
         return favorsDecremented;
     }
 
-    void setFavorsDecremented(int favorsDecremented) {
+    public void setFavorsDecremented(int favorsDecremented) {
         this.favorsDecremented = favorsDecremented;
     }
 
@@ -182,7 +182,7 @@ public class Round extends Observable implements TimedComponent {
         return currentState.toString();
     }
 
-    void setUsingTool(ToolCard using) {
+    public void setUsingTool(ToolCard using) {
         this.usingTool = using;
     }
 

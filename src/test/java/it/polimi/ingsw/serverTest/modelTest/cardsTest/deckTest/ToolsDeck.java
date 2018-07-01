@@ -7,10 +7,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ToolsDeck {
-    DeckToolsCard deck = new DeckToolsCard();
+    private DeckToolsCard deck = new DeckToolsCard();
 
     @Test
     void correct_size(){
@@ -21,8 +22,8 @@ class ToolsDeck {
     void correct_extract(){
         List<ToolCard> toolCards = deck.getToolCards();
         assertEquals(3, toolCards.size());
-        assertTrue(toolCards.get(0)!=toolCards.get(1));
-        assertTrue(toolCards.get(1)!=toolCards.get(2));
-        assertTrue(toolCards.get(2)!=toolCards.get(0));
+        assertNotSame(toolCards.get(0),toolCards.get(1));
+        assertNotSame(toolCards.get(1),toolCards.get(2));
+        assertNotSame(toolCards.get(2),toolCards.get(0));
     }
 }

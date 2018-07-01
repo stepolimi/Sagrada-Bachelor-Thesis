@@ -34,7 +34,6 @@ class ColourRuleTest {
 
         assertTrue(rule.checkRule(0,0,dice, schema));
         assertTrue(rule.checkRule(0,1,dice, schema));
-//        assertTrue(rule.checkRule(0,2,dice, schema));
     }
 
     @Test

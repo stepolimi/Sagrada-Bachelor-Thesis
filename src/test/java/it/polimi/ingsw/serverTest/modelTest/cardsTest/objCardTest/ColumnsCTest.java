@@ -11,13 +11,11 @@ import java.io.IOException;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-//test verify the right calcolus of scoreCard funnction. test made adding dices in a schema WITHOUT restriction. to complete
-
 class ColumnsCTest {
 
     private Schema s;
 
-    private void insertDice(){
+    private void insertDice() {
         try {
             s = buildSchema(1);
         } catch (IOException e) {
@@ -48,34 +46,28 @@ class ColumnsCTest {
     }
 
     @Test
-    void scoreIs5(){
-
+    void scoreIs5() {
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 5);
         card.dump();
         assertEquals(5, card.scoreCard(s), "score correct");
-
-
-
     }
-    @Test
-    void scoreIs4(){
 
+    @Test
+    void scoreIs4() {
         insertDice();
         ColumnsObj card = new ColumnsObj("card", "description", 4);
         card.dump();
         assertEquals(8, card.scoreCard(s), "score correct");
-
-
     }
+
     @Test
-    void score_null(){
+    void nullScore() {
         try {
             s = buildSchema(1);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         ColumnsObj card = new ColumnsObj("card", "description", 4);
         card.dump();
 

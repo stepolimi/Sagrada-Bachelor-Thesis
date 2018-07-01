@@ -11,24 +11,29 @@ import java.util.List;
 
 import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 
 class PlayerTest {
-    Player player;
+    private Player player;
+    private Schema schema1;
+    private Schema schema2;
+    private Schema customSchema;
+    private PrivateObjective privateObjective;
+    private List<Schema> schemas = new ArrayList<>();
 
-    private void setup1() {
-        player = new Player("giocatore 1 ");
-        player.setTurn(true);
-        player.setConnected(false);
+    private void testInit(){
+        player = new Player("player 1");
+        schema1 = schemaInit(1);
+        schema2 = schemaInit(2);
+        customSchema = schemaInit(3);
+        privateObjective = buildPrivateObjective(2);
+        schemas.add(schema1);
+        schemas.add(schema2);
+        player.setObserver(new VirtualView());
 
-    }
-
-    private void setup2(){
-        player = new Player("giocatore 1 ");
-        player.setTurn(true);
-        player.setConnected(true);
     }
 
     private Schema schemaInit(int n){
@@ -40,54 +45,46 @@ class PlayerTest {
         }
         return schema;
     }
-    private PrivateObjective objectiveInit(){
-        return buildPrivateObjective(2);
-    }
 
-    private boolean correct_player_status(Player p){
-        return(!p.isMyTurn() || p.isConnected());
+    @Test
+    void setSchema(){
+        testInit();
+        player.setSchemas(schemas);
+        player.setSchema(schema2.getName());
+
+        assertEquals(schema2,player.getSchema());
+        assertEquals(5,player.getFavour());
     }
 
     @Test
-    void wrong_behave(){
-        setup1();
-        assertFalse("impossibile that it's player's turn and he's disconnected", correct_player_status(player));
-    }
+    void setCustomSchema(){
+        testInit();
+        player.setSchema(customSchema);
 
-    @Test
-    void correct_behave(){
-        setup2();
-        assertTrue("behavior correct", correct_player_status(player));
+        assertEquals(customSchema,player.getSchema());
+        assertEquals(3,player.getFavour());
     }
 
     @Test
     void setAttributes(){
-        player = new Player("giocatore 1");
-        Schema schema= this.schemaInit(1);
-        Schema schema2 = this.schemaInit(2);
-        List<Schema> schemas = new ArrayList<Schema>();
-        schemas.add(schema);
-        schemas.add(schema2);
+        testInit();
         player.setSchemas(schemas);
-        player.setObserver(new VirtualView());
         player.setSchema(schema2.getName());
 
-        assertTrue(player.getSchema() == schema2);
-        assertTrue(player.getFavour() == 5);
-        assertTrue(player.getNickname().equals("giocatore 1"));
+        assertEquals("player 1",player.getNickname());
 
         player.setFavour(1);
-        assertTrue(player.getFavour() == 1);
+        assertEquals(1,player.getFavour());
 
-        PrivateObjective objective = this.objectiveInit();
-        player.setPrCard(objective);
-        assertTrue(player.getPrCard() == objective);
+        player.setPrCard(privateObjective);
+        assertEquals(privateObjective,player.getPrCard());
 
         player.setScore(10);
-        assertTrue(player.getScore() == 10);
+        assertEquals(10,player.getScore());
 
-        assertTrue(player.toString().equals("nickname:giocatore 1\n" + "Schema choosen:Aurorae Magnificus\n" + "score:10\n"));
+        assertEquals("nickname:player 1\n" + "Schema choosen:Aurorae Magnificus\n" + "score:10\n", player.toString());
 
+        schemas.forEach(schema -> assertTrue(player.getNameSchemas().contains(schema.getName())));
     }
 }
 

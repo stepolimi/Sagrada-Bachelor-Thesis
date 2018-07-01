@@ -1,25 +1,36 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
+import it.polimi.ingsw.server.virtualView.SchemaClient;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.List;
 
+import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class SchemaTest {
-    Gson g = new Gson();
-    String sch = "{\"name\":\"Kaleidoscopic Dream\",\"difficult\":4,\"table\":[[{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":1,\"full\":false}],[{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"number\":5,\"full\":false},{\"number\":0,\"full\":false},{\"number\":4,\"full\":false}],[{\"number\":3,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_RED\",\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_GREEN\",\"number\":0,\"full\":false}],[{\"number\":2,\"full\":false},{\"number\":0,\"full\":false},{\"number\":0,\"full\":false},{\"c\":\"ANSI_BLUE\",\"number\":0,\"full\":false},{\"c\":\"ANSI_YELLOW\",\"number\":0,\"full\":false}]]}\n" ;
-    Schema s;
+    private Schema s;
+    private Gson gson = new Gson();
+
+    private void testInit(){
+        try {
+            s = buildSchema(1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     void DicePlacement() {
-        s = g.fromJson(sch,Schema.class);
+        testInit();
         Dice d = new Dice(Colour.ANSI_YELLOW,6);
         s.silentInsertDice(0,0,d);
         assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
@@ -36,7 +47,7 @@ class SchemaTest {
 
     @Test
     void NearDicesAngle() {
-        s = g.fromJson(sch,Schema.class);
+        testInit();
 
         Dice d1 = new Dice(Colour.ANSI_RED,1);
         Dice d2 = new Dice(Colour.ANSI_BLUE,6);
@@ -63,7 +74,7 @@ class SchemaTest {
     @Test
     void OrderDice() {
         List <Dice> nearDice;
-        s = g.fromJson(sch,Schema.class);
+        testInit();
 
         Dice d1 = new Dice(Colour.ANSI_PURPLE,3);
         Dice d2 = new Dice(Colour.ANSI_BLUE,4);
@@ -85,14 +96,157 @@ class SchemaTest {
 
         nearDice = s.nearDice(1,1);
 
-        assertTrue(nearDice.get(0).equals(d1));
-        assertTrue(nearDice.get(1).equals(d2));
-        assertTrue(nearDice.get(2).equals(d3));
-        assertTrue(nearDice.get(3).equals(d4));
-        assertTrue(nearDice.get(4).equals(d5));
-        assertTrue(nearDice.get(5).equals(d6));
-        assertTrue(nearDice.get(6).equals(d7));
-        assertTrue(nearDice.get(7).equals(d8));
+        assertEquals(d1,nearDice.get(0));
+        assertEquals(d2,nearDice.get(1));
+        assertEquals(d3,nearDice.get(2));
+        assertEquals(d4,nearDice.get(3));
+        assertEquals(d5,nearDice.get(4));
+        assertEquals(d6,nearDice.get(5));
+        assertEquals(d7,nearDice.get(6));
+        assertEquals(d8,nearDice.get(7));
     }
 
+    @Test
+    void insertDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        s.insertDice(0,0,dice);
+
+        assertSame(dice,s.getTable(0,0).getDice());
+        assertEquals(1,s.getSize());
+        assertEquals(1,s.getDices().size());
+        assertSame(dice,s.getDices().get(0));
+    }
+
+    @Test
+    void testInsertDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        try {
+            s.testInsertDice(0,0,dice,null);
+            assertEquals(0,s.getSize());
+        } catch (InsertDiceException e) {
+            e.printStackTrace();
+        }
+        assertThrows(InsertDiceException.class,() -> s.testInsertDice(0,1,dice,null));
+    }
+
+    @Test
+    void silentInsertDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        s.silentInsertDice(0,0,dice);
+
+        assertSame(dice,s.getTable(0,0).getDice());
+        assertEquals(1,s.getSize());
+        assertEquals(1,s.getDices().size());
+        assertSame(dice,s.getDices().get(0));
+    }
+
+    @Test
+    void testRemoveDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        s.insertDice(0,0,dice);
+        try {
+            s.testRemoveDice(0,0);
+
+            assertSame(dice,s.getTable(0,0).getDice());
+            assertEquals(1,s.getSize());
+            assertEquals(1,s.getDices().size());
+            assertSame(dice,s.getDices().get(0));
+        } catch (RemoveDiceException e) {
+            e.printStackTrace();
+        }
+        assertThrows(RemoveDiceException.class,() -> s.testRemoveDice(0,1));
+    }
+
+    @Test
+    void removeDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        s.insertDice(0,0,dice);
+        s.removeDice(0,0);
+
+        assertSame(null,s.getTable(0,0).getDice());
+        assertEquals(0,s.getSize());
+        assertEquals(0,s.getDices().size());
+    }
+
+    @Test
+    void silentRemoveDice(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        s.insertDice(0,0,dice);
+        s.silentRemoveDice(0,0);
+
+        assertSame(null,s.getTable(0,0).getDice());
+        assertEquals(0,s.getSize());
+        assertEquals(0,s.getDices().size());
+    }
+
+    @Test
+    void getDicesInRow(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        Dice dice1 = new Dice(Colour.ANSI_BLUE,6);
+        Dice dice2 = new Dice(Colour.ANSI_GREEN,4);
+        Dice dice3 = new Dice(Colour.ANSI_YELLOW,2);
+        s.insertDice(0,0,dice);
+        s.insertDice(0,1,dice1);
+        s.insertDice(0,2,dice2);
+        s.insertDice(1,0,dice3);
+
+        List<Dice> dices = s.getDicesInRow(0);
+        for (int i=0; i<dices.size(); i++)
+            assertEquals(s.getTable(0,i).getDice(),dices.get(i));
+        assertEquals(3,dices.size());
+
+        assertEquals(1,s.getDicesInRow(1).size());
+        assertEquals(dice3,s.getDicesInRow(1).get(0));
+
+        assertTrue(s.getDicesInRow(2).isEmpty());
+        assertTrue(s.getDicesInRow(3).isEmpty());
+    }
+
+    @Test
+    void getDicesInColumn(){
+        testInit();
+        Dice dice = new Dice(Colour.ANSI_YELLOW,1);
+        Dice dice1 = new Dice(Colour.ANSI_BLUE,6);
+        Dice dice2 = new Dice(Colour.ANSI_GREEN,4);
+        Dice dice3 = new Dice(Colour.ANSI_YELLOW,2);
+        s.insertDice(0,0,dice);
+        s.insertDice(1,0,dice1);
+        s.insertDice(2,0,dice2);
+        s.insertDice(0,1,dice3);
+
+        List<Dice> dices = s.getDicesInColumn(0);
+        for (int i=0; i<dices.size(); i++)
+            assertEquals(s.getTable(i,0).getDice(),dices.get(i));
+        assertEquals(3,dices.size());
+
+        assertEquals(1,s.getDicesInColumn(1).size());
+        assertEquals(dice3,s.getDicesInColumn(1).get(0));
+
+        assertTrue(s.getDicesInColumn(2).isEmpty());
+        assertTrue(s.getDicesInColumn(3).isEmpty());
+        assertTrue(s.getDicesInColumn(4).isEmpty());
+    }
+
+    @Test
+    void generateSchema(){
+        SchemaClient schema = new SchemaClient();
+        schema.setName("player's schema");
+        schema.setDiceConstraint(0,0,"1");
+        schema.setDifficult(1);
+
+        s = buildSchema(gson.toJson(schema));
+        s.setJson(gson.toJson(schema));
+
+        assertEquals("player's schema",s.getName());
+        assertEquals(1,schema.getDifficult());
+        assertEquals(1,s.getTable(0,0).getNumber());
+        assertEquals(gson.toJson(schema),s.getJson());
+    }
 }

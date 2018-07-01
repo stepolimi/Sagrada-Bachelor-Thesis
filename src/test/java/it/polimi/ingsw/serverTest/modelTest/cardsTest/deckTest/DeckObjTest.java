@@ -8,34 +8,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-
-/*test made to :
-------verify that extract function returns the right number of card.
-------the remaining card in Deck has the correct number
- */
+import static junit.framework.Assert.assertNotSame;
 
 class DeckObjTest {
-    List<ObjectiveCard> deckPub = new ArrayList<ObjectiveCard>();
-    DeckPublicObjective d = new DeckPublicObjective();
+    private List<ObjectiveCard> deckPub = new ArrayList<>();
+    private DeckPublicObjective d = new DeckPublicObjective();
 
     @Test
     void correctExtract(){
-        deckPub= d.extract();
-        assertEquals(3, deckPub.size());
-        assertEquals(7, d.getDeckPub().size());
-    }
-
-    @Test
-    void correctExtract2(){
         deckPub = d.extract();
+        //Extracts the correct number of objectives
         assertEquals(3, deckPub.size());
         assertEquals(7, d.getDeckPub().size());
-    }
 
-    @Test
-    void correctExtract3(){
-        deckPub = d.extract();
-        assertEquals(3, deckPub.size());
-        assertEquals(7, d.getDeckPub().size());
+        //Every objective extracted is unique
+        assertNotSame(deckPub.get(0),deckPub.get(1));
+        assertNotSame(deckPub.get(1),deckPub.get(2));
+        assertNotSame(deckPub.get(2),deckPub.get(0));
     }
 }
