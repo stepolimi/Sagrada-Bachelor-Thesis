@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.model.game;
 
+
 import it.polimi.ingsw.server.controller.ServerController;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.serverConnection.socket.MultiSocketServer;
 import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethod;
 import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
+import it.polimi.ingsw.server.setUp.TakeDataFile;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.Naming;
@@ -13,8 +15,14 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Observer;
 
+import static it.polimi.ingsw.server.costants.NameCostants.RMI_PORT;
+import static it.polimi.ingsw.server.costants.NameCostants.SOCKET_PORT;
+import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+
 public class Main {
     public static void main(String[] args){
+        int rmiPort,socketPort;
+        TakeDataFile netConfig = new TakeDataFile(CONFIGURATION_FILE);
         Observer virtual = new VirtualView();
         Session session = new Session();
         ServerController controller = new ServerController(session,(VirtualView)virtual);
@@ -24,10 +32,16 @@ public class Main {
         Connected connection = new Connected();
         ((VirtualView) virtual).setConnection(connection);
 
+
+            rmiPort = Integer.parseInt(netConfig.getParameter(RMI_PORT));
+            socketPort = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
+
+
+
         try {
             RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);
-            RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,1099);
-            Registry registry = LocateRegistry.createRegistry(1099);
+            RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,rmiPort);
+            Registry registry = LocateRegistry.createRegistry(rmiPort);
             Naming.rebind("RmiServerMethodInterface", stub);
             System.out.println("Rmi pronto");
 
@@ -35,7 +49,7 @@ public class Main {
             System.out.println("Errore di connessione: " + e);
         }
 
-        MultiSocketServer s = new MultiSocketServer(1666,(VirtualView)virtual,connection);
+        MultiSocketServer s = new MultiSocketServer(socketPort,(VirtualView)virtual,connection);
         s.startServer();
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.client.clientConnection.rmi;
 
 
 import it.polimi.ingsw.client.clientConnection.Connection;
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
 
@@ -13,7 +14,9 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import static it.polimi.ingsw.client.constants.SetupConstants.RMI_SETUP_FILE;
+import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
+import static it.polimi.ingsw.client.constants.NameConstants.RMI_PORT;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 
 public class RmiConnection implements Connection {
     private RmiServerMethodInterface server;
@@ -37,27 +40,18 @@ public class RmiConnection implements Connection {
 
     }
 
-    private void setConnection() throws IOException {
-        FileReader f;
-        f = new FileReader(RMI_SETUP_FILE);
-        BufferedReader b;
-        b = new BufferedReader(f);
-        try {
-            host = b.readLine();
-            port = Integer.parseInt(b.readLine());
-        } finally {
-            b.close();
+        private void setConnection() throws IOException {
+            TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+            host = config.getParameter(SERVER_IP);
+            port = Integer.parseInt(config.getParameter(RMI_PORT));
         }
-    }
 
     public void sendSchema(final String str) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    server.sendSchema(str, hand.getView().getName());
-                } catch (RemoteException e) {
-                    System.out.println(e.getMessage());
-                }
+        Thread t = new Thread(() -> {
+            try {
+                server.sendSchema(str, hand.getView().getName());
+            } catch (RemoteException e) {
+                System.out.println(e.getMessage());
             }
         });
         t.start();
@@ -81,13 +75,11 @@ public class RmiConnection implements Connection {
     }
 
     public void insertDice(final int indexDiceSpace, final int row, final int column) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    server.insertDice(indexDiceSpace, row, column);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+        Thread t = new Thread(() -> {
+            try {
+                server.insertDice(indexDiceSpace, row, column);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         });
         t.start();
@@ -102,13 +94,11 @@ public class RmiConnection implements Connection {
     }
 
     public void moveDice(final int oldRow, final int oldColumn, final int newRow, final int newColumn) {
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                try {
-                    server.moveDice(oldRow, oldColumn, newRow, newColumn);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+        Thread t = new Thread(() -> {
+            try {
+                server.moveDice(oldRow, oldColumn, newRow, newColumn);
+            } catch (RemoteException e) {
+                e.printStackTrace();
             }
         });
         t.start();

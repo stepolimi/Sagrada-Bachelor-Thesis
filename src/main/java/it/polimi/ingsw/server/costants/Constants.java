@@ -67,8 +67,4 @@ public class Constants {
 
     //file constants
     public static final String JSON_EXTENSION = ".json";
-    public static final String SCHEMA_PATH = "/data/schema/";
-    public static final String PRIVATE_OBJECTIVE_PATH = "/data/privCard/";
-    public static final String TOOL_CARD_PATH = "/data/toolCard/ToolCard";
-
 }

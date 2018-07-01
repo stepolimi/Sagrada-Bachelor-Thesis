@@ -49,7 +49,7 @@ public class Schema {
 
     public String getGson(String nome) throws IOException
     {
-        final String filePath = "/data/" + nome + ".json";  //import every schema from
+        final String filePath = nome + ".json";  //import every schema from
         //json file form /src/main/data/Schema/i.json
 
         String sc="";

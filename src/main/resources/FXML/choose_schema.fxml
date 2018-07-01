@@ -9,9 +9,9 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="844.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="1542.0" fitWidth="914.0" layoutX="-38.0" layoutY="-538.0" opacity="0.49" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1542.0" fitWidth="914.0" layoutX="-53.0" layoutY="-15.0" opacity="0.34" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../assets/image/chooschema.png" />
+            <Image url="@../assets/image/sagrada%20copia%202.jpg" />
          </image>
       </ImageView>
       <Text layoutX="180.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scegli il tuo schema:" wrappingWidth="496.42626953125">
