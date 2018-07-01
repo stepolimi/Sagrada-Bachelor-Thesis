@@ -2087,7 +2087,7 @@ public class ControllerGUI implements View {
         IntStream.range(0, 4)
                 .forEach(i-> IntStream.range(0, 5)
                         .forEach(j ->{
-                            if(schema.getGrid()[i][j].getColour() !=null) {
+                            if(schema.getGrid()[i][j].getColour() !=null || schema.getGrid()[i][j].getNumber() == 0) {
                                 ImageView imageView = (ImageView) children.get(count.get());
                                 String color = schema.getGrid()[i][j].getColour().toString();
                                 int number = schema.getGrid()[i][j].getNumber();
