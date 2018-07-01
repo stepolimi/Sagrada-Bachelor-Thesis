@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.controller.ServerController;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.serverConnection.socket.MultiSocketServer;
@@ -14,6 +15,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Observer;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.NameCostants.RMI_PORT;
 import static it.polimi.ingsw.server.costants.NameCostants.SOCKET_PORT;
@@ -31,10 +33,8 @@ public class Main {
         ((VirtualView)virtual).addObserver(controller);
         Connected connection = new Connected();
         ((VirtualView) virtual).setConnection(connection);
-
-
-            rmiPort = Integer.parseInt(netConfig.getParameter(RMI_PORT));
-            socketPort = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
+        rmiPort = Integer.parseInt(netConfig.getParameter(RMI_PORT));
+        socketPort = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
 
 
 
@@ -43,10 +43,10 @@ public class Main {
             RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,rmiPort);
             Registry registry = LocateRegistry.createRegistry(rmiPort);
             Naming.rebind("RmiServerMethodInterface", stub);
-            System.out.println("Rmi pronto");
+            Log.getLogger().addLog("Rmi ready", Level.INFO,"Main","Main");
 
         }catch (Exception e) {
-            System.out.println("Errore di connessione: " + e);
+            Log.getLogger().addLog("Connection error: " + e,Level.SEVERE,"Main","Main");
         }
 
         MultiSocketServer s = new MultiSocketServer(socketPort,(VirtualView)virtual,connection);

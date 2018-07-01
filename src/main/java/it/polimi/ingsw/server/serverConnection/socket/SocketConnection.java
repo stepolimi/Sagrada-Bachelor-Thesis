@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.serverConnection.socket;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.serverConnection.Connection;
 import it.polimi.ingsw.server.virtualView.VirtualView;
@@ -12,6 +13,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
@@ -54,7 +56,7 @@ public class SocketConnection implements Runnable,Connection {
     }
 
     private void login(String str) {
-        System.out.println(str + "'s trying to connect with socket:");
+        Log.getLogger().addLog(str + "'s trying to connect with socket:", Level.INFO,this.getClass().getName(),"login");
         if(connection.checkUsername(str)) {
             nickname = str;
             connection.addPlayer(str,this);

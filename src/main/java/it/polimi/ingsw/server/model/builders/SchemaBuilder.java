@@ -1,12 +1,14 @@
 package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Box;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.io.*;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 import static it.polimi.ingsw.server.costants.NameCostants.SCHEMA_PATH;
@@ -41,7 +43,7 @@ public class SchemaBuilder {
             sch = g.fromJson(sc, Schema.class);
         }
         catch(IOException e){
-            System.out.println(e);
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,"SchemaBuilder","buildSchema");
         }
         finally {
             reader.close();

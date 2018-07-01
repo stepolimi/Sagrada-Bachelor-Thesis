@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.RoundTrack;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.SWAP_DICE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_ACCEPTED;
@@ -31,7 +33,7 @@ public class SwapDiceState extends State {
             round.setPendingDice(dice);
 
         } catch (InsertDiceException | RemoveDiceException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
         }
         giveLegalActions(round);
     }

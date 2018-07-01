@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.game;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
@@ -7,6 +8,8 @@ import it.polimi.ingsw.server.model.timer.TimedComponent;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.util.*;
+import java.util.logging.Level;
+
 
 import static it.polimi.ingsw.server.costants.Constants.EVERYONE;
 import static it.polimi.ingsw.server.costants.Constants.MAX_PLAYERS;
@@ -56,7 +59,7 @@ public  class Session extends Observable implements TimedComponent {
                 }
             notifyChanges(LOGIN_SUCCESSFUL,player);
             lobby.add(new Player(player));
-            System.out.println("connected\n" + "players in lobby: " + lobby.size() + "\n ---");
+            Log.getLogger().addLog("connected\n" + "players in lobby: " + lobby.size() + "\n ---",Level.INFO,this.getClass().getName(),"joinPlayer");
             if(lobby.size() == MIN_PLAYERS ) {
                 startingTime = System.currentTimeMillis();
                 lobbyTimer = new GameTimer(lobbyTimerValue,this);
@@ -77,7 +80,7 @@ public  class Session extends Observable implements TimedComponent {
                     return ;
                 }
             }
-            System.out.println("connection failed: a game is already running\n" + " ---");
+            Log.getLogger().addLog("connection failed: a game is already running\n" + " ---",Level.INFO,this.getClass().getName(),"joinPlayer");
             notifyChanges(LOGIN_ERROR,player);
         }
     }
@@ -96,7 +99,7 @@ public  class Session extends Observable implements TimedComponent {
                 timer.cancel();
                 startingTime = 0L;
             }
-            System.out.println(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---");
+            Log.getLogger().addLog(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---",Level.INFO,this.getClass().getName(),"removePlayer");
             notifyChanges(LOGOUT,player);
         }
         else {
@@ -106,7 +109,7 @@ public  class Session extends Observable implements TimedComponent {
                 for (Player p : game.getPlayers()) {
                     if (p.getNickname().equals(player)) {
                         p.setConnected(false);
-                        System.out.println(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---");
+                        Log.getLogger().addLog(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---",Level.INFO,this.getClass().getName(),"removePlayer");
                         notifyChanges(LOGOUT,player);
                     }
                 }
@@ -136,12 +139,12 @@ public  class Session extends Observable implements TimedComponent {
      */
     private synchronized void startGame(){
         if(game == null) {
-            System.out.println("starting game\n" + " ---");
+            Log.getLogger().addLog("starting game\n" + " ---",Level.INFO,this.getClass().getName(),"startGame");
             game = new GameMultiplayer(lobby);
             game.setObserver(obs);
             game.addObserver(obs);
             game.gameInit();
-            System.out.println("game started:\n" + "waiting for players to choose their schema\n" + " ---");
+            Log.getLogger().addLog("game started:\n" + "waiting for players to choose their schema\n" + " ---",Level.INFO,this.getClass().getName(),"startGame");
         }
     }
 

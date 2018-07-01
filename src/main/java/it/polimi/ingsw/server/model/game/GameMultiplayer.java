@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.DeckSchemas;
@@ -15,6 +16,7 @@ import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
@@ -94,7 +96,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
      * @param lastPlayer last player of the game.
      */
     public void endGame(Player lastPlayer) {
-        System.out.println("calcolo punteggio");
+        Log.getLogger().addLog("calcolo punteggio", Level.INFO,this.getClass().getName(),"endGame");
 
         calculateScores();
 
@@ -127,7 +129,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
                 rankings.add(player);
         });
 
-        rankings.forEach(player -> System.out.println(player.getNickname() +": " + player.getScore()));
+        rankings.forEach(player -> Log.getLogger().addLog(player.getNickname() +": " + player.getScore(),Level.INFO,this.getClass().getName(),"endGame"));
         notifyChanges(SET_WINNER);
         notifyChanges(SET_RANKINGS);
         ended = true;
@@ -152,7 +154,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
                     if (score < 0)
                         score = 0;
                     player.setScore(score);
-                    System.out.println("score of " + player.getNickname() + " is " + score);
+                    Log.getLogger().addLog("score of " + player.getNickname() + " is " + score,Level.INFO,this.getClass().getName(),"calculateScores");
                 });
     }
 
@@ -190,7 +192,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
      * Set's a default schema to each player that has not choose one when timer elapses
      */
     public void timerElapsed() {
-        System.out.println("Choosing schema timer elapsed\n" + "---");
+        Log.getLogger().addLog("Choosing schema timer elapsed\n" + "---",Level.INFO,this.getClass().getName(),"timerElapsed");
         players.stream()
                 .filter(p -> p.getSchema() == null)
                 .forEach(p -> {

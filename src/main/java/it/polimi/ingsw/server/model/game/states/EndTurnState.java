@@ -1,6 +1,9 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
+
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 
@@ -31,7 +34,7 @@ public class EndTurnState extends State {
             round.setCurrentPlayer(round.getPlayersOrder().get(0));
             round.incrementTurnNumber();
         } while (!round.getCurrentPlayer().isConnected());
-        System.out.println("turn ended\n" + " ---");
+        Log.getLogger().addLog("turn ended\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
         giveLegalActions(round);
     }
 

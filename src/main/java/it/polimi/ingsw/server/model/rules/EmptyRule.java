@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.model.rules;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
+
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.EMPTY_RESTRICTION;
 
@@ -19,7 +22,7 @@ public class EmptyRule implements InsertionRule {
     public boolean checkRule(int x, int y, Dice dice, Schema sch) {
         if (sch.getTable(x, y).getDice() == null)
             return true;
-        System.out.println("Empty rule error");
+        Log.getLogger().addLog("Empty rule error", Level.INFO,this.getClass().getName(),"checkRule");
         return false;
     }
 

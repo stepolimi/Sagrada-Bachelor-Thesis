@@ -9,6 +9,7 @@ public class NameCostants {
     public static final String SCHEMA_PATH = "PATH_SCHEMA";
     public static final String PRIVATE_OBJECTIVE_PATH = "PATH_PRIVATE_OBJECTIVE";
     public static final String TOOL_CARD_PATH = "PATH_TOOL_CARD";
+    public static final String PATH_LOG_FILE = "PATH_LOG_FILE";
 
 
     //resurce costant

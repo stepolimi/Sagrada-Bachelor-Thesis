@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.CHANGE_VALUE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ACCEPTED;
@@ -25,7 +27,7 @@ public class ChangeValueState extends State {
             round.getNextActions().remove(0);
             round.notifyChanges(CHANGE_VALUE_ACCEPTED);
         } catch (ChangeDiceValueException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
             round.notifyChanges(CHANGE_VALUE_ERROR);
         }
         giveLegalActions(round);

@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.model.rules;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
+
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.COLOUR_RESTRICTION;
 
@@ -22,7 +25,7 @@ public class ColourRule implements InsertionRule {
             return true;
         if (sch.getTable(x, y).getC() == dice.getColour())
             return true;
-        System.out.println("Colour rule error");
+        Log.getLogger().addLog("Colour rule error", Level.INFO,this.getClass().getName(),"checkRule");
         return false;
     }
 

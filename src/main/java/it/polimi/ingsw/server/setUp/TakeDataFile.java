@@ -1,12 +1,13 @@
 package it.polimi.ingsw.server.setUp;
 
-import it.polimi.ingsw.client.view.Message;
-import it.polimi.ingsw.client.view.TypeMessage;
+
+import it.polimi.ingsw.server.Log.Log;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
 
 public class TakeDataFile {
     FileReader reader;
@@ -24,7 +25,7 @@ public class TakeDataFile {
             input = new BufferedReader(reader);
             result =  input.lines().filter(line-> line.contains(parameter)).map(line -> line.substring(parameter.length()+1)).findFirst().get();
         } catch (FileNotFoundException e) {
-            Message.print("File di configurazione non trovato", TypeMessage.ERROR_MESSAGE);
+            Log.getLogger().addLog("File di configurazione non trovato", Level.SEVERE,this.getClass().getName(),"getParameter");
         }finally {
             closeBuffer();
         }
@@ -49,7 +50,7 @@ public class TakeDataFile {
             input = new BufferedReader(reader);
             input.lines().forEach(line-> System.out.println(line));
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"printContent");
         }finally {
             closeBuffer();
         }

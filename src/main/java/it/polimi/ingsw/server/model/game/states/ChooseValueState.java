@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.CHOOSE_VALUE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE_ACCEPTED;
@@ -22,7 +24,7 @@ public class ChooseValueState extends State {
             round.getNextActions().remove(0);
             round.notifyChanges(CHOOSE_VALUE_ACCEPTED);
         } catch (ChangeDiceValueException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
             round.notifyChanges(CHOOSE_VALUE_ERROR);
         }
         giveLegalActions(round);

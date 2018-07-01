@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.model.rules;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.ADJACENT_RESTRICTION;
 
@@ -24,14 +26,14 @@ public class AdjacentRule implements InsertionRule {
         if (sch.isEmpty()) {
             if (x == 0 || y == 0 || x == 3 || y == 4)
                 return true;
-            System.out.println("Adjacent rule error");
+            Log.getLogger().addLog("Adjacent rule error", Level.INFO,this.getClass().getName(),"checkRule");
             return false;
         }
 
         for (Dice d : nearDices)
             if (d != null)
                 return true;
-        System.out.println("Adjacent rule error");
+        Log.getLogger().addLog("Adjacent rule error",Level.INFO,this.getClass().getName(),"checkRule");
         return false;
     }
 

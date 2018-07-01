@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.serverConnection.socket;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
@@ -8,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
 
 public class MultiSocketServer{
     private int port;
@@ -29,7 +31,7 @@ public class MultiSocketServer{
         try {
             serverSocket = new ServerSocket(port);
 
-            System.out.println("Socket pronto");
+            Log.getLogger().addLog("Socket pronto", Level.INFO,this.getClass().getName(),"startServer");
             while(loop) {
                 try {
                     Socket socket = serverSocket.accept();

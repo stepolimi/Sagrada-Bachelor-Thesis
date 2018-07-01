@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Dice;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 
@@ -19,7 +21,7 @@ public class ExtractDiceState extends State {
         Board board = round.getBoard();
         List<Dice> dices = board.getDiceBag().extract(board.numPlayers());
         board.setDiceSpace(dices);
-        System.out.println("dices extracted\n" + " ---");
+        Log.getLogger().addLog("dices extracted\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
 
         giveLegalActions(round);
     }

@@ -1,13 +1,16 @@
 package it.polimi.ingsw.server.serverConnection;
 
+import it.polimi.ingsw.server.Log.Log;
+
 import java.util.*;
+import java.util.logging.Level;
 
 public class Connected {
     private HashMap<String, Connection> users = new HashMap<>();
 
     public boolean checkUsername(String str) {
         if(users.keySet().contains(str)){
-            System.out.println("connection failed: invalid username\n" + " ---");
+            Log.getLogger().addLog("connection failed: invalid username\n" + " ---", Level.INFO,this.getClass().getName(),"checkUsername");
             return false;
         }
         return true;
@@ -16,7 +19,6 @@ public class Connected {
     public void addPlayer(String user,Connection connection){
         if(!users.keySet().contains(user))
             users.put(user,connection);
-        System.out.println(users);
     }
 
     public boolean removePlayer(String user) {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
 
@@ -8,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.NameCostants.TOOL_CARD_PATH;
 import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
@@ -24,7 +26,6 @@ public class ToolCardBuilder {
     public static ToolCard buildToolCard(int n){
         TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
         String pathToolCard = config.getParameter(TOOL_CARD_PATH);
-        System.out.println(pathToolCard);
         ToolCard toolCard = new ToolCard();
         final String filePath = pathToolCard + n;
         Gson g = new Gson();
@@ -37,7 +38,7 @@ public class ToolCardBuilder {
             toolCard = g.fromJson(tool,ToolCard.class);
         }
         catch(IOException e){
-            System.out.println(e);
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,"ToolCardBuilder","buildToolCard");
         }
         finally {
             try {

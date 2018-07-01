@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -12,6 +13,7 @@ import it.polimi.ingsw.server.model.timer.TimedComponent;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
 
 import java.util.*;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
@@ -91,7 +93,7 @@ public class Round extends Observable implements TimedComponent {
         states.put(END_TURN_STATE, new EndTurnState());
         setPlayersOrder();
 
-        System.out.println("new round started\n" + " ---");
+        Log.getLogger().addLog("new round started\n" + " ---",Level.INFO,this.getClass().getName(),"roundInit");
         currentState.execute(this, null);
         notifyChanges(START_ROUND);
         notifyChanges(START_TURN);
@@ -120,7 +122,7 @@ public class Round extends Observable implements TimedComponent {
             timer = new Timer();
             timer.schedule(turnTimer, 0L, 5000L);
         } else {
-            System.out.println("can't perform: " + action.get(0) + " now\n" + " ---");
+            Log.getLogger().addLog("can't perform: " + action.get(0) + " now\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
             notifyChanges(SET_ACTIONS);
         }
     }
@@ -265,7 +267,7 @@ public class Round extends Observable implements TimedComponent {
      * Disconnects the current player.
      */
     public void timerElapsed() {
-        System.out.println("TurnTimer elapsed\n" + " ---");
+        Log.getLogger().addLog("TurnTimer elapsed\n" + " ---",Level.INFO,this.getClass().getName(),"TimerElapsed");
         disconnectPlayer();
     }
 
@@ -279,7 +281,7 @@ public class Round extends Observable implements TimedComponent {
      * If the turn was the last one of the game, makes the game end.
      */
     public void disconnectPlayer(){
-        System.out.println(currentPlayer.getNickname() + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---");
+        Log.getLogger().addLog(currentPlayer.getNickname() + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---",Level.INFO,this.getClass().getName(),"DisconnectPlayer");
         currentPlayer.setConnected(false);
         notifyChanges(LOGOUT);
         draftedDice = false;

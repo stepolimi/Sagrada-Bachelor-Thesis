@@ -1,13 +1,16 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.MOVE_DICE_STATE;
+import static it.polimi.ingsw.server.costants.MessageConstants.LOGOUT;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ACCEPTED;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ERROR;
 
@@ -44,12 +47,12 @@ public class MoveDiceState extends State {
             round.getNextActions().remove(0);
             round.getCurrentPlayer().getSchema().removeDice(oldRowSchema, oldColumnSchema);
             schema.insertDice(rowSchema, columnSchema, dice);
-            System.out.println("dice: " + dice.toString() + " moved from: " + oldRowSchema + "," + oldColumnSchema + " to: " + rowSchema + "," + columnSchema + "\n ---");
+            Log.getLogger().addLog("dice: " + dice.toString() + " moved from: " + oldRowSchema + "," + oldColumnSchema + " to: " + rowSchema + "," + columnSchema + "\n ---", Level.INFO,this.getClass().getName(),"execute");
         } catch (RemoveDiceException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
         } catch (InsertDiceException e) {
             schema.silentInsertDice(oldRowSchema, oldColumnSchema, dice);
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
         }
         giveLegalActions(round);
     }

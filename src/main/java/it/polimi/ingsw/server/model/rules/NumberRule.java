@@ -1,7 +1,10 @@
 package it.polimi.ingsw.server.model.rules;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
+
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.NUMBER_RESTRICTION;
 
@@ -22,7 +25,7 @@ public class NumberRule implements InsertionRule {
             return true;
         if (sch.getTable(x, y).getNumber() == dice.getValue())
             return true;
-        System.out.println("Number rule error");
+        Log.getLogger().addLog("Number rule error", Level.INFO,this.getClass().getName(),"checkRule");
         return false;
     }
 

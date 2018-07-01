@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.UseToolException;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
@@ -60,7 +62,7 @@ public class UseToolCardState extends State {
             checkSpecialEffects(card, round);
 
         } catch (UseToolException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
             round.notifyChanges(USE_TOOL_CARD_ERROR);
         }
 

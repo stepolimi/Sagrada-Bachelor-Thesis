@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.serverConnection.rmi;
 
 import it.polimi.ingsw.client.clientConnection.rmi.RmiClientMethodInterface;
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
@@ -22,7 +24,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     public boolean login(RmiClientMethodInterface client,String name) {
         RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
-        System.out.println(name + "'s trying to connect with rmi:");
+        Log.getLogger().addLog(name + "'s trying to connect with rmi:", Level.INFO,this.getClass().getName(),"login");
 
         if(connection.checkUsername(name)) {
             nickname = name;
@@ -34,7 +36,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
             try {
                 client.loginError("username");
             } catch (RemoteException e) {
-                System.out.println(e.getMessage());
+                Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"login");
             }
         }
         return true;

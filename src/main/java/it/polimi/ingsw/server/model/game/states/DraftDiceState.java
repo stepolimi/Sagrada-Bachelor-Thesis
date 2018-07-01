@@ -1,9 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.DRAFT_DICE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.DRAFT_DICE_ACCEPTED;
@@ -26,7 +28,7 @@ public class DraftDiceState extends State {
             round.setPendingDice(dice);
             round.setDraftedDice(true);
         } catch (RemoveDiceException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
         }
 
         giveLegalActions(round);

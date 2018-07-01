@@ -1,11 +1,13 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.INSERT_DICE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE_ACCEPTED;
@@ -37,11 +39,11 @@ public class InsertDiceState extends State {
                 round.setDraftedDice(true);
             else
                 round.setBonusInsertDice(false);
-            System.out.println("dice inserted\n" + " ---" + dice.toString());
+            Log.getLogger().addLog("dice inserted\n" + " ---" + dice.toString(), Level.INFO,this.getClass().getName(),"execute");
         } catch (RemoveDiceException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
         } catch (InsertDiceException e) {
-            System.out.println(e.getMessage());
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
         }
         giveLegalActions(round);
 
