@@ -13,7 +13,6 @@ import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -114,15 +113,9 @@ public class ControllerGUI implements View {
     @FXML
     private ImageView use3;
     @FXML
-    private GridPane schema2;
-    @FXML
     private GridPane constrain2;
     @FXML
-    private GridPane schema3;
-    @FXML
     private GridPane constrain3;
-    @FXML
-    private GridPane schema4;
     @FXML
     private GridPane constrain4;
     @FXML
@@ -1477,6 +1470,13 @@ public class ControllerGUI implements View {
 
 
         Platform.runLater(() -> {
+            textflow.setText(GameMessage.RECONNECTED);
+           IntStream.range(0, schemas.size())
+                   .forEach(i ->{
+                       System.out.println(players.get(i));
+                       System.out.println((schemas.get(i)));
+                   });
+
             int index;
                 Stage stage = (Stage) loginAction.getScene().getWindow();
                 stage.close();
@@ -1947,7 +1947,6 @@ public class ControllerGUI implements View {
     private void setDice(ImageView imageView, String color, Object number) {
 
         String path = config.getParameter(DICE_PATH);
-
         switch (color) {
             case GameMessage.BLUE:
                 imageView.setImage(new Image(path + "/Blue/" + number + ".png"));
@@ -1964,9 +1963,7 @@ public class ControllerGUI implements View {
             default:
                 imageView.setImage(new Image(path + "/Purple/" + number + ".png"));
                 break;
-
         }
-
     }
 
     /**
@@ -2057,8 +2054,19 @@ public class ControllerGUI implements View {
      * @param schemaString json of schema (including dices placed )
      */
     private void resetMySchema(GridPane constrains, GridPane gridPane, String schemaString){
-        schemaReconnect(constrains, schemaString, gridPane.getChildren());
-
+        Gson gson = new Gson();
+        Schema schema = gson.fromJson(schemaString,Schema.class);
+        printConstrain(constrains, schema);
+        IntStream.range(0, 4)
+                .forEach(i-> IntStream.range(0, 5)
+                        .forEach(j ->{
+                            if(schema.getGrid()[i][j].getColour() !=null) {
+                                ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, j , i );
+                                String color = schema.getGrid()[i][j].getColour().toString();
+                                int number = schema.getGrid()[i][j].getNumber();
+                                setDice(imageView, color, number);
+                            }
+                        }));
     }
 
 
@@ -2068,32 +2076,20 @@ public class ControllerGUI implements View {
      *
      */
     private void resetSchema(GridPane constrains, String schemaString){
-        schemaReconnect(constrains, schemaString, constrains.getChildren());
-
-    }
-
-    /**
-     * @param constrains gridPane where constrain are placed
-     * @param schemaString name of schema
-     * @param children schema whre a re placed dices
-     *
-     * set every constrain and dice on schema's grdPane
-     */
-    private void schemaReconnect(GridPane constrains, String schemaString, ObservableList<Node> children) {
         Gson gson = new Gson();
         Schema schema = gson.fromJson(schemaString,Schema.class);
-        printConstrain(constrains, schema);
-        AtomicInteger count = new AtomicInteger();
         IntStream.range(0, 4)
                 .forEach(i-> IntStream.range(0, 5)
                         .forEach(j ->{
-                            if(schema.getGrid()[i][j].getColour() !=null || schema.getGrid()[i][j].getNumber() == 0) {
-                                ImageView imageView = (ImageView) children.get(count.get());
+                            ImageView imageView = (ImageView) getNodeFromGridPane(constrains, j , i );
+                            if(schema.getGrid()[i][j].getColour() !=null || schema.getGrid()[i][j].getNumber() != 0) {
                                 String color = schema.getGrid()[i][j].getColour().toString();
                                 int number = schema.getGrid()[i][j].getNumber();
+                                imageView.setImage(null);
                                 setDice(imageView, color, number);
                             }
-                            count.getAndIncrement();
+                            else if(!schema.getGrid()[i][j].getConstraint().equals(""))
+                                putConstrain(imageView, schema.getGrid()[i][j].getConstraint());
                         }));
     }
 

@@ -16,6 +16,7 @@ public class GameMessage {
     static final String NEW_ROUND = "Nuovo Round Iniziato";
     static final String MY_TURN = "Tocca a te!!!!!";
     static final String NOT_MY_TURN = "turno iniziato, tocca a: ";
+    static final String RECONNECTED = "Ti sei riconnesso! Continua a giocare!";
 
     static final String FULL = "full";
     static final String EMPTY = "";
