@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 public interface RmiServerMethodInterface extends Remote {
     boolean login(RmiClientMethodInterface client, String nome) throws RemoteException;
 
-    void disconnected(RmiClientMethodInterface client) throws RemoteException;
+    void disconnected(String name) throws RemoteException;
 
     void sendSchema(String schema, String name) throws RemoteException;
 
@@ -43,4 +43,6 @@ public interface RmiServerMethodInterface extends Remote {
     void chooseValue(int value) throws RemoteException;
 
     void sendCustomSchema(String schema, String name) throws RemoteException;
+
+    void ping() throws RemoteException;
 }

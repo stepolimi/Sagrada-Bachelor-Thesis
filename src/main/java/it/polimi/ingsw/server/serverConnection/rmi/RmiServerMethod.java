@@ -22,11 +22,11 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public boolean login(RmiClientMethodInterface client,String name) {
-        RmiServerConnection user = new RmiServerConnection(client,this);
         List action = new ArrayList();
         Log.getLogger().addLog(name + "'s trying to connect with rmi:", Level.INFO,this.getClass().getName(),"login");
 
         if(connection.checkUsername(name)) {
+            RmiServerConnection user = new RmiServerConnection(client,this,name);
             nickname = name;
             connection.addPlayer(name,user);
             action.add(LOGIN);
@@ -42,7 +42,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         return true;
     }
 
-    public void disconnected(RmiClientMethodInterface client) {
+    public void disconnected(String nickname) {
         if(connection.removePlayer(nickname)){
             List action = new ArrayList();
             action.add(DISCONNECTED);
@@ -171,6 +171,10 @@ public class RmiServerMethod implements RmiServerMethodInterface {
         action.add(name);
         action.add(schema);
         virtual.forwardAction(action);
+    }
+
+    public void ping() {
+
     }
 
 

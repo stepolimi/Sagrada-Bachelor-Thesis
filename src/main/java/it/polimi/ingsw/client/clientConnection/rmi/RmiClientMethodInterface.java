@@ -100,4 +100,6 @@ public interface RmiClientMethodInterface extends Remote {
     void setRankings(List<String> players, List<Integer> scores) throws RemoteException;
 
     void setSchemasOnReconnect(List<String> players, List<String> schemas) throws RemoteException;
+
+    void ping() throws  RemoteException;
 }

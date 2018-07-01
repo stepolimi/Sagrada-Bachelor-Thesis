@@ -4,6 +4,8 @@ package it.polimi.ingsw.client.clientConnection.rmi;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
+import it.polimi.ingsw.client.view.Message;
+import it.polimi.ingsw.client.view.TypeMessage;
 import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
 
 import java.io.BufferedReader;
@@ -17,6 +19,7 @@ import java.rmi.registry.Registry;
 import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
 import static it.polimi.ingsw.client.constants.NameConstants.RMI_PORT;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
+import static java.lang.Thread.sleep;
 
 public class RmiConnection implements Connection {
     private RmiServerMethodInterface server;
@@ -37,7 +40,7 @@ public class RmiConnection implements Connection {
         }catch (IOException e) {
             e.printStackTrace();
         }
-
+        pingServer();
     }
 
         private void setConnection() throws IOException {
@@ -46,12 +49,31 @@ public class RmiConnection implements Connection {
             port = Integer.parseInt(config.getParameter(RMI_PORT));
         }
 
+        private void pingServer()
+        {
+            Thread t = new Thread(() -> {
+                boolean  isRunning = true;
+                while(isRunning) {
+                    try {
+                        server.ping();
+                        sleep(5000);
+                    } catch (RemoteException e) {
+                        Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
+                        isRunning = false;
+                        System.exit(1);
+                    } catch (InterruptedException ex){
+                        Message.print("Errore di sospensione del thread", TypeMessage.ERROR_MESSAGE);
+                    }
+                }
+            });
+            t.start();
+        }
     public void sendSchema(final String str) {
         Thread t = new Thread(() -> {
             try {
                 server.sendSchema(str, hand.getView().getName());
             } catch (RemoteException e) {
-                System.out.println(e.getMessage());
+                Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
             }
         });
         t.start();
@@ -62,15 +84,15 @@ public class RmiConnection implements Connection {
         try {
             server.login(client, nickname);
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
     public void disconnect() {
         try {
-            server.disconnected(client);
+            server.disconnected(hand.getView().getName());
         } catch (RemoteException e) {
-            System.out.println(e.getMessage());
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -79,7 +101,7 @@ public class RmiConnection implements Connection {
             try {
                 server.insertDice(indexDiceSpace, row, column);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
             }
         });
         t.start();
@@ -89,7 +111,7 @@ public class RmiConnection implements Connection {
         try {
             server.useToolCard(toolNumber);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -98,7 +120,7 @@ public class RmiConnection implements Connection {
             try {
                 server.moveDice(oldRow, oldColumn, newRow, newColumn);
             } catch (RemoteException e) {
-                e.printStackTrace();
+                Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
             }
         });
         t.start();
@@ -109,7 +131,7 @@ public class RmiConnection implements Connection {
         try {
             server.draftDice(indexDiceSpace);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -117,7 +139,7 @@ public class RmiConnection implements Connection {
         try {
             server.placeDice(row, column);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -125,7 +147,7 @@ public class RmiConnection implements Connection {
         try {
             server.changeValue(change);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -133,7 +155,7 @@ public class RmiConnection implements Connection {
         try {
             server.rollDice();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -141,7 +163,7 @@ public class RmiConnection implements Connection {
         try {
             server.swapDice(numRound, indexDice);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -149,7 +171,7 @@ public class RmiConnection implements Connection {
         try {
             server.cancelUseToolCard();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -157,7 +179,7 @@ public class RmiConnection implements Connection {
         try {
             server.flipDice();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -165,7 +187,7 @@ public class RmiConnection implements Connection {
         try {
             server.placeDiceSpace();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -173,7 +195,7 @@ public class RmiConnection implements Connection {
         try {
             server.rollDiceSpace();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -181,7 +203,7 @@ public class RmiConnection implements Connection {
         try {
             server.swapDiceBag();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -189,7 +211,7 @@ public class RmiConnection implements Connection {
         try {
             server.chooseValue(value);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -197,7 +219,7 @@ public class RmiConnection implements Connection {
         try {
             server.sendEndTurn();
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 
@@ -205,7 +227,7 @@ public class RmiConnection implements Connection {
         try {
             server.sendCustomSchema(schema, hand.getView().getName());
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
         }
     }
 

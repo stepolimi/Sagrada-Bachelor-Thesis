@@ -3,6 +3,8 @@ package it.polimi.ingsw.client.clientConnection.socket;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
+import it.polimi.ingsw.client.view.Message;
+import it.polimi.ingsw.client.view.TypeMessage;
 import it.polimi.ingsw.client.view.View;
 
 import java.io.IOException;
@@ -163,8 +165,9 @@ public class SocketConnection implements Connection,Runnable {
                     action.add(token.nextToken());
                 deliverGI(action);
             } catch (NoSuchElementException e) {
-                System.out.println("disconnesso");
+                Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
                 stopThread = true;
+                System.exit(1);
             }
         }
     }

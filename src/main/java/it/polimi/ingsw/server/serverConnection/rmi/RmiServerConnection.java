@@ -1,25 +1,50 @@
 package it.polimi.ingsw.server.serverConnection.rmi;
 
 import it.polimi.ingsw.client.clientConnection.rmi.RmiClientMethodInterface;
+import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.serverConnection.Connection;
 
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
+
+import static java.lang.Thread.sleep;
 
 public class RmiServerConnection implements Connection {
     private RmiClientMethodInterface client;
     private RmiServerMethod serverMethod;
-
-    RmiServerConnection(RmiClientMethodInterface client, RmiServerMethod serverMethod) {
+    private String name;
+    RmiServerConnection(RmiClientMethodInterface client, RmiServerMethod serverMethod,String name) {
         this.client = client;
         this.serverMethod = serverMethod;
+        this.name = name;
+        pingClient();
+    }
+
+    private void pingClient() {
+        Thread t = new Thread(() -> {
+            boolean  isRunning = true;
+            while(isRunning) {
+                try {
+                    client.ping();
+                    sleep(5000);
+                } catch (RemoteException e) {
+                    Log.getLogger().addLog("Player disconnected",Level.INFO,this.getClass().getName(),"pingClient");
+                    serverMethod.disconnected(name);
+                    isRunning = false;
+                    } catch (InterruptedException ex){
+                    Log.getLogger().addLog("Ping error", Level.SEVERE,this.getClass().getName(),"pingClient");
+                }
+            }
+        });
+        t.start();
     }
 
     public void login(String nickname, int lobbySize) {
         try {
             client.login(nickname, lobbySize);
         }catch (RemoteException e){
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -27,7 +52,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.loginError(cause);
         }catch (RemoteException e){
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
 
     }
@@ -36,7 +61,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.playerDisconnected(nickname);
         }catch (RemoteException e){
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -44,7 +69,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.timerPing(timeLeft);
         }catch (RemoteException e){
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -52,7 +77,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.createGame();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -60,7 +85,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setSchemas(schemas);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -68,7 +93,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setPrivateCard(privateCard);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -76,7 +101,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setPublicObjectives(publicObjectives);
         } catch (RemoteException e) {
-             serverMethod.disconnected(this.client);
+             serverMethod.disconnected(name);
         }
     }
 
@@ -84,7 +109,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setToolCards(toolCards);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -92,7 +117,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.chooseSchema(schema);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -100,7 +125,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setOpponentsSchemas(opponentsSchemas);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -108,7 +133,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.schemaCustomAccepted(schema);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -116,7 +141,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setOpponentsCustomSchemas(opponentsSchemas);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -124,7 +149,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.startRound();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -132,7 +157,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.startTurn(nickname);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -140,7 +165,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setActions(actions);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -148,7 +173,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setDiceSpace(colours,values);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -156,7 +181,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.draftDiceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -164,7 +189,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.insertDiceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -172,7 +197,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.moveDiceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -180,7 +205,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceSpace(index);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -188,7 +213,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceSpaceError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -196,7 +221,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceSchema(nickname,row,column,colour,value);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -204,7 +229,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceSchemaError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -212,7 +237,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceSchema(nickname,row,column);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -220,7 +245,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceSchemaError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -228,7 +253,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.useToolCardAccepted(favors);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -236,7 +261,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.useToolCardError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -244,7 +269,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.changeValueAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -252,7 +277,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.changeValueError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -260,7 +285,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -268,7 +293,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.rollDiceAccepted(value);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -276,7 +301,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.swapDiceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -284,7 +309,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceRoundTrack(nRound,nDice);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -292,7 +317,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.pickDiceRoundTrackError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -300,7 +325,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceRoundTrack(nRound,colours,values);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -308,7 +333,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.flipDiceAccepted(value);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -316,7 +341,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.cancelUseToolCardAccepted(favor);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -324,7 +349,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceSpace(colour,value);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -332,7 +357,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.placeDiceSpaceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -340,7 +365,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.rollDiceSpaceAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -348,7 +373,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.swapDiceBagAccepted(colour,value);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -356,7 +381,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.chooseValueAccepted();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -364,7 +389,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.chooseValueError();
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -372,7 +397,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setWinner(nickname);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -380,7 +405,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setRankings(players,scores);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 
@@ -388,7 +413,7 @@ public class RmiServerConnection implements Connection {
         try {
             client.setSchemasOnReconnect(players,schemas);
         } catch (RemoteException e) {
-            serverMethod.disconnected(this.client);
+            serverMethod.disconnected(name);
         }
     }
 

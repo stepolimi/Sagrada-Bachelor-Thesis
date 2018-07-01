@@ -183,6 +183,8 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.setSchemasOnReconnect(players,schemas);
     }
 
+    public void ping() throws RemoteException {}
+
     public void schemaCustomAccepted(String schema){
         v.schemaCustomAccepted(schema);
     }
