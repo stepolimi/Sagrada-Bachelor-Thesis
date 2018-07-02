@@ -17,7 +17,7 @@
             <Image url="@../assets/image/play.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="playButton" fitHeight="61.0" fitWidth="142.0" layoutX="213.0" layoutY="220.0" onMouseClicked="#playAction" opacity="0.85" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playButton" fitHeight="61.0" fitWidth="142.0" layoutX="213.0" layoutY="220.0" onMouseClicked="#playAction" onMouseEntered="#shineEffect" onMouseExited="#canceShine" opacity="0.85" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/buttonPLAY.png" />
          </image>
@@ -25,7 +25,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fitHeight="149.0" fitWidth="78.0" layoutX="474.0" layoutY="165.0" onMouseClicked="#goSchemaEditor" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="149.0" fitWidth="78.0" layoutX="474.0" layoutY="165.0" onMouseClicked="#goSchemaEditor" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/3a.png" />
          </image>

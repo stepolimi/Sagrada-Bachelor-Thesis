@@ -19,28 +19,28 @@
             <Font size="48.0" />
          </font>
       </Text>
-      <ImageView id="0" fx:id="schemaA" fitHeight="218.0" fitWidth="271.0" layoutX="71.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="0" fx:id="schemaA" fitHeight="218.0" fitWidth="271.0" layoutX="71.0" layoutY="82.0" onMouseClicked="#sendSchema" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <image>
             <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
          </image></ImageView>
-      <ImageView id="2" fx:id="schemaC" fitHeight="225.0" fitWidth="253.0" layoutX="71.0" layoutY="321.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="2" fx:id="schemaC" fitHeight="225.0" fitWidth="253.0" layoutX="71.0" layoutY="321.0" onMouseClicked="#sendSchema" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <image>
             <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
          </image></ImageView>
-      <ImageView id="3" fx:id="schemaD" fitHeight="218.0" fitWidth="254.0" layoutX="409.0" layoutY="325.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="3" fx:id="schemaD" fitHeight="218.0" fitWidth="254.0" layoutX="409.0" layoutY="325.0" onMouseClicked="#sendSchema" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
          <image>
             <Image url="@../assets/image/Schemi/Fractal%20Drops.png" />
          </image></ImageView>
-      <ImageView id="1" fx:id="schemaB" fitHeight="218.0" fitWidth="255.0" layoutX="409.0" layoutY="82.0" onMouseClicked="#sendSchema" pickOnBounds="true" preserveRatio="true">
+      <ImageView id="1" fx:id="schemaB" fitHeight="218.0" fitWidth="255.0" layoutX="409.0" layoutY="82.0" onMouseClicked="#sendSchema" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

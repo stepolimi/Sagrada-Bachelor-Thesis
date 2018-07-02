@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -2093,6 +2094,21 @@ public class ControllerGUI implements View {
                                 putConstrain(imageView, schema.getGrid()[i][j].getConstraint());
                         }));
     }
+    @FXML
+    void shineEffect(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getTarget();
+        Glow glow = new Glow();
+        glow.setLevel(0.4);
+        imageView.setEffect(glow);
+    }
 
+    @FXML
+    void canceShine(MouseEvent event) {
+        ImageView imageView = (ImageView) event.getTarget();
+        Glow glow = new Glow();
+        glow.setLevel(0.0);
+        imageView.setEffect(glow);
+
+    }
 
 }
