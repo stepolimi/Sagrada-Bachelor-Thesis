@@ -28,11 +28,8 @@ class SessionTest {
         players.add(p3);
         players.add(p4);
 
-        session = new Session();
-        virtual = new VirtualView();
-        session.setObserver(virtual);
-        virtual.setConnection(new Connected());
-
+        session = Session.getSession();
+        virtual = VirtualView.getVirtualView();
     }
 
     @Test
@@ -62,7 +59,6 @@ class SessionTest {
     void remove_player(){
 
         setup();
-        session.setObserver(virtual);
 
         //remove a player from lobby correctly
         players.remove(p4);
@@ -70,7 +66,7 @@ class SessionTest {
             session.joinPlayer(s);
         }
         session.removePlayer(p3);
-        assertEquals(2, session.getPlayers().size() );
+        assertEquals(4, session.getPlayers().size() );
 
         //disconnects player correctly after game start
         session.joinPlayer(p3);

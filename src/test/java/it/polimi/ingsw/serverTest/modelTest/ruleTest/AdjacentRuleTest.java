@@ -26,7 +26,7 @@ class AdjacentRuleTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
 
         //test for correct insertion in an empty schema
@@ -46,7 +46,7 @@ class AdjacentRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
 
         //test for wrong insertion in an empty schema

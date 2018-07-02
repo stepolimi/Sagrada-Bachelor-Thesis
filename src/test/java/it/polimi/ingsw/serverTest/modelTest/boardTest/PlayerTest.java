@@ -31,7 +31,7 @@ class PlayerTest {
         privateObjective = buildPrivateObjective(2);
         schemas.add(schema1);
         schemas.add(schema2);
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
 
     }
 

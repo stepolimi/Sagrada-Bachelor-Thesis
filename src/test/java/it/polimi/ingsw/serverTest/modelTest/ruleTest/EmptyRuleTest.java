@@ -27,7 +27,7 @@ class EmptyRuleTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schema.silentInsertDice(0,0,dice_1);
         schemas.add(schema);
@@ -38,7 +38,7 @@ class EmptyRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schema.silentInsertDice(0,0,dice_1);
         schemas.add(schema);

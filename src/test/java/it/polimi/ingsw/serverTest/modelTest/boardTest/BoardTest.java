@@ -26,8 +26,7 @@ class BoardTest {
     private Schema customSchema;
 
     private void initBoard() {
-        VirtualView view = new VirtualView();
-        view.setConnection(new Connected());
+        VirtualView view = VirtualView.getVirtualView();
         player = new Player("player 1");
         player2 = new Player("player 2");
         player3 = new Player("player 3");

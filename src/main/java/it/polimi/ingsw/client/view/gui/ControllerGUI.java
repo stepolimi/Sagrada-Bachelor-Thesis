@@ -1007,6 +1007,10 @@ public class ControllerGUI implements View {
     @Override
     public void moveDiceError() {
         //todo;
+        correctInsertion = false;
+        synchronized (lock){
+            lock.notify();
+        }
         System.out.println("Requisiti dello spostamento del dado non rispettati");
     }
 

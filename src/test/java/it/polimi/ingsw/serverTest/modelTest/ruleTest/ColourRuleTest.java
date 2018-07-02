@@ -26,7 +26,7 @@ class ColourRuleTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
@@ -38,7 +38,7 @@ class ColourRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);

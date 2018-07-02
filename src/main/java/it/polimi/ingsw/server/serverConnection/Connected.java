@@ -6,7 +6,16 @@ import java.util.*;
 import java.util.logging.Level;
 
 public class Connected {
+    private static Connected instance = null;
     private HashMap<String, Connection> users = new HashMap<>();
+
+    private Connected(){}
+
+    public static synchronized Connected getConnected(){
+        if(instance == null)
+            instance = new Connected();
+        return instance;
+    }
 
     public boolean checkUsername(String str) {
         if(users.keySet().contains(str)){

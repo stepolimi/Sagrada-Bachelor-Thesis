@@ -27,8 +27,7 @@ class RoundManagerTest {
         gameMultiplayer = new GameMultiplayer(players);
         board = new Board(players);
         roundManager = new RoundManager(board,gameMultiplayer);
-        view = new VirtualView();
-        view.setConnection(new Connected());
+        view = VirtualView.getVirtualView();
         roundManager.setObserver(view);
         board.setObserver(view);
     }

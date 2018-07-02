@@ -40,8 +40,7 @@ class UseToolCardStateTest {
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
-        view = new VirtualView();
-        view.setConnection(new Connected());
+        view = VirtualView.getVirtualView();
         for(int i = 0; i<3; i++) {
             try {
                 players.get(i).setObserver(view);

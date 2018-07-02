@@ -264,7 +264,10 @@ public class Board extends Observable {
                 Gson gson = new Gson();
                 for (Player p : playerList) {
                     message.addStringArguments(p.getNickname());
-                    message.addStringArguments(gson.toJson(parseSchema(p.getSchema())));
+                    if(p.getSchema()!= null)
+                        message.addStringArguments(gson.toJson(parseSchema(p.getSchema())));
+                    else
+                        message.addStringArguments("too early");
                 }
                 message.addPlayer(player);
                 break;

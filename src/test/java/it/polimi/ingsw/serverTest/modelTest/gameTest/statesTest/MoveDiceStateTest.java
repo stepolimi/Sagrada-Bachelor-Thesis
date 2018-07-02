@@ -35,8 +35,7 @@ class MoveDiceStateTest {
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
-        VirtualView view = new VirtualView();
-        view.setConnection(new Connected());
+        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         board = game.getBoard();
         board.setObserver(view);

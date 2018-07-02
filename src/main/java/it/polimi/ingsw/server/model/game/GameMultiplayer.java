@@ -166,7 +166,8 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     public void reconnectPlayer(Player player) {
         player.setConnected(true);
         player.reconnectPlayer();
-        board.getDiceSpace().reconnectPlayer(player);
+        if(board.getDiceSpace() != null)
+            board.getDiceSpace().reconnectPlayer(player);
         board.getRoundTrack().reconnectPlayer(player);
         board.reconnectPlayer(player);
     }

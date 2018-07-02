@@ -30,8 +30,7 @@ class ChooseValueStateTest {
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
         dice = new Dice(Colour.ANSI_YELLOW, 5);
-        VirtualView view = new VirtualView();
-        view.setConnection(new Connected());
+        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         Board board = game.getBoard();
         board.setObserver(view);

@@ -23,20 +23,17 @@ import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 
 public class Main {
     public static void main(String[] args){
-        int rmiPort,socketPort;
+        int rmiPort;
+        int socketPort;
         TakeDataFile netConfig = new TakeDataFile(CONFIGURATION_FILE);
-        Observer virtual = new VirtualView();
-        Session session = new Session();
-        ServerController controller = new ServerController(session,(VirtualView)virtual);
-        session.setObserver(virtual);
+        Observer virtual = VirtualView.getVirtualView();
+        Session session = Session.getSession();
+        ServerController controller = ServerController.getServerController();
         session.addObserver(virtual);
         ((VirtualView)virtual).addObserver(controller);
-        Connected connection = new Connected();
-        ((VirtualView) virtual).setConnection(connection);
+        Connected connection = Connected.getConnected();
         rmiPort = Integer.parseInt(netConfig.getParameter(RMI_PORT));
         socketPort = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
-
-
 
         try {
             RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);

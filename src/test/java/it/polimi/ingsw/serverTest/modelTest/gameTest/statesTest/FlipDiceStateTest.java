@@ -33,8 +33,7 @@ class FlipDiceStateTest {
         players.add(new Player("player 3"));
         dice = new Dice(Colour.ANSI_YELLOW, 5);
         dice2 = new Dice(Colour.ANSI_BLUE,3);
-        VirtualView view = new VirtualView();
-        view.setConnection(new Connected());
+        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         Board board = game.getBoard();
         board.setObserver(view);

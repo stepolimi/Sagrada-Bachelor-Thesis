@@ -25,7 +25,7 @@ class DicesRuleTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schema.silentInsertDice(3,3,dice_2);
         schema.silentInsertDice(1,3,dice_3);
@@ -38,7 +38,7 @@ class DicesRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
 
         schema.silentInsertDice(0,1,dice_2);

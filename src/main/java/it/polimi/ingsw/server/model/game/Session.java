@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
  * Players that will leave the game after it's start will be set as "disconnected" but not removed from the game.
  */
 public  class Session extends Observable implements TimedComponent {
+    private static Session instance = null;
     private List<Player> lobby ;
     private GameMultiplayer game;
     private GameTimer lobbyTimer;
@@ -31,12 +33,17 @@ public  class Session extends Observable implements TimedComponent {
     private Observer obs;
     private int lobbyTimerValue;
     private TakeDataFile timerConfig;
-    public void setObserver (Observer obs){ this.obs = obs; }
 
-    public Session()
-    {
+    private Session() {
+        this.obs = VirtualView.getVirtualView();
         timerConfig = new TakeDataFile(CONFIGURATION_FILE);
         lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
+    }
+
+    public static synchronized Session getSession(){
+        if(instance == null)
+            instance = new Session();
+        return instance;
     }
     /**
      * Adds players in the game's lobby until it starts.

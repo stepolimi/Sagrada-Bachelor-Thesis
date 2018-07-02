@@ -26,8 +26,7 @@ class GameMultiplayerTest {
     private VirtualView virtual;
 
     private void setup(){
-        virtual = new VirtualView();
-        virtual.setConnection(new Connected());
+        virtual = VirtualView.getVirtualView();
         players.add(p1);
         players.add(p2);
         players.add(p3);

@@ -27,7 +27,7 @@ class RulesManagerTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
@@ -38,7 +38,7 @@ class RulesManagerTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(new VirtualView());
+        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);

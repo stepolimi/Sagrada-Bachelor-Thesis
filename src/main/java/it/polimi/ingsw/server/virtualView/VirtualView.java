@@ -11,7 +11,18 @@ import java.util.Observer;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class VirtualView extends Observable implements Observer {
+    private static VirtualView instance = null;
     private Connected connection;
+
+    private VirtualView(){
+        connection = Connected.getConnected();
+    }
+
+    public static synchronized VirtualView getVirtualView(){
+        if(instance == null)
+            instance = new VirtualView();
+        return instance;
+    }
 
     public void login(String name){
         Message message = new Message(LOGIN);
@@ -342,11 +353,5 @@ public class VirtualView extends Observable implements Observer {
     public void sendError() {
         System.out.println("Message not valid");
     }
-
-    public void setConnection(Connected connection) {
-        this.connection = connection;
-    }
-
-
 
 }

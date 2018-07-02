@@ -39,8 +39,7 @@ class ChangeValueStateTest {
         dice = new Dice(Colour.ANSI_YELLOW, 5);
         dice2 = new Dice(Colour.ANSI_YELLOW, 6);
         dice3 = new Dice(Colour.ANSI_YELLOW, 1);
-        VirtualView view = new VirtualView();
-        view.setConnection(new Connected());
+        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         Board board = game.getBoard();
         board.setObserver(view);

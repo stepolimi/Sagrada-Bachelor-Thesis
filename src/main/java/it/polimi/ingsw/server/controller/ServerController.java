@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.game.RoundManager;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,15 +15,23 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 
 public class ServerController implements Observer{
+    private static ServerController instance = null;
     private Session session;
     private VirtualView view;
     private GameMultiplayer game;
     private RoundManager roundManager;
     private Round round;
 
-    public ServerController(Session session, VirtualView view) {
-        this.session = session;
-        this.view = view;
+    private ServerController() {
+        this.session = Session.getSession();
+        this.view = VirtualView.getVirtualView();
+    }
+
+    public static synchronized ServerController getServerController(){
+        if(instance == null){
+            instance = new ServerController();
+        }
+        return instance;
     }
 
     public void update(Observable os, Object action) {
