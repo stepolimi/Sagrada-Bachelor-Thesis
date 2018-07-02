@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -21,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class PlaceDiceSpaceStateTest {
     private Round round;
     private PlaceDiceSpaceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private List<Player> players;
     private Board board;
@@ -46,9 +46,8 @@ class PlaceDiceSpaceStateTest {
     }
 
     private void placeDiceSpace(){
-        action.add(PLACE_DICE_SPACE);
-        state.execute(round,action);
-        action.clear();
+        Message message = new Message(PLACE_DICE_SPACE);
+        state.execute(round,message);
     }
 
     @Test

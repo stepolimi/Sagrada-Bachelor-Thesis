@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.RollDiceSpaceState;
@@ -19,7 +20,6 @@ class RollDiceSpaceTest {
     private Board board;
     private Round round;
     private RollDiceSpaceState state;
-    private List action = new ArrayList();
 
     private void testInit(){
         state = new RollDiceSpaceState();
@@ -40,9 +40,8 @@ class RollDiceSpaceTest {
     }
 
     private void rollDiceSpace(){
-        action.clear();
-        action.add(ROLL_DICE_SPACE);
-        state.execute(round,action);
+        Message message = new Message(ROLL_DICE_SPACE);
+        state.execute(round,message);
     }
 
     @Test

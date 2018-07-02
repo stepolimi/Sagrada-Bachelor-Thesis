@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.Session;
@@ -27,49 +28,47 @@ public class ServerController implements Observer{
     }
 
     public void update(Observable os, Object action) {
-        String head = (String) ((List)action).get(0);
+        Message message = (Message)action;
 
-        switch (head) {
+        switch (message.getHead()) {
             case LOGIN:
-                loginManager((List) action);
+                loginManager(message);
                 break;
             case DISCONNECTED:
-                logoutManager((List) action);
+                logoutManager(message);
                 break;
             case CHOOSE_SCHEMA:
-                chooseSchemaManager((List) action);
+                chooseSchemaManager(message);
                 break;
             case CUSTOM_SCHEMA:
-                customSchemaManager((List) action);
+                customSchemaManager(message);
                 break;
             case END_TURN:
-                endTurnManager((List) action);
+                endTurnManager(message);
                 break;
             default:
                 if(session.getGame()!= null)
-                    changeStateManager((List) action);
+                    changeStateManager(message);
                 else
-                    view.sendError((String)((List)action).get(1));
+                    view.sendError();
                 break;
         }
     }
 
-    private void loginManager(List action){
-        session.joinPlayer((String) action.get(1));
-
+    private void loginManager(Message message){
+        session.joinPlayer(message.getPlayers().get(0));
     }
 
-    private void logoutManager(List action){
-        session.removePlayer((String) action.get(1));
-
+    private void logoutManager(Message message){
+        session.removePlayer(message.getPlayers().get(0));
     }
 
-    private void chooseSchemaManager(List action){
+    private void chooseSchemaManager(Message message){
         game = session.getGame();
         roundManager = game.getRoundManager();
         for(Player p: game.getPlayers()){
-            if(p.getNickname().equals(action.get(1)) && p.getNameSchemas().contains(action.get(2))) {
-                    p.setSchema((String) action.get(2));
+            if(p.getNickname().equals(message.getPlayers().get(0)) && p.getNameSchemas().contains(message.getStringArgument(0))) {
+                    p.setSchema(message.getStringArgument(0));
                     game.getBoard().addDefaultSchema(p.getSchema());
             }
         }
@@ -78,12 +77,12 @@ public class ServerController implements Observer{
         }
     }
 
-    private void customSchemaManager(List action){
+    private void customSchemaManager(Message message){
         game = session.getGame();
         roundManager = game.getRoundManager();
         for(Player p: game.getPlayers()){
-            if(p.getNickname().equals(action.get(1))) {
-                p.setCustomSchema(buildSchema((String)action.get(2)));
+            if(p.getNickname().equals(message.getPlayers().get(0))) {
+                p.setCustomSchema(buildSchema(message.getStringArgument(0)));
                 game.getBoard().addCustomSchema(p.getSchema());
             }
         }
@@ -99,16 +98,16 @@ public class ServerController implements Observer{
         round = roundManager.getRound();
     }
 
-    private void changeStateManager(List action){
+    private void changeStateManager(Message message){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
         }
         round = roundManager.getRound();
-        round.execute(action);
+        round.execute(message);
     }
 
-    private void endTurnManager(List action){
+    private void endTurnManager(Message message){
         if(game == null) {
             game = session.getGame();
             roundManager = game.getRoundManager();
@@ -126,7 +125,7 @@ public class ServerController implements Observer{
             }
         }
         else
-            round.execute(action);
+            round.execute(message);
     }
 
 }

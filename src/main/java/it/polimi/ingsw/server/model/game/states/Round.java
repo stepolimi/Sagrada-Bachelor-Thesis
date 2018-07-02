@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -107,13 +108,13 @@ public class Round extends Observable implements TimedComponent {
 
     /**
      * Changes the current state to the specified one and then execute it. Resets the turn's timer.
-     * @param action contains the next state and eventually parameters for it
+     * @param message contains the next state and eny parameters
      */
-    public void execute(List action) {
-        if (legalActions.contains(action.get(0))) {
+    public void execute(Message message) {
+        if (legalActions.contains(message.getHead())) {
             timer.cancel();
-            currentState = states.get(currentState.nextState(action));
-            currentState.execute(this, action);
+            currentState = states.get(currentState.nextState(message));
+            currentState.execute(this, message);
             if (currentState.toString().equals(END_TURN_STATE))
                 notifyChanges(START_TURN);
             notifyChanges(SET_ACTIONS);
@@ -122,7 +123,7 @@ public class Round extends Observable implements TimedComponent {
             timer = new Timer();
             timer.schedule(turnTimer, 0L, 5000L);
         } else {
-            Log.getLogger().addLog("can't perform: " + action.get(0) + " now\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
+            Log.getLogger().addLog("can't perform: " + message.getHead() + " now\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
             notifyChanges(SET_ACTIONS);
         }
     }
@@ -274,7 +275,7 @@ public class Round extends Observable implements TimedComponent {
     /**
      * Notifies the ping of the timer to the players.
      */
-    public void timerPing(){ notifyChanges(TIMER_PING); }
+    public void timerPing(){ notifyChanges(TURN_TIMER_PING); }
 
     /**
      * Sets the current player as disconnected and makes the turn end.
@@ -303,9 +304,8 @@ public class Round extends Observable implements TimedComponent {
             }else
                 game.endGame(currentPlayer);
         } else {
-            List<String> action = new ArrayList<>();
-            action.add(END_TURN);
-            execute(action);
+            Message message = new Message(END_TURN);
+            execute(message);
             notifyChanges(START_TURN);
             notifyChanges(SET_ACTIONS);
         }
@@ -316,48 +316,47 @@ public class Round extends Observable implements TimedComponent {
      * @param string head of the message that will be sent to the observer
      */
     public void notifyChanges(String string) {
-        List action = new ArrayList<>();
+        Message message = new Message(string);
         switch (string) {
             case START_ROUND:
-                action.add(string);
+                message.setPlayers(board.getNicknames());
                 break;
             case SET_ACTIONS:
-                action.add(string);
-                action.add(currentPlayer.getNickname());
-                action.addAll(legalActions);
+                message.setStringArguments(legalActions);
+                message.addPlayer(currentPlayer.getNickname());
                 break;
             case ROLL_DICE_ACCEPTED:
             case FLIP_DICE_ACCEPTED:
-                action.add(string);
-                action.add(currentPlayer.getNickname());
-                action.add(pendingDice.getValue());
+                message.addIntegerArgument(pendingDice.getValue());
+                message.addPlayer(currentPlayer.getNickname());
                 break;
             case SWAP_DICE_BAG_ACCEPTED:
-                action.add(string);
-                action.add(currentPlayer.getNickname());
-                action.add(pendingDice.getColour().toString());
-                action.add(pendingDice.getValue());
+                message.addStringArguments(pendingDice.getColour().toString());
+                message.addIntegerArgument(pendingDice.getValue());
+                message.addPlayer(currentPlayer.getNickname());
                 break;
             case USE_TOOL_CARD_ACCEPTED:
             case CANCEL_USE_TOOL_CARD_ACCEPTED:
-                action.add(string);
-                action.add(currentPlayer.getNickname());
-                action.add(currentPlayer.getFavour());
+                message.addIntegerArgument(currentPlayer.getFavour());
+                message.addPlayer(currentPlayer.getNickname());
                 break;
-            case TIMER_PING:
-                action.add(TURN_TIMER_PING);
-                action.add(currentPlayer.getNickname());
-                action.add(turnTimerValue - (System.currentTimeMillis() - startingTime) / 1000);
+            case TURN_TIMER_PING:
+                message.addIntegerArgument((int)(turnTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
+                message.addPlayer(currentPlayer.getNickname());
+                break;
+            case LOGOUT:
+            case START_TURN:
+                message.addStringArguments(currentPlayer.getNickname());
+                message.setPlayers(board.getNicknames());
                 break;
             default:
-                // startTurn,insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
+                // insertDiceAccepted,draftDiceAccepted,moveDiceAccepted,useToolCardError,swapDiceAccepted,
                 // changeValueAccepted,rollDiceSpaceAccepted,placeDiceSpaceAccepted,flipDiceAccepted,
                 // chooseValueAccepted,chooseValueError,moveDiveError,logout
-                action.add(string);
-                action.add(currentPlayer.getNickname());
+                message.addPlayer(currentPlayer.getNickname());
                 break;
         }
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 }

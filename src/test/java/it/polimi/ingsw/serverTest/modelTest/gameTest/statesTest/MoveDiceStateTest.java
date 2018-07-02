@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -24,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 class MoveDiceStateTest {
     private Round round;
     private MoveDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private List<Player> players;
+    private Board board;
 
     private void testInit(){
         state = new MoveDiceState();
@@ -37,7 +38,7 @@ class MoveDiceStateTest {
         VirtualView view = new VirtualView();
         view.setConnection(new Connected());
         GameMultiplayer game = new GameMultiplayer(players);
-        Board board = game.getBoard();
+        board = game.getBoard();
         board.setObserver(view);
         players.forEach(player -> player.setObserver(view));
         round = new Round(players.get(0),board,game.getRoundManager(), game);
@@ -55,19 +56,21 @@ class MoveDiceStateTest {
             players.get(0).setSchema(buildSchema(1));
             players.get(1).setSchema(buildSchema(2));
             players.get(2).setSchema(buildSchema(5));
+            players.get(0).getSchema().setPlayers(board.getNicknames());
+            players.get(1).getSchema().setPlayers(board.getNicknames());
+            players.get(2).getSchema().setPlayers(board.getNicknames());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void moveDice(String oldRow, String oldColumn, String row, String column){
-        action.clear();
-        action.add(MOVE_DICE);
-        action.add(oldRow);
-        action.add(oldColumn);
-        action.add(row);
-        action.add(column);
-        state.execute(round,action);
+    private void moveDice(int oldRow, int oldColumn, int row, int column){
+        Message message = new Message(MOVE_DICE);
+        message.addIntegerArgument(oldRow);
+        message.addIntegerArgument(oldColumn);
+        message.addIntegerArgument(row);
+        message.addIntegerArgument(column);
+        state.execute(round,message);
     }
 
     @Test
@@ -78,17 +81,17 @@ class MoveDiceStateTest {
         round.setUsingTool(buildToolCard(1));
 
         //Correct moveDice
-        moveDice("0","1","0","0");
+        moveDice(0,1,0,0);
         assertNull(round.getCurrentPlayer().getSchema().getTable(0,1).getDice());
         assertSame(dice,round.getCurrentPlayer().getSchema().getTable(0,0).getDice());
 
         //Incorrect moveDice
-        moveDice("0","0","2","1");
+        moveDice(0,0,2,1);
         assertSame(dice,round.getCurrentPlayer().getSchema().getTable(0,0).getDice());
         assertNull(round.getCurrentPlayer().getSchema().getTable(3,1).getDice());
 
         //Incorrect moveDice
-        moveDice("3","2","0","1");
+        moveDice(3,2,0,1);
         assertSame(dice,round.getCurrentPlayer().getSchema().getTable(0,0).getDice());
         assertNull(round.getCurrentPlayer().getSchema().getTable(3,1).getDice());
     }

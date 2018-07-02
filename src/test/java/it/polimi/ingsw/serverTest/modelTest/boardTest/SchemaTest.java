@@ -10,6 +10,7 @@ import it.polimi.ingsw.server.virtualView.SchemaClient;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
@@ -23,6 +24,7 @@ class SchemaTest {
     private void testInit(){
         try {
             s = buildSchema(1);
+            s.setPlayers(new ArrayList<>());
         } catch (IOException e) {
             e.printStackTrace();
         }

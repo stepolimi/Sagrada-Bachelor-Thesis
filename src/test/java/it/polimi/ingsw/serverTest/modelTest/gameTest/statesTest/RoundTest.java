@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.*;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.RoundManager;
@@ -21,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RoundTest {
     private Round round;
-    private List action = new ArrayList();
     private List<Player> players;
     private Board board;
     private RoundManager roundManager;
@@ -42,17 +42,15 @@ class RoundTest {
     }
 
     private void endTurn(){
-        action.clear();
-        action.add(END_TURN);
-        round.execute(action);
+        Message message = new Message(END_TURN);
+        round.execute(message);
     }
 
     private void placeDice(){
-        action.clear();
-        action.add(PLACE_DICE);
-        action.add("0");
-        action.add("0");
-        round.execute(action);
+        Message message = new Message(PLACE_DICE);
+        message.addIntegerArgument(0);
+        message.addIntegerArgument(0);
+        round.execute(message);
     }
 
     @Test

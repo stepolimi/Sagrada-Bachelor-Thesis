@@ -3,10 +3,10 @@ package it.polimi.ingsw.server.model.game.states;
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.RoundTrack;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.SWAP_DICE_STATE;
@@ -18,12 +18,12 @@ public class SwapDiceState extends State {
     /**
      * Swaps the pending dice with the specified dice of the specified round of the round track.
      * @param round is the current round
-     * @param action contains the current state, an index of a round track's round and an index of a dice of that round
+     * @param message contains the current state, an index of a round track's round and an index of a dice of that round
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         RoundTrack roundTrack = round.getBoard().getRoundTrack();
-        int indexRound = Integer.parseInt((String) action.get(1));
-        int indexDiceRound = Integer.parseInt((String) action.get(2));
+        int indexRound = message.getIntegerArgument(0);
+        int indexDiceRound = message.getIntegerArgument(1);
         try {
             Dice dice = roundTrack.testRemoveDice(indexRound, indexDiceRound, round.getCurrentPlayer().getNickname());
             roundTrack.insertDice(round.getPendingDice(), indexRound);

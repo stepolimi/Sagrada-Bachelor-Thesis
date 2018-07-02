@@ -239,6 +239,8 @@ public class SocketConnection implements Connection,Runnable {
             v.draftDiceAccepted();
         } else if (action.get(0).equals(MOVE_DICE_ACCEPTED)) {
             v.moveDiceAccepted();
+        } else if (action.get(0).equals(MOVE_DICE_ERROR)) {
+            v.moveDiceError();
         } else if (action.get(0).equals(PICK_DICE_SCHEMA_ERROR)) {
             v.pickDiceSchemaError();
         } else if (action.get(0).equals(PICK_DICE_SCHEMA)) {

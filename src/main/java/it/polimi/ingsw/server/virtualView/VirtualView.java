@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.virtualView;
 
-import com.google.gson.Gson;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.serverConnection.Connected;
 
 import java.util.ArrayList;
@@ -13,239 +13,334 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 public class VirtualView extends Observable implements Observer {
     private Connected connection;
 
-    public void forwardAction(List action) {
+    public void login(String name){
+        Message message = new Message(LOGIN);
+        message.addPlayer(name);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
+    }
+
+    public void disconnected(String name){
+        Message message = new Message(DISCONNECTED);
+        message.addPlayer(name);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void sendSchema(String schema, String name){
+        Message message = new Message(CHOOSE_SCHEMA);
+        message.addStringArguments(schema);
+        message.addPlayer(name);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void insertDice(int indexDiceSpace, int row, int column){
+        Message message = new Message(INSERT_DICE);
+        message.addIntegerArgument(indexDiceSpace);
+        message.addIntegerArgument(row);
+        message.addIntegerArgument(column);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void useToolCard(int toolNumber){
+        Message message = new Message(USE_TOOL_CARD);
+        message.addIntegerArgument(toolNumber);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn){
+        Message message = new Message(MOVE_DICE);
+        message.addIntegerArgument(oldRow);
+        message.addIntegerArgument(oldColumn);
+        message.addIntegerArgument(newRow);
+        message.addIntegerArgument(newColumn);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void sendEndTurn(){
+        Message message = new Message(END_TURN);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void draftDice(int indexDiceSpace){
+        Message message = new Message(DRAFT_DICE);
+        message.addIntegerArgument(indexDiceSpace);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void placeDice(int row, int column){
+        Message message = new Message(PLACE_DICE);
+        message.addIntegerArgument(row);
+        message.addIntegerArgument(column);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void changeValue(String change){
+        Message message = new Message(CHANGE_VALUE);
+        message.addStringArguments(change);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void rollDice(){
+        Message message = new Message(ROLL_DICE);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void swapDice(int numRound, int indexDice){
+        Message message;
+        message = new Message(SWAP_DICE);
+        message.addIntegerArgument(numRound);
+        message.addIntegerArgument(indexDice);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void cancelUseToolCard(){
+        Message message = new Message(CANCEL_USE_TOOL_CARD);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void flipDice(){
+        Message message = new Message(FLIP_DICE);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void placeDiceSpace(){
+        Message message = new Message(PLACE_DICE_SPACE);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void rollDiceSpace(){
+        Message message = new Message(ROLL_DICE_SPACE);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void swapDiceBag() {
+        Message message = new Message(SWAP_DICE_BAG);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void chooseValue(int value) {
+        Message message = new Message(CHOOSE_VALUE);
+        message.addIntegerArgument(value);
+        setChanged();
+        notifyObservers(message);
+    }
+
+    public void sendCustomSchema(String schema, String name) {
+        Message message;
+        message = new Message(CUSTOM_SCHEMA);
+        message.addStringArguments(schema);
+        message.addPlayer(name);
+        setChanged();
+        notifyObservers(message);
     }
 
 
     public void update(Observable o, Object arg) {
-        if(((List)arg).isEmpty())
-            return;
-        String command = (String)((List)arg).get(0);
-        String nickname;
-        List action = (List)arg;
-        List<String> colours;
-        List<Integer> values;
-        List<String> players;
+        Message message = (Message) arg;
 
-        switch (command){
+        if(message.getHead() == null)
+            return;
+
+        switch (message.getHead()){
             case LOGIN_SUCCESSFUL:
-                connection.login((String)action.get(1),(Integer)action.get(2));
+                connection.login(message.getPlayers(), message.getStringArgument(0),message.getIntegerArgument(0));
                 break;
             case RECONNECT_PLAYER:
-                connection.reconnectPlayer((String)action.get(1));
+                connection.reconnectPlayer(message.getPlayers());
                 break;
             case LOGIN_ERROR:
-                connection.loginError((String)action.get(1),(String)action.get(2));
+                connection.loginError(message.getPlayers(),message.getStringArgument(0),message.getStringArgument(1));
                 break;
             case LOGOUT:
-                connection.playerDisconnected((String)action.get(1));
+                connection.playerDisconnected(message.getPlayers(),message.getStringArgument(0));
                 break;
             case TIMER_PING:
-                connection.timerPing((Integer)action.get(1));
+                connection.timerPing(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case START_GAME:
-                connection.createGame();
+                connection.createGame(message.getPlayers());
                 break;
             case SET_SCHEMAS:
-                action.remove(0);
-                nickname = (String)action.get(0);
-                action.remove(0);
-                connection.setSchemas(nickname,action);
+                connection.setSchemas(message.getPlayers(),message.getStringArguments());
                 break;
             case SET_PRIVATE_CARD:
-                connection.setPrivateCard((String)action.get(1),(String)action.get(2));
+                connection.setPrivateCard(message.getPlayers(),message.getStringArgument(0));
                 break;
             case SET_PUBLIC_OBJECTIVES:
-                action.remove(0);
-                connection.setPublicObjectives(action);
+                connection.setPublicObjectives(message.getPlayers(),message.getStringArguments());
                 break;
             case SET_TOOL_CARDS:
-                action.remove(0);
-                connection.setToolCards(action);
+                connection.setToolCards(message.getPlayers(),message.getIntegerArguments());
                 break;
             case APPROVED_SCHEMA:
-                connection.chooseSchema((String)action.get(1),(String)action.get(2));
+                connection.chooseSchema(message.getPlayers(),message.getStringArgument(0));
                 break;
             case SET_OPPONENTS_SCHEMAS:
-                action.remove(0);
-                connection.setOpponentsSchemas(action);
+                connection.setOpponentsSchemas(message.getPlayers(),message.getStringArguments());
                 break;
             case APPROVED_SCHEMA_CUSTOM:
-                connection.schemaCustomAccepted((String)action.get(1),(String)action.get(2));
+                connection.schemaCustomAccepted(message.getPlayers(),message.getStringArgument(0));
                 break;
             case SET_OPPONENTS_CUSTOM_SCHEMAS:
-                action.remove(0);
-                connection.setOpponentsCustomSchemas(action);
+                connection.setOpponentsCustomSchemas(message.getPlayers(),message.getStringArguments());
                 break;
             case START_ROUND:
-                connection.startRound();
+                connection.startRound(message.getPlayers());
                 break;
             case START_TURN:
-                connection.startTurn((String)action.get(1));
+                connection.startTurn(message.getPlayers(),message.getStringArgument(0));
                 break;
             case SET_ACTIONS:
-                action.remove(0);
-                nickname = (String)action.get(0);
-                action.remove(0);
-                connection.setActions(nickname,action);
+                connection.setActions(message.getPlayers(),message.getStringArguments());
                 break;
             case SET_DICE_SPACE:
-                colours = new ArrayList<>();
-                values = new ArrayList<>();
-                for(int i=1; i<action.size(); i+=2){
-                    colours.add((String) action.get(i));
-                    values.add((Integer)action.get(i+1));
-                }
-                connection.setDiceSpace(colours,values);
+                connection.setDiceSpace(message.getPlayers(),message.getStringArguments(),message.getIntegerArguments());
                 break;
             case DRAFT_DICE_ACCEPTED:
-                connection.draftDiceAccepted((String)action.get(1));
+                connection.draftDiceAccepted(message.getPlayers());
                 break;
             case INSERT_DICE_ACCEPTED:
-                connection.insertDiceAccepted((String)action.get(1));
+                connection.insertDiceAccepted(message.getPlayers());
                 break;
             case MOVE_DICE_ACCEPTED:
-                connection.moveDiceAccepted((String)action.get(1));
+                connection.moveDiceAccepted(message.getPlayers());
+                break;
+            case MOVE_DICE_ERROR:
+                connection.moveDiceError(message.getPlayers());
                 break;
             case PICK_DICE_SPACE:
-                connection.pickDiceSpace((Integer)action.get(1));
+                connection.pickDiceSpace(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case PICK_DICE_SPACE_ERROR:
-                connection.pickDiceSpaceError((String)action.get(1));
+                connection.pickDiceSpaceError(message.getPlayers());
                 break;
             case PLACE_DICE_SCHEMA:
-                connection.placeDiceSchema((String)action.get(1),(Integer)action.get(2),(Integer)action.get(3),(String)action.get(4),(Integer)action.get(5));
+                connection.placeDiceSchema(message.getPlayers(), message.getStringArgument(0), message.getIntegerArgument(0),
+                        message.getIntegerArgument(1), message.getStringArgument(1),message.getIntegerArgument(2));
                 break;
             case PLACE_DICE_SCHEMA_ERROR:
-                connection.placeDiceSchemaError((String)action.get(1));
+                connection.placeDiceSchemaError(message.getPlayers());
                 break;
             case PICK_DICE_SCHEMA:
-                connection.pickDiceSchema((String)action.get(1),(Integer)action.get(2),(Integer)action.get(3));
+                connection.pickDiceSchema(message.getPlayers(),message.getStringArgument(0),
+                        message.getIntegerArgument(0),message.getIntegerArgument(1));
                 break;
             case PICK_DICE_SCHEMA_ERROR:
-                connection.pickDiceSchemaError((String)action.get(1));
+                connection.pickDiceSchemaError(message.getPlayers());
                 break;
             case USE_TOOL_CARD_ACCEPTED:
-                connection.useToolCardAccepted((String)action.get(1),(Integer)action.get(2));
+                connection.useToolCardAccepted(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case USE_TOOL_CARD_ERROR:
-                connection.useToolCardError((String)action.get(1));
+                connection.useToolCardError(message.getPlayers());
                 break;
             case CHANGE_VALUE_ACCEPTED:
-                connection.changeValueAccepted((String)action.get(1));
+                connection.changeValueAccepted(message.getPlayers());
                 break;
             case CHANGE_VALUE_ERROR:
-                connection.changeValueError((String)action.get(1));
+                connection.changeValueError(message.getPlayers());
                 break;
             case PLACE_DICE_ACCEPTED:
-                connection.placeDiceAccepted((String)action.get(1));
+                connection.placeDiceAccepted(message.getPlayers());
                 break;
             case ROLL_DICE_ACCEPTED:
-                connection.rollDiceAccepted((String)action.get(1),(Integer)action.get(2));
+                connection.rollDiceAccepted(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case SWAP_DICE_ACCEPTED:
-                connection.swapDiceAccepted((String)action.get(1));
+                connection.swapDiceAccepted(message.getPlayers());
                 break;
             case PICK_DICE_ROUND_TRACK:
-                connection.pickDiceRoundTrack((Integer)action.get(1),(Integer)action.get(2));
+                connection.pickDiceRoundTrack(message.getPlayers(),message.getIntegerArgument(0),
+                        message.getIntegerArgument(1));
                 break;
             case PICK_DICE_ROUND_TRACK_ERROR:
-                connection.pickDiceRoundTrackError((String)action.get(1));
+                connection.pickDiceRoundTrackError(message.getPlayers());
                 break;
             case PLACE_DICE_ROUND_TRACK:
-                colours = new ArrayList<>();
-                values = new ArrayList<>();
-                for(int i=2; i<action.size(); i+=2){
-                    colours.add((String) action.get(i));
-                    values.add((Integer)action.get(i+1));
-                }
-                connection.placeDiceRoundTrack((Integer)action.get(1),colours,values);
+                List<Integer> values = message.getIntegerArguments();
+                Integer round = values.get(0);
+                values.remove(0);
+                connection.placeDiceRoundTrack(message.getPlayers(),round, message.getStringArguments(),values);
                 break;
             case FLIP_DICE_ACCEPTED:
-                connection.flipDiceAccepted((String)action.get(1),(Integer)action.get(2));
+                connection.flipDiceAccepted(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case CANCEL_USE_TOOL_CARD_ACCEPTED:
-                connection.cancelUseToolCardAccepted((String)action.get(1),(Integer)action.get(2));
+                connection.cancelUseToolCardAccepted(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case PLACE_DICE_DICESPACE:
-                connection.placeDiceSpace((String)action.get(1),(Integer)action.get(2));
+                connection.placeDiceSpace(message.getPlayers(),message.getStringArgument(0),
+                        message.getIntegerArgument(0));
                 break;
             case PLACE_DICE_SPACE_ACCEPTED:
-                connection.placeDiceSpaceAccepted((String)action.get(1));
+                connection.placeDiceSpaceAccepted(message.getPlayers());
                 break;
             case ROLL_DICE_SPACE_ACCEPTED:
-                connection.rollDiceSpaceAccepted((String)action.get(1));
+                connection.rollDiceSpaceAccepted(message.getPlayers());
                 break;
             case SWAP_DICE_BAG_ACCEPTED:
-                connection.swapDiceBagAccepted((String)action.get(1),(String)action.get(2),(Integer)action.get(3));
+                connection.swapDiceBagAccepted(message.getPlayers(),message.getStringArgument(0),
+                        message.getIntegerArgument(0));
                 break;
             case CHOOSE_VALUE_ACCEPTED:
-                connection.chooseValueAccepted((String)action.get(1));
+                connection.chooseValueAccepted(message.getPlayers());
                 break;
             case CHOOSE_VALUE_ERROR:
-                connection.chooseValueError((String)action.get(1));
+                connection.chooseValueError(message.getPlayers());
                 break;
             case SET_WINNER:
-                connection.setWinner((String)action.get(1));
+                connection.setWinner(message.getPlayers(),message.getStringArgument(0));
                 break;
             case SET_RANKINGS:
-                players = new ArrayList<>();
-                List<Integer> scores = new ArrayList<>();
-                for(int i=1; i<action.size(); i+=2){
-                    players.add((String) action.get(i));
-                    scores.add((Integer)action.get(i+1));
-                }
-                connection.setRankings(players,scores);
+                connection.setRankings(message.getPlayers(),message.getStringArguments(),message.getIntegerArguments());
                 break;
             case SET_SCHEMAS_ON_RECONNECT:
-                Gson gson = new Gson();
-                players = new ArrayList<>();
+                List<String> players = new ArrayList<>();
                 List<String> schemas= new ArrayList<>();
-                for(int i=2; i<action.size(); i+=2){
-                    players.add((String) action.get(i));
-                    schemas.add(gson.toJson(action.get(i+1)));
+                for(int i=0; i<message.getStringArguments().size(); i+=2){
+                    players.add(message.getStringArgument(i));
+                    schemas.add(message.getStringArgument(i+1));
                 }
-                connection.setSchemasOnReconnect((String)action.get(1),players,schemas);
+                connection.setSchemasOnReconnect(message.getPlayers(),players,schemas);
                 break;
             case SET_PUBLIC_OBJECTIVES_ON_RECONNECT:
-                action.remove(0);
-                nickname = (String)action.get(0);
-                action.remove(0);
-                connection.setPublicObjectivesOnReconnect(nickname,action);
+                connection.setPublicObjectivesOnReconnect(message.getPlayers(),message.getStringArguments());
                 break;
             case SET_TOOL_CARDS_ON_RECONNECT:
-                action.remove(0);
-                nickname = (String)action.get(0);
-                action.remove(0);
-                connection.setToolCardsOnReconnect(nickname,action);
+                connection.setToolCardsOnReconnect(message.getPlayers(),message.getIntegerArguments());
                 break;
             case SET_DICE_SPACE_ON_RECONNECT:
-                colours = new ArrayList<>();
-                values = new ArrayList<>();
-                for(int i=2; i<action.size(); i+=2){
-                    colours.add((String) action.get(i));
-                    values.add((Integer)action.get(i+1));
-                }
-                connection.setDiceSpaceOnReconnect((String)action.get(1),colours,values);
+                connection.setDiceSpaceOnReconnect(message.getPlayers(),message.getStringArguments(),message.getIntegerArguments());
                 break;
             case PLACE_DICE_ROUND_TRACK_ON_RECONNECT:
-                colours = new ArrayList<>();
-                values = new ArrayList<>();
-                for(int i=3; i<action.size(); i+=2){
-                    colours.add((String) action.get(i));
-                    values.add((Integer)action.get(i+1));
-                }
-                connection.placeDiceRoundTrackOnReconnect((String)action.get(1),(Integer)action.get(2),colours,values);
+                List<Integer> value = message.getIntegerArguments();
+                Integer nRound = value.get(0);
+                value.remove(0);
+                connection.placeDiceRoundTrackOnReconnect(message.getPlayers(),nRound, message.getStringArguments(),value);
                 break;
             default:
                 break;
         }
     }
 
-    public void sendError(String player) {
-        System.out.println("message error by " + player);
+    public void sendError() {
+        System.out.println("Message not valid");
     }
 
     public void setConnection(Connected connection) {

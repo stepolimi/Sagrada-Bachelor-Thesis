@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -26,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DraftDiceStateTest {
     private Round round;
     private DraftDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private List<Player> players;
     private Board board;
@@ -61,11 +61,10 @@ class DraftDiceStateTest {
         }
     }
 
-    private void draftDice(String index){
-        action.add(DRAFT_DICE);
-        action.add(index);
-        state.execute(round,action);
-        action.clear();
+    private void draftDice(int index){
+        Message message = new Message(DRAFT_DICE);
+        message.addIntegerArgument(index);
+        state.execute(round,message);
     }
 
     @Test
@@ -77,7 +76,7 @@ class DraftDiceStateTest {
         int oldDiceSpaceSize = board.getDiceSpace().getListDice().size();
 
         //Extracts the dice correctly from the diceSpace and sets it as pendingDice
-        draftDice("0");
+        draftDice(0);
         assertSame(dice,round.getPendingDice());
         assertFalse(board.getDiceSpace().getListDice().contains(dice));
         assertTrue(round.isDraftedDice());
@@ -86,7 +85,7 @@ class DraftDiceStateTest {
         //Manages correctly an invalid index of the dice
         round.setPendingDice(null);
         oldDiceSpaceSize = board.getDiceSpace().getListDice().size();
-        draftDice("10");
+        draftDice(10);
         assertNull(round.getPendingDice());
         assertEquals(oldDiceSpaceSize,board.getDiceSpace().getListDice().size());
     }

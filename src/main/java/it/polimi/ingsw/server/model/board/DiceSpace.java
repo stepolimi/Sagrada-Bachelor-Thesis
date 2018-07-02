@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +11,26 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class DiceSpace extends Observable {
     private List<Dice> dices;
+    private Board board;
 
+    public DiceSpace(Board board){
+        this.board = board;
+    }
     /**
      * Sets the dices to the dice space and notify it to the observer.
      * @param dices is a list of dice to be set as the dices of the dice space.
      */
     public synchronized void setDices(List<Dice> dices) {
-        List action = new ArrayList();
+        Message message = new Message(SET_DICE_SPACE);
         this.dices = dices;
-        action.add(SET_DICE_SPACE);
+
         dices.forEach(d -> {
-            action.add(d.getColour().toString());
-            action.add(d.getValue());
+            message.addStringArguments(d.getColour().toString());
+            message.addIntegerArgument(d.getValue());
         });
+        message.setPlayers(board.getNicknames());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     public List<Dice> getListDice() {
@@ -36,13 +42,14 @@ public class DiceSpace extends Observable {
      * @param d is the dice to be added to the dices.
      */
     public synchronized void insertDice(Dice d) {
-        List action = new ArrayList();
         this.dices.add(d);
-        action.add(PLACE_DICE_DICESPACE);
-        action.add(d.getColour().toString());
-        action.add(d.getValue());
+
+        Message message = new Message(PLACE_DICE_DICESPACE);
+        message.addStringArguments(d.getColour().toString());
+        message.addIntegerArgument(d.getValue());
+        message.setPlayers(board.getNicknames());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     /**
@@ -54,14 +61,14 @@ public class DiceSpace extends Observable {
      * @throws RemoveDiceException if the index of the dice is not valid.
      */
     public Dice getDice(int index, String player) throws RemoveDiceException {
-        List<String> action = new ArrayList<>();
         if (index < dices.size() && index >= 0) {
             return dices.get(index);
         }
-        action.add(PICK_DICE_SPACE_ERROR);
-        action.add(player);
+
+        Message message = new Message(PICK_DICE_SPACE_ERROR);
+        message.addPlayer(player);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
         throw new RemoveDiceException();
     }
 
@@ -73,15 +80,15 @@ public class DiceSpace extends Observable {
      * @throws RemoveDiceException if the index of the dice is not valid.
      */
     public synchronized Dice removeDice(int index) throws RemoveDiceException {
-        List action = new ArrayList();
-        if (index < dices.size() && index >= 0)
-        {
+        if (index < dices.size() && index >= 0) {
             Dice d = dices.get(index);
             dices.remove(index);
-            action.add(PICK_DICE_SPACE);
-            action.add(index);
+
+            Message message = new Message(PICK_DICE_SPACE);
+            message.addIntegerArgument(index);
+            message.setPlayers(board.getNicknames());
             setChanged();
-            notifyObservers(action);
+            notifyObservers(message);
             return d;
         }
         throw new RemoveDiceException();
@@ -91,15 +98,16 @@ public class DiceSpace extends Observable {
      * Sets randomly the value of every dice and notify them to all players.
      */
     public synchronized void rollDices() {
-        List action = new ArrayList();
         dices.forEach(Dice::rollDice);
-        action.add(SET_DICE_SPACE);
+
+        Message message = new Message(SET_DICE_SPACE);
         dices.forEach(d ->{
-            action.add(d.getColour().toString());
-            action.add(d.getValue());
+            message.addStringArguments(d.getColour().toString());
+            message.addIntegerArgument(d.getValue());
         });
+        message.setPlayers(board.getNicknames());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     /**
@@ -107,15 +115,14 @@ public class DiceSpace extends Observable {
      * @param player is the player that is  going to reconnect.
      */
     public synchronized void reconnectPlayer(Player player){
-        List action = new ArrayList();
-        action.add(SET_DICE_SPACE_ON_RECONNECT);
-        action.add(player.getNickname());
+        Message message = new Message(SET_DICE_SPACE_ON_RECONNECT);
         dices.forEach(d ->{
-            action.add(d.getColour().toString());
-            action.add(d.getValue());
+            message.addStringArguments(d.getColour().toString());
+            message.addIntegerArgument(d.getValue());
         });
+        message.addPlayer(player.getNickname());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     @Override

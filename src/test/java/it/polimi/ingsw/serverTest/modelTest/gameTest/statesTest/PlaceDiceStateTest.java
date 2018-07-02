@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -24,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class PlaceDiceStateTest {
     private Round round;
     private PlaceDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private List<Player> players;
+    private Board board;
 
     private void testInit(){
         state = new PlaceDiceState();
@@ -37,7 +38,7 @@ class PlaceDiceStateTest {
         VirtualView view = new VirtualView();
         view.setConnection(new Connected());
         GameMultiplayer game = new GameMultiplayer(players);
-        Board board = game.getBoard();
+        board = game.getBoard();
         board.setObserver(view);
         players.forEach(player -> player.setObserver(view));
         round = new Round(players.get(0),board,game.getRoundManager(), game);
@@ -53,17 +54,19 @@ class PlaceDiceStateTest {
             players.get(0).setSchema(buildSchema(1));
             players.get(1).setSchema(buildSchema(3));
             players.get(2).setSchema(buildSchema(5));
+            players.get(0).getSchema().setPlayers(board.getNicknames());
+            players.get(1).getSchema().setPlayers(board.getNicknames());
+            players.get(2).getSchema().setPlayers(board.getNicknames());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void placeDice(String row, String column){
-        action.add(PLACE_DICE);
-        action.add(row);
-        action.add(column);
-        state.execute(round,action);
-        action.clear();
+    private void placeDice(int row, int column){
+        Message message = new Message(PLACE_DICE);
+        message.addIntegerArgument(row);
+        message.addIntegerArgument(column);
+        state.execute(round,message);
     }
 
     @Test
@@ -73,11 +76,11 @@ class PlaceDiceStateTest {
         round.setPendingDice(dice);
 
         //Correct dice insertion
-        placeDice("0","0");
+        placeDice(0,0);
         assertEquals(dice,round.getCurrentPlayer().getSchema().getTable(0,0).getDice());
 
         //incorrect dice insertion
-        placeDice("0","2");
+        placeDice(0,2);
         assertNull(round.getCurrentPlayer().getSchema().getTable(0,2).getDice());
     }
 

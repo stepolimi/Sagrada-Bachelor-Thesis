@@ -64,6 +64,8 @@ public class Constants {
     public static final String RED = "rosso";
     public static final String PURPLE = "viola";
     public static final String YELLOW = "giallo";
+    public static final String INCREMENT = "Increment";
+    public static final String DECREMENT = "Decrement";
 
     //file constants
     public static final String JSON_EXTENSION = ".json";

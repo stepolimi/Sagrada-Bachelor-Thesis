@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.model.game.states;
 
+import it.polimi.ingsw.server.internalMesages.Message;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +10,10 @@ import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE;
 import static it.polimi.ingsw.server.costants.MessageConstants.USE_TOOL_CARD;
 
 public abstract class State {
-    public abstract void execute(Round round, List action);
+    public abstract void execute(Round round, Message message);
 
-    public String nextState(List action){
-        return action.get(0) + "State";
+    public String nextState(Message message){
+        return message.getHead() + "State";
     }
 
     /**

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -24,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 class InsertDiceStateTest {
     private Round round;
     private InsertDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private Dice dice2;
     private List<Player> players;
@@ -53,18 +53,20 @@ class InsertDiceStateTest {
             players.get(0).setSchema(buildSchema(1));
             players.get(1).setSchema(buildSchema(2));
             players.get(2).setSchema(buildSchema(8));
+            players.get(0).getSchema().setPlayers(board.getNicknames());
+            players.get(1).getSchema().setPlayers(board.getNicknames());
+            players.get(2).getSchema().setPlayers(board.getNicknames());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void insertDice(String row, String column){
-        action.clear();
-        action.add(INSERT_DICE);
-        action.add("0");
-        action.add(row);
-        action.add(column);
-        state.execute(round,action);
+    private void insertDice(int row, int column){
+        Message message = new Message(INSERT_DICE);
+        message.addIntegerArgument(0);
+        message.addIntegerArgument(row);
+        message.addIntegerArgument(column);
+        state.execute(round,message);
     }
 
     @Test
@@ -74,18 +76,18 @@ class InsertDiceStateTest {
 
         //first correct dice insertion
         board.getDiceSpace().getListDice().add(0,dice);
-        insertDice("0","0");
+        insertDice(0,0);
         assertEquals(dice,round.getCurrentPlayer().getSchema().getTable(0,0).getDice());
         assertNotEquals(dice,board.getDiceSpace().getListDice().get(0));
 
         //incorrect dice insertion
         board.getDiceSpace().getListDice().add(0,dice2);
-        insertDice("0","4");
+        insertDice(0,4);
         assertNull(round.getCurrentPlayer().getSchema().getTable(0,4).getDice());
         assertEquals(dice2,board.getDiceSpace().getListDice().get(0));
 
         //second correct dice insertion
-        insertDice("1","1");
+        insertDice(1,1);
         assertEquals(dice2,round.getCurrentPlayer().getSchema().getTable(1,1).getDice());
         assertNotEquals(dice2,board.getDiceSpace().getListDice().get(0));
     }

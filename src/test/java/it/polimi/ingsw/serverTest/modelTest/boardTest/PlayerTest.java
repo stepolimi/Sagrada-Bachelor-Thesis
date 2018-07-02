@@ -12,7 +12,6 @@ import java.util.List;
 import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 

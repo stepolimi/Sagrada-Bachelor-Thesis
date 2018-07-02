@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.DiceSpace;
@@ -20,7 +21,7 @@ class DiceSpaceTest {
     private Dice d3 = new Dice(Colour.ANSI_PURPLE,5);
     private Dice d4 = new Dice(Colour.ANSI_RED,5);
     private ArrayList<Dice> dices = new ArrayList<>();
-    private DiceSpace diceSpace = new DiceSpace();
+    private DiceSpace diceSpace = new DiceSpace(new Board(new ArrayList<>()));
 
     private void testInit(){
         dices.add(d1);

@@ -1,6 +1,7 @@
 //it's the player class with every attributes to report his status during the game (about his turn,
 //if it's connected ecc) , and the other object (privateCard, favour and his schema)
 package it.polimi.ingsw.server.model.board;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 
 import java.util.ArrayList;
@@ -192,28 +193,27 @@ public class Player extends Observable {
      * @param string head of the message that will be sent to the observer.
      */
     public void notifyChanges(String string) {
-        List<String> action = new ArrayList<>();
+        Message message = new Message(string);
 
         switch (string) {
             case SET_SCHEMAS:
-                schemas.forEach(sch -> action.add(sch.getName()));
+                schemas.forEach(sch -> message.addStringArguments(sch.getName()));
                 break;
             case SET_PRIVATE_CARD:
-                action.add(prCard.getColour());
+                message.addStringArguments(prCard.getColour());
                 break;
             case APPROVED_SCHEMA:
-                action.add(schema.getName());
+                message.addStringArguments(schema.getName());
                 break;
             case APPROVED_SCHEMA_CUSTOM:
-                action.add(schema.getName());
+                message.addStringArguments(schema.getName());
                 break;
             default:
                 break;
         }
-        action.add(0,string);
-        action.add(1,nickname);
+        message.addPlayer(nickname);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 }
 

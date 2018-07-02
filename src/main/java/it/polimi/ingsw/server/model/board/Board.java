@@ -2,7 +2,9 @@
 
 package it.polimi.ingsw.server.model.board;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.server.exception.UseToolException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.objectiveCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
@@ -33,7 +35,7 @@ public class Board extends Observable {
     public Board(List<Player> p) {
         this.playerList = p;
         dicebag = new DiceBag();
-        roundTrack = new RoundTrack();
+        roundTrack = new RoundTrack(this);
         deckSchemas = new ArrayList<>();
         deckDefaultSchemas = new ArrayList<>();
         deckCustomSchemas = new ArrayList<>();
@@ -54,6 +56,16 @@ public class Board extends Observable {
 
     public List<Player> getPlayerList() {
         return playerList;
+    }
+
+    /**
+     * Returns a list with the nickname of each player.
+     * @return a list with the nickname of each player.
+     */
+    public List<String> getNicknames(){
+        List<String> nicknames = new ArrayList<>();
+        playerList.forEach(player -> nicknames.add(player.getNickname()));
+        return nicknames;
     }
 
     public RoundTrack getRoundTrack() {
@@ -97,7 +109,7 @@ public class Board extends Observable {
      * @param dices is a list of dice to be set to the dice space.
      */
     public void setDiceSpace(List<Dice> dices) {
-        diceSpace = new DiceSpace();
+        diceSpace = new DiceSpace(this);
         diceSpace.addObserver(obs);
         diceSpace.setDices(dices);
     }
@@ -137,6 +149,7 @@ public class Board extends Observable {
      * @param schema is the schema that was chosen by one player.
      */
     public void addDefaultSchema(Schema schema) {
+        schema.setPlayers(getNicknames());
         this.deckSchemas.add(schema);
         this.deckDefaultSchemas.add(schema);
         if (deckSchemas.size() == playerList.size()) {
@@ -150,6 +163,7 @@ public class Board extends Observable {
      * @param schema custom schema that was chosen by one player.
      */
     public void addCustomSchema(Schema schema) {
+        schema.setPlayers(getNicknames());
         this.deckSchemas.add(schema);
         this.deckCustomSchemas.add(schema);
         if (deckSchemas.size() == playerList.size()) {
@@ -209,58 +223,69 @@ public class Board extends Observable {
      * @param player name of the player to whom the message will be sent. Can be sent to all of them.
      */
     public void notifyChanges(String string,String player) {
-        List action = new ArrayList();
+        Message message = new Message(string);
+        List<String> publicObjectives;
+        List<Integer> toolCards;
 
         switch (string) {
             case SET_PUBLIC_OBJECTIVES:
-                action = deckPublic.stream()
+                publicObjectives = deckPublic.stream()
                         .map(ObjectiveCard::getName)
                         .collect(Collectors.toList());
+                message.setStringArguments(publicObjectives);
+                message.setPlayers(getNicknames());
                 break;
             case SET_TOOL_CARDS:
-                action = deckTool.stream()
+                toolCards = deckTool.stream()
                         .map(ToolCard::getNumber)
                         .collect(Collectors.toList());
+                message.setIntegerArguments(toolCards);
+                message.setPlayers(getNicknames());
                 break;
             case SET_OPPONENTS_SCHEMAS:
-                for (Player p : playerList)
+                for (Player p : playerList) {
                     if (deckDefaultSchemas.contains(p.getSchema())) {
-                        action.add(p.getNickname());
-                        action.add(p.getSchema().getName());
+                        message.addStringArguments(p.getNickname());
+                        message.addStringArguments(p.getSchema().getName());
                     }
+                }
+                message.setPlayers(getNicknames());
                 break;
             case SET_OPPONENTS_CUSTOM_SCHEMAS:
                 for (Player p : playerList) {
                     if (deckCustomSchemas.contains(p.getSchema())) {
-                        action.add(p.getNickname());
-                        action.add(p.getSchema().getJson());
+                        message.addStringArguments(p.getNickname());
+                        message.addStringArguments(p.getSchema().getJson());
                     }
                 }
+                message.setPlayers(getNicknames());
                 break;
             case SET_SCHEMAS_ON_RECONNECT:
-                action.add(player);
+                Gson gson = new Gson();
                 for (Player p : playerList) {
-                    action.add(p.getNickname());
-                    action.add(parseSchema(p.getSchema()));
+                    message.addStringArguments(p.getNickname());
+                    message.addStringArguments(gson.toJson(parseSchema(p.getSchema())));
                 }
+                message.addPlayer(player);
                 break;
             case SET_PUBLIC_OBJECTIVES_ON_RECONNECT:
-                action = deckPublic.stream()
+                publicObjectives = deckPublic.stream()
                         .map(ObjectiveCard::getName)
                         .collect(Collectors.toList());
-                action.add(0,player);
+                message.setStringArguments(publicObjectives);
+                message.addPlayer(player);
                 break;
             case SET_TOOL_CARDS_ON_RECONNECT:
-                action = deckTool.stream()
+                toolCards = deckTool.stream()
                         .map(ToolCard::getNumber)
                         .collect(Collectors.toList());
-                action.add(0,player);
+                message.setIntegerArguments(toolCards);
+                message.addPlayer(player);
                 break;
             default:
                 break;
         }
-        action.add(0,string);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 }

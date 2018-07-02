@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -23,7 +24,6 @@ class FlipDiceStateTest {
     private FlipDiceState state;
     private Dice dice;
     private Dice dice2;
-    private List action = new ArrayList();
 
     private void testInit(){
         state = new FlipDiceState();
@@ -47,9 +47,8 @@ class FlipDiceStateTest {
     }
 
     private void flipDice(){
-        action.clear();
-        action.add(ROLL_DICE_SPACE);
-        state.execute(round,action);
+        Message message = new Message(ROLL_DICE_SPACE);
+        state.execute(round,message);
     }
 
     @Test

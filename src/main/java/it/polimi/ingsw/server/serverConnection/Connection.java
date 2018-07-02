@@ -45,6 +45,8 @@ public interface Connection {
 
     void moveDiceAccepted();
 
+    void moveDiceError();
+
     void pickDiceSpace(int index);
 
     void pickDiceSpaceError();

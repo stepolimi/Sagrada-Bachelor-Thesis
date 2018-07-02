@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.DRAFT_DICE_STATE;
@@ -16,11 +16,11 @@ public class DraftDiceState extends State {
     /**
      * Drafts a dice from the dice space and sets it as pending.
      * @param round is the current round
-     * @param action contains the current state and an index of the dice space
+     * @param message contains the current state and an index of the dice space
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         try {
-            int indexDiceSpace = Integer.parseInt((String) action.get(1));
+            int indexDiceSpace = message.getIntegerArgument(0);
             Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace, round.getCurrentPlayer().getNickname());
             round.notifyChanges(DRAFT_DICE_ACCEPTED);
             round.getNextActions().remove(0);

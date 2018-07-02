@@ -6,10 +6,7 @@ import it.polimi.ingsw.server.serverConnection.Connected;
 import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.rmi.RemoteException;
-import java.util.*;
 import java.util.logging.Level;
-
-import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RmiServerMethod implements RmiServerMethodInterface {
     private VirtualView virtual;
@@ -22,16 +19,13 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public boolean login(RmiClientMethodInterface client,String name) {
-        List action = new ArrayList();
         Log.getLogger().addLog(name + "'s trying to connect with rmi:", Level.INFO,this.getClass().getName(),"login");
 
         if(connection.checkUsername(name)) {
             RmiServerConnection user = new RmiServerConnection(client,this,name);
             nickname = name;
             connection.addPlayer(name,user);
-            action.add(LOGIN);
-            action.add(name);
-            virtual.forwardAction(action);
+            virtual.login(name);
         }else {
             try {
                 client.loginError("username");
@@ -44,133 +38,77 @@ public class RmiServerMethod implements RmiServerMethodInterface {
 
     public void disconnected(String nickname) {
         if(connection.removePlayer(nickname)){
-            List action = new ArrayList();
-            action.add(DISCONNECTED);
-            action.add(nickname);
-            virtual.forwardAction(action);
+            virtual.disconnected(nickname);
         }
     }
 
     public void sendSchema(String schema, String name) {
-        List action = new ArrayList();
-        action.add(CHOOSE_SCHEMA);
-        action.add(name);
-        action.add(schema);
-        virtual.forwardAction(action);
+        virtual.sendSchema(schema,name);
     }
 
     public void insertDice(int indexDiceSpace, int row, int column) {
-        List action = new ArrayList();
-        action.add(INSERT_DICE);
-        action.add(((Integer)indexDiceSpace).toString());
-        action.add(((Integer)row).toString());
-        action.add(((Integer)column).toString());
-        virtual.forwardAction(action);
+        virtual.insertDice(indexDiceSpace,row,column);
     }
 
     public void useToolCard(int toolNumber) {
-        List action = new ArrayList();
-        action.add(USE_TOOL_CARD);
-        action.add(((Integer)toolNumber).toString());
-        virtual.forwardAction(action);
+        virtual.useToolCard(toolNumber);
     }
 
     public void moveDice(int oldRow,int oldColumn, int newRow, int newColumn){
-        List action = new ArrayList();
-        action.add(MOVE_DICE);
-        action.add(((Integer)oldRow).toString());
-        action.add(((Integer)oldColumn).toString());
-        action.add(((Integer)newRow).toString());
-        action.add(((Integer)newColumn).toString());
-        virtual.forwardAction(action);
+        virtual.moveDice(oldRow,oldColumn,newRow,newColumn);
     }
 
 
     public void sendEndTurn() {
-        List action = new ArrayList();
-        action.add(END_TURN);
-        virtual.forwardAction(action);
+        virtual.sendEndTurn();
     }
 
     public void draftDice(int indexDiceSpace) {
-        List action = new ArrayList();
-        action.add(DRAFT_DICE);
-        action.add(((Integer)indexDiceSpace).toString());
-        virtual.forwardAction(action);
+        virtual.draftDice(indexDiceSpace);
     }
 
     public void placeDice(int row, int column) {
-        List action = new ArrayList();
-        action.add(PLACE_DICE);
-        action.add(((Integer)row).toString());
-        action.add(((Integer)column).toString());
-        virtual.forwardAction(action);
+        virtual.placeDice(row,column);
     }
 
     public void changeValue(String change) {
-        List action = new ArrayList();
-        action.add(CHANGE_VALUE);
-        action.add(change);
-        virtual.forwardAction(action);
+        virtual.changeValue(change);
     }
 
     public void rollDice() {
-        List action = new ArrayList();
-        action.add(ROLL_DICE);
-        virtual.forwardAction(action);
+        virtual.rollDice();
     }
 
     public void swapDice(int numRound, int indexDice){
-        List action = new ArrayList();
-        action.add(SWAP_DICE);
-        action.add(((Integer)numRound).toString());
-        action.add(((Integer)indexDice).toString());
-        virtual.forwardAction(action);
+        virtual.swapDice(numRound,indexDice);
     }
 
     public void cancelUseToolCard() {
-        List action = new ArrayList();
-        action.add(CANCEL_USE_TOOL_CARD);
-        virtual.forwardAction(action);
+        virtual.cancelUseToolCard();
     }
 
     public void flipDice()  {
-        List action = new ArrayList();
-        action.add(FLIP_DICE);
-        virtual.forwardAction(action);
+        virtual.flipDice();
     }
 
     public void placeDiceSpace() {
-        List action = new ArrayList();
-        action.add(PLACE_DICE_SPACE);
-        virtual.forwardAction(action);
+        virtual.placeDiceSpace();
     }
 
     public void rollDiceSpace() {
-        List action = new ArrayList();
-        action.add(ROLL_DICE_SPACE);
-        virtual.forwardAction(action);
+        virtual.rollDiceSpace();
     }
 
     public void swapDiceBag() {
-        List action = new ArrayList();
-        action.add(SWAP_DICE_BAG);
-        virtual.forwardAction(action);
+        virtual.swapDiceBag();
     }
 
     public void chooseValue(int value) {
-        List action = new ArrayList();
-        action.add(CHOOSE_VALUE);
-        action.add(((Integer)value).toString());
-        virtual.forwardAction(action);
+        virtual.chooseValue(value);
     }
 
     public void sendCustomSchema(String schema, String name) {
-        List action = new ArrayList();
-        action.add(CUSTOM_SCHEMA);
-        action.add(name);
-        action.add(schema);
-        virtual.forwardAction(action);
+        virtual.sendCustomSchema(schema,name);
     }
 
     public void ping() {

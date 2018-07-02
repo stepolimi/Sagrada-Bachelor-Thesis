@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,11 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RoundTrack extends Observable {
     private List<Dice>[] listRounds;
+    private Board board;
 
-    public RoundTrack() {
+    public RoundTrack(Board board) {
+        this.board = board;
+
         listRounds = new ArrayList[TOT_ROUNDS];
         for (int i = 0; i < TOT_ROUNDS; i++)
             listRounds[i] = new ArrayList<>();
@@ -44,16 +48,17 @@ public class RoundTrack extends Observable {
      * @param nRound is the index of the round where the dices will be added.
      */
     public void insertDices(List<Dice> dices, int nRound) {
-        List action = new ArrayList<>();
         this.listRounds[nRound].addAll(dices);
-        action.add(PLACE_DICE_ROUND_TRACK);
-        action.add(nRound);
+
+        Message message = new Message(PLACE_DICE_ROUND_TRACK);
+        message.addIntegerArgument(nRound);
         dices.forEach(d -> {
-            action.add(d.getColour().toString());
-            action.add(d.getValue());
+            message.addStringArguments(d.getColour().toString());
+            message.addIntegerArgument(d.getValue());
         });
+        message.setPlayers(board.getNicknames());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     /**
@@ -63,15 +68,16 @@ public class RoundTrack extends Observable {
      * @throws InsertDiceException if the index of the round is not valid.
      */
     public void insertDice(Dice dice, int nRound) throws InsertDiceException {
-        List action = new ArrayList<>();
         if (nRound < TOT_ROUNDS) {
             this.listRounds[nRound].add(dice);
-            action.add(PLACE_DICE_ROUND_TRACK);
-            action.add(nRound);
-            action.add(dice.getColour().toString());
-            action.add(dice.getValue());
+
+            Message message = new Message(PLACE_DICE_ROUND_TRACK);
+            message.addIntegerArgument(nRound);
+            message.addStringArguments(dice.getColour().toString());
+            message.addIntegerArgument(dice.getValue());
+            message.setPlayers(board.getNicknames());
             setChanged();
-            notifyObservers(action);
+            notifyObservers(message);
             return;
         }
         throw new InsertDiceException();
@@ -86,7 +92,6 @@ public class RoundTrack extends Observable {
      * @throws RemoveDiceException if it is not possible to remove the specified dice.
      */
     public Dice testRemoveDice(int nRound, int nDice, String player) throws RemoveDiceException {
-        List<String> action = new ArrayList<>();
         Dice dice;
         if (nRound < TOT_ROUNDS) {
             if (listRounds[nRound].size() > nDice) {
@@ -96,10 +101,11 @@ public class RoundTrack extends Observable {
                 }
             }
         }
-        action.add(PICK_DICE_ROUND_TRACK_ERROR);
-        action.add(player);
+
+        Message message = new Message(PICK_DICE_ROUND_TRACK_ERROR);
+        message.addPlayer(player);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
         throw new RemoveDiceException();
     }
 
@@ -111,21 +117,24 @@ public class RoundTrack extends Observable {
      * @throws RemoveDiceException if it's not possible to remove the specified dice.
      */
     public Dice removeDice(int nRound, int nDice) throws RemoveDiceException {
-        List action = new ArrayList<>();
+        Message message;
         Dice dice;
         if (listRounds[nRound].get(nDice) != null) {
             dice = listRounds[nRound].get(nDice);
             listRounds[nRound].remove(nDice);
-            action.add(PICK_DICE_ROUND_TRACK);
-            action.add(nRound);
-            action.add(nDice);
+
+            message = new Message(PICK_DICE_ROUND_TRACK);
+            message.addIntegerArgument(nRound);
+            message.addIntegerArgument(nDice);
+            message.setPlayers(board.getNicknames());
             setChanged();
-            notifyObservers(action);
+            notifyObservers(message);
             return dice;
         }
-        action.add(PICK_DICE_ROUND_TRACK_ERROR);
+        message = new Message(PICK_DICE_ROUND_TRACK_ERROR);
+        message.setPlayers(board.getNicknames());
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
         throw new RemoveDiceException();
     }
 
@@ -151,19 +160,17 @@ public class RoundTrack extends Observable {
      * @param player is the player that is going to reconnect to the game.
      */
     public void reconnectPlayer(Player player){
-        List action = new ArrayList<>();
         for(int i=0; i<TOT_ROUNDS; i++){
             if(!listRounds[i].isEmpty()) {
-                action.clear();
-                action.add(PLACE_DICE_ROUND_TRACK_ON_RECONNECT);
-                action.add(player.getNickname());
-                action.add(i);
+                Message message = new Message(PLACE_DICE_ROUND_TRACK_ON_RECONNECT);
+                message.addIntegerArgument(i);
                 listRounds[i].forEach(d -> {
-                    action.add(d.getColour().toString());
-                    action.add(d.getValue());
+                    message.addStringArguments(d.getColour().toString());
+                    message.addIntegerArgument(d.getValue());
                 });
+                message.addPlayer(player.getNickname());
                 setChanged();
-                notifyObservers(action);
+                notifyObservers(message);
             }
             else
                 break;

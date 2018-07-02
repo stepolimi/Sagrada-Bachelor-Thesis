@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.costants.TimerConstants;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.DeckSchemas;
 import it.polimi.ingsw.server.model.cards.decks.DeckPrivateObjective;
@@ -206,7 +207,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
     /**
      * Notifies the ping of the timer to the players.
      */
-    public void timerPing(){ notifyChanges(TIMER_PING); }
+    public void timerPing(){ notifyChanges(SCHEMAS_TIMER_PING); }
 
     public boolean isEnded() { return ended; }
 
@@ -215,30 +216,29 @@ public class GameMultiplayer extends Observable implements TimedComponent {
      * @param string head of the message that will be sent to the observer
      */
     private void notifyChanges(String string) {
-        List action = new ArrayList<>();
-
+        Message message = new Message(string);
 
         switch (string) {
-            case TIMER_PING:
-                action.add(SCHEMAS_TIMER_PING);
-                action.add((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
+            case SCHEMAS_TIMER_PING:
+                message.addIntegerArgument((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
+                message.setPlayers(board.getNicknames());
                 break;
             case SET_WINNER:
-                action.add(string);
-                action.add(rankings.get(0).getNickname());
+                message.addStringArguments(rankings.get(0).getNickname());
+                message.setPlayers(board.getNicknames());
                 break;
             case SET_RANKINGS:
-                action.add(string);
                 rankings.forEach(player -> {
-                    action.add(player.getNickname());
-                    action.add(player.getScore());
+                    message.addStringArguments(player.getNickname());
+                    message.addIntegerArgument(player.getScore());
                 });
+                message.setPlayers(board.getNicknames());
                 break;
             default:
                 break;
         }
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
 

@@ -2,11 +2,13 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
+import it.polimi.ingsw.server.internalMesages.Message;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.CHANGE_VALUE_STATE;
+import static it.polimi.ingsw.server.costants.Constants.DECREMENT;
+import static it.polimi.ingsw.server.costants.Constants.INCREMENT;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ACCEPTED;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHANGE_VALUE_ERROR;
 
@@ -16,13 +18,13 @@ public class ChangeValueState extends State {
     /**
      * Increments or decrements the value of the drafted dice by one.
      * @param round is the current round
-     * @param action contains current state and "Increment" or "Decrement" instruction for the pending dice
+     * @param message contains current state and "Increment" or "Decrement" instruction for the pending dice
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         try {
-            if (action.get(1).equals("Increment")) {
+            if (message.getStringArgument(0).equals(INCREMENT)) {
                 round.getPendingDice().incrementValue();
-            } else if (action.get(1).equals("Decrement"))
+            } else if (message.getStringArgument(0).equals(DECREMENT))
                 round.getPendingDice().decrementValue();
             round.getNextActions().remove(0);
             round.notifyChanges(CHANGE_VALUE_ACCEPTED);

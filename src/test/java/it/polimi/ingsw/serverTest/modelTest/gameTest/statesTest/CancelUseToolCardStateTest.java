@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
@@ -23,7 +24,6 @@ class CancelUseToolCardStateTest {
     private Board board;
     private Round round;
     private CancelUseToolCardState state;
-    private List action = new ArrayList();
 
     private void testInit(){
         state = new CancelUseToolCardState();
@@ -40,9 +40,8 @@ class CancelUseToolCardStateTest {
     }
 
     private void cancelUseToolCard() {
-        action.clear();
-        action.add(CANCEL_USE_TOOL_CARD);
-        state.execute(round, action);
+        Message message = new Message(CANCEL_USE_TOOL_CARD);
+        state.execute(round, message);
     }
 
     @Test

@@ -3,10 +3,10 @@ package it.polimi.ingsw.server.model.game.states;
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.INSERT_DICE_STATE;
@@ -19,14 +19,13 @@ public class InsertDiceState extends State {
      * Drafts a dice from the dice space, the puts it in the current player's schema at the row and column specified in
      * the action list.
      * @param round is the current round
-     * @param action contains the current state, an index of the dice space and the indexes of row and column of the
-     *               current player's schema
+     * @param message contains the current state, an index of the dice space and the indexes of row and column of the
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         Schema schema = round.getCurrentPlayer().getSchema();
-        int indexDiceSpace = Integer.parseInt((String) action.get(1));
-        int rowDiceSchema = Integer.parseInt((String) action.get(2));
-        int columnDiceSchema = Integer.parseInt((String) action.get(3));
+        int indexDiceSpace = message.getIntegerArgument(0);
+        int rowDiceSchema = message.getIntegerArgument(1);
+        int columnDiceSchema = message.getIntegerArgument(2);
         try {
             Dice dice = round.getBoard().getDiceSpace().getDice(indexDiceSpace, round.getCurrentPlayer().getNickname());
             schema.testInsertDice(rowDiceSchema, columnDiceSchema, dice, round.getUsingTool());

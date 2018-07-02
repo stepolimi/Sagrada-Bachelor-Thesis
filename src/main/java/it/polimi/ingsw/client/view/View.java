@@ -49,6 +49,8 @@ public interface View {
 
     void moveDiceAccepted();
 
+    void moveDiceError();
+
     void pickDiceSpace(int index) throws InterruptedException;
 
     void pickDiceSpaceError();

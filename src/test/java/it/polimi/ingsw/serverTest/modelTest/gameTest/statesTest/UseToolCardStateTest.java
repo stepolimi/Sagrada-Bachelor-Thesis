@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 import it.polimi.ingsw.server.exception.UseToolException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
@@ -31,7 +32,6 @@ class UseToolCardStateTest {
     private GameMultiplayer game;
     private Round round;
     private UseToolCardState state = new UseToolCardState();
-    private List action = new ArrayList();
     private List<ToolCard> toolCards;
     private VirtualView view;
 
@@ -65,16 +65,14 @@ class UseToolCardStateTest {
         round.roundInit();
     }
 
-    private void useToolCard(String n){
-        action.clear();
-        action.add(USE_TOOL_CARD);
-        action.add(n);
-        state.execute(round,action);
+    private void useToolCard(int n){
+        Message message = new Message(USE_TOOL_CARD);
+        message.addIntegerArgument(n);
+        state.execute(round,message);
     }
     private void endTurn(){
-        action.clear();
-        action.add(END_TURN);
-        round.execute(action);
+        Message message = new Message(END_TURN);
+        round.execute(message);
     }
 
     @Test
@@ -83,40 +81,40 @@ class UseToolCardStateTest {
         int oldFavors = round.getCurrentPlayer().getFavour();
 
         //incorrect card usage for card's restrictions
-        useToolCard("7");
+        useToolCard(7);
         assertEquals(oldFavors,round.getCurrentPlayer().getFavour());
         assertFalse(round.getCardWasUsed());
 
         //correct card usage
-        useToolCard("8");
+        useToolCard(8);
         assertEquals(oldFavors -1 , round.getCurrentPlayer().getFavour());
 
         endTurn();
         //correct usage of an already used card
         oldFavors = round.getCurrentPlayer().getFavour();
-        useToolCard("8");
+        useToolCard(8);
         assertEquals(oldFavors -2 , round.getCurrentPlayer().getFavour());
 
         endTurn();
         round.getCurrentPlayer().setFavour(1);
 
         //incorrect card usage for favors
-        useToolCard("8");
+        useToolCard(8);
         assertEquals(1 , round.getCurrentPlayer().getFavour());
 
-        useToolCard("9");
+        useToolCard(9);
         assertEquals(0 , round.getCurrentPlayer().getFavour());
 
         endTurn();
         round.getCurrentPlayer().setFavour(1);
-        useToolCard("2");
+        useToolCard(2);
         assertEquals(1 , round.getCurrentPlayer().getFavour());
 
-        useToolCard("5");
+        useToolCard(5);
         assertEquals(1 , round.getCurrentPlayer().getFavour());
 
 
-        useToolCard("7");
+        useToolCard(7);
         assertEquals(0, round.getCurrentPlayer().getFavour());
         assertEquals(7,round.getUsingTool().getNumber());
     }

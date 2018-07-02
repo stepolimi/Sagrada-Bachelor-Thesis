@@ -30,280 +30,430 @@ public class Connected {
     }
 
 
-    public void login(String nickname, int lobbySize) {
-        users.forEach((name,connection) -> connection.login(nickname, lobbySize));
+    public void login(List<String> nicknames, String nickname, int lobbySize) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if(connection != null)
+                connection.login(nickname, lobbySize);
+        });
     }
 
-    public void reconnectPlayer(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.createGame();
+    public void reconnectPlayer(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.createGame();
+        });
     }
 
-    public void loginError(String nickname, String cause) {
-        Connection connection = users.get(nickname);
-        if(connection != null) {
-            connection.loginError(cause);
-            removePlayer(nickname);
-        }
+    public void loginError(List<String> nicknames,String nickname ,String cause) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null) {
+                connection.loginError(cause);
+                removePlayer(nickname);
+            }
+        });
     }
 
-    public void playerDisconnected(String nickname) {
-        users.forEach((name,connection) -> connection.playerDisconnected(nickname));
+    public void playerDisconnected(List<String> nicknames, String nickname) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.playerDisconnected(nickname);
+        });
     }
 
-    public void timerPing(int timeLeft) {
-        users.forEach((name,connection) -> connection.timerPing(timeLeft));
+    public void timerPing(List<String> nicknames, int timeLeft) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.timerPing(timeLeft);
+        });
     }
 
-    public void createGame() {
-        users.forEach((name,connection) -> connection.createGame());
+    public void createGame(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.createGame();
+        });
     }
 
-    public void setSchemas(String nickname, List<String> schemas) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setSchemas(schemas);
+    public void setSchemas(List<String> nicknames, List<String> schemas) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setSchemas(schemas);
+        });
     }
 
-    public void setPrivateCard(String nickname, String privateCard) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setPrivateCard(privateCard);
+    public void setPrivateCard(List<String> nicknames, String privateCard) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setPrivateCard(privateCard);
+        });
     }
 
-    public void setPublicObjectives(List<String> publicObjectives) {
-        users.forEach((name,connection) -> connection.setPublicObjectives(publicObjectives));
+    public void setPublicObjectives(List<String> nicknames, List<String> publicObjectives) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setPublicObjectives(publicObjectives);
+        });
     }
 
-    public void setToolCards(List<Integer> toolCards) {
-        users.forEach((name,connection) -> connection.setToolCards(toolCards));
+    public void setToolCards(List<String> nicknames, List<Integer> toolCards) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setToolCards(toolCards);
+        });
     }
 
-    public void chooseSchema(String nickname, String schema) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.chooseSchema(schema);
+    public void chooseSchema(List<String> nicknames, String schema) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.chooseSchema(schema);
+        });
     }
 
-    public void setOpponentsSchemas(List<String> opponentsSchemas) {
-        users.forEach((name,connection) -> connection.setOpponentsSchemas(opponentsSchemas));
+    public void setOpponentsSchemas(List<String> nicknames, List<String> opponentsSchemas) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setOpponentsSchemas(opponentsSchemas);
+        });
     }
 
-    public void schemaCustomAccepted(String nickname, String schema) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.schemaCustomAccepted(schema);
+    public void schemaCustomAccepted(List<String> nicknames, String schema) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.schemaCustomAccepted(schema);
+        });
     }
 
-    public void setOpponentsCustomSchemas(List<String> opponentsSchemas) {
-        users.forEach((name,connection) -> connection.setOpponentsCustomSchemas(opponentsSchemas));
+    public void setOpponentsCustomSchemas(List<String> nicknames, List<String> opponentsSchemas) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setOpponentsCustomSchemas(opponentsSchemas);
+        });
     }
 
-    public void startRound() {
-        users.forEach((name,connection) -> connection.startRound());
+    public void startRound(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.startRound();
+        });
     }
 
-    public void startTurn(String nickname) {
-        users.forEach((name,connection) -> connection.startTurn(nickname));
+    public void startTurn(List<String> nicknames, String nickname) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.startTurn(nickname);
+        });
     }
 
-    public void setActions(String nickname, List<String> actions) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setActions(actions);
+    public void setActions(List<String> nicknames, List<String> actions) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setActions(actions);
+        });
     }
 
-    public void setDiceSpace(List<String> colours, List<Integer> values) {
-        users.forEach((name,connection) -> connection.setDiceSpace(colours, values));
+    public void setDiceSpace(List<String> nicknames, List<String> colours, List<Integer> values) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setDiceSpace(colours, values);
+        });
     }
 
-    public void draftDiceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.draftDiceAccepted();
+    public void draftDiceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.draftDiceAccepted();
+        });
     }
 
-    public void insertDiceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.insertDiceAccepted();
+    public void insertDiceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.insertDiceAccepted();
+        });
     }
 
-    public void moveDiceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.moveDiceAccepted();
+    public void moveDiceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.moveDiceAccepted();
+        });
     }
 
-    public void pickDiceSpace(Integer index) {
-        users.forEach((name,connection) -> connection.pickDiceSpace(index));
+    public void moveDiceError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.moveDiceError();
+        });
     }
 
-    public void pickDiceSpaceError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.pickDiceSpaceError();
+    public void pickDiceSpace(List<String> nicknames, Integer index) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceSpace(index);
+        });
     }
 
-    public void placeDiceSchema(String nickname, int row, int column, String colour, int value) {
-        users.forEach((name,connection) -> connection.placeDiceSchema(nickname, row, column, colour, value));
+    public void pickDiceSpaceError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceSpaceError();
+        });
     }
 
-    public void placeDiceSchemaError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.placeDiceSchemaError();
+    public void placeDiceSchema(List<String> nicknames, String nickname, int row, int column, String colour, int value) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceSchema(nickname, row, column, colour, value);
+        });
     }
 
-    public void pickDiceSchema(String nickname, int row, int column) {
-        users.forEach((name,connection) -> connection.pickDiceSchema(nickname, row, column));
+    public void placeDiceSchemaError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceSchemaError();
+        });
     }
 
-    public void pickDiceSchemaError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.pickDiceSchemaError();
+    public void pickDiceSchema(List<String> nicknames, String nickname, int row, int column) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceSchema(nickname, row, column);
+        });
     }
 
-    public void useToolCardAccepted(String nickname, int favors) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.useToolCardAccepted(favors);
+    public void pickDiceSchemaError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceSchemaError();
+        });
     }
 
-    public void useToolCardError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.useToolCardError();
+    public void useToolCardAccepted(List<String> nicknames, int favors) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.useToolCardAccepted(favors);
+        });
     }
 
-    public void changeValueAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.changeValueAccepted();
+    public void useToolCardError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.useToolCardError();
+        });
     }
 
-    public void changeValueError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.changeValueError();
+    public void changeValueAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.changeValueAccepted();
+        });
     }
 
-    public void placeDiceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.placeDiceAccepted();
+    public void changeValueError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.changeValueError();
+        });
     }
 
-    public void rollDiceAccepted(String nickname, int value) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.rollDiceAccepted(value);
+    public void placeDiceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceAccepted();
+        });
     }
 
-    public void swapDiceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.swapDiceAccepted();
+    public void rollDiceAccepted(List<String> nicknames, int value) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.rollDiceAccepted(value);
+        });
     }
 
-    public void pickDiceRoundTrack(int nRound, int nDice) {
-        users.forEach((name,connection) -> connection.pickDiceRoundTrack(nRound, nDice));
+    public void swapDiceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.swapDiceAccepted();
+        });
     }
 
-    public void pickDiceRoundTrackError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.pickDiceRoundTrackError();
+    public void pickDiceRoundTrack(List<String> nicknames, int nRound, int nDice) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceRoundTrack(nRound, nDice);
+        });
     }
 
-    public void placeDiceRoundTrack(int nRound, List<String> colours, List<Integer> values) {
-        users.forEach((name,connection) -> connection.placeDiceRoundTrack(nRound, colours, values));
+    public void pickDiceRoundTrackError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.pickDiceRoundTrackError();
+        });
     }
 
-    public void flipDiceAccepted(String nickname, int value) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.flipDiceAccepted(value);
+    public void placeDiceRoundTrack(List<String> nicknames, int nRound, List<String> colours, List<Integer> values) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceRoundTrack(nRound, colours, values);
+        });
     }
 
-    public void cancelUseToolCardAccepted(String nickname, int favors) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.cancelUseToolCardAccepted(favors);
+    public void flipDiceAccepted(List<String> nicknames, int value) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.flipDiceAccepted(value);
+        });
     }
 
-    public void placeDiceSpace(String colour, int value) {
-        users.forEach((name,connection) -> connection.placeDiceSpace(colour, value));
+    public void cancelUseToolCardAccepted(List<String> nicknames, int favors) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.cancelUseToolCardAccepted(favors);
+        });
     }
 
-    public void placeDiceSpaceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.placeDiceSpaceAccepted();
+    public void placeDiceSpace(List<String> nicknames, String colour, int value) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceSpace(colour, value);
+        });
     }
 
-    public void rollDiceSpaceAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.rollDiceSpaceAccepted();
+    public void placeDiceSpaceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceSpaceAccepted();
+        });
     }
 
-    public void swapDiceBagAccepted(String nickname, String colour, int value) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.swapDiceBagAccepted(colour, value);
+    public void rollDiceSpaceAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.rollDiceSpaceAccepted();
+        });
     }
 
-    public void chooseValueAccepted(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.chooseValueAccepted();
+    public void swapDiceBagAccepted(List<String> nicknames, String colour, int value) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.swapDiceBagAccepted(colour, value);
+        });
     }
 
-    public void chooseValueError(String nickname) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.chooseValueError();
+    public void chooseValueAccepted(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.chooseValueAccepted();
+        });
     }
 
-    public void setWinner(String nickname) {
-        users.forEach((name,connection) -> connection.setWinner(nickname));
+    public void chooseValueError(List<String> nicknames) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.chooseValueError();
+        });
     }
 
-    public void setRankings(List<String> players, List<Integer> scores) {
-        users.forEach((name,connection) -> connection.setRankings(players, scores));
+    public void setWinner(List<String> nicknames, String nickname) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setWinner(nickname);
+        });
     }
 
-    public void setSchemasOnReconnect(String nickname, List<String> players, List<String> schemas) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setSchemasOnReconnect(players, schemas);
+    public void setRankings(List<String> nicknames, List<String> players, List<Integer> scores) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setRankings(players, scores);
+        });
     }
 
-    public void setPublicObjectivesOnReconnect(String nickname, List<String> schemas) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setPublicObjectives(schemas);
+    public void setSchemasOnReconnect(List<String> nicknames, List<String> players, List<String> schemas) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setSchemasOnReconnect(players, schemas);
+        });
     }
 
-    public void setToolCardsOnReconnect(String nickname, List<Integer> toolCards) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setToolCards(toolCards);
+    public void setPublicObjectivesOnReconnect(List<String> nicknames, List<String> schemas) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setPublicObjectives(schemas);
+        });
     }
 
-    public void setDiceSpaceOnReconnect(String nickname, List<String> colours, List<Integer> values) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.setDiceSpace(colours, values);
+    public void setToolCardsOnReconnect(List<String> nicknames, List<Integer> toolCards) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setToolCards(toolCards);
+        });
     }
 
-    public void placeDiceRoundTrackOnReconnect(String nickname, int nRound, List<String> colours, List<Integer> values) {
-        Connection connection = users.get(nickname);
-        if(connection != null)
-            connection.placeDiceRoundTrack(nRound, colours, values);
+    public void setDiceSpaceOnReconnect(List<String> nicknames, List<String> colours, List<Integer> values) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.setDiceSpace(colours, values);
+        });
+    }
+
+    public void placeDiceRoundTrackOnReconnect(List<String> nicknames, int nRound, List<String> colours, List<Integer> values) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.placeDiceRoundTrack(nRound, colours, values);
+        });
     }
 
 }

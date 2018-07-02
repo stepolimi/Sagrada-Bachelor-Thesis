@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 class RollDiceStateTest {
     private Round round;
     private RollDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
 
     private void testInit(){
@@ -43,9 +43,8 @@ class RollDiceStateTest {
     }
 
     private void rollDice(){
-        action.clear();
-        action.add(ROLL_DICE);
-        state.execute(round,action);
+        Message message = new Message(ROLL_DICE);
+        state.execute(round,message);
     }
 
     @Test

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -24,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 class EndTurnStateTest {
     private Round round;
     private EndTurnState state;
-    private List action = new ArrayList();
     private Dice dice;
     private List<Player> players;
     private Board board;
@@ -49,9 +49,8 @@ class EndTurnStateTest {
     }
 
     private void endTurn(){
-        action.add(END_TURN);
-        state.execute(round,action);
-        action.clear();
+        Message message = new Message(END_TURN);
+        state.execute(round,message);
     }
 
     @Test

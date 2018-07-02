@@ -85,6 +85,10 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.moveDiceAccepted();
     }
 
+    public void moveDiceError() {
+        v.moveDiceError();
+    }
+
     public void pickDiceSpace(int index) {
         try {
             v.pickDiceSpace(index);

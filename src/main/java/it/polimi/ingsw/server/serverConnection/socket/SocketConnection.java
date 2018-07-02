@@ -22,7 +22,7 @@ public class SocketConnection implements Runnable,Connection {
     private VirtualView virtual;
     private PrintWriter out;
     private Connected connection;
-    private ArrayList action= new ArrayList();
+    private List<String> action= new ArrayList<>();
     private BufferedReader in;
     private String nickname;
 
@@ -42,16 +42,75 @@ public class SocketConnection implements Runnable,Connection {
                 StringTokenizer token = new StringTokenizer(str, "-");
                 while(token.hasMoreTokens())
                     action.add(token.nextToken());
-                if(action.get(0).equals(DISCONNECTED)) {
-                    this.logout();
-                }else if(action.get(0).equals(LOGIN)) {
-                    this.login((String) action.get(1));
-                }else{
-                    forwardAction(action);
-                }
+                sendMessage();
             }
         }catch(IOException e) {
             this.logout();
+        }
+    }
+
+    private void sendMessage(){
+        switch (action.get(0)) {
+            case LOGIN:
+                login(action.get(1));
+                break;
+            case DISCONNECTED:
+                logout();
+                break;
+            case CHOOSE_SCHEMA:
+                virtual.sendSchema(action.get(2), action.get(1));
+                break;
+            case INSERT_DICE:
+                virtual.insertDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)), Integer.parseInt(action.get(3)));
+                break;
+            case USE_TOOL_CARD:
+                virtual.useToolCard(Integer.parseInt(action.get(1)));
+                break;
+            case MOVE_DICE:
+                virtual.moveDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)),
+                        Integer.parseInt(action.get(3)), Integer.parseInt(action.get(4)));
+                break;
+            case DRAFT_DICE:
+                virtual.draftDice(Integer.parseInt(action.get(1)));
+                break;
+            case PLACE_DICE:
+                virtual.placeDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
+                break;
+            case CHANGE_VALUE:
+                virtual.changeValue(action.get(1));
+                break;
+            case ROLL_DICE:
+                virtual.rollDice();
+                break;
+            case SWAP_DICE:
+                virtual.swapDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
+                break;
+            case CANCEL_USE_TOOL_CARD:
+                virtual.cancelUseToolCard();
+                break;
+            case END_TURN:
+                virtual.sendEndTurn();
+                break;
+            case FLIP_DICE:
+                virtual.flipDice();
+                break;
+            case PLACE_DICE_SPACE:
+                virtual.placeDiceSpace();
+                break;
+            case ROLL_DICE_SPACE:
+                virtual.rollDiceSpace();
+                break;
+            case SWAP_DICE_BAG:
+                virtual.swapDiceBag();
+                break;
+            case CHOOSE_VALUE:
+                virtual.chooseValue(Integer.parseInt(action.get(1)));
+                break;
+            case CUSTOM_SCHEMA:
+                virtual.sendCustomSchema(action.get(2), action.get(1));
+                break;
+            default:
+                break;
         }
     }
 
@@ -60,7 +119,7 @@ public class SocketConnection implements Runnable,Connection {
         if(connection.checkUsername(str)) {
             nickname = str;
             connection.addPlayer(str,this);
-            forwardAction(action);
+            virtual.login(str);
         }else{
             loginError("username");
         }
@@ -72,15 +131,13 @@ public class SocketConnection implements Runnable,Connection {
             out.close();
             s.close();
             if(connection.removePlayer(nickname)) {
-                action.clear();
-                action.add(DISCONNECTED);
-                action.add(nickname);
-                forwardAction(action);
+                virtual.disconnected(nickname);
             }
         }catch(IOException io) {
             System.out.println(io.getMessage());
         }
     }
+
 
     public void login(String nickname, int lobbySize) {
         out.println(LOGIN_SUCCESSFUL + "-" +nickname + "-" + lobbySize);
@@ -202,6 +259,11 @@ public class SocketConnection implements Runnable,Connection {
 
     public void moveDiceAccepted(){
         out.println(MOVE_DICE_ACCEPTED);
+        out.flush();
+    }
+
+    public void moveDiceError(){
+        out.println(MOVE_DICE_ERROR);
         out.flush();
     }
 
@@ -354,8 +416,5 @@ public class SocketConnection implements Runnable,Connection {
         out.println(message);
         out.flush();
     }
-
-
-    private void forwardAction(List action) { virtual.forwardAction(action); }
 }
 

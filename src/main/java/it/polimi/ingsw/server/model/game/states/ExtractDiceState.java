@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Dice;
 
@@ -15,9 +16,9 @@ public class ExtractDiceState extends State {
     /**
      * Extracts the dices for the current round and put them into the dice space.
      * @param round is the current round
-     * @param action contains the current state
+     * @param message contains the current state
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         Board board = round.getBoard();
         List<Dice> dices = board.getDiceBag().extract(board.numPlayers());
         board.setDiceSpace(dices);

@@ -47,6 +47,8 @@ public interface RmiClientMethodInterface extends Remote {
 
     void moveDiceAccepted() throws RemoteException;
 
+    void moveDiceError() throws RemoteException;
+
     void pickDiceSpace(int index) throws RemoteException;
 
     void pickDiceSpaceError() throws RemoteException;

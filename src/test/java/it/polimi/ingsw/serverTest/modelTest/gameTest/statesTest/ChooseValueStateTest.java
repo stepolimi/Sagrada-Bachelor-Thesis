@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -21,7 +22,6 @@ class ChooseValueStateTest {
     private Round round;
     private ChooseValueState state;
     private Dice dice;
-    private List action = new ArrayList();
 
     private void testInit(){
         state = new ChooseValueState();
@@ -43,11 +43,10 @@ class ChooseValueStateTest {
         round.setNextActions(nextActions);
     }
 
-    private void chooseValue(String value){
-        action.clear();
-        action.add(CHOOSE_VALUE);
-        action.add(value);
-        state.execute(round,action);
+    private void chooseValue(int value){
+        Message message = new Message(CHOOSE_VALUE);
+        message.addIntegerArgument(value);
+        state.execute(round,message);
     }
 
     @Test
@@ -56,17 +55,17 @@ class ChooseValueStateTest {
         round.setPendingDice(dice);
 
         //changes dice's value correctly
-        chooseValue("4");
+        chooseValue(4);
         assertSame(4,round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
 
         //changes dice's value correctly
-        chooseValue("2");
+        chooseValue(2);
         assertSame(2,round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
 
         //changes dice's value correctly
-        chooseValue("7");
+        chooseValue(7);
         assertSame(2,round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW,round.getPendingDice().getColour());
     }

@@ -3,14 +3,13 @@ package it.polimi.ingsw.server.model.game.states;
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.MOVE_DICE_STATE;
-import static it.polimi.ingsw.server.costants.MessageConstants.LOGOUT;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ACCEPTED;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ERROR;
 
@@ -21,15 +20,14 @@ public class MoveDiceState extends State {
      * Moves a dice from a position to another of the current player's schema.
      * If a tool card with special restrictions has been used, checks if those are respected.
      * @param round is the current round
-     * @param action contains the current state, the indexes of row and column of the current player's schema from where a dice
-     *               will be removed and the indexes of row and column of the current player's schema where the dice will be put.
+     * @param message contains the current state, the indexes of row and column of the current player's schema from where a dice
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         Schema schema = round.getCurrentPlayer().getSchema();
-        int oldRowSchema = Integer.parseInt((String) action.get(1));
-        int oldColumnSchema = Integer.parseInt((String) action.get(2));
-        int rowSchema = Integer.parseInt((String) action.get(3));
-        int columnSchema = Integer.parseInt((String) action.get(4));
+        int oldRowSchema = message.getIntegerArgument(0);
+        int oldColumnSchema = message.getIntegerArgument(1);
+        int rowSchema = message.getIntegerArgument(2);
+        int columnSchema = message.getIntegerArgument(3);
         Dice dice = null;
         try {
             dice = round.getCurrentPlayer().getSchema().testRemoveDice(oldRowSchema, oldColumnSchema);

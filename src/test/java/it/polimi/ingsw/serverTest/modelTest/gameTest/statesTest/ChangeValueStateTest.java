@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static it.polimi.ingsw.server.costants.Constants.DECREMENT;
+import static it.polimi.ingsw.server.costants.Constants.INCREMENT;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,7 +29,6 @@ class ChangeValueStateTest {
     private Dice dice;
     private Dice dice2;
     private Dice dice3;
-    private List action = new ArrayList();
 
     private void testInit() {
         state = new ChangeValueState();
@@ -51,10 +53,9 @@ class ChangeValueStateTest {
     }
 
     private void changeValue(String change) {
-        action.clear();
-        action.add(CHOOSE_VALUE);
-        action.add(change);
-        state.execute(round, action);
+        Message message = new Message(CHOOSE_VALUE);
+        message.addStringArguments(change);
+        state.execute(round, message);
     }
 
     @Test
@@ -63,24 +64,24 @@ class ChangeValueStateTest {
 
         //Increments the pending dice's value correctly
         round.setPendingDice(dice);
-        changeValue("Increment");
+        changeValue(INCREMENT);
         assertSame(6, round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW, round.getPendingDice().getColour());
 
         //Decrements the pending dice's value correctly
-        changeValue("Decrement");
+        changeValue(DECREMENT);
         assertSame(5, round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW, round.getPendingDice().getColour());
 
         //Doesn't increment the dice's value if it is 6
         round.setPendingDice(dice2);
-        changeValue("Increment");
+        changeValue(INCREMENT);
         assertSame(6, round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW, round.getPendingDice().getColour());
 
         //Doesn't decrement the dice's value if it is 1
         round.setPendingDice(dice3);
-        changeValue("Decrement");
+        changeValue(DECREMENT);
         assertSame(1, round.getPendingDice().getValue());
         assertSame(Colour.ANSI_YELLOW, round.getPendingDice().getColour());
 

@@ -3,10 +3,7 @@ package it.polimi.ingsw.serverTest.modelTest.boardTest;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.model.board.Colour;
-import it.polimi.ingsw.server.model.board.Dice;
-import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.board.RoundTrack;
+import it.polimi.ingsw.server.model.board.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoundTrackTest {
-    private RoundTrack roundTrack = new RoundTrack();
+    private RoundTrack roundTrack = new RoundTrack(new Board(new ArrayList<>()));
     private ArrayList<Dice> listDice = new ArrayList<Dice>();
     private Dice d1;
     private Dice d2;

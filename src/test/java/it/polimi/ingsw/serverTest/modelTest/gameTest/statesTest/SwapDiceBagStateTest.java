@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -22,7 +23,6 @@ class SwapDiceBagStateTest {
     private Board board;
     private Round round;
     private SwapDiceBagState state;
-    private List action = new ArrayList();
     private Dice dice;
 
     private void testInit(){
@@ -45,9 +45,8 @@ class SwapDiceBagStateTest {
     }
 
     private void swapDice(){
-        action.clear();
-        action.add(SWAP_DICE_BAG);
-        state.execute(round,action);
+        Message message = new Message(SWAP_DICE_BAG);
+        state.execute(round,message);
     }
 
     @Test

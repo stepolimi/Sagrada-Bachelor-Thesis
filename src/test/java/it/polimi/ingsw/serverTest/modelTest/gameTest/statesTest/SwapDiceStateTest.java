@@ -1,6 +1,7 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
@@ -23,7 +24,6 @@ class SwapDiceStateTest {
     private Board board;
     private Round round;
     private SwapDiceState state;
-    private List action = new ArrayList();
     private Dice dice;
     private Dice dice2;
 
@@ -55,12 +55,11 @@ class SwapDiceStateTest {
         }
     }
 
-    private void swapDice(String nRound, String dice){
-        action.clear();
-        action.add(SWAP_DICE);
-        action.add(nRound);
-        action.add(dice);
-        state.execute(round,action);
+    private void swapDice(int nRound, int dice){
+        Message message = new Message(SWAP_DICE);
+        message.addIntegerArgument(nRound);
+        message.addIntegerArgument(dice);
+        state.execute(round,message);
     }
 
     @Test
@@ -70,17 +69,17 @@ class SwapDiceStateTest {
         round.setPendingDice(dice2);
 
         //correct swap dice
-        swapDice("0","0");
+        swapDice(0,0);
         assertSame(dice2,board.getRoundTrack().getDice(0,0));
         assertSame(dice,round.getPendingDice());
 
         //incorrect swap dice for round index
-        swapDice("1","0");
+        swapDice(1,0);
         assertSame(dice2,board.getRoundTrack().getDice(0,0));
         assertSame(dice,round.getPendingDice());
 
         //incorrect swap dice for dice index
-        swapDice("0","1");
+        swapDice(0,1);
         assertSame(dice2,board.getRoundTrack().getDice(0,0));
         assertSame(dice,round.getPendingDice());
 

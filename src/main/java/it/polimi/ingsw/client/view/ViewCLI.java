@@ -1348,6 +1348,11 @@ public class ViewCLI implements View {
         Message.print("Dado spostato correttamente",TypeMessage.CONFIRM_MESSAGE);
     }
 
+    public void moveDiceError() {
+        //todo;
+        System.out.println("Requisiti dello spostamento del dado non rispettati");
+    }
+
 
     /**
      * pick dice from schema

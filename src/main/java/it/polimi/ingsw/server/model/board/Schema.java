@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
@@ -23,6 +24,7 @@ public class Schema extends Observable {
     private String player;
     private int size = 0;
     private String json;
+    private List<String> players;
 
     /**
      * Creates a schema with "ROW_SCHEMA" * "COLUMN_SCHEMA"  boxes.
@@ -72,12 +74,11 @@ public class Schema extends Observable {
      * @throws InsertDiceException if the insertion is not correct.
      */
     public void testInsertDice(int rows, int columns, Dice d, ToolCard toolCard) throws InsertDiceException {
-        List<String> action = new ArrayList<String>();
         if (!RulesManager.getRulesManager().checkRules(toolCard, rows, columns, d, this)) {
-            action.add(PLACE_DICE_SCHEMA_ERROR);
-            action.add(player);
+            Message message = new Message(PLACE_DICE_SCHEMA_ERROR);
+            message.addPlayer(player);
             setChanged();
-            notifyObservers(action);
+            notifyObservers(message);
             throw new InsertDiceException();
         }
     }
@@ -89,18 +90,19 @@ public class Schema extends Observable {
      * @param d is the dice that will be inserted in the schema.
      */
     public void insertDice(int rows, int columns, Dice d) {
-        List action = new ArrayList<>();
         this.isEmpty = false;
         size++;
         this.table[rows][columns].setDice(d);
-        action.add(PLACE_DICE_SCHEMA);
-        action.add(player);
-        action.add(rows);
-        action.add(columns);
-        action.add(d.getColour().toString());
-        action.add(d.getValue());
+
+        Message message = new Message(PLACE_DICE_SCHEMA);
+        message.addStringArguments(player);
+        message.addIntegerArgument(rows);
+        message.addIntegerArgument(columns);
+        message.addStringArguments(d.getColour().toString());
+        message.addIntegerArgument(d.getValue());
+        message.setPlayers(players);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
 
     /**
@@ -124,12 +126,11 @@ public class Schema extends Observable {
      * @throws RemoveDiceException when there is no dices in the specified box of the schema.
      */
     public Dice testRemoveDice(int rows, int columns) throws RemoveDiceException {
-        List<String> action = new ArrayList<String>();
         if (this.table[rows][columns].getDice() == null) {
-            action.add(PICK_DICE_SCHEMA_ERROR);
-            action.add(player);
+            Message message = new Message(PICK_DICE_SCHEMA_ERROR);
+            message.addPlayer(player);
             setChanged();
-            notifyObservers(action);
+            notifyObservers(message);
             throw new RemoveDiceException();
         }
         return table[rows][columns].getDice();
@@ -143,19 +144,20 @@ public class Schema extends Observable {
      * @return the dice that was in the specified row and column of the schema.
      */
     public Dice removeDice(int rows, int columns) {
-        List action = new ArrayList<>();
         Dice d;
         size--;
         if (size == 0)
             isEmpty = true;
         d = table[rows][columns].getDice();
         table[rows][columns].setDice(null);
-        action.add(PICK_DICE_SCHEMA);
-        action.add(player);
-        action.add(rows);
-        action.add(columns);
+
+        Message message = new Message(PICK_DICE_SCHEMA);
+        message.addStringArguments(player);
+        message.addIntegerArgument(rows);
+        message.addIntegerArgument(columns);
+        message.setPlayers(players);
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
         return d;
     }
 
@@ -178,7 +180,7 @@ public class Schema extends Observable {
      * @return a list with the dices found near the specified position.
      */
     public List<Dice> nearDice(int row, int column) {
-        List<Dice> nearDice = new ArrayList<Dice>(9);
+        List<Dice> nearDice = new ArrayList<>(9);
 
         for (int i = -1; i < 2; i++)
             for (int j = -1; j < 2; j++)
@@ -261,6 +263,8 @@ public class Schema extends Observable {
     public void setPlayer(Player player) {
         this.player = player.getNickname();
     }
+
+    public void setPlayers(List<String> players){ this.players = players;}
 
     public int getSize() {
         return this.size;

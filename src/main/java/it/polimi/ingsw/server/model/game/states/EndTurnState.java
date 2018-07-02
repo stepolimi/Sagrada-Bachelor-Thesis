@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.internalMesages.Message;
 
-import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
@@ -14,13 +14,19 @@ public class EndTurnState extends State {
      * Ends the current turn, resets all of the round's values of the old turn at the default's value and calculate the
      * next turn's player.
      * @param round is the current round
-     * @param action contains the current state
+     * @param message contains the current state
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         round.setDraftedDice(false);
         round.setUsedCard(false);
         round.setBonusInsertDice(false);
         round.setMovedDiceColour(null);
+        if (!round.getNextActions().isEmpty())
+            round.getNextActions().remove(0);
+        if(round.getPendingDice() != null) {
+            round.getBoard().getDiceSpace().insertDice(round.getPendingDice());
+            round.setPendingDice(null);
+        }
         do {
             if (round.getTurnNumber() == round.getBoard().getPlayerList().size() * 2 - 1) {
                 round.getTimer().cancel();

@@ -201,6 +201,14 @@ public class RmiServerConnection implements Connection {
         }
     }
 
+    public void moveDiceError(){
+        try {
+            client.moveDiceError();
+        } catch (RemoteException e) {
+            serverMethod.disconnected(name);
+        }
+    }
+
     public void pickDiceSpace(int index){
         try {
             client.pickDiceSpace(index);

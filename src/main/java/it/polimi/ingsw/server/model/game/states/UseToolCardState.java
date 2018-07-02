@@ -2,9 +2,9 @@ package it.polimi.ingsw.server.model.game.states;
 
 import it.polimi.ingsw.server.Log.Log;
 import it.polimi.ingsw.server.exception.UseToolException;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -18,11 +18,11 @@ public class UseToolCardState extends State {
      * Checks the restrictions of the specified tool card and if the player have enough favors to use it.
      * If those are ok, sets the player's new favors, the next actions of the tool card and the tool card that has been used.
      * @param round is the current round
-     * @param action contains the current state and the number of the tool card that will be used.
+     * @param message contains the current state and the number of the tool card that will be used.
      */
-    public void execute(Round round, List action) {
+    public void execute(Round round, Message message) {
         try {
-            ToolCard card = round.getBoard().getToolCard(Integer.parseInt((String) action.get(1)));
+            ToolCard card = round.getBoard().getToolCard(message.getIntegerArgument(0));
             int favor = round.getCurrentPlayer().getFavour();
 
             checkRestrictions(card, round);

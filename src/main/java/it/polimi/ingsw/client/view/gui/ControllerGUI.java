@@ -1004,6 +1004,12 @@ public class ControllerGUI implements View {
         }
     }
 
+    @Override
+    public void moveDiceError() {
+        //todo;
+        System.out.println("Requisiti dello spostamento del dado non rispettati");
+    }
+
     /**
      * @param index index of dice picked from DiceSpace
      *              it set null ImageView of Dice picked

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.costants.TimerConstants;
+import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
@@ -57,8 +57,8 @@ public  class Session extends Observable implements TimedComponent {
                         return;
                     }
                 }
-            notifyChanges(LOGIN_SUCCESSFUL,player);
             lobby.add(new Player(player));
+            notifyChanges(LOGIN_SUCCESSFUL,player);
             Log.getLogger().addLog("connected\n" + "players in lobby: " + lobby.size() + "\n ---",Level.INFO,this.getClass().getName(),"joinPlayer");
             if(lobby.size() == MIN_PLAYERS ) {
                 startingTime = System.currentTimeMillis();
@@ -132,6 +132,12 @@ public  class Session extends Observable implements TimedComponent {
 
     public List<Player> getPlayers(){ return this.lobby; }
 
+    private synchronized List<String> getNicknames(){
+        List<String> nicknames = new ArrayList<>();
+        lobby.forEach(player -> nicknames.add(player.getNickname()));
+        return nicknames;
+    }
+
     public GameMultiplayer getGame() { return game; }
 
     /**
@@ -169,37 +175,37 @@ public  class Session extends Observable implements TimedComponent {
      * @param player name of the player to whom the message will be sent. Can be sent to all of them.
      */
     public void notifyChanges(String string,String player){
-        List action = new ArrayList();
+        Message message = new Message(string);
 
         switch (string) {
             case START_GAME:
-                action.add(string);
+                message.setPlayers(getNicknames());
                 break;
             case TIMER_PING:
-                action.add(string);
-                action.add((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
+                message.addIntegerArgument((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
+                message.setPlayers(getNicknames());
                 break;
             case LOGIN_ERROR:
-                action.add(string);
-                action.add(player);
-                action.add("game");
+                message.addStringArguments(player);
+                message.addStringArguments("game");
+                message.addPlayer(player);
                 break;
             case RECONNECT_PLAYER:
+                message.addPlayer(player);
+                break;
             case LOGOUT:
-                action.add(string);
-                action.add(player);
+                message.addStringArguments(player);
+                message.setPlayers(getNicknames());
                 break;
             case LOGIN_SUCCESSFUL:
-                action.add(string);
-                action.add(player);
-                action.add(lobby.size());
+                message.addStringArguments(player);
+                message.addIntegerArgument(lobby.size());
+                message.setPlayers(getNicknames());
                 break;
             default:
                 break;
         }
         setChanged();
-        notifyObservers(action);
+        notifyObservers(message);
     }
-
-
 }

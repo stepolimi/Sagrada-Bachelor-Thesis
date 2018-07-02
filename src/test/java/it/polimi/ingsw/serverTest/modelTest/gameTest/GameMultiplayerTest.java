@@ -15,9 +15,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buildPrivateObjective;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameMultiplayerTest {
     private Player p1 = new Player("Giocatore1");
@@ -58,7 +56,7 @@ class GameMultiplayerTest {
     }
 
     private void insertDices(){
-        p1.getSchema().silentInsertDice(0,0,new Dice(Colour.ANSI_RED,6));
+        p1.getSchema().silentInsertDice(0,0,new Dice(Colour.ANSI_RED,1));
         p1.getSchema().silentInsertDice(0,2,new Dice(Colour.ANSI_RED,6));
         p1.getSchema().silentInsertDice(0,4,new Dice(Colour.ANSI_RED,6));
         p1.getSchema().silentInsertDice(1,1,new Dice(Colour.ANSI_RED,6));
@@ -70,12 +68,11 @@ class GameMultiplayerTest {
         p2.getSchema().silentInsertDice(1,1,new Dice(Colour.ANSI_YELLOW,5));
         p2.getSchema().silentInsertDice(1,3,new Dice(Colour.ANSI_YELLOW,5));
 
-        p3.getSchema().silentInsertDice(0,0,new Dice(Colour.ANSI_GREEN,4));
-        p3.getSchema().silentInsertDice(0,2,new Dice(Colour.ANSI_GREEN,4));
-        p3.getSchema().silentInsertDice(0,4,new Dice(Colour.ANSI_GREEN,4));
-        p3.getSchema().silentInsertDice(1,1,new Dice(Colour.ANSI_GREEN,4));
-        p3.getSchema().silentInsertDice(1,3,new Dice(Colour.ANSI_GREEN,4));
-
+        p3.getSchema().silentInsertDice(0,0,new Dice(Colour.ANSI_GREEN,6));
+        p3.getSchema().silentInsertDice(0,2,new Dice(Colour.ANSI_GREEN,6));
+        p3.getSchema().silentInsertDice(0,4,new Dice(Colour.ANSI_GREEN,5));
+        p3.getSchema().silentInsertDice(1,1,new Dice(Colour.ANSI_GREEN,5));
+        p3.getSchema().silentInsertDice(1,3,new Dice(Colour.ANSI_GREEN,5));
     }
 
     @Test
@@ -85,6 +82,7 @@ class GameMultiplayerTest {
         for(Player p:game.getBoard().getPlayerList()) {
             assertNotNull(p.getPrCard());
             assertEquals(4,p.getSchemas().size());
+
             for(Schema schema: p.getSchemas()){
                 assertNotNull(schema);
             }
@@ -99,6 +97,7 @@ class GameMultiplayerTest {
         setPrivateObjectives();
         setSchemas();
         insertDices();
+        p1.setFavour(5);
 
         game.endGame(p1);
         List<Player> rankings = game.getRankings();
@@ -119,5 +118,16 @@ class GameMultiplayerTest {
 
         game.reconnectPlayer(p1);
         assertEquals(3,game.getBoard().getConnected());
+    }
+
+    @Test
+    void timerElapsed(){
+        setup();
+        setSchemas();
+
+        assertNull(game.getRoundManager().getRound());
+        game.timerElapsed();
+
+        assertNotNull(game.getRoundManager().getRound());
     }
 }
