@@ -1471,33 +1471,34 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             textflow.setText(GameMessage.RECONNECTED);
-           IntStream.range(0, schemas.size())
-                   .forEach(i ->{
-                       System.out.println(players.get(i));
-                       System.out.println((schemas.get(i)));
-                   });
+            disableAll();
+            IntStream.range(0, schemas.size())
+                    .forEach(i -> {
+                        System.out.println(players.get(i));
+                        System.out.println((schemas.get(i)));
+                    });
 
             int index;
-                Stage stage = (Stage) loginAction.getScene().getWindow();
-                stage.close();
-                schemaPlayers = new ArrayList<>();
-                schemaPlayers = Arrays.asList(nickname2, constrain2,
-                nickname3, constrain3, nickname4, constrain4);
+            Stage stage = (Stage) loginAction.getScene().getWindow();
+            stage.close();
+            schemaPlayers = new ArrayList<>();
+            schemaPlayers = Arrays.asList(nickname2, constrain2,
+                    nickname3, constrain3, nickname4, constrain4);
 
-                if(players.contains(nickname.getText())) {
-                    index = players.indexOf(nickname.getText());
-                    resetMySchema(schemaConstrain, gridPane, schemas.get(index));
-                    schemas.remove(index);
-                    players.remove(index);
-                }
+            if (players.contains(nickname.getText())) {
+                index = players.indexOf(nickname.getText());
+                resetMySchema(schemaConstrain, gridPane, schemas.get(index));
+                schemas.remove(index);
+                players.remove(index);
+            }
 
             AtomicInteger count = new AtomicInteger();
             IntStream.iterate(0, i -> i + 1)
                     .limit(players.size())
                     .forEach(i -> {
                         ((Text) (schemaPlayers.get(count.get()))).setText(players.get(i));
-                        resetSchema((GridPane) schemaPlayers.get(count.get() +1), schemas.get(i));
-                        ((GridPane) schemaPlayers.get(count.get() +1)).setId(players.get(i));
+                        resetSchema((GridPane) schemaPlayers.get(count.get() + 1), schemas.get(i));
+                        ((GridPane) schemaPlayers.get(count.get() + 1)).setId(players.get(i));
                         count.set(count.get() + 2);
                     });
         });
