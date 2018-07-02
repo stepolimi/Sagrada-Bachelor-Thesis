@@ -181,6 +181,8 @@ public class ControllerGUI implements View {
     private GridPane roundTrack;
     @FXML
     private GridPane score;
+    private boolean moveCorrect;
+
     /**
      ** Controller builder, in order to set default paramaters used by Event
      * @param hand : is about what type of view interface was choosen; in this case handler was set on GUI
@@ -998,7 +1000,7 @@ public class ControllerGUI implements View {
      *  Method launched if MoveDice was correct (during he use of tool n° 2-3-4)
      */
     public void moveDiceAccepted() {
-        correctInsertion = true;
+        moveCorrect = true;
         synchronized (lock) {
             lock.notify();
         }
@@ -1006,12 +1008,10 @@ public class ControllerGUI implements View {
 
     @Override
     public void moveDiceError() {
-        //todo;
-        correctInsertion = false;
-        synchronized (lock){
+      moveCorrect = false;
+        synchronized (lock) {
             lock.notify();
         }
-        System.out.println("Requisiti dello spostamento del dado non rispettati");
     }
 
     /**
@@ -1722,7 +1722,7 @@ public class ControllerGUI implements View {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (correctInsertion) {
+                    if (moveCorrect) {
 
                         schemaCell.setImage(imageMoved.getImage());
                         schemaCell.setId(GameMessage.FULL);
@@ -1771,7 +1771,6 @@ public class ControllerGUI implements View {
             x1 = null;
             x2 = null;
         }
-        //todo: server may have problem to gesture with tool 12 in particular case
     }
 
     /**
