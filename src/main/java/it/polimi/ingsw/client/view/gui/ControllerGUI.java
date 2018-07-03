@@ -932,7 +932,6 @@ public class ControllerGUI implements View {
             else iconTool.setVisible(false);
 
 
-//todo toolcard 1 doesn't work after the first time
         });
     }
 
