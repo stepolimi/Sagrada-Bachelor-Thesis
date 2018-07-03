@@ -6,8 +6,6 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 
@@ -20,21 +18,19 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     private Board board;
-    private List<Player> players = new ArrayList<Player>();
-    private Player player, player2, player3;
+    private List<Player> players = new ArrayList<>();
+    private Player player, player2;
     private Schema defaultSchema;
     private Schema customSchema;
 
     private void initBoard() {
-        VirtualView view = VirtualView.getVirtualView();
         player = new Player("player 1");
         player2 = new Player("player 2");
-        player3 = new Player("player 3");
+        Player player3 = new Player("player 3");
         players.add(player);
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        board.setObserver(view);
         try {
             defaultSchema = buildSchema(1);
             customSchema = buildSchema(2);

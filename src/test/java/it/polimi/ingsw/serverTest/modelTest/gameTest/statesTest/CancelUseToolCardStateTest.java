@@ -7,8 +7,6 @@ import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.CancelUseToolCardState;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNull;
 
 class CancelUseToolCardStateTest {
-    private Board board;
     private Round round;
     private CancelUseToolCardState state;
 
@@ -31,10 +28,8 @@ class CancelUseToolCardStateTest {
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
-        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
-        board = game.getBoard();
-        board.setObserver(view);
+        Board board = game.getBoard();
         round = new Round(players.get(0),board,game.getRoundManager(), game);
     }
 

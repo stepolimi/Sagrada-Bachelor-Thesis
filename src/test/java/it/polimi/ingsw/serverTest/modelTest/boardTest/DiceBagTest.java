@@ -37,9 +37,7 @@ class DiceBagTest {
             if (d.getValue() != 0)
                 notZero++;
         }
-        if (r == 18 && y == 18 && p == 18 && g == 18 && b == 18 && notZero == 0)
-            return true;
-        return false;
+        return r == 18 && y == 18 && p == 18 && g == 18 && b == 18 && notZero == 0;
     }
 
     @Test

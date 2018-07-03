@@ -3,7 +3,6 @@ package it.polimi.ingsw.serverTest.modelTest.boardTest;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -17,7 +16,6 @@ import static junit.framework.Assert.assertTrue;
 
 class PlayerTest {
     private Player player;
-    private Schema schema1;
     private Schema schema2;
     private Schema customSchema;
     private PrivateObjective privateObjective;
@@ -25,14 +23,11 @@ class PlayerTest {
 
     private void testInit(){
         player = new Player("player 1");
-        schema1 = schemaInit(1);
         schema2 = schemaInit(2);
         customSchema = schemaInit(3);
         privateObjective = buildPrivateObjective(2);
-        schemas.add(schema1);
+        schemas.add(schemaInit(1));
         schemas.add(schema2);
-        player.setObserver(VirtualView.getVirtualView());
-
     }
 
     private Schema schemaInit(int n){
@@ -40,7 +35,7 @@ class PlayerTest {
         try {
             schema = buildSchema(n);
         }catch(Exception e){
-            System.out.println(e);
+            e.printStackTrace();
         }
         return schema;
     }

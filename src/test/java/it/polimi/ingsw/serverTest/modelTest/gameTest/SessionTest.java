@@ -1,8 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest;
 
 import it.polimi.ingsw.server.model.game.Session;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -12,52 +10,47 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SessionTest {
-    private String p1 = "Giocatore1";
-    private String p2 = "Giocatore2";
-    private String p3 = "Giocatore3";
-    private String p4 = "Giocatore4";
-    private String p5 = "Giocatore5";
+    private String p3 = "Player 3";
+    private String p4 = "Player 4";
     private Session session;
-    private VirtualView virtual;
 
-    private ArrayList<String> players = new ArrayList<String>();
+    private ArrayList<String> players = new ArrayList<>();
 
     private void setup(){
-        players.add(p1);
-        players.add(p2);
+        players.add("Player 1");
+        players.add("Player 2");
         players.add(p3);
         players.add(p4);
 
         session = Session.getSession();
-        virtual = VirtualView.getVirtualView();
     }
 
     @Test
     void join_players(){
         setup();
+        String p5 = "Player 5";
         //no duplicate nickname
         session.joinPlayer(players.get(0));
         session.joinPlayer(players.get(0));
-        assertEquals(1,session.getPlayers().size());
+        assertEquals(1,session.getPlayersInLobby().size());
 
         session.removePlayer(players.get(0));
 
         //game will be created when lobby reaches 4 players
         for(String s: players) {
-            assertTrue(session.getGame() == null);
+            assertTrue(session.getPlayersInGames().isEmpty());
             session.joinPlayer(s);
         }
-        assertTrue(session.getGame()!= null);
+        assertFalse(session.getPlayersInGames().isEmpty());
 
-        //no player can join the game if it's already running
+        //a new lobby for a new game is created after the start of the first one
         session.joinPlayer(p5);
-        assertEquals(4,session.getPlayers().size());
-
+        assertEquals(1,session.getPlayersInLobby().size());
+        session.removePlayer(p5);
     }
 
     @Test
     void remove_player(){
-
         setup();
 
         //remove a player from lobby correctly
@@ -66,13 +59,13 @@ class SessionTest {
             session.joinPlayer(s);
         }
         session.removePlayer(p3);
-        assertEquals(4, session.getPlayers().size() );
+        assertEquals(2, session.getPlayersInLobby().size() );
 
         //disconnects player correctly after game start
         session.joinPlayer(p3);
         session.joinPlayer(p4);
-        session.removePlayer(p4);
-        assertFalse(session.getGame().getBoard().getPlayer(p4).isConnected());
+        session.disconnectPlayer(p4,session.getPlayersInGames().get(p4));
+        assertFalse(session.getPlayersInGames().get(p4).getBoard().getPlayer(p4).isConnected());
     }
 
 

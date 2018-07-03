@@ -47,7 +47,7 @@ class RowsCTest {
     void CorrectScore_6points() {
         insertDice();
 
-        RowsObj card = new RowsObj("card", "descritption", 6);
+        RowsObj card = new RowsObj("card", "description", 6);
         card.dump();
 
         assertEquals(12, card.scoreCard(s), "Correct Score");
@@ -57,7 +57,7 @@ class RowsCTest {
     void CorrectScore_5points() {
         insertDice();
 
-        RowsObj card1 = new RowsObj("card", "descritption", 5);
+        RowsObj card1 = new RowsObj("card", "description", 5);
         card1.dump();
 
         assertEquals(10, card1.scoreCard(s), "Correct Score");
@@ -72,7 +72,7 @@ class RowsCTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        RowsObj card1 = new RowsObj("card", "descritption", 5);
+        RowsObj card1 = new RowsObj("card", "description", 5);
         card1.dump();
 
         assertEquals(0, card1.scoreCard(s), "result is 0");

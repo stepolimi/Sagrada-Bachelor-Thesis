@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RoundTrackTest {
     private RoundTrack roundTrack = new RoundTrack(new Board(new ArrayList<>()));
-    private ArrayList<Dice> listDice = new ArrayList<Dice>();
+    private ArrayList<Dice> listDice = new ArrayList<>();
     private Dice d1;
     private Dice d2;
     private Dice d3;

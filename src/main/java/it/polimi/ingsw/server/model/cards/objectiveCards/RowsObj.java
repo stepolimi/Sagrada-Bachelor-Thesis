@@ -36,8 +36,6 @@ public class RowsObj extends ObjectiveCard {
             else if (points == 5 && noNumberDuplicates(container) && container.size() == COLUMNS_SCHEMA)
                 score += this.points;
         }
-
-        System.out.println("row objective score: " + score);
         return score;
     }
 

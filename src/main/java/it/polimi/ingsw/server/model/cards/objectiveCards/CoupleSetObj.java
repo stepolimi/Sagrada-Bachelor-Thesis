@@ -32,11 +32,8 @@ public class CoupleSetObj extends ObjectiveCard {
             else if (dice.getValue() == this.b)
                 count2++;
         }
-        if (count1 < count2) {
-            System.out.println("couple set objective score: " + 2 * count1);
+        if (count1 < count2)
             return 2 * count1;
-        }
-        System.out.println("couple set objective score: " + 2 * count2);
         return 2 * count2;
     }
 

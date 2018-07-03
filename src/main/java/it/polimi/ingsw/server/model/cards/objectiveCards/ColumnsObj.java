@@ -39,7 +39,6 @@ public class ColumnsObj extends ObjectiveCard {
                 score += this.points;
         }
 
-        System.out.println("column objective score: " + score);
         return score;
     }
 

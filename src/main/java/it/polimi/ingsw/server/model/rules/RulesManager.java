@@ -25,6 +25,15 @@ public class RulesManager {
         return instance;
     }
 
+    /**
+     * Checks all the rules for a dice's insertion in a schema.
+     * @param toolCard is the eventual tool card that has been used.
+     * @param x is the row of the schema where the dice will eventually be inserted.
+     * @param y is the column of the schema where the dice will eventually be inserted.
+     * @param dice is the dice that will eventually be inserted.
+     * @param sch is the schema where the dice will eventually be inserted.
+     * @return if it is possible to insert the dice in specified position.
+     */
     public boolean checkRules(ToolCard toolCard, int x, int y, Dice dice, Schema sch) {
         boolean valid = true;
         for (InsertionRule r : rules) {

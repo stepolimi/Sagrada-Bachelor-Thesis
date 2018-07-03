@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.model.board.Box;
 import it.polimi.ingsw.server.model.board.Colour;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -26,7 +27,7 @@ class BoxTest {
     void string() {
         Box b = new Box(Colour.ANSI_RED, 4);
 
-        assertTrue(b.toString().equals("[ 4 ]"));
+        assertEquals("[ 4 ]",b.toString());
     }
 
 }

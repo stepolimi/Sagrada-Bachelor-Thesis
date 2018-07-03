@@ -61,50 +61,51 @@ public class SocketConnection implements Runnable,Connection {
                 virtual.sendSchema(action.get(2), action.get(1));
                 break;
             case INSERT_DICE:
-                virtual.insertDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)), Integer.parseInt(action.get(3)));
+                virtual.insertDice(nickname, Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)),
+                        Integer.parseInt(action.get(3)));
                 break;
             case USE_TOOL_CARD:
-                virtual.useToolCard(Integer.parseInt(action.get(1)));
+                virtual.useToolCard(nickname, Integer.parseInt(action.get(1)));
                 break;
             case MOVE_DICE:
-                virtual.moveDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)),
+                virtual.moveDice(nickname, Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)),
                         Integer.parseInt(action.get(3)), Integer.parseInt(action.get(4)));
                 break;
             case DRAFT_DICE:
-                virtual.draftDice(Integer.parseInt(action.get(1)));
+                virtual.draftDice(nickname, Integer.parseInt(action.get(1)));
                 break;
             case PLACE_DICE:
-                virtual.placeDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
+                virtual.placeDice(nickname, Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
                 break;
             case CHANGE_VALUE:
-                virtual.changeValue(action.get(1));
+                virtual.changeValue(nickname, action.get(1));
                 break;
             case ROLL_DICE:
-                virtual.rollDice();
+                virtual.rollDice(nickname);
                 break;
             case SWAP_DICE:
-                virtual.swapDice(Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
+                virtual.swapDice(nickname, Integer.parseInt(action.get(1)), Integer.parseInt(action.get(2)));
                 break;
             case CANCEL_USE_TOOL_CARD:
-                virtual.cancelUseToolCard();
+                virtual.cancelUseToolCard(nickname);
                 break;
             case END_TURN:
-                virtual.sendEndTurn();
+                virtual.sendEndTurn(nickname);
                 break;
             case FLIP_DICE:
-                virtual.flipDice();
+                virtual.flipDice(nickname);
                 break;
             case PLACE_DICE_SPACE:
-                virtual.placeDiceSpace();
+                virtual.placeDiceSpace(nickname);
                 break;
             case ROLL_DICE_SPACE:
-                virtual.rollDiceSpace();
+                virtual.rollDiceSpace(nickname);
                 break;
             case SWAP_DICE_BAG:
-                virtual.swapDiceBag();
+                virtual.swapDiceBag(nickname);
                 break;
             case CHOOSE_VALUE:
-                virtual.chooseValue(Integer.parseInt(action.get(1)));
+                virtual.chooseValue(nickname, Integer.parseInt(action.get(1)));
                 break;
             case CUSTOM_SCHEMA:
                 virtual.sendCustomSchema(action.get(2), action.get(1));

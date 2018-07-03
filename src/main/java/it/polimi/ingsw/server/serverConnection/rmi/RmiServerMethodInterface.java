@@ -12,35 +12,35 @@ public interface RmiServerMethodInterface extends Remote {
 
     void sendSchema(String schema, String name) throws RemoteException;
 
-    void insertDice(int indexDiceSpace, int row, int column) throws RemoteException;
+    void insertDice(String name, int indexDiceSpace, int row, int column) throws RemoteException;
 
-    void useToolCard(int toolNumber) throws RemoteException;
+    void useToolCard(String name, int toolNumber) throws RemoteException;
 
-    void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) throws RemoteException;
+    void moveDice(String name, int oldRow, int oldColumn, int newRow, int newColumn) throws RemoteException;
 
-    void sendEndTurn() throws RemoteException;
+    void sendEndTurn(String name) throws RemoteException;
 
-    void draftDice(int indexDiceSpace) throws RemoteException;
+    void draftDice(String name, int indexDiceSpace) throws RemoteException;
 
-    void placeDice(int row, int column) throws RemoteException;
+    void placeDice(String name, int row, int column) throws RemoteException;
 
-    void changeValue(String change) throws RemoteException;
+    void changeValue(String name, String change) throws RemoteException;
 
-    void rollDice() throws RemoteException;
+    void rollDice(String name) throws RemoteException;
 
-    void swapDice(int numRound, int indexDice) throws RemoteException;
+    void swapDice(String name, int numRound, int indexDice) throws RemoteException;
 
-    void cancelUseToolCard() throws RemoteException;
+    void cancelUseToolCard(String name) throws RemoteException;
 
-    void flipDice() throws RemoteException;
+    void flipDice(String name) throws RemoteException;
 
-    void placeDiceSpace() throws RemoteException;
+    void placeDiceSpace(String name) throws RemoteException;
 
-    void rollDiceSpace() throws RemoteException;
+    void rollDiceSpace(String name) throws RemoteException;
 
-    void swapDiceBag() throws RemoteException;
+    void swapDiceBag(String name) throws RemoteException;
 
-    void chooseValue(int value) throws RemoteException;
+    void chooseValue(String name, int value) throws RemoteException;
 
     void sendCustomSchema(String schema, String name) throws RemoteException;
 

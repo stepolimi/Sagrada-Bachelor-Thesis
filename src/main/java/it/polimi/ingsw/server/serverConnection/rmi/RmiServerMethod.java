@@ -43,68 +43,66 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     }
 
     public void sendSchema(String schema, String name) {
-        virtual.sendSchema(schema,name);
+        virtual.sendSchema(schema, name);
     }
 
-    public void insertDice(int indexDiceSpace, int row, int column) {
-        virtual.insertDice(indexDiceSpace,row,column);
+    public void insertDice(String name, int indexDiceSpace, int row, int column) {
+        virtual.insertDice(name, indexDiceSpace,row,column);
     }
 
-    public void useToolCard(int toolNumber) {
-        virtual.useToolCard(toolNumber);
+    public void useToolCard(String name, int toolNumber) {
+        virtual.useToolCard(name, toolNumber);
     }
 
-    public void moveDice(int oldRow,int oldColumn, int newRow, int newColumn){
-        virtual.moveDice(oldRow,oldColumn,newRow,newColumn);
+    public void moveDice(String name, int oldRow,int oldColumn, int newRow, int newColumn){
+        virtual.moveDice(name,oldRow,oldColumn,newRow,newColumn);
     }
 
 
-    public void sendEndTurn() {
-        virtual.sendEndTurn();
+    public void sendEndTurn(String name) {
+        virtual.sendEndTurn(name);
     }
 
-    public void draftDice(int indexDiceSpace) {
-        virtual.draftDice(indexDiceSpace);
+    public void draftDice(String name, int indexDiceSpace) {
+        virtual.draftDice(name, indexDiceSpace);
     }
 
-    public void placeDice(int row, int column) {
-        virtual.placeDice(row,column);
+    public void placeDice(String name, int row, int column) {
+        virtual.placeDice(name, row,column);
     }
 
-    public void changeValue(String change) {
-        virtual.changeValue(change);
+    public void changeValue(String name, String change) {
+        virtual.changeValue(name, change);
     }
 
-    public void rollDice() {
-        virtual.rollDice();
+    public void rollDice(String name) { virtual.rollDice(name); }
+
+    public void swapDice(String name, int numRound, int indexDice){
+        virtual.swapDice(name, numRound,indexDice);
     }
 
-    public void swapDice(int numRound, int indexDice){
-        virtual.swapDice(numRound,indexDice);
+    public void cancelUseToolCard(String name) {
+        virtual.cancelUseToolCard(name);
     }
 
-    public void cancelUseToolCard() {
-        virtual.cancelUseToolCard();
+    public void flipDice(String name)  {
+        virtual.flipDice(name);
     }
 
-    public void flipDice()  {
-        virtual.flipDice();
+    public void placeDiceSpace(String name) {
+        virtual.placeDiceSpace(name);
     }
 
-    public void placeDiceSpace() {
-        virtual.placeDiceSpace();
+    public void rollDiceSpace(String name) {
+        virtual.rollDiceSpace(name);
     }
 
-    public void rollDiceSpace() {
-        virtual.rollDiceSpace();
+    public void swapDiceBag(String name) {
+        virtual.swapDiceBag(name);
     }
 
-    public void swapDiceBag() {
-        virtual.swapDiceBag();
-    }
-
-    public void chooseValue(int value) {
-        virtual.chooseValue(value);
+    public void chooseValue(String name, int value) {
+        virtual.chooseValue(name,value);
     }
 
     public void sendCustomSchema(String schema, String name) {

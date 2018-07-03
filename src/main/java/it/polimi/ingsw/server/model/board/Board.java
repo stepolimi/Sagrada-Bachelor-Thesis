@@ -8,11 +8,11 @@ import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.objectiveCards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
 import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.server.costants.Constants.EVERYONE;
@@ -30,28 +30,18 @@ public class Board extends Observable {
     private List<ObjectiveCard> deckPublic;
     private List<PrivateObjective> deckPrivate;
     private List<ToolCard> deckTool;
-    private Observer obs;
 
     public Board(List<Player> p) {
         this.playerList = p;
         dicebag = new DiceBag();
         roundTrack = new RoundTrack(this);
+        roundTrack.addObserver(VirtualView.getVirtualView());
         deckSchemas = new ArrayList<>();
         deckDefaultSchemas = new ArrayList<>();
         deckCustomSchemas = new ArrayList<>();
         deckPrivate = new ArrayList<>();
         deckPublic = new ArrayList<>();
         deckTool = new ArrayList<>();
-
-    }
-
-    /**
-     * Sets the observer and adds it to the round track.
-     * @param obs is the observer to be set.
-     */
-    public void setObserver(Observer obs) {
-        this.obs = obs;
-        roundTrack.addObserver(obs);
     }
 
     public List<Player> getPlayerList() {
@@ -110,7 +100,7 @@ public class Board extends Observable {
      */
     public void setDiceSpace(List<Dice> dices) {
         diceSpace = new DiceSpace(this);
-        diceSpace.addObserver(obs);
+        diceSpace.addObserver(VirtualView.getVirtualView());
         diceSpace.setDices(dices);
     }
 
@@ -267,7 +257,7 @@ public class Board extends Observable {
                     if(p.getSchema()!= null)
                         message.addStringArguments(gson.toJson(parseSchema(p.getSchema())));
                     else
-                        message.addStringArguments("too early");
+                        message.addStringArguments("");
                 }
                 message.addPlayer(player);
                 break;

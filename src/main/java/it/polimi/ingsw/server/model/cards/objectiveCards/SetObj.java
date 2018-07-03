@@ -4,8 +4,6 @@ import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-import java.util.Arrays;
-
 import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
 
 public class SetObj extends ObjectiveCard {
@@ -42,12 +40,9 @@ public class SetObj extends ObjectiveCard {
             else
                 return 0;
         }
-
-        System.out.println(Arrays.toString(count));
         for (int i : count)
             if (i < min)
                 min = i;
-        System.out.println("set objective score: " + points * min);
         return points * min;
     }
 

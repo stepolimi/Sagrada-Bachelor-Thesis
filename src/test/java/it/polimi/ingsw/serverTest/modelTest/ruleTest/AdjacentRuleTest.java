@@ -2,11 +2,9 @@ package it.polimi.ingsw.serverTest.modelTest.ruleTest;
 
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
-import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.rules.AdjacentRule;
 import it.polimi.ingsw.server.model.rules.InsertionRule;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -17,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AdjacentRuleTest {
     private Schema schema = new Schema();
-    private Player player = new Player("player 1");
     private Dice dice_1 = new Dice(Colour.ANSI_BLUE, 4);
     private Dice dice_2 = new Dice(Colour.ANSI_GREEN, 3);
     private Dice dice_3 = new Dice(Colour.ANSI_GREEN, 2);
@@ -26,7 +23,6 @@ class AdjacentRuleTest {
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
 
         //test for correct insertion in an empty schema
@@ -46,7 +42,6 @@ class AdjacentRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
 
         //test for wrong insertion in an empty schema

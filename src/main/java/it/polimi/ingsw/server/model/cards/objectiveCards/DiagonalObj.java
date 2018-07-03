@@ -37,7 +37,6 @@ public class DiagonalObj extends ObjectiveCard {
                 }
             }
         }
-        System.out.println("diagonal objective score: " + score);
         return score;
     }
 

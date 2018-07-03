@@ -10,9 +10,6 @@ import static junit.framework.Assert.assertNotSame;
 
 class DeckPrivTest {
     private PrivateObjective card1;
-    private PrivateObjective card2;
-    private PrivateObjective card3;
-    private PrivateObjective card4;
     private DeckPrivateObjective d = new DeckPrivateObjective(4);
 
     @Test
@@ -25,9 +22,9 @@ class DeckPrivTest {
     void CorrectExtracts(){
         assertEquals(4, d.getDeckPrivate().size());
         card1=d.extract(0);
-        card2=d.extract(1);
-        card3=d.extract(2);
-        card4=d.extract(3);
+        PrivateObjective card2 = d.extract(1);
+        PrivateObjective card3 = d.extract(2);
+        PrivateObjective card4 = d.extract(3);
 
         assertNotSame(card1.getColour(),card2.getColour());
         assertNotSame(card1.getColour(),card3.getColour());

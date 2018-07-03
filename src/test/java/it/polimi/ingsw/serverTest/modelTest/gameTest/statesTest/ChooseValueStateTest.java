@@ -8,8 +8,6 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.ChooseValueState;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -30,10 +28,8 @@ class ChooseValueStateTest {
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
         dice = new Dice(Colour.ANSI_YELLOW, 5);
-        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         Board board = game.getBoard();
-        board.setObserver(view);
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         round.roundInit();
         List<List<String>> nextActions = new ArrayList<>();

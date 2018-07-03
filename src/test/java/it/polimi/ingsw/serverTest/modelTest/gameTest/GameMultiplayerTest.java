@@ -5,8 +5,6 @@ import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -21,20 +19,14 @@ class GameMultiplayerTest {
     private Player p1 = new Player("Giocatore1");
     private Player p2 = new Player("Giocatore2");
     private Player p3= new Player("Giocatore3");
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private ArrayList<Player> players = new ArrayList<>();
     private GameMultiplayer game;
-    private VirtualView virtual;
 
     private void setup(){
-        virtual = VirtualView.getVirtualView();
         players.add(p1);
         players.add(p2);
         players.add(p3);
         game = new GameMultiplayer(players);
-        p1.setObserver(virtual);
-        p2.setObserver(virtual);
-        p3.setObserver(virtual);
-        game.setObserver(virtual);
         game.getBoard().setDiceSpace(new ArrayList<>());
 
     }
@@ -115,7 +107,7 @@ class GameMultiplayerTest {
         p1.setConnected(false);
         assertEquals(2,game.getBoard().getConnected());
 
-        game.reconnectPlayer(p1);
+        game.reconnectPlayer(p1.getNickname());
         assertEquals(3,game.getBoard().getConnected());
     }
 

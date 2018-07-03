@@ -3,11 +3,11 @@
 package it.polimi.ingsw.server.model.board;
 import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
@@ -20,7 +20,6 @@ public class Player extends Observable {
     private PrivateObjective prCard;
     private int score;
     private boolean myTurn;
-    private Observer obs;
     private List<Schema> schemas = new ArrayList<>();
 
 
@@ -29,10 +28,6 @@ public class Player extends Observable {
         this.connected = true;
         this.score = 0;
         this.myTurn = false;
-    }
-
-    public void setObserver(Observer obs) {
-        this.obs = obs;
     }
 
     public String getNickname() {
@@ -54,7 +49,7 @@ public class Player extends Observable {
                 schema = s;
                 favour = schema.getDifficult();
                 schema.setPlayer(this);
-                schema.addObserver(obs);
+                schema.addObserver(VirtualView.getVirtualView());
                 notifyChanges(APPROVED_SCHEMA);
                 return;
             }
@@ -70,7 +65,7 @@ public class Player extends Observable {
         this.schema = schema;
         favour = schema.getDifficult();
         schema.setPlayer(this);
-        schema.addObserver(obs);
+        schema.addObserver(VirtualView.getVirtualView());
         notifyChanges(APPROVED_SCHEMA);
     }
 
@@ -82,7 +77,7 @@ public class Player extends Observable {
         this.schema = schema;
         favour = schema.getDifficult();
         schema.setPlayer(this);
-        schema.addObserver(obs);
+        schema.addObserver(VirtualView.getVirtualView());
         notifyChanges(APPROVED_SCHEMA_CUSTOM);
     }
 

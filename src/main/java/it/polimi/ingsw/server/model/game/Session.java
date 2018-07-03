@@ -26,18 +26,18 @@ import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 public  class Session extends Observable implements TimedComponent {
     private static Session instance = null;
     private List<Player> lobby ;
-    private GameMultiplayer game;
+    private Map<String,GameMultiplayer> playersInGames;
     private GameTimer lobbyTimer;
     private Timer timer;
     private Long startingTime = 0L;
-    private Observer obs;
     private int lobbyTimerValue;
-    private TakeDataFile timerConfig;
 
     private Session() {
-        this.obs = VirtualView.getVirtualView();
+        TakeDataFile timerConfig;
+        playersInGames = new HashMap<>();
         timerConfig = new TakeDataFile(CONFIGURATION_FILE);
         lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
+        lobby = new ArrayList<>();
     }
 
     public static synchronized Session getSession(){
@@ -53,112 +53,88 @@ public  class Session extends Observable implements TimedComponent {
      * @param player name of the player that is going to join the lobby
      */
     public synchronized void joinPlayer(String player) {
-        checkEndedGames();
-        if(game == null || game.isEnded()) {
-            if (lobby == null) {
-                lobby = new ArrayList<>();
-            }else
-                for(Player p: lobby) {
-                    if (p.getNickname().equals(player)) {
-                        notifyChanges(LOGIN_ERROR,player);
-                        return;
-                    }
-                }
-            lobby.add(new Player(player));
-            notifyChanges(LOGIN_SUCCESSFUL,player);
-            Log.getLogger().addLog("connected\n" + "players in lobby: " + lobby.size() + "\n ---",Level.INFO,this.getClass().getName(),"joinPlayer");
-            if(lobby.size() == MIN_PLAYERS ) {
-                startingTime = System.currentTimeMillis();
-                lobbyTimer = new GameTimer(lobbyTimerValue,this);
-                timer = new Timer();
-                timer.schedule(lobbyTimer,0L,5000L);
-            }
-            else if(lobby.size() == MAX_PLAYERS){
-                timer.cancel();
-                notifyChanges(START_GAME,EVERYONE);
-                startGame();
+        for (Player p : lobby) {
+            if (p.getNickname().equals(player)) {
+                notifyChanges(LOGIN_ERROR, player);
+                return;
             }
         }
-        else {
-            for(Player p: game.getPlayers()){
-                if(p.getNickname().equals(player)){
-                    notifyChanges(RECONNECT_PLAYER,player);
-                    game.reconnectPlayer(p);
-                    return ;
-                }
-            }
-            Log.getLogger().addLog("connection failed: a game is already running\n" + " ---",Level.INFO,this.getClass().getName(),"joinPlayer");
-            notifyChanges(LOGIN_ERROR,player);
+        lobby.add(new Player(player));
+        notifyChanges(LOGIN_SUCCESSFUL, player);
+        Log.getLogger().addLog("connected\n" + "players in lobby: " + lobby.size() + "\n ---", Level.INFO, this.getClass().getName(), "joinPlayer");
+        if (lobby.size() == MIN_PLAYERS) {
+            startingTime = System.currentTimeMillis();
+            lobbyTimer = new GameTimer(lobbyTimerValue, this);
+            timer = new Timer();
+            timer.schedule(lobbyTimer, 0L, 5000L);
+        } else if (lobby.size() == MAX_PLAYERS) {
+            timer.cancel();
+            notifyChanges(START_GAME, EVERYONE);
+            startGame();
         }
+    }
+
+    public synchronized void reconnectPlayer(String player, GameMultiplayer game) {
+        notifyChanges(RECONNECT_PLAYER, player);
+        game.reconnectPlayer(player);
     }
 
     /**
      * Removes players from the lobby, if it's size reaches one player, the timer will be reset
      * @param player name of the player that is going to leave the lobby
      */
-    public synchronized void removePlayer(String player){
-        if(game == null) {
-            for(int i=0; i<lobby.size(); i++)
-                if(lobby.get(i).getNickname().equals(player)) {
-                    lobby.remove(i);
-                }
-            if(lobby.size() == MIN_PLAYERS-1) {
-                timer.cancel();
-                startingTime = 0L;
+    public synchronized void removePlayer(String player) {
+        for (int i = 0; i < lobby.size(); i++)
+            if (lobby.get(i).getNickname().equals(player)) {
+                notifyChanges(LOGOUT, player);
+                lobby.remove(i);
             }
-            Log.getLogger().addLog(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---",Level.INFO,this.getClass().getName(),"removePlayer");
-            notifyChanges(LOGOUT,player);
+        if (lobby.size() == MIN_PLAYERS - 1) {
+            timer.cancel();
+            startingTime = 0L;
         }
+        Log.getLogger().addLog(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---", Level.INFO, this.getClass().getName(), "removePlayer");
+
+    }
+
+    public synchronized void disconnectPlayer(String player, GameMultiplayer game) {
+        if (game.getRoundManager().getRound() != null && game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
+            game.getRoundManager().getRound().disconnectPlayer();
         else {
-            if(game.getRoundManager().getRound()!= null && game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
-                game.getRoundManager().getRound().disconnectPlayer();
-            else {
-                for (Player p : game.getPlayers()) {
-                    if (p.getNickname().equals(player)) {
-                        p.setConnected(false);
-                        Log.getLogger().addLog(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---",Level.INFO,this.getClass().getName(),"removePlayer");
-                        notifyChanges(LOGOUT,player);
-                    }
+            for (Player p : game.getPlayers()) {
+                if (p.getNickname().equals(player)) {
+                    p.setConnected(false);
+                    Log.getLogger().addLog(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---", Level.INFO, this.getClass().getName(), "removePlayer");
+                    notifyChanges(LOGOUT, player);
                 }
-                if (game.getBoard().getConnected() == 1) {
-                    game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
-                }
+            }
+            if (game.getBoard().getConnected() == 1) {
+                game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
             }
         }
     }
 
-    /**
-     * Checks if there is already a game and if it is finished. In that case it sets the game at null and clears the lobby.
-     */
-    private void checkEndedGames(){
-        if(game!=null && game.isEnded()){
-            game = null;
-            lobby.clear();
-        }
-    }
+    public List<Player> getPlayersInLobby(){ return this.lobby; }
 
-    public List<Player> getPlayers(){ return this.lobby; }
-
-    private synchronized List<String> getNicknames(){
+    public synchronized List<String> getNicknames(){
         List<String> nicknames = new ArrayList<>();
         lobby.forEach(player -> nicknames.add(player.getNickname()));
         return nicknames;
     }
 
-    public GameMultiplayer getGame() { return game; }
+    public Map<String,GameMultiplayer> getPlayersInGames() { return playersInGames; }
 
     /**
      * Creates and initializes a new game and sets it's observer
      */
-    private synchronized void startGame(){
-        if(game == null) {
-            Log.getLogger().addLog("starting game\n" + " ---",Level.INFO,this.getClass().getName(),"startGame");
-            game = new GameMultiplayer(lobby);
-            game.setObserver(obs);
-            game.addObserver(obs);
-            game.gameInit();
-            Log.getLogger().addLog("game started:\n" + "waiting for players to choose their schema\n" + " ---",Level.INFO,this.getClass().getName(),"startGame");
-        }
+    private synchronized void startGame() {
+        GameMultiplayer game = new GameMultiplayer(lobby);
+        Log.getLogger().addLog("starting game\n" + " ---", Level.INFO, this.getClass().getName(), "startGame");
+        game.addObserver(VirtualView.getVirtualView());
+        game.gameInit();
+        lobby.forEach(player -> playersInGames.put(player.getNickname(),game));
+        lobby = new ArrayList<>();
+        Log.getLogger().addLog("game started:\n" + "waiting for players to choose their schema\n" + " ---", Level.INFO, this.getClass().getName(), "startGame");
     }
 
     /**
@@ -202,7 +178,10 @@ public  class Session extends Observable implements TimedComponent {
                 break;
             case LOGOUT:
                 message.addStringArguments(player);
-                message.setPlayers(getNicknames());
+                if(getNicknames().contains(player))
+                    message.setPlayers(getNicknames());
+                else
+                    message.setPlayers(playersInGames.get(player).getBoard().getNicknames());
                 break;
             case LOGIN_SUCCESSFUL:
                 message.addStringArguments(player);

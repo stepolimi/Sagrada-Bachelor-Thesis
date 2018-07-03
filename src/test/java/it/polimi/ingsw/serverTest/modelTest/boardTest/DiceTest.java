@@ -23,9 +23,7 @@ class DiceTest {
     }
 
     private boolean CorrectDice(int n) {
-        if(n > 0 && n < 7)
-            return true;
-        return false;
+        return n > 0 && n < 7;
     }
 
 

@@ -1,18 +1,14 @@
 package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.board.Board;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.Round;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observer;
 import java.util.Random;
 
 public class RoundManager  {
     private Board board;
     private GameMultiplayer game;
-    private Observer obs;
     private int firstPlayerIndex = 0;
     private int roundNum = 0;
     private Round round ;
@@ -40,7 +36,7 @@ public class RoundManager  {
                     firstPlayerIndex = 0;
             }while (!playerConnected);
 
-            round.addObserver(obs);
+            round.addObserver(VirtualView.getVirtualView());
             round.roundInit();
             roundNum ++;
         }
@@ -57,8 +53,4 @@ public class RoundManager  {
     public int getRoundNumber(){return roundNum;}
 
     public Round getRound(){ return round;}
-
-    public void setObserver(Observer obs){
-        this.obs = obs;
-    }
 }

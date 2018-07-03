@@ -12,6 +12,15 @@ import static it.polimi.ingsw.server.costants.Constants.DICES_RESTRICTION;
 public class DicesRule implements InsertionRule {
     private static String restriction = DICES_RESTRICTION;
 
+    /**
+     * Checks that there isn't dices orthogonally adjacent to the specified position whit the same value or colour
+     * of the specified dice.
+     * @param x is the row of the schema where the dice will eventually be inserted.
+     * @param y is the column of the schema where the dice will eventually be inserted.
+     * @param dice is the dice that will eventually be inserted.
+     * @param sch is the schema where the dice will eventually be inserted.
+     * @return true if no dice with the same colour or value of the specified one has been found, false otherwise.
+     */
     public boolean checkRule(int x, int y, Dice dice, Schema sch) {
         List<Dice> nearDices = sch.nearDice(x, y);
 

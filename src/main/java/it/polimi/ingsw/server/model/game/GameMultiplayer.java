@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model.game;
 
 
 import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.costants.TimerConstants;
 import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.board.DeckSchemas;
@@ -14,6 +13,7 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
 import it.polimi.ingsw.server.setUp.TakeDataFile;
+import it.polimi.ingsw.server.virtualView.VirtualView;
 
 
 import java.util.*;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
 import static it.polimi.ingsw.server.costants.MessageConstants.SET_RANKINGS;
 import static it.polimi.ingsw.server.costants.MessageConstants.SET_WINNER;
-import static it.polimi.ingsw.server.costants.MessageConstants.TIMER_PING;
 import static it.polimi.ingsw.server.costants.NameCostants.LOBBY_TIMER;
 import static it.polimi.ingsw.server.costants.NameCostants.SCHEMA_TIMER;
 import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
@@ -32,7 +31,6 @@ import static it.polimi.ingsw.server.costants.TimerConstants.SCHEMAS_TIMER_PING;
 public class GameMultiplayer extends Observable implements TimedComponent {
     private List<Player> players;
     private Board board;
-    private Observer obs;
     private RoundManager roundManager;
     private GameTimer schemaTimer;
     private Timer timer;
@@ -49,20 +47,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         schemaTimerValue = Integer.parseInt(timerConfig.getParameter(SCHEMA_TIMER));
         this.players = new ArrayList<>();
         this.players.addAll(players);
-        this.board = new Board(players);
-        this.roundManager = new RoundManager(board, this);
+        board = new Board(players);
+        board.addObserver(VirtualView.getVirtualView());
+        roundManager = new RoundManager(board, this);
         ended = false;
-    }
-
-    /**
-     * Adds Observer to Board and RoundManager.
-     * @param obs observer to be set
-     */
-    public void setObserver(Observer obs) {
-        this.obs = obs;
-        board.addObserver(obs);
-        board.setObserver(obs);
-        roundManager.setObserver(obs);
     }
 
     /**
@@ -80,8 +68,7 @@ public class GameMultiplayer extends Observable implements TimedComponent {
         DeckPrivateObjective deckPriv = new DeckPrivateObjective(players.size());
         DeckSchemas deckSchemas = new DeckSchemas(players.size());
         players.forEach(p -> {
-            p.setObserver(obs);
-            p.addObserver(obs);
+            p.addObserver(VirtualView.getVirtualView());
             p.setPrCard(deckPriv.extract(board.getIndex(p)));
             p.setSchemas(deckSchemas.deliver(board.getIndex(p)));
             board.addPrivate(p.getPrCard());
@@ -161,9 +148,10 @@ public class GameMultiplayer extends Observable implements TimedComponent {
 
     /**
      * Sets the player as connected sends all game information to him.
-     * @param player is the player that is going to reconnect to the game
+     * @param nickname is the name of the player that is going to reconnect to the game
      */
-    public void reconnectPlayer(Player player) {
+    public void reconnectPlayer(String nickname) {
+        Player player = board.getPlayer(nickname);
         player.setConnected(true);
         player.reconnectPlayer();
         if(board.getDiceSpace() != null)

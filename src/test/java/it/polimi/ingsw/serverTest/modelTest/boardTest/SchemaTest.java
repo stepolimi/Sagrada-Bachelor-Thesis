@@ -35,12 +35,12 @@ class SchemaTest {
         testInit();
         Dice d = new Dice(Colour.ANSI_YELLOW,6);
         s.silentInsertDice(0,0,d);
-        assertTrue(s.getTable(0,0).getDice()!=null,"The box is not empty");
+        assertNotNull(s.getTable(0,0).getDice(),"The box is not empty");
         try {
             s.testRemoveDice(0,0);
             s.removeDice(0,0);
-            assertTrue(s.getTable(0,0).getDice()==null,"The box is empty");
-            assertTrue(s.removeDice(0,0)==null,"The box is empty");
+            assertNull(s.getTable(0,0).getDice(),"The box is empty");
+            assertNull(s.removeDice(0,0),"The box is empty");
         } catch (RemoveDiceException e) {
             e.printStackTrace();
         }

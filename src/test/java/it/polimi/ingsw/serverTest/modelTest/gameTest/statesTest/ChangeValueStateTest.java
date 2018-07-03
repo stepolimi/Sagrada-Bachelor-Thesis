@@ -1,6 +1,5 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 import it.polimi.ingsw.server.internalMesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
@@ -8,10 +7,7 @@ import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.game.GameMultiplayer;
 import it.polimi.ingsw.server.model.game.states.ChangeValueState;
-import it.polimi.ingsw.server.model.game.states.ChooseValueState;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.serverConnection.Connected;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -21,7 +17,6 @@ import static it.polimi.ingsw.server.costants.Constants.DECREMENT;
 import static it.polimi.ingsw.server.costants.Constants.INCREMENT;
 import static it.polimi.ingsw.server.costants.MessageConstants.CHOOSE_VALUE;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ChangeValueStateTest {
     private Round round;
@@ -39,10 +34,8 @@ class ChangeValueStateTest {
         dice = new Dice(Colour.ANSI_YELLOW, 5);
         dice2 = new Dice(Colour.ANSI_YELLOW, 6);
         dice3 = new Dice(Colour.ANSI_YELLOW, 1);
-        VirtualView view = VirtualView.getVirtualView();
         GameMultiplayer game = new GameMultiplayer(players);
         Board board = game.getBoard();
-        board.setObserver(view);
         round = new Round(players.get(0), board, game.getRoundManager(), game);
         round.roundInit();
         List<List<String>> nextActions = new ArrayList<>();

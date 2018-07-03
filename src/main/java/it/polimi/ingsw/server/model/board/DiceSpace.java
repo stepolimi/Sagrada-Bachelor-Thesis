@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model.board;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.internalMesages.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 

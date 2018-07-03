@@ -46,108 +46,124 @@ public class VirtualView extends Observable implements Observer {
         notifyObservers(message);
     }
 
-    public void insertDice(int indexDiceSpace, int row, int column){
+    public void insertDice(String name, int indexDiceSpace, int row, int column){
         Message message = new Message(INSERT_DICE);
         message.addIntegerArgument(indexDiceSpace);
         message.addIntegerArgument(row);
         message.addIntegerArgument(column);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void useToolCard(int toolNumber){
-        Message message = new Message(USE_TOOL_CARD);
+    public void useToolCard(String name, int toolNumber){
+        Message message;
+        message = new Message(USE_TOOL_CARD);
         message.addIntegerArgument(toolNumber);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn){
+    public void moveDice(String name, int oldRow, int oldColumn, int newRow, int newColumn){
         Message message = new Message(MOVE_DICE);
         message.addIntegerArgument(oldRow);
         message.addIntegerArgument(oldColumn);
         message.addIntegerArgument(newRow);
         message.addIntegerArgument(newColumn);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void sendEndTurn(){
+    public void sendEndTurn(String name){
         Message message = new Message(END_TURN);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void draftDice(int indexDiceSpace){
+    public void draftDice(String name, int indexDiceSpace){
         Message message = new Message(DRAFT_DICE);
+        message.addPlayer(name);
         message.addIntegerArgument(indexDiceSpace);
         setChanged();
         notifyObservers(message);
     }
 
-    public void placeDice(int row, int column){
+    public void placeDice(String name, int row, int column){
         Message message = new Message(PLACE_DICE);
         message.addIntegerArgument(row);
         message.addIntegerArgument(column);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void changeValue(String change){
+    public void changeValue(String name, String change){
         Message message = new Message(CHANGE_VALUE);
+        message.addPlayer(name);
         message.addStringArguments(change);
         setChanged();
         notifyObservers(message);
     }
 
-    public void rollDice(){
+    public void rollDice(String name){
         Message message = new Message(ROLL_DICE);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void swapDice(int numRound, int indexDice){
+    public void swapDice(String name, int numRound, int indexDice){
         Message message;
         message = new Message(SWAP_DICE);
         message.addIntegerArgument(numRound);
         message.addIntegerArgument(indexDice);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void cancelUseToolCard(){
+    public void cancelUseToolCard(String name){
         Message message = new Message(CANCEL_USE_TOOL_CARD);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void flipDice(){
+    public void flipDice(String name){
         Message message = new Message(FLIP_DICE);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void placeDiceSpace(){
+    public void placeDiceSpace(String name){
         Message message = new Message(PLACE_DICE_SPACE);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void rollDiceSpace(){
+    public void rollDiceSpace(String name){
         Message message = new Message(ROLL_DICE_SPACE);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void swapDiceBag() {
+    public void swapDiceBag(String name) {
         Message message = new Message(SWAP_DICE_BAG);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }
 
-    public void chooseValue(int value) {
+    public void chooseValue(String name, int value) {
         Message message = new Message(CHOOSE_VALUE);
         message.addIntegerArgument(value);
+        message.addPlayer(name);
         setChanged();
         notifyObservers(message);
     }

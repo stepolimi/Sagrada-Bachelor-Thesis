@@ -13,10 +13,10 @@ public class EmptyRule implements InsertionRule {
 
     /**
      * Checks if the specified box of the specified schema is empty.
-     * @param x is the row of the box of the schema.
-     * @param y is the column of the box of the schema.
-     * @param dice is the dice.
-     * @param sch is the schema.
+     * @param x is the row of the schema where the dice will eventually be inserted.
+     * @param y is the column of the schema where the dice will eventually be inserted.
+     * @param dice is the dice that will eventually be inserted.
+     * @param sch is the schema where the dice will eventually be inserted.
      * @return true if the box is empty, false otherwise.
      */
     public boolean checkRule(int x, int y, Dice dice, Schema sch) {

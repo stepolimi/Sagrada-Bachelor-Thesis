@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.rules.InsertionRule;
 import it.polimi.ingsw.server.model.rules.NumberRule;
-import it.polimi.ingsw.server.virtualView.VirtualView;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,11 +21,10 @@ class NumberRuleTest {
     private Player player = new Player("player 1");
     private Dice dice = new Dice(Colour.ANSI_GREEN, 4);
     private InsertionRule rule = new NumberRule();
-    private List<Schema> schemas = new ArrayList<Schema>();
+    private List<Schema> schemas = new ArrayList<>();
 
     @Test
     void correctInsertion() throws IOException {
-        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
@@ -37,7 +35,6 @@ class NumberRuleTest {
 
     @Test
     void wrongInsertion() throws IOException {
-        player.setObserver(VirtualView.getVirtualView());
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
