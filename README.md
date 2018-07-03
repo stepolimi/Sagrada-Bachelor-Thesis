@@ -1,12 +1,6 @@
-##Group 19
+![Screenshot](src/main/resources/assets/Screenshoot/title.png)
 
-Project made by:
-
-- 10525479 BAGARIN STEFANO
-- 10490724 BANFI STEFANO ALESSANDRO 
-- 10527150 BRESCIANI MATTEO
-for Software Engineering course
-
+### Group 19 [10525479 BAGARIN STEFANO - 10490724 BANFI STEFANO ALESSANDRO - 10527150 BRESCIANI MATTEO]
 
 From a Cranio Game: 
 
