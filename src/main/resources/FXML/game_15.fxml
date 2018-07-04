@@ -30,17 +30,17 @@
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.62149810791016" minWidth="0.0" prefWidth="55.054826736450195" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="486.0" minWidth="10.0" prefWidth="159.92727661132812" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="543.1074676513672" minWidth="10.0" prefWidth="81.12677001953125" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="543.1074676513672" minWidth="10.0" prefWidth="165.87322998046875" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="543.1074676513672" minWidth="10.0" prefWidth="74.76351928710938" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="543.1074676513672" minWidth="10.0" prefWidth="166.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="543.1074676513672" minWidth="10.0" prefWidth="55.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="803.0" minHeight="10.0" prefHeight="37.450687408447266" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="218.23941040039062" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="39.7464599609375" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="216.53518676757812" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="41.464813232421875" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="220.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="61.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="77.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="215.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
                         <ImageView fx:id="publObj1" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -420,7 +420,7 @@
                                           <Font size="24.0" />
                                        </font>
                                     </Text>
-                                    <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="689.0" layoutY="70.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="704.0" layoutY="70.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../assets/image/icon%20copia.png" />
                                        </image>
@@ -1006,7 +1006,7 @@
                                           <Image url="@../assets/image/tool-icon-33.png" />
                                        </image>
                                     </ImageView>
-                                    <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="605.0" layoutY="617.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true" visible="false">
+                                    <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="555.0" layoutY="591.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../assets/image/undo_icon.png" />
                                        </image>

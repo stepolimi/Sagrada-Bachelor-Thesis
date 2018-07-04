@@ -1004,7 +1004,7 @@
                                     <Image url="@../assets/image/tool-icon-33.png" />
                                  </image>
                               </ImageView>
-                              <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="605.0" layoutY="617.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true" visible="false">
+                              <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="611.0" layoutY="631.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/undo_icon.png" />
                                  </image>
@@ -1012,7 +1012,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Text fx:id="serverMessage" layoutX="490.0" layoutY="625.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
+                              <Text fx:id="serverMessage" layoutX="490.0" layoutY="612.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
                                  <font>
                                     <Font name="Apple Chancery" size="18.0" />
                                  </font>
