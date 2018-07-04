@@ -34,12 +34,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.*;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
@@ -401,9 +403,19 @@ public class ControllerGUI implements View {
     public void createGame() {
         Platform.runLater(() -> {
 
+            GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+
+
+            int width = gd.getDisplayMode().getWidth();
+            int height = gd.getDisplayMode().getHeight();
+            if (width > 1500 && height > 1000)
+                changeScene("game_15");
+            else changeScene(FxmlConstant.NEW_GAME);
             changeScene(FxmlConstant.NEW_GAME);
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 20);
             textflow.setFont(ea);
+
+
             if (progressBar != null) {
                 Stage stage = (Stage) progressBar.getScene().getWindow();
                 stage.close();
