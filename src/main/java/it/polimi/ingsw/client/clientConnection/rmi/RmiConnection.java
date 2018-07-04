@@ -89,11 +89,15 @@ public class RmiConnection implements Connection {
     }
 
     public void disconnect() {
-        try {
-            server.disconnected(hand.getView().getName());
-        } catch (RemoteException e) {
-            Message.print(SERVER_CONNECTION_ERROR, TypeMessage.ERROR_MESSAGE);
-        }
+        Thread t = new Thread(()-> {
+            try {
+                server.disconnected(hand.getView().getName());
+            } catch (RemoteException e) {
+                Message.print(SERVER_CONNECTION_ERROR, TypeMessage.ERROR_MESSAGE);
+            }
+
+        }); t.start();
+
     }
 
     public void insertDice(final int indexDiceSpace, final int row, final int column) {
