@@ -54,8 +54,9 @@ public class ViewCLI implements View {
     private String pathInitDefaultSchema;
     private String pathInitCustomSchema;
     private Thread threadRound;
+    private TakeDataFile config;
      ViewCLI() {
-         TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+         config = new TakeDataFile(CONFIGURATION_FILE);
         lobbyTimerValue = Integer.parseInt(config.getParameter(LOBBY_TIMER));
         pathCustomSchemas = config.getParameter(PATH_CUSTOM_SCHEMA);
         pathInitCustomSchema = config.getParameter(PATH_INIT_CUSTOM_SCHEMA);
@@ -882,7 +883,7 @@ public class ViewCLI implements View {
     public void startTurn(String name) {
         clearScreen();
         try {
-            load.displayImage(ROUND + round + ".txt");
+            load.displayImage(config.getParameter(PATH_ROUND_GAME_IMAGE)+ round + ".txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1467,12 +1468,12 @@ public class ViewCLI implements View {
         gameRunning=false;
         String winner;
         if(nickname.equals(username))
-            winner = YOU_WIN+".txt";
+            winner = PATH_WIN_IMAGE;
         else
-            winner = YOU_LOSE+".txt";
+            winner = PATH_LOSE_IMAGE;
 
         try {
-            load.displayImage(winner);
+            load.displayImage(config.getParameter(winner));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1552,7 +1553,7 @@ public class ViewCLI implements View {
         }
 
         try {
-            load.displayImage(ROUND + round + ".txt");
+            load.displayImage(config.getParameter(PATH_ROUND_GAME_IMAGE)+round + ".txt");
         } catch (IOException e) {
             e.printStackTrace();
         }

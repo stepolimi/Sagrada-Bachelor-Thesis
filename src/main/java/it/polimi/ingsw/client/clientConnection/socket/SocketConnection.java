@@ -17,6 +17,7 @@ import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
 import static it.polimi.ingsw.client.constants.NameConstants.SOCKET_PORT;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
+import static it.polimi.ingsw.client.constants.printCostants.SERVER_CONNECTION_ERROR;
 
 public class SocketConnection implements Connection,Runnable {
 
@@ -171,7 +172,7 @@ public class SocketConnection implements Connection,Runnable {
             } catch (NoSuchElementException e) {
                 stopThread = true;
                 if(inGame) {
-                    Message.print("Errore di collegamento con il server", TypeMessage.ERROR_MESSAGE);
+                    Message.print(SERVER_CONNECTION_ERROR, TypeMessage.ERROR_MESSAGE);
                     System.exit(1);
                 }
             }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.gui.ControllerGUI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+import static it.polimi.ingsw.client.constants.NameConstants.ICON_GAME;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
+
 public class ViewGUI extends Application {
 
 
@@ -15,8 +19,9 @@ public class ViewGUI extends Application {
     private Stage stage;
     private static ControllerGUI controller;
     private static Handler hand;
-
+    private TakeDataFile config;
     public ViewGUI() {
+        config = new TakeDataFile(CONFIGURATION_FILE);
         // this.hand = hand;
     }
 
@@ -32,7 +37,7 @@ public class ViewGUI extends Application {
         stage = primaryStage;
         stage.setScene(scene);
         stage.setResizable(false);
-        Image image = new Image("/assets/image/icon.png");
+        Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
         stage.show();    }
 

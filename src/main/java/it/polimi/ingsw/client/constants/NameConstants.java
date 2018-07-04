@@ -8,7 +8,10 @@ public class NameConstants {
     public static final String PATH_CUSTOM_SCHEMA = "PATH_CUSTOM_SCHEMA";
     public static final String PATH_INIT_CUSTOM_SCHEMA = "PATH_INIT_CUSTOM_SCHEMA";
     public static final String PATH_INIT_DEFAULT_SCHEMA = "PATH_INIT_DEFAULT_SCHEMA";
-
+    public static final String PATH_WIN_IMAGE = "PATH_WIN_IMAGE";
+    public static final String PATH_LOSE_IMAGE = "PATH_LOSE_IMAGE";
+    public static final String PATH_START_GAME_IMAGE = "PATH_START_GAME_IMAGE";
+    public static final String PATH_ROUND_GAME_IMAGE = "PATH_ROUND_GAME_IMAGE";
     //resurce costant
     public static final String ICON_GAME = "ICON_GAME";
     public static final String FONT = "FONT";
@@ -19,4 +22,6 @@ public class NameConstants {
     public static final String TOOLCARD_PATH = "TOOLCARD_PATH";
     public static final String CONSTRAIN_PATH = "CONSTRAIN_PATH";
     public static final String DICE_PATH = "DICE_PATH";
+
+
 }

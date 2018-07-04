@@ -8,10 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static it.polimi.ingsw.client.constants.printCostants.CONFIGURATION_FILE_NOT_FOUND;
+
 public class TakeDataFile {
-        FileReader reader;
-        BufferedReader input;
-        String file;
+        private FileReader reader;
+        private BufferedReader input;
+        private String file;
         public TakeDataFile(String file)
         {
             this.file = file;
@@ -24,7 +26,7 @@ public class TakeDataFile {
                 input = new BufferedReader(reader);
                 result =  input.lines().filter(line-> line.contains(parameter)).map(line -> line.substring(parameter.length()+1)).findFirst().get();
             } catch (FileNotFoundException e) {
-                Message.print("File di configurazione non trovato", TypeMessage.ERROR_MESSAGE);
+                Message.print(CONFIGURATION_FILE_NOT_FOUND, TypeMessage.ERROR_MESSAGE);
             }finally {
                 closeBuffer();
             }

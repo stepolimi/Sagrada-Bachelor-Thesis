@@ -19,6 +19,11 @@ PATH_PRIVATE_OBJECTIVE /data/privCard/
 PATH_TOOL_CARD /data/toolCard/ToolCard
 PATH_LOG_FILE src/main/resources/data/FileLog/logMessage.log
 
+//path image cli
+PATH_LOSE_IMAGE /data/CliImage/haiPerso.txt
+PATH_WIN_IMAGE /data/CliImage/haiVinto.txt
+PATH_START_GAME_IMAGE /data/CliImage/startGame.txt
+PATH_ROUND_GAME_IMAGE /data/CliImage/Round
 //path resource
 ICON_GAME /assets/image/icon.png
 FONT /fonts/EA.ttf
@@ -29,3 +34,4 @@ TOOLCARD_PATH /assets/image/Cards/ToolCard/
 CONSTRAIN_PATH /assets/image/SchemaElement/
 DICE_PATH /assets/image/Dice
 ZOOM_CURSOR /assets/image/zoom.png
+

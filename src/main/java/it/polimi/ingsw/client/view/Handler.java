@@ -1,16 +1,21 @@
 package it.polimi.ingsw.client.view;
 
 import it.polimi.ingsw.client.view.gui.ControllerGUI;
+import it.polimi.ingsw.server.set.up.TakeDataFile;
 
 import java.io.IOException;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.client.constants.NameConstants.PATH_START_GAME_IMAGE;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.*;
 
 public class Handler {
     private View v;
     private LoadImage load;
+    private TakeDataFile config;
     public Handler() {
+        config = new TakeDataFile(CONFIGURATION_FILE);
         load = new LoadImage();
         this.setGraphicInterface();
         v.startScene();
@@ -26,7 +31,7 @@ public class Handler {
             Scanner in = new Scanner(System.in);
 
             try {
-                load.displayImage(START_GAME+".txt");
+                load.displayImage(config.getParameter(PATH_START_GAME_IMAGE));
             } catch (IOException e) {
                 e.printStackTrace();
             }
