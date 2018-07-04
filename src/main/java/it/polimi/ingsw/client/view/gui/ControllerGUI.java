@@ -409,7 +409,7 @@ public class ControllerGUI implements View {
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
-                changeScene("game_15");
+                changeScene(FxmlConstant.GAMESCENE_15);
             else changeScene(FxmlConstant.NEW_GAME);
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 20);
             textflow.setFont(ea);

@@ -25,6 +25,7 @@ public class FxmlConstant {
     static final String WINNER_SCENE = "win";
     static final String LOSE_SCENE = "lose";
     static final String FIRST_SCENE = "play";
+    static final String GAMESCENE_15 = "game_15";
 
 
 }
