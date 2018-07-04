@@ -93,13 +93,9 @@ public class RoundTrack extends Observable {
      */
     public Dice testRemoveDice(int nRound, int nDice, String player) throws RemoveDiceException {
         Dice dice;
-        if (nRound < TOT_ROUNDS) {
-            if (listRounds[nRound].size() > nDice) {
-                if (listRounds[nRound].get(nDice) != null) {
-                    dice = listRounds[nRound].get(nDice);
-                    return dice;
-                }
-            }
+        if (nRound < TOT_ROUNDS && listRounds[nRound].size() > nDice && listRounds[nRound].get(nDice) != null) {
+            dice = listRounds[nRound].get(nDice);
+            return dice;
         }
 
         Message message = new Message(PICK_DICE_ROUND_TRACK_ERROR);
@@ -119,7 +115,7 @@ public class RoundTrack extends Observable {
     public Dice removeDice(int nRound, int nDice) throws RemoveDiceException {
         Message message;
         Dice dice;
-        if (listRounds[nRound].get(nDice) != null) {
+        if (nRound < TOT_ROUNDS && listRounds[nRound].size() > nDice && listRounds[nRound].get(nDice) != null) {
             dice = listRounds[nRound].get(nDice);
             listRounds[nRound].remove(nDice);
 

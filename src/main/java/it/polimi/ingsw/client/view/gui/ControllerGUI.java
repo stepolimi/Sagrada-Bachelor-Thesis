@@ -47,6 +47,8 @@ import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
 
+import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
+import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.exit;
 import static java.lang.System.out;
@@ -367,8 +369,12 @@ public class ControllerGUI implements View {
     public void playerDisconnected(final String name) {
         Platform.runLater(() -> {
             waitingMessage.setText(name + GameMessage.PLAYER_DISCONNECTED);
-            if (textflow != null)
-                textflow.setText(name + GameMessage.PLAYER_DISCONNECTED);
+            if (textflow != null) {
+                if(name.equals(nickname.getText()))
+                    textflow.setText(DISCONNECTED);
+                else
+                    textflow.setText(name + GameMessage.PLAYER_DISCONNECTED);
+            }
         });
 
     }
@@ -380,7 +386,6 @@ public class ControllerGUI implements View {
     public void timerPing(final String time) {
 
         Platform.runLater(() -> {
-            double seconds = parseInt(time);
             int lobbyTimer = Integer.parseInt(config.getParameter(LOBBY_TIMER));
             double result = ((lobbyTimer - Double.parseDouble(time)) / lobbyTimer);
                     progressBar.setProgress(result);
@@ -621,6 +626,7 @@ public class ControllerGUI implements View {
         ImageView imageView = (ImageView) event.getTarget();
 
         connection.sendSchema(schemasClient.get(parseInt(imageView.getId())));
+        textflow.setText(WAIT_CHOOSE_SCHEMA);
     }
 
     /**
@@ -677,9 +683,10 @@ public class ControllerGUI implements View {
             printSchema(schemaConstrain, name);
             schema = schema.InitSchema(config.getParameter(PATH_INIT_DEFAULT_SCHEMA) + name);
             nFavour.setText("x " + schema.getDifficult());
-            Stage stage = (Stage) schemaA.getScene().getWindow();
-            stage.close();
-
+            if(schemaA != null) {
+                Stage stage = (Stage) schemaA.getScene().getWindow();
+                stage.close();
+            }
         });
     }
      /**
@@ -692,9 +699,6 @@ public class ControllerGUI implements View {
     public void setOpponentsSchemas(final List<String> schemas) {
         List<String> stringList = new ArrayList<>(schemas);
         Platform.runLater(() -> {
-            if (stringList == null)
-                return;
-
             schemaPlayers = new ArrayList<Object>();
             schemaPlayers = Arrays.asList(nickname2, constrain2,
                     nickname3, constrain3, nickname4, constrain4);
@@ -946,7 +950,7 @@ public class ControllerGUI implements View {
      */
     public void setDiceSpace(final List<String> colours, List<Integer> values) {
         Platform.runLater(() -> {
-            diceExtract = new ArrayList<String>();
+            diceExtract = new ArrayList<>();
 
             final int[] j = {0};
             IntStream.iterate(0, i -> i + 1)
@@ -1024,9 +1028,7 @@ public class ControllerGUI implements View {
     public void pickDiceSpace(final int index) {
 
         Platform.runLater(() -> {
-            if (currentTool == 7)
-                return;
-            else {
+            if (currentTool != 7){
                 ImageView imageView = (ImageView) diceSpace.getChildren().get(index);
                 imageView.setImage(null);
                 diceExtract.remove(index * 2);
@@ -1101,9 +1103,9 @@ public class ControllerGUI implements View {
      */
     public void pickDiceSchema(String nickname, int row, int column) {
         for (int i = 1; i < schemaPlayers.size(); i = i + 2) {
-            GridPane gridPane = (GridPane) schemaPlayers.get(i);
-            if (gridPane.getId().equals(nickname)) {
-                ImageView imageView = (ImageView) getNodeFromGridPane(gridPane, column, row);
+            GridPane gridPaneLocal = (GridPane) schemaPlayers.get(i);
+            if (gridPaneLocal.getId().equals(nickname)) {
+                ImageView imageView = (ImageView) getNodeFromGridPane(gridPaneLocal, column, row);
                 imageView.setImage(null);
             }
         }
@@ -1255,15 +1257,13 @@ public class ControllerGUI implements View {
     public void placeDiceRoundTrack(int nRound, final List<String> colours, List<Integer> values) {
 
         Platform.runLater(() -> {
-            int round = nRound;
-
 
             IntStream.iterate(0, i -> i + 1)
                     .limit(colours.size())
                     .forEach(i -> {
                         String color = colours.get(i);
                         String number = values.get(i).toString();
-                        ImageView imageView = getLastRoundCell(round, roundTrack);
+                        ImageView imageView = getLastRoundCell(nRound, roundTrack);
                         setDice(imageView, color, number);
 
                             }
@@ -1444,6 +1444,8 @@ public class ControllerGUI implements View {
     @Override
     public void setWinner(String nick) {
         Platform.runLater(() -> {
+            Stage stage = (Stage) schemaA.getScene().getWindow();
+            stage.close();
             if (nick.equals(nickname.getText()))
                 changeScene(FxmlConstant.WINNER_SCENE);
             else changeScene(FxmlConstant.LOSE_SCENE);
@@ -1501,9 +1503,14 @@ public class ControllerGUI implements View {
 
             if (players.contains(nickname.getText())) {
                 index = players.indexOf(nickname.getText());
-                resetMySchema(schemaConstrain, gridPane, schemas.get(index));
-                schemas.remove(index);
-                players.remove(index);
+                if(!schemas.get(index).equals(" ")) {
+                    resetMySchema(schemaConstrain, gridPane, schemas.get(index));
+                    schemas.remove(index);
+                    players.remove(index);
+                }else{
+                    textflow.setText(WAIT_CHOOSE_SCHEMA);
+                    return;
+                }
             }
 
             AtomicInteger count = new AtomicInteger();
@@ -1521,7 +1528,7 @@ public class ControllerGUI implements View {
     /**
      * it sorts Dicespace in order not to have empty cells between two Dices
      */
-    public void diceSpaceSort() {
+    private void diceSpaceSort() {
 
         List<Image> dice = new ArrayList<>();
         diceSpace.getChildren().stream()
@@ -1540,7 +1547,7 @@ public class ControllerGUI implements View {
      * @param round number of Round to sort
      * it sorts RoundTrack in order not to have empty cells between two Dices
      */
-    public void diceRoundTrackSort(int round) {
+    private void diceRoundTrackSort(int round) {
         int index = 3 * round;
         List<Image> dice = new ArrayList<>();
         ImageView imageView;
@@ -1698,7 +1705,6 @@ public class ControllerGUI implements View {
                     || currentTool == 11) {
                 schemaCell = (ImageView) event.getTarget();
                 connection.sendPlaceDice(row, col);
-                return;
             } else {
 
 
@@ -1715,6 +1721,7 @@ public class ControllerGUI implements View {
                     x2 = col;
                     y2 = row;
 
+                    moveCorrect = false;
                     connection.moveDice(y1, x1, y2, x2);
 
                     try {

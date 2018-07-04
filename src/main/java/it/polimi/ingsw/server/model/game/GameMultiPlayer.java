@@ -219,14 +219,14 @@ public class GameMultiPlayer extends Observable implements TimedComponent {
                 break;
             case SET_WINNER:
                 message.addStringArguments(rankings.get(0).getNickname());
-                message.setPlayers(board.getNicknames());
+                message.setPlayers(players.stream().filter(Player::isConnected).map(Player::getNickname).collect(Collectors.toList()));
                 break;
             case SET_RANKINGS:
                 rankings.forEach(player -> {
                     message.addStringArguments(player.getNickname());
                     message.addIntegerArgument(player.getScore());
                 });
-                message.setPlayers(board.getNicknames());
+                message.setPlayers(players.stream().filter(Player::isConnected).map(Player::getNickname).collect(Collectors.toList()));
                 break;
             default:
                 break;

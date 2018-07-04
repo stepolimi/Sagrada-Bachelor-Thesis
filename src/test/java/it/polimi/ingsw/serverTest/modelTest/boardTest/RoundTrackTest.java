@@ -68,6 +68,7 @@ class RoundTrackTest {
             e.printStackTrace();
         }
         assertThrows(RemoveDiceException.class,() -> roundTrack.testRemoveDice(11,0,"player 1"));
+        assertThrows(RemoveDiceException.class,() -> roundTrack.removeDice(11,0));
     }
 
     @Test

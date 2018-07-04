@@ -13,10 +13,12 @@ public class GameMessage {
 
 
     //message about Turn and Round
+    static final String WAIT_CHOOSE_SCHEMA = "In attesa della scelta degli altri giocatori";
     static final String NEW_ROUND = "Nuovo Round Iniziato";
     static final String MY_TURN = "Tocca a te!!!!!";
     static final String NOT_MY_TURN = "turno iniziato, tocca a: ";
     static final String RECONNECTED = "Ti sei riconnesso! Continua a giocare!";
+    static final String DISCONNECTED = "Sei stato disconnesso per inattivita! Riprova l'accesso per continuare a giocare.";
 
     static final String FULL = "full";
     static final String EMPTY = "";

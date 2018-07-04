@@ -37,6 +37,8 @@ public class MoveDiceState extends State {
                 }
                 round.setMovedDiceColour(dice.getColour());
             }
+            if(oldRowSchema == rowSchema && oldColumnSchema == columnSchema)
+                throw new RemoveDiceException();
             schema.silentRemoveDice(oldRowSchema, oldColumnSchema);
             schema.testInsertDice(rowSchema, columnSchema, dice, round.getUsingTool());
             schema.silentInsertDice(oldRowSchema, oldColumnSchema, dice);

@@ -255,7 +255,7 @@ public class Board extends Observable {
                     if(p.getSchema()!= null)
                         message.addStringArguments(gson.toJson(parseSchema(p.getSchema())));
                     else
-                        message.addStringArguments("");
+                        message.addStringArguments(" ");
                 }
                 message.addPlayer(player);
                 break;
