@@ -45,8 +45,6 @@ import java.util.stream.IntStream;
 
 import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
-import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
-
 import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
 import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
 import static java.lang.Integer.parseInt;
@@ -124,6 +122,8 @@ public class ControllerGUI implements View {
     private ImageView iconTool;
     @FXML
     private GridPane gridPane;
+    @FXML
+    private Text serverMessage;
     @FXML
     private Text textflow;
     @FXML
@@ -371,9 +371,9 @@ public class ControllerGUI implements View {
             waitingMessage.setText(name + GameMessage.PLAYER_DISCONNECTED);
             if (textflow != null) {
                 if(name.equals(nickname.getText()))
-                    textflow.setText(DISCONNECTED);
+                    serverMessage.setText(DISCONNECTED);
                 else
-                    textflow.setText(name + GameMessage.PLAYER_DISCONNECTED);
+                    serverMessage.setText(name + GameMessage.PLAYER_DISCONNECTED);
             }
         });
 
@@ -626,7 +626,7 @@ public class ControllerGUI implements View {
         ImageView imageView = (ImageView) event.getTarget();
 
         connection.sendSchema(schemasClient.get(parseInt(imageView.getId())));
-        textflow.setText(WAIT_CHOOSE_SCHEMA);
+        serverMessage.setText(WAIT_CHOOSE_SCHEMA);
     }
 
     /**
@@ -861,7 +861,7 @@ public class ControllerGUI implements View {
      * set the textFlow with "è iniziato il Round n°.."
      */
     public void startRound() {
-        textflow.setText(GameMessage.NEW_ROUND);
+        serverMessage.setText(GameMessage.NEW_ROUND);
     }
 
     /**
@@ -872,11 +872,11 @@ public class ControllerGUI implements View {
     public void startTurn(String name) {
 
         if (!name.equals(nickname.getText())) {
-            textflow.setText(GameMessage.NOT_MY_TURN + name);
+            serverMessage.setText(GameMessage.NOT_MY_TURN + name);
             disableAll();
         } else {
 
-            textflow.setText(GameMessage.MY_TURN);
+            serverMessage.setText(GameMessage.MY_TURN);
 
         }
     }
@@ -1132,10 +1132,12 @@ public class ControllerGUI implements View {
             iconTool.setVisible(false);
 
             if (currentTool == 7) {
+                serverMessage.setText(GameMessage.EMPTY);
                 textflow.setText(GameMessage.USE_TOOL_7);
                 disableTool(false);
             } else {
                 textflow.setText(GameMessage.USE_TOOL_GENERIC);
+                serverMessage.setText(GameMessage.EMPTY);
                 nFavour.setText(" x" + favor);
             }
 
@@ -1486,13 +1488,9 @@ public class ControllerGUI implements View {
 
 
         Platform.runLater(() -> {
-            textflow.setText(GameMessage.RECONNECTED);
+            serverMessage.setText(GameMessage.RECONNECTED);
             disableAll();
-            IntStream.range(0, schemas.size())
-                    .forEach(i -> {
-                        System.out.println(players.get(i));
-                        System.out.println((schemas.get(i)));
-                    });
+
 
             int index;
             Stage stage = (Stage) loginAction.getScene().getWindow();
@@ -1508,7 +1506,7 @@ public class ControllerGUI implements View {
                     schemas.remove(index);
                     players.remove(index);
                 }else{
-                    textflow.setText(WAIT_CHOOSE_SCHEMA);
+                    serverMessage.setText(WAIT_CHOOSE_SCHEMA);
                     return;
                 }
             }
