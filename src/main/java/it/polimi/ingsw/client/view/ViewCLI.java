@@ -791,6 +791,7 @@ public class ViewCLI implements View {
      * @param name is the name of player who connected
      */
     public void playerConnected(String name) {
+        Message.println("",TypeMessage.INFO_MESSAGE);
         Message.println(" \r"+name + PLAYER_ADD_IN_LOBBY,TypeMessage.INFO_MESSAGE);
         nPlayer++;
         Message.println(NUMBER_PLAYER_CONNECT+ nPlayer,TypeMessage.INFO_MESSAGE);
@@ -801,6 +802,7 @@ public class ViewCLI implements View {
      * @param name is the name of player who disconnected
      */
     public void playerDisconnected(String name) {
+        Message.println("",TypeMessage.INFO_MESSAGE);
         Message.println("\r"+name + PLAYER_DISCONNECTED,TypeMessage.INFO_MESSAGE);
         nPlayer--;
         Message.println(PLAYER_ALREADY_CONNECT+nPlayer,TypeMessage.INFO_MESSAGE);
@@ -1475,7 +1477,7 @@ public class ViewCLI implements View {
             e.printStackTrace();
         }
         Message.println("",TypeMessage.INFO_MESSAGE);
-        restart();
+
     }
 
     public void restart()
@@ -1498,6 +1500,7 @@ public class ViewCLI implements View {
         roundTrack.clear();
         setScene(CONNECTION);
         setScene(LOGIN);
+
     }
 
     /**
@@ -1525,6 +1528,7 @@ public class ViewCLI implements View {
             Message.println("║",TypeMessage.INFO_MESSAGE);
             Message.println("┗---┛--------------┛-----------┛",TypeMessage.INFO_MESSAGE);
         }
+        restart();
     }
 
     /**
