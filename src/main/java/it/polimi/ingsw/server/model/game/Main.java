@@ -41,7 +41,7 @@ public class Main {
         try {
             RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);
             RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,rmiPort);
-            Registry registry = LocateRegistry.createRegistry(rmiPort);
+            LocateRegistry.createRegistry(rmiPort);
             Naming.rebind("RmiServerMethodInterface", stub);
             Log.getLogger().addLog(RMI_READY, Level.INFO, Main.class.getName(),MAIN_MAIN);
 

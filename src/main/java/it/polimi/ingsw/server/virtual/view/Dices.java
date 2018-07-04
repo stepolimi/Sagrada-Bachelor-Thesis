@@ -5,7 +5,7 @@ public class Dices {
     private int number;
     private Colour colour;
 
-    public static final String[] faces = {
+    static final String[] faces = {
 
             "\u2680",
             "\u2681",

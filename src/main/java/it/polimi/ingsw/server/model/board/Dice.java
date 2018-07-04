@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
+import java.util.Random;
+
 public class Dice {
     private final Colour colour;
     private int value;
@@ -42,7 +44,8 @@ public class Dice {
      * Changes randomly the value of the dice.
      */
     public void rollDice() {                 //function used to "to launch " a dice
-        value =(int) ((Math.random()*6)+1);
+        Random random = new Random();
+        value = random.nextInt(6) + 1;
     }
 
     /**

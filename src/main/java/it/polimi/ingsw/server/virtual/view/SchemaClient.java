@@ -5,7 +5,7 @@ import static it.polimi.ingsw.server.costants.Constants.PAINT_ROW;
 
 public class SchemaClient {
     private String name;
-    private final Dices grid [][];
+    private final Dices [][] grid ;
     private int difficult;
     private static final int ROWS = 4;
     private static final int COLUMNS = 5;

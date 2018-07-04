@@ -25,17 +25,17 @@ public class DicesRule implements InsertionRule {
         List<Dice> nearDices = sch.nearDice(x, y);
 
         for (int i = 1; i < 4; i = i + 2)
-            if (nearDices.get(i) != null)
-                if (nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour()) {
-                    Log.getLogger().addLog(RULE_ERROR, Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
-                    return false;
-                }
+            if (nearDices.get(i) != null &&
+                    (nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour())) {
+                Log.getLogger().addLog(RULE_ERROR, Level.INFO, this.getClass().getName(), RULE_CHECK_RULE);
+                return false;
+            }
         for (int i = 4; i < 7; i = i + 2)
-            if (nearDices.get(i) != null)
-                if (nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour()) {
-                    Log.getLogger().addLog(RULE_ERROR, Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
-                    return false;
-                }
+            if (nearDices.get(i) != null &&
+                    (nearDices.get(i).getValue() == dice.getValue() || nearDices.get(i).getColour() == dice.getColour())) {
+                Log.getLogger().addLog(RULE_ERROR, Level.INFO, this.getClass().getName(), RULE_CHECK_RULE);
+                return false;
+            }
         return true;
     }
 

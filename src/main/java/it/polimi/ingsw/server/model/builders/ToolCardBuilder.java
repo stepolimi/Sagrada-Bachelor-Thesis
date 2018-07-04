@@ -28,7 +28,7 @@ public class ToolCardBuilder {
         TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
         String pathToolCard = config.getParameter(TOOL_CARD_PATH);
         ToolCard toolCard = new ToolCard();
-        final String filePath = pathToolCard + 4;
+        final String filePath = pathToolCard + n;
         Gson g = new Gson();
 
         InputStream is = ToolCardBuilder.class.getResourceAsStream(filePath);

@@ -3,7 +3,7 @@ package it.polimi.ingsw.server.model.cards.objective.cards;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
-public class CoupleSetObj extends ObjectiveCard {
+public class CoupleSetObj implements ObjectiveCard {
     private final String name;
     private final int a;
     private final int b;

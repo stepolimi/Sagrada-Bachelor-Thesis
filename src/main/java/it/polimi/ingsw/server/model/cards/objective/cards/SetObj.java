@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import static it.polimi.ingsw.server.costants.Constants.MAX_SCHEMA_DICES;
 
-public class SetObj extends ObjectiveCard {
+public class SetObj implements ObjectiveCard {
 
     private final String name;
     private final int points;

@@ -135,9 +135,8 @@ public class UseToolCardState extends State {
      * @throws UseToolException is thrown if the restriction has not been respected
      */
     private void checkTurnRestriction(String restriction, Round round) throws UseToolException {
-        if (restriction.equals(FIRST) && round.getTurnNumber() >= round.getBoard().numPlayers())
-            throw new UseToolException();
-        else if (restriction.equals(SECOND) && round.getTurnNumber() < round.getBoard().numPlayers())
+        if (restriction.equals(FIRST) && round.getTurnNumber() >= round.getBoard().numPlayers() ||
+                (restriction.equals(SECOND) && round.getTurnNumber() < round.getBoard().numPlayers()))
             throw new UseToolException();
     }
 

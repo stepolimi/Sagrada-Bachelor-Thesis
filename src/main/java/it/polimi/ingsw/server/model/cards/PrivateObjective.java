@@ -19,9 +19,8 @@ public class PrivateObjective {
         int score = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 5; j++) {
-                if (sch.getTable(i, j).getDice() != null)
-                    if (sch.getTable(i, j).getDice().getColour().equals(this.c))
-                        score += sch.getTable(i, j).getDice().getValue();
+                if (sch.getTable(i, j).getDice() != null && (sch.getTable(i, j).getDice().getColour().equals(this.c)))
+                    score += sch.getTable(i, j).getDice().getValue();
             }
         }
         return score;

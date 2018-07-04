@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static it.polimi.ingsw.server.costants.Constants.TOT_DICES;
 
@@ -43,7 +44,8 @@ public class DiceBag {
             return extra;
 
         for (int i = 0; i < nDice; i++) {
-            int casual = (int) (Math.random() * this.dices.size());
+            Random random = new Random();
+            int casual = random.nextInt(this.dices.size());
             dices.get(casual).rollDice();
             extra.add(dices.get(casual));
             dices.remove(casual);
@@ -70,7 +72,8 @@ public class DiceBag {
      */
     public Dice takeDice() {
         Dice d;
-        int random = (int) (Math.random() * this.dices.size());
+        Random rand = new Random();
+        int random = rand.nextInt(this.dices.size());
         d = dices.get(random);
         dices.remove(random);
         d.rollDice();

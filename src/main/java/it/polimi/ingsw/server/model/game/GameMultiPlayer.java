@@ -115,10 +115,7 @@ public class GameMultiPlayer extends Observable implements TimedComponent {
                     rankings.remove(player2);
                     rankings.add(i, player2);
                 } else if (player2.getPrCard().scoreCard(player2.getSchema()) == player1.getPrCard().scoreCard(player1.getSchema())) {
-                    if (player2.getFavour() > player1.getFavour()) {
-                        rankings.remove(player2);
-                        rankings.add(i, player2);
-                    } else if ((player2.getFavour() == player1.getFavour()) && player2.equals(lastPlayer)) {
+                    if (player2.getFavour() > player1.getFavour() || ((player2.getFavour() == player1.getFavour()) && player2.equals(lastPlayer))) {
                         rankings.remove(player2);
                         rankings.add(i, player2);
                     }

@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.List;
 
-public class DiagonalObj extends ObjectiveCard {
+public class DiagonalObj implements ObjectiveCard {
 
     private final String name;
     private final int[] diagonals = new int[4];
@@ -46,10 +46,8 @@ public class DiagonalObj extends ObjectiveCard {
      */
     private int checkNearDices(List<Dice> dices, Dice dice) {
         for (int index : diagonals)
-            if (dices.get(index) != null)
-                if (dices.get(index).getColour() == dice.getColour()) {
-                    return 1;
-                }
+            if (dices.get(index) != null && (dices.get(index).getColour() == dice.getColour()))
+                return 1;
         return 0;
     }
 

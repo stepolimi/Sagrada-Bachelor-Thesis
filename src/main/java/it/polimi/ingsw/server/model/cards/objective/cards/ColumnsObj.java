@@ -8,7 +8,7 @@ import java.util.List;
 import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 
-public class ColumnsObj extends ObjectiveCard {
+public class ColumnsObj implements ObjectiveCard {
 
     private final String name;
     private final int points;
@@ -30,10 +30,8 @@ public class ColumnsObj extends ObjectiveCard {
 
         for (int j = 0; j < COLUMNS_SCHEMA; j++) {
             container = sch.getDicesInColumn(j);
-            if (points == 5 && noColourDuplicates(container) && container.size() == ROWS_SCHEMA)
-                score += this.points;
-
-            else if (points == 4 && noNumberDuplicates(container) && container.size() == ROWS_SCHEMA)
+            if ((points == 5 && noColourDuplicates(container) && container.size() == ROWS_SCHEMA ) ||
+                    (points == 4 && noNumberDuplicates(container) && container.size() == ROWS_SCHEMA))
                 score += this.points;
         }
 

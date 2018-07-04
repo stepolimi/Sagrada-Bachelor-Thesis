@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.LogConstants.*;
@@ -25,11 +26,12 @@ public class TakeDataFile {
         try {
             reader = new FileReader(file);
             input = new BufferedReader(reader);
-            result =  input.lines()
+            Optional<String> optional =  input.lines()
                     .filter(line-> line.contains(parameter))
                     .map(line -> line.substring(parameter.length()+1))
-                    .findFirst()
-                    .get();
+                    .findFirst();
+            if(optional.isPresent())
+                result = optional.get();
         } catch (FileNotFoundException e) {
             Log.getLogger().addLog(CONFIGURATION_FILE_ERROR, Level.SEVERE,this.getClass().getName(),TAKE_DATA_FILE_GET_PARAMETER);
         }finally {
