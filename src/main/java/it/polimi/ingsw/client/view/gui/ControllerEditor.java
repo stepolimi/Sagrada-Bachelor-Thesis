@@ -2,8 +2,9 @@ package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.*;
-import it.polimi.ingsw.server.costants.NameCostants;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -25,6 +26,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import static it.polimi.ingsw.client.constants.NameConstants.ICON_GAME;
+import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
+
 public class ControllerEditor {
 
 
@@ -45,10 +49,11 @@ public class ControllerEditor {
 
     private Schema s;
 
+    private TakeDataFile config;
 
     public ControllerEditor(){
         this.s = new Schema();
-
+         config = new TakeDataFile(CONFIGURATION_FILE);
     }
 
 
@@ -200,8 +205,6 @@ public class ControllerEditor {
                 return;
             }
             else {
-
-
                 Stage stage = new Stage();
                 final Label labelSelectedDirectory = new Label();
 
@@ -214,8 +217,8 @@ public class ControllerEditor {
                     path =selectedDirectory.getAbsolutePath();
                 }
                 copyPath = path + "/" + name + ".json";
-                FileWriter fw = null;
-                BufferedWriter b;
+                FileWriter fw;
+                BufferedWriter b=null;
                 File file = new File(copyPath);
 
                 if (file.exists())
@@ -225,11 +228,16 @@ public class ControllerEditor {
                     stage = (Stage) gridPane.getScene().getWindow();
                     stage.close();
                     fw = new FileWriter(file);
-                    b = new BufferedWriter(fw);
-                    b.write(schema);
-                    b.flush();
-                    fw.close();
-                    b.close();
+                    try {
+                        b = new BufferedWriter(fw);
+                        b.write(schema);
+                        b.flush();
+                    }finally {
+                        b.close();
+                        fw.close();
+                    }
+
+
                 } else
                     System.out.println("Il file " + path + " non può essere creato");
 
@@ -252,7 +260,8 @@ public class ControllerEditor {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(NameCostants.ICON_GAME);
+
+        Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -261,7 +270,7 @@ public class ControllerEditor {
     }
 
 
-    public void NameError(ActionEvent actionEvent) {
+    public void nameError(ActionEvent actionEvent) {
         Stage stage = (Stage) okButton.getScene().getWindow();
         stage.close();
     }

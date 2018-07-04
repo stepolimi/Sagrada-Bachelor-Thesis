@@ -8,7 +8,6 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.Schema;
 import it.polimi.ingsw.client.view.View;
-import it.polimi.ingsw.server.costants.NameCostants;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -44,10 +43,10 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-import static it.polimi.ingsw.client.constants.NameConstants.PATH_INIT_DEFAULT_SCHEMA;
+import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.TimerConstants.LOBBY_TIMER_VALUE;
-import static it.polimi.ingsw.server.costants.NameCostants.*;
+
 import static java.lang.Integer.parseInt;
 import static java.lang.System.exit;
 import static java.lang.System.out;
@@ -66,7 +65,7 @@ public class ControllerGUI implements View {
     private Connection connection;
     private Handler hand;
     private TakeDataFile config;
-
+    private boolean alreadyZoom;
 
     private String schemaChoosen;
     private Integer roundNumber;
@@ -191,6 +190,7 @@ public class ControllerGUI implements View {
         this.config = new TakeDataFile(CONFIGURATION_FILE);
         this.isFirst = true;
         this.hand = hand;
+        this.alreadyZoom = false;
         this.diceChanged = false;
         diceExtract = new ArrayList<>();
     }
@@ -275,7 +275,7 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(NameCostants.ICON_GAME);
+        Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
         stage.setResizable(false);
 
@@ -381,9 +381,8 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             double seconds = parseInt(time);
-                    double tot = LOBBY_TIMER_VALUE * 1000;
-                    double full = 1.000;
-                    double result = full - seconds / tot;
+            int lobbyTimer = Integer.parseInt(config.getParameter(LOBBY_TIMER));
+            double result = ((lobbyTimer - Double.parseDouble(time)) / lobbyTimer);
                     progressBar.setProgress(result);
                 }
         );
@@ -830,9 +829,14 @@ public class ControllerGUI implements View {
      */
     @FXML
     void imageZoom(MouseEvent event) {
-        ImageView image = (ImageView) event.getTarget();
-        setNotice(FxmlConstant.ZOOM_CARD);
-        imageZoomed.setImage(image.getImage());
+        if(!alreadyZoom)
+        {
+            ImageView image = (ImageView) event.getTarget();
+            setNotice(FxmlConstant.ZOOM_CARD);
+            imageZoomed.setImage(image.getImage());
+            alreadyZoom = true;
+        }
+        imageZoomed.getScene().getWindow().setOnCloseRequest(eventClose -> {alreadyZoom = false;});
 
     }
 

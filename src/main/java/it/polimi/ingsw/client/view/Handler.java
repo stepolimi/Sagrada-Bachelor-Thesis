@@ -5,15 +5,17 @@ import it.polimi.ingsw.client.view.gui.ControllerGUI;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static it.polimi.ingsw.client.constants.printCostants.*;
+
 public class Handler {
-    View v;
-    LoadImage load;
+    private View v;
+    private LoadImage load;
     public Handler() {
         load = new LoadImage();
         this.setGraphicInterface();
         v.startScene();
-        v.setScene("connection");
-        v.setScene("login");
+        v.setScene(CONNECTION);
+        v.setScene(LOGIN);
     }
 
     public void setGraphicInterface()
@@ -24,13 +26,13 @@ public class Handler {
             Scanner in = new Scanner(System.in);
 
             try {
-                load.displayImage("startGame.txt");
+                load.displayImage(START_GAME+".txt");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("\u001B[37m"+"Scegli l'interfaccia grafica");
-            System.out.println("1 ----> Cli");
-            System.out.println("2-----> GUI");
+            Message.println("\u001B[37m"+CHOOSE_GRAPHIC_INTERFACE,TypeMessage.INFO_MESSAGE);
+            Message.println(CLI_CHOOSE,TypeMessage.INFO_MESSAGE);
+            Message.println(GUI_CHOOSE,TypeMessage.INFO_MESSAGE);
             choose = in.nextLine();
             if (choose.equals("1"))
             {
@@ -48,7 +50,7 @@ public class Handler {
                 correct = true;
             }
             else {
-                System.out.println("Inserisci un parametro valido");
+                Message.print(INVALID_PARAMETER,TypeMessage.ERROR_MESSAGE);
                 correct = false;
             }
         }

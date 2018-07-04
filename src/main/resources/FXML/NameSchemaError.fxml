@@ -15,7 +15,7 @@
             <Image url="@../assets/image/error.png" />
          </image>
       </ImageView>
-      <Button fx:id="okButton" layoutX="125.0" layoutY="88.0" mnemonicParsing="false" onAction="#NameError" prefHeight="38.0" prefWidth="58.0" text="OK">
+      <Button fx:id="okButton" layoutX="125.0" layoutY="88.0" mnemonicParsing="false" onAction="#nameError" prefHeight="38.0" prefWidth="58.0" text="OK">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
