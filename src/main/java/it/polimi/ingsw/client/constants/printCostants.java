@@ -181,5 +181,7 @@ public class printCostants {
     public static final String START_GAME ="startGame";
     public static final String RESTART_GAME = "Vuoi giocare una nuova partita?(y)";
     public static final String CLOSE_GAME ="Chiusura del gioco";
+    public static final String SERVER_CONNECTION_ERROR = "Errore di collegamento con il server";
+    public static final String THREAD_ERROR = "Errore di sospensione del thread";
 
 }

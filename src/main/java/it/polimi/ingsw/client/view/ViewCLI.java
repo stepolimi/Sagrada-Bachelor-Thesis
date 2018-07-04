@@ -32,6 +32,7 @@ public class ViewCLI implements View {
     private List<Integer> toolCard;
     private List<Dices> diceSpace;
     private boolean correct;
+    private boolean endGame;
     private int row;
     private int column;
     private int indexDiceSpace;
@@ -52,6 +53,7 @@ public class ViewCLI implements View {
     private String pathCustomSchemas;
     private String pathInitDefaultSchema;
     private String pathInitCustomSchema;
+    private Thread threadRound;
      ViewCLI() {
          TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
         lobbyTimerValue = Integer.parseInt(config.getParameter(LOBBY_TIMER));
@@ -60,6 +62,7 @@ public class ViewCLI implements View {
         pathInitDefaultSchema = config.getParameter(PATH_INIT_DEFAULT_SCHEMA);
         roundTrack = new ArrayList<>();
         load = new LoadImage();
+        endGame = false;
         opVal = 0;
         round = 1;
         username = "";
@@ -479,11 +482,11 @@ public class ViewCLI implements View {
      */
     public void startRound() {
         if (round == 1) {
-            Thread thread = new Thread(() -> {
+            threadRound = new Thread(() -> {
                 while (gameRunning)
                     chooseMoves();
             });
-            thread.start();
+            threadRound.start();
         }
     }
 
@@ -906,6 +909,9 @@ public class ViewCLI implements View {
             right = true;
             try {
                 move = input.nextLine();
+
+                if(endGame)
+                    return;
 
                 if (move.equals(""))
                     throw new WrongInputException();
@@ -1455,6 +1461,8 @@ public class ViewCLI implements View {
      */
     public void setWinner(String nickname) {
         clearScreen();
+        endGame=true;
+        gameRunning=false;
         String winner;
         if(nickname.equals(username))
             winner = YOU_WIN+".txt";
@@ -1466,9 +1474,31 @@ public class ViewCLI implements View {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        Message.println("",TypeMessage.INFO_MESSAGE);
+        restart();
     }
 
+    public void restart()
+    {
+
+        Message.println("GAME RESTART", TypeMessage.INFO_MESSAGE);
+        Message.println(PRESS_ENTER,TypeMessage.INFO_MESSAGE);
+
+        try {
+            threadRound.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        connection.disconnect();
+        endGame = false;
+        gameRunning = true;
+        toolCard.clear();
+        publicObjcective.clear();
+        diceSpace.clear();
+        roundTrack.clear();
+        setScene(CONNECTION);
+        setScene(LOGIN);
+    }
 
     /**
      * set ranking
