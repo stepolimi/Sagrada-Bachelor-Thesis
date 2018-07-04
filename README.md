@@ -6,7 +6,7 @@ From a **Cranio Game:registered:**:
 
 ![Screenshot](src/main/resources/assets/Screenshoot/title.png)
 
-For more information about original boarder game visit Visit http://www.craniocreations.it/prodotto/sagrada/
+For more information about original boarder game visit http://www.craniocreations.it/prodotto/sagrada/
 Or read [Game's Rule (ITA)](/Rules.pdf)
 
 //todo instruction to open jar file
@@ -28,6 +28,6 @@ Or read [Game's Rule (ITA)](/Rules.pdf)
 
 ### Other functionality:
 
-- use of lamda expression  of Java 8 (Functional)
+- use of Lamda Expression of Java 8 (Functional)
 
 
