@@ -19,12 +19,9 @@ class DeckSchemasTest {
     private List<Schema> schemasList() {
         List<Schema> schemas = new ArrayList<Schema>();
         for (int i = 1; i < 13; i++) {
-            try {
-                schemas.add(buildSchema(i));
-                schemas.add(buildSchema(i + 12));
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            schemas.add(buildSchema(i));
+            schemas.add(buildSchema(i + 12));
+
         }
         return schemas;
     }

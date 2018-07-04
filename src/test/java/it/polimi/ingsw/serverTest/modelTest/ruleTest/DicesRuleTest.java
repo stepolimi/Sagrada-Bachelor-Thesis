@@ -21,7 +21,7 @@ class DicesRuleTest {
     private InsertionRule rule = new DicesRule();
 
     @Test
-    void correctInsertion() throws IOException {
+    void correctInsertion(){
         schema = buildSchema(24);
         schema.silentInsertDice(3,3,dice_2);
         schema.silentInsertDice(1,3,dice_3);
@@ -33,7 +33,7 @@ class DicesRuleTest {
     }
 
     @Test
-    void wrongInsertion() throws IOException {
+    void wrongInsertion(){
         schema = buildSchema(24);
 
         schema.silentInsertDice(0,1,dice_2);

@@ -6,10 +6,8 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Handler;
 import it.polimi.ingsw.client.view.Message;
 import it.polimi.ingsw.client.view.TypeMessage;
-import it.polimi.ingsw.server.serverConnection.rmi.RmiServerMethodInterface;
+import it.polimi.ingsw.server.connection.rmi.RmiServerMethodInterface;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -24,7 +22,7 @@ import static java.lang.Thread.sleep;
 public class RmiConnection implements Connection {
     private RmiServerMethodInterface server;
     private RmiClientMethod client;
-    private Handler hand; // used to manage graphic
+    private Handler hand;
     private String host;
     private int port;
 

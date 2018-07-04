@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import static it.polimi.ingsw.server.costants.Constants.TOT_ROUNDS;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class RoundTrack extends Observable {
-    private List<Dice>[] listRounds;
-    private Board board;
+    private final List<Dice>[] listRounds;
+    private final Board board;
 
     public RoundTrack(Board board) {
         this.board = board;
@@ -175,22 +175,5 @@ public class RoundTrack extends Observable {
             else
                 break;
         }
-    }
-
-    @Override
-    public String toString() {
-        String str = "";
-        for (int i = 0; i < TOT_ROUNDS; i++) {
-            str += "Round " + (i + 1) + "\n";
-            if (!this.listRounds[i].isEmpty())
-                str += this.listRounds[i].toString() + "\n";
-            else
-                str += "[empty]\n";
-        }
-        return str;
-    }
-
-    public void dump() {
-        System.out.println(this);
     }
 }

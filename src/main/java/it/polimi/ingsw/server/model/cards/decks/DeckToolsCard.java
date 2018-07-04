@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.cards.decks;
 
 
-import it.polimi.ingsw.server.model.cards.toolCards.*;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,8 @@ import static it.polimi.ingsw.server.costants.Constants.DECK_TOOL_CARDS_SIZE;
 import static it.polimi.ingsw.server.costants.Constants.NUM_TOOL_CARDS;
 
 public class DeckToolsCard {
-    private List<ToolCard> toolCards;
-    private List<Integer> toolCardsAvailable;
+    private final List<ToolCard> toolCards;
+    private final List<Integer> toolCardsAvailable;
 
     public DeckToolsCard() {
         this.toolCards = new ArrayList<>();
@@ -40,6 +40,4 @@ public class DeckToolsCard {
             toolCardsAvailable.remove(index);
         }
     }
-
-
 }

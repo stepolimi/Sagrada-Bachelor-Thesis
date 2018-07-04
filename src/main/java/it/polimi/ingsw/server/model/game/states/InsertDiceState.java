@@ -1,20 +1,20 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.INSERT_DICE_STATE;
+import static it.polimi.ingsw.server.costants.LogConstants.DICE_INSERTED;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
 import static it.polimi.ingsw.server.costants.MessageConstants.INSERT_DICE_ACCEPTED;
 
 public class InsertDiceState extends State {
-    private static String state = INSERT_DICE_STATE;
-
     /**
      * Drafts a dice from the dice space, the puts it in the current player's schema at the row and column specified in
      * the action list.
@@ -38,11 +38,9 @@ public class InsertDiceState extends State {
                 round.setDraftedDice(true);
             else
                 round.setBonusInsertDice(false);
-            Log.getLogger().addLog("dice inserted\n" + " ---" + dice.toString(), Level.INFO,this.getClass().getName(),"execute");
-        } catch (RemoveDiceException e) {
-            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
-        } catch (InsertDiceException e) {
-            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(DICE_INSERTED, Level.INFO,this.getClass().getName(),STATE_EXECUTE);
+        } catch (RemoveDiceException | InsertDiceException e) {
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),STATE_EXECUTE);
         }
         giveLegalActions(round);
 
@@ -50,7 +48,7 @@ public class InsertDiceState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return INSERT_DICE_STATE;
     }
 
 }

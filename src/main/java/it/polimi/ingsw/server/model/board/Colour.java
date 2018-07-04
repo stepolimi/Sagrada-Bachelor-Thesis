@@ -12,7 +12,7 @@ public enum Colour {
     ANSI_PURPLE("\u001B[35m");
     static final String RESET = "\u001B[0m";
 
-    private String escape;
+    private final String escape;
 
     Colour(String escape) {
         this.escape = escape;

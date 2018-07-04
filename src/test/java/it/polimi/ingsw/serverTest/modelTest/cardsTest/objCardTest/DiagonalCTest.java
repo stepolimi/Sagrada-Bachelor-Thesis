@@ -1,6 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import it.polimi.ingsw.server.model.cards.objectiveCards.DiagonalObj;
+import it.polimi.ingsw.server.model.cards.objective.cards.DiagonalObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -15,11 +15,7 @@ class DiagonalCTest {
     private Schema s;
 
     private void insertDice1() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_GREEN, 2);
         Dice d3 = new Dice(Colour.ANSI_GREEN, 3);
@@ -44,11 +40,7 @@ class DiagonalCTest {
     }
 
     private void insertDice2() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_GREEN, 2);
         Dice d3 = new Dice(Colour.ANSI_GREEN, 3);
@@ -64,22 +56,16 @@ class DiagonalCTest {
     void CorrectScore1() {
         insertDice1();
 
-        DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
-        card.dump();
+        DiagonalObj card = new DiagonalObj("Diagonali Colorate");
 
         assertEquals(6, card.scoreCard(s), "Result Correct");
     }
 
     @Test
     void nullScore() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
 
-        DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
-        card.dump();
+        DiagonalObj card = new DiagonalObj("Diagonali Colorate");
 
         assertEquals(0, card.scoreCard(s), "result is 0");
     }
@@ -88,8 +74,7 @@ class DiagonalCTest {
     void CorrectScore2() {
         insertDice2();
 
-        DiagonalObj card = new DiagonalObj("Diagonali Colorate", "Numero di dadi dello stesso colore adiacenti");
-        card.dump();
+        DiagonalObj card = new DiagonalObj("Diagonali Colorate");
 
         assertEquals(4, card.scoreCard(s), "Result Correct");
     }

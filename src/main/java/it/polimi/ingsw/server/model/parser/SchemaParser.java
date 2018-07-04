@@ -2,7 +2,8 @@ package it.polimi.ingsw.server.model.parser;
 
 import it.polimi.ingsw.server.model.board.Box;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.virtualView.SchemaClient;
+import it.polimi.ingsw.server.virtual.view.Colour;
+import it.polimi.ingsw.server.virtual.view.SchemaClient;
 
 import static it.polimi.ingsw.server.costants.Constants.COLUMNS_SCHEMA;
 import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
@@ -25,7 +26,7 @@ public class SchemaParser {
                 Box box = schema.getTable(i,j);
                 if(box.getDice()!= null) {
                     schemaClient.setDiceNumber(i, j, box.getDice().getValue());
-                    schemaClient.setDiceColour(i, j, it.polimi.ingsw.server.virtualView.Colour.stringToColour(box.getDice().getColour().toString()));
+                    schemaClient.setDiceColour(i, j, Colour.stringToColour(box.getDice().getColour().toString()));
                 }
                 if(box.getNumber()!= 0)
                     schemaClient.setDiceConstraint(i,j,((Integer)box.getNumber()).toString());

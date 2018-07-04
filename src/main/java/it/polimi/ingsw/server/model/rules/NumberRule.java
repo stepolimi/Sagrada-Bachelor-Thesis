@@ -1,17 +1,17 @@
 package it.polimi.ingsw.server.model.rules;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.NUMBER_RESTRICTION;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_CHECK_RULE;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_ERROR;
 
 
 public class NumberRule implements InsertionRule {
-    private static String restriction = NUMBER_RESTRICTION;
-
     /**
      * Checks if the dice's value is compatible with the number restriction of the specified box of the schema.
      * @param x is the row of the schema where the dice will eventually be inserted.
@@ -25,11 +25,11 @@ public class NumberRule implements InsertionRule {
             return true;
         if (sch.getTable(x, y).getNumber() == dice.getValue())
             return true;
-        Log.getLogger().addLog("Number rule error", Level.INFO,this.getClass().getName(),"checkRule");
+        Log.getLogger().addLog(RULE_ERROR, Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
         return false;
     }
 
     public String getRestriction() {
-        return restriction;
+        return NUMBER_RESTRICTION;
     }
 }

@@ -1,10 +1,10 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.game.states.UseToolCardState;
 import org.junit.jupiter.api.Test;
@@ -30,13 +30,9 @@ class UseToolCardStateTest {
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
         for(int i = 0; i<3; i++) {
-            try {
-                players.get(i).setSchema(buildSchema(i+1));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            players.get(i).setSchema(buildSchema(i+1));
         }
-        GameMultiplayer game = new GameMultiplayer(players);
+        GameMultiPlayer game = new GameMultiPlayer(players);
         Board board = game.getBoard();
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         List<ToolCard> toolCards = new ArrayList<>();

@@ -24,7 +24,7 @@ class ColourRuleTest {
     private List<Schema> schemas = new ArrayList<>();
 
     @Test
-    void correctInsertion() throws IOException {
+    void correctInsertion() {
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);
@@ -35,7 +35,7 @@ class ColourRuleTest {
     }
 
     @Test
-    void wrongInsertion() throws IOException {
+    void wrongInsertion() {
         schema = buildSchema(24);
         schemas.add(schema);
         player.setSchemas(schemas);

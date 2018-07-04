@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.controller;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.Session;
 import it.polimi.ingsw.server.model.game.states.Round;
 import it.polimi.ingsw.server.model.game.RoundManager;
@@ -10,12 +10,13 @@ import it.polimi.ingsw.server.model.game.RoundManager;
 import java.util.Observable;
 import java.util.Observer;
 
+import static it.polimi.ingsw.server.costants.Constants.TOT_ROUNDS;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 import static it.polimi.ingsw.server.model.builders.SchemaBuilder.buildSchema;
 
 public class ServerController implements Observer{
     private static ServerController instance = null;
-    private Session session;
+    private final Session session;
 
     private ServerController() {
         this.session = Session.getSession();
@@ -62,11 +63,9 @@ public class ServerController implements Observer{
      * Removes all the players of the specified game from the players in an active game.
      * @param game is a game ended to be eliminated.
      */
-    private void deleteGame(GameMultiplayer game){
-        session.getPlayersInGames().forEach((player,gameMultiPlayer) -> {
-            if(gameMultiPlayer == game)
-                session.getPlayersInGames().remove(player);
-        });
+    private void deleteGame(GameMultiPlayer game){
+        session.getPlayersInGames().keySet()
+                .removeIf(player -> session.getPlayersInGames().get(player) == game);
     }
 
     /**
@@ -75,7 +74,7 @@ public class ServerController implements Observer{
      */
     private synchronized void loginManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         if(game == null) {
             session.joinPlayer(message.getPlayers().get(0));
             return;
@@ -94,7 +93,7 @@ public class ServerController implements Observer{
      */
     private synchronized void logoutManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         if(game == null) {
             if(session.getNicknames().contains(player))
                 session.removePlayer(message.getPlayers().get(0));
@@ -114,7 +113,7 @@ public class ServerController implements Observer{
      */
     private void chooseSchemaManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(message.getPlayers().get(0)) && p.getNameSchemas().contains(message.getStringArgument(0))) {
                     p.setSchema(message.getStringArgument(0));
@@ -131,7 +130,7 @@ public class ServerController implements Observer{
      */
     private void customSchemaManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         for(Player p: game.getPlayers()){
             if(p.getNickname().equals(message.getPlayers().get(0))) {
                 p.setCustomSchema(buildSchema(message.getStringArgument(0)));
@@ -146,7 +145,7 @@ public class ServerController implements Observer{
      * Starts a new game.
      * @param game is the game to start.
      */
-    private void startGame(GameMultiplayer game){
+    private void startGame(GameMultiPlayer game){
         game.getTimer().cancel();
         game.getRoundManager().setFirstPlayer();
         game.getRoundManager().startNewRound();
@@ -158,7 +157,7 @@ public class ServerController implements Observer{
      */
     private void changeStateManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         game.getRoundManager().getRound().execute(message);
     }
 
@@ -168,13 +167,13 @@ public class ServerController implements Observer{
      */
     private void endTurnManager(Message message){
         String player = message.getPlayers().get(0);
-        GameMultiplayer game = session.getPlayersInGames().get(player);
+        GameMultiPlayer game = session.getPlayersInGames().get(player);
         RoundManager roundManager = game.getRoundManager();
         Round round = roundManager.getRound();
 
         if(round.getTurnNumber() == game.getBoard().getPlayerList().size()*2 -1){
             round.getTimer().cancel();
-            if(roundManager.getRoundNumber() <10) {
+            if(roundManager.getRoundNumber() < TOT_ROUNDS) {
                 game.getBoard().getRoundTrack().insertDices(game.getBoard().getDiceSpace().getListDice(),roundManager.getRoundNumber() - 1);
                 roundManager.startNewRound();
             }

@@ -2,14 +2,14 @@ package it.polimi.ingsw.server.model.rules;
 
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RulesManager {
     private static RulesManager instance = null;
-    private List<InsertionRule> rules = new ArrayList<InsertionRule>();
+    private final List<InsertionRule> rules = new ArrayList<>();
 
     private RulesManager() {
         rules.add(new AdjacentRule());

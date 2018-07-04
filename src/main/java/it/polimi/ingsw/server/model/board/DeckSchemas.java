@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.model.board;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,7 +9,7 @@ import static it.polimi.ingsw.server.costants.Constants.NUM_SCHEMAS;
 
 public class DeckSchemas {
     private List<Schema> schemas;
-    private List<Integer> nSchema;
+    private final List<Integer> nSchema;
 
     public DeckSchemas(int nPlayers) {
         this.nSchema = new ArrayList<>() ;
@@ -38,13 +37,10 @@ public class DeckSchemas {
         schemas = new ArrayList<>();
         for (int i = 0; i < 2 * nPlayers; i++) {
             int index = rand.nextInt(nSchema.size());
-            try {
-                schemas.add(buildSchema(nSchema.get(index)));
-                schemas.add(buildSchema(nSchema.get(index) + 12));
-                nSchema.remove(index);
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-            }
+            schemas.add(buildSchema(nSchema.get(index)));
+            schemas.add(buildSchema(nSchema.get(index) + 12));
+            nSchema.remove(index);
+
         }
     }
 

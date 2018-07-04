@@ -1,11 +1,11 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.states.FlipDiceState;
 import it.polimi.ingsw.server.model.game.states.Round;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class FlipDiceStateTest {
         players.add(new Player("player 3"));
         dice = new Dice(Colour.ANSI_YELLOW, 5);
         dice2 = new Dice(Colour.ANSI_BLUE,3);
-        GameMultiplayer game = new GameMultiplayer(players);
+        GameMultiPlayer game = new GameMultiPlayer(players);
         Board board = game.getBoard();
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         round.roundInit();

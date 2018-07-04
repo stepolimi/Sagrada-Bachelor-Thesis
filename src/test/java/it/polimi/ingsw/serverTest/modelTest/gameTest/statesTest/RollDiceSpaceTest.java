@@ -1,8 +1,8 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.*;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.states.RollDiceSpaceState;
 import it.polimi.ingsw.server.model.game.states.Round;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,7 @@ class RollDiceSpaceTest {
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
-        GameMultiplayer game = new GameMultiplayer(players);
+        GameMultiPlayer game = new GameMultiPlayer(players);
         board = game.getBoard();
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         round.roundInit();

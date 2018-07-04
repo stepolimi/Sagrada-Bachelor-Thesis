@@ -1,42 +1,43 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.log.Log;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.RoundManager;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
-import it.polimi.ingsw.server.setUp.TakeDataFile;
+import it.polimi.ingsw.server.set.up.TakeDataFile;
 
 import java.util.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.LogConstants.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
-import static it.polimi.ingsw.server.costants.NameCostants.TURN_TIMER;
-import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+import static it.polimi.ingsw.server.costants.NameConstants.TURN_TIMER;
+import static it.polimi.ingsw.server.costants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class Round extends Observable implements TimedComponent {
-    private Player firstPlayer;
-    private Board board;
+    private final Player firstPlayer;
+    private final Board board;
     private Player currentPlayer;
     private int turnNumber = 0;
-    private List<Player> playersOrder;
-    private HashMap<String, State> states;
+    private final List<Player> playersOrder;
+    private final HashMap<String, State> states;
     private State currentState;
     private Dice pendingDice;
     private Colour movedDiceColour;
     private ToolCard usingTool;
     private List<List<String>> nextActions;
     private List<String> legalActions;
-    private RoundManager roundManager;
-    private GameMultiplayer game;
+    private final RoundManager roundManager;
+    private final GameMultiPlayer game;
     private int favorsDecremented;
     private boolean cardWasUsed;
 
@@ -47,11 +48,10 @@ public class Round extends Observable implements TimedComponent {
     private GameTimer turnTimer;
     private Timer timer;
     private Long startingTime = 0L;
-    private int turnTimerValue;
-    private TakeDataFile timerConfig;
+    private final int turnTimerValue;
 
-    public Round(Player first, Board board, RoundManager roundManager, GameMultiplayer game) {
-        timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+    public Round(Player first, Board board, RoundManager roundManager, GameMultiPlayer game) {
+        TakeDataFile timerConfig = new TakeDataFile(CONFIGURATION_FILE);
         turnTimerValue = Integer.parseInt(timerConfig.getParameter(TURN_TIMER));
         usingTool = null;
         this.roundManager = roundManager;
@@ -94,7 +94,7 @@ public class Round extends Observable implements TimedComponent {
         states.put(END_TURN_STATE, new EndTurnState());
         setPlayersOrder();
 
-        Log.getLogger().addLog("new round started\n" + " ---",Level.INFO,this.getClass().getName(),"roundInit");
+        Log.getLogger().addLog(ROUND_STARTED,Level.INFO,this.getClass().getName(),ROUND_ROUND_INIT);
         currentState.execute(this, null);
         notifyChanges(START_ROUND);
         notifyChanges(START_TURN);
@@ -112,18 +112,20 @@ public class Round extends Observable implements TimedComponent {
      */
     public void execute(Message message) {
         if (legalActions.contains(message.getHead())) {
-            timer.cancel();
             currentState = states.get(currentState.nextState(message));
             currentState.execute(this, message);
-            if (currentState.toString().equals(END_TURN_STATE))
+            if (currentState.toString().equals(END_TURN_STATE)){
+                timer.cancel();
+                startingTime = System.currentTimeMillis();
+                turnTimer = new GameTimer(turnTimerValue, this);
+                timer = new Timer();
+                timer.schedule(turnTimer, 0L, 5000L);
                 notifyChanges(START_TURN);
+            }
             notifyChanges(SET_ACTIONS);
-            startingTime = System.currentTimeMillis();
-            turnTimer = new GameTimer(turnTimerValue, this);
-            timer = new Timer();
-            timer.schedule(turnTimer, 0L, 5000L);
+
         } else {
-            Log.getLogger().addLog("can't perform: " + message.getHead() + " now\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(ACTION_ERROR + message.getHead(), Level.INFO,this.getClass().getName(),ROUND_EXECUTE);
             notifyChanges(SET_ACTIONS);
         }
     }
@@ -159,8 +161,6 @@ public class Round extends Observable implements TimedComponent {
     RoundManager getRoundManager() {
         return roundManager;
     }
-
-    GameMultiplayer getGame(){ return game; }
 
     public Dice getPendingDice() {
         return pendingDice;
@@ -268,7 +268,7 @@ public class Round extends Observable implements TimedComponent {
      * Disconnects the current player.
      */
     public void timerElapsed() {
-        Log.getLogger().addLog("TurnTimer elapsed\n" + " ---",Level.INFO,this.getClass().getName(),"TimerElapsed");
+        Log.getLogger().addLog(TURN_TIMER_ELAPSED,Level.INFO,this.getClass().getName(),ROUND_TIMER_ELAPSED);
         disconnectPlayer();
     }
 
@@ -282,7 +282,7 @@ public class Round extends Observable implements TimedComponent {
      * If the turn was the last one of the game, makes the game end.
      */
     public void disconnectPlayer(){
-        Log.getLogger().addLog(currentPlayer.getNickname() + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---",Level.INFO,this.getClass().getName(),"DisconnectPlayer");
+        Log.getLogger().addLog(currentPlayer.getNickname() + DISCONNECT_IN_GAME + game.getBoard().getConnected(), Level.INFO,this.getClass().getName(),ROUND_DISCONNECT_PLAYER);
         currentPlayer.setConnected(false);
         notifyChanges(LOGOUT);
         draftedDice = false;
@@ -298,7 +298,7 @@ public class Round extends Observable implements TimedComponent {
             pendingDice = null;
         }
         if (turnNumber == board.getPlayerList().size() * 2 - 1) {
-            if (roundManager.getRoundNumber() <= 10) {
+            if (roundManager.getRoundNumber() <= TOT_ROUNDS) {
                 board.getRoundTrack().insertDices(board.getDiceSpace().getListDice(), roundManager.getRoundNumber() - 1);
                 roundManager.startNewRound();
             }else
@@ -306,8 +306,6 @@ public class Round extends Observable implements TimedComponent {
         } else {
             Message message = new Message(END_TURN);
             execute(message);
-            notifyChanges(START_TURN);
-            notifyChanges(SET_ACTIONS);
         }
     }
 

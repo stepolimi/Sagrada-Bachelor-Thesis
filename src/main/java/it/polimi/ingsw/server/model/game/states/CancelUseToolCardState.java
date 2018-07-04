@@ -1,13 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import static it.polimi.ingsw.server.costants.Constants.CANCEL_USE_TOOL_CARD_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.CANCEL_USE_TOOL_CARD_ACCEPTED;
 
 public class CancelUseToolCardState extends State {
-    private static String state = CANCEL_USE_TOOL_CARD_STATE;
-
     /**
      * Sets everything at the value that they had before the tool card was used.
      * @param round is the current round
@@ -24,7 +22,7 @@ public class CancelUseToolCardState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return CANCEL_USE_TOOL_CARD_STATE;
     }
 
 }

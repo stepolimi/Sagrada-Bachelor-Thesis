@@ -3,8 +3,8 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
+import it.polimi.ingsw.server.internal.mesages.Message;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
 import it.polimi.ingsw.server.model.rules.RulesManager;
 
 
@@ -19,7 +19,7 @@ import static it.polimi.ingsw.server.costants.Constants.ROWS_SCHEMA;
 public class Schema extends Observable {
     private String name;
     private int difficult;
-    private Box[][] table;
+    private final Box[][] table;
     private boolean isEmpty = true;
     private String player;
     private int size = 0;
@@ -269,32 +269,4 @@ public class Schema extends Observable {
     public int getSize() {
         return this.size;
     }
-
-
-    @Override
-    public String toString() {
-        String str = "";
-        str += this.name + "\n";
-        str += "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        for (int i = 0; i < ROWS_SCHEMA; i++) {
-            str += "║  ";
-            for (int j = 0; j < COLUMNS_SCHEMA; j++) {
-                str += table[i][j].toString();
-
-            }
-            str += "  ║\n";
-
-        }
-        str += "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛\n";
-        str += "Difficult:";
-        for (int i = 0; i < this.getDifficult(); i++)
-            str += "*";
-
-        return str;
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
 }

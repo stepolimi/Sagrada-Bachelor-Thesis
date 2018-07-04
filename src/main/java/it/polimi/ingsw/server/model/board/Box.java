@@ -10,9 +10,9 @@ package it.polimi.ingsw.server.model.board;
  * Is a box of a schema, it has the colour and the number restriction and the possible dice.
  */
 public class Box {
-    private Colour c;   //colour of box. null if box is white
-    private int number;  //number of box. 0 if there's no number
-    private Dice dice;   //dice placed on box. null if it's empty
+    private final Colour c;
+    private final int number;
+    private Dice dice;
 
     public Box(Colour c, int number) {
         this.c = c;
@@ -35,23 +35,4 @@ public class Box {
     public Colour getC() {
         return c;
     }
-
-    @Override
-    public String toString() {
-        if (this.dice != null)
-            return "[ " + this.dice.toString() + " ]";
-        else if (this.getNumber() != 0) {
-            return "[ " + this.getNumber() + " ]";
-        } else if (this.getC() != null) {
-            return this.getC().escape() + "[   ]" + Colour.RESET;
-        } else
-            return "[   ]";
-
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
-
 }

@@ -1,9 +1,9 @@
 //it's the player class with every attributes to report his status during the game (about his turn,
 //if it's connected ecc) , and the other object (privateCard, favour and his schema)
 package it.polimi.ingsw.server.model.board;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
-import it.polimi.ingsw.server.virtualView.VirtualView;
+import it.polimi.ingsw.server.virtual.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +13,12 @@ import java.util.stream.Collectors;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class Player extends Observable {
-    private String nickname;
+    private final String nickname;
     private Schema schema;
     private int favour;
     private boolean connected;
     private PrivateObjective prCard;
     private int score;
-    private boolean myTurn;
     private List<Schema> schemas = new ArrayList<>();
 
 
@@ -27,7 +26,6 @@ public class Player extends Observable {
         this.nickname = nickname;
         this.connected = true;
         this.score = 0;
-        this.myTurn = false;
     }
 
     public String getNickname() {
@@ -133,14 +131,6 @@ public class Player extends Observable {
 
     public void setScore(int score) { this.score = score; }
 
-    public boolean isMyTurn() {
-        return myTurn;
-    }
-
-    public void setTurn(boolean myTurn) {
-        this.myTurn = myTurn;
-    }
-
     /**
      * Sets the list of schema to the player and notifies it to him.
      * @param schemas is the list of schema extracted for the player.
@@ -170,24 +160,11 @@ public class Player extends Observable {
         notifyChanges(SET_PRIVATE_CARD);
     }
 
-    @Override
-    public String toString() {
-        String src = "";
-        src = src + "nickname:" + this.getNickname() + "\n";
-        src = src + "Schema choosen:" + this.getSchema().getName() + "\n";
-        src = src + "score:" + this.getScore() + "\n";
-        return src;
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
     /**
      * Notifies different changes to the observer.
      * @param string head of the message that will be sent to the observer.
      */
-    public void notifyChanges(String string) {
+    private void notifyChanges(String string) {
         Message message = new Message(string);
 
         switch (string) {

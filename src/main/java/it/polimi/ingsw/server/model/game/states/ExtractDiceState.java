@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.log.Log;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Dice;
 
@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.LogConstants.DICES_EXTRACTED;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
 
 public class ExtractDiceState extends State {
-    private static String state = EXTRACT_DICE_STATE;
-
     /**
      * Extracts the dices for the current round and put them into the dice space.
      * @param round is the current round
@@ -22,13 +22,13 @@ public class ExtractDiceState extends State {
         Board board = round.getBoard();
         List<Dice> dices = board.getDiceBag().extract(board.numPlayers());
         board.setDiceSpace(dices);
-        Log.getLogger().addLog("dices extracted\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
+        Log.getLogger().addLog(DICES_EXTRACTED, Level.INFO,this.getClass().getName(),STATE_EXECUTE);
 
         giveLegalActions(round);
     }
 
     @Override
     public String toString() {
-        return state;
+        return EXTRACT_DICE_STATE;
     }
 }

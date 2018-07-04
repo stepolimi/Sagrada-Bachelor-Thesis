@@ -1,19 +1,18 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.exception.UseToolException;
-import it.polimi.ingsw.server.internalMesages.Message;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
+import it.polimi.ingsw.server.internal.mesages.Message;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
 
 import java.util.Map;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class UseToolCardState extends State {
-    private static String state = USE_TOOL_CARD_STATE;
-
     /**
      * Checks the restrictions of the specified tool card and if the player have enough favors to use it.
      * If those are ok, sets the player's new favors, the next actions of the tool card and the tool card that has been used.
@@ -62,7 +61,7 @@ public class UseToolCardState extends State {
             checkSpecialEffects(card, round);
 
         } catch (UseToolException e) {
-            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),STATE_EXECUTE);
             round.notifyChanges(USE_TOOL_CARD_ERROR);
         }
 
@@ -173,6 +172,6 @@ public class UseToolCardState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return USE_TOOL_CARD_STATE;
     }
 }

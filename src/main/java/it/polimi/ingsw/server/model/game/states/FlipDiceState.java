@@ -1,13 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import static it.polimi.ingsw.server.costants.Constants.FLIP_DICE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.FLIP_DICE_ACCEPTED;
 
 public class FlipDiceState extends State {
-    private static String state = FLIP_DICE_STATE;
-
     /**
      * Flips the pending dice.
      * @param round is the current round
@@ -22,6 +20,6 @@ public class FlipDiceState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return FLIP_DICE_STATE;
     }
 }

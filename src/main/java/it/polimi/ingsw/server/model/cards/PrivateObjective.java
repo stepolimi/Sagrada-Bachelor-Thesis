@@ -44,18 +44,4 @@ public class PrivateObjective {
         }
         return "";
     }
-
-    @Override
-    public String toString() {
-        String src = "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        src = src + "|" + this.name.toString() + "\n" + "|" + this.description + "\n" + "|" + "points: " + this.c + "\n";
-        src = src + "┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓\n";
-        return src;
-
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
 }

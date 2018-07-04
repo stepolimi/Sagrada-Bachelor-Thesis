@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.exception.RemoveDiceException;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.virtualView.SchemaClient;
+import it.polimi.ingsw.server.virtual.view.SchemaClient;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,12 +22,9 @@ class SchemaTest {
     private Gson gson = new Gson();
 
     private void testInit(){
-        try {
-            s = buildSchema(1);
-            s.setPlayers(new ArrayList<>());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
+        s.setPlayers(new ArrayList<>());
+
     }
 
     @Test

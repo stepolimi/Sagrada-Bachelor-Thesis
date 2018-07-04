@@ -1,13 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import static it.polimi.ingsw.server.costants.Constants.PLACE_DICE_SPACE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.PLACE_DICE_SPACE_ACCEPTED;
 
 public class PlaceDiceSpaceState extends State {
-    private static String state = PLACE_DICE_SPACE_STATE;
-
     /**
      * Puts the pending dice into the dice space.
      * @param round is the current round
@@ -23,6 +21,6 @@ public class PlaceDiceSpaceState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return PLACE_DICE_SPACE_STATE;
     }
 }

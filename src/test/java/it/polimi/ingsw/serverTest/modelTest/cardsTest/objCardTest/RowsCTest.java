@@ -1,6 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import it.polimi.ingsw.server.model.cards.objectiveCards.RowsObj;
+import it.polimi.ingsw.server.model.cards.objective.cards.RowsObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -15,11 +15,8 @@ class RowsCTest {
     private Schema s;
 
     private void insertDice() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
+
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);
@@ -47,8 +44,7 @@ class RowsCTest {
     void CorrectScore_6points() {
         insertDice();
 
-        RowsObj card = new RowsObj("card", "description", 6);
-        card.dump();
+        RowsObj card = new RowsObj("card", 6);
 
         assertEquals(12, card.scoreCard(s), "Correct Score");
     }
@@ -57,8 +53,7 @@ class RowsCTest {
     void CorrectScore_5points() {
         insertDice();
 
-        RowsObj card1 = new RowsObj("card", "description", 5);
-        card1.dump();
+        RowsObj card1 = new RowsObj("card", 5);
 
         assertEquals(10, card1.scoreCard(s), "Correct Score");
 
@@ -66,14 +61,8 @@ class RowsCTest {
 
     @Test
     void score_null() {
-
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        RowsObj card1 = new RowsObj("card", "description", 5);
-        card1.dump();
+        s = buildSchema(1);
+        RowsObj card1 = new RowsObj("card", 5);
 
         assertEquals(0, card1.scoreCard(s), "result is 0");
     }

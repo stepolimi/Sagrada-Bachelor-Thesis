@@ -1,15 +1,15 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.log.Log;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
+import static it.polimi.ingsw.server.costants.LogConstants.TURN_ENDED;
 
 public class EndTurnState extends State {
-    private static String state = END_TURN_STATE;
-
     /**
      * Ends the current turn, resets all of the round's values of the old turn at the default's value and calculate the
      * next turn's player.
@@ -40,12 +40,12 @@ public class EndTurnState extends State {
             round.setCurrentPlayer(round.getPlayersOrder().get(0));
             round.incrementTurnNumber();
         } while (!round.getCurrentPlayer().isConnected());
-        Log.getLogger().addLog("turn ended\n" + " ---", Level.INFO,this.getClass().getName(),"execute");
+        Log.getLogger().addLog(TURN_ENDED, Level.INFO,this.getClass().getName(),STATE_EXECUTE);
         giveLegalActions(round);
     }
 
     @Override
     public String toString() {
-        return state;
+        return END_TURN_STATE;
     }
 }

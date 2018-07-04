@@ -32,11 +32,8 @@ class PlayerTest {
 
     private Schema schemaInit(int n){
         Schema schema = new Schema();
-        try {
-            schema = buildSchema(n);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        schema = buildSchema(n);
+
         return schema;
     }
 
@@ -75,8 +72,6 @@ class PlayerTest {
 
         player.setScore(10);
         assertEquals(10,player.getScore());
-
-        assertEquals("nickname:player 1\n" + "Schema choosen:Aurorae Magnificus\n" + "score:10\n", player.toString());
 
         schemas.forEach(schema -> assertTrue(player.getNameSchemas().contains(schema.getName())));
     }

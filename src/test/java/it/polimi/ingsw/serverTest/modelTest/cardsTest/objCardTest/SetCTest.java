@@ -1,6 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import it.polimi.ingsw.server.model.cards.objectiveCards.SetObj;
+import it.polimi.ingsw.server.model.cards.objective.cards.SetObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -15,11 +15,7 @@ class SetCTest {
     private Schema s;
 
     private void insertDice(){
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);
@@ -50,8 +46,7 @@ class SetCTest {
     @Test
     void score_correct_colour() {
         insertDice();
-        SetObj card = new SetObj("name", "description", 4);
-        card.dump();
+        SetObj card = new SetObj("name", 4);
 
         assertEquals(8, card.scoreCard(s), "correct computation");
     }
@@ -59,21 +54,15 @@ class SetCTest {
     @Test
     void score_correct_number() {
         insertDice();
-        SetObj card = new SetObj("name", "description", 5);
-        card.dump();
+        SetObj card = new SetObj("name", 5);
 
         assertEquals(10, card.scoreCard(s), "correct computation");
     }
 
     @Test
     void score_null(){
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        SetObj card = new SetObj("name", "description", 5);
-        card.dump();
+        s = buildSchema(1);
+        SetObj card = new SetObj("name", 5);
 
         assertEquals(0, card.scoreCard(s), "result is 0");
     }

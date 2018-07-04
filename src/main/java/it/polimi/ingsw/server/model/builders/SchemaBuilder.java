@@ -1,18 +1,20 @@
 package it.polimi.ingsw.server.model.builders;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.model.board.Box;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Schema;
-import it.polimi.ingsw.server.setUp.TakeDataFile;
+import it.polimi.ingsw.server.set.up.TakeDataFile;
+import it.polimi.ingsw.server.virtual.view.SchemaClient;
 
 import java.io.*;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.*;
-import static it.polimi.ingsw.server.costants.NameCostants.SCHEMA_PATH;
-import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+import static it.polimi.ingsw.server.costants.LogConstants.BUILD_SCHEMA;
+import static it.polimi.ingsw.server.costants.NameConstants.SCHEMA_PATH;
+import static it.polimi.ingsw.server.costants.SetupConstants.CONFIGURATION_FILE;
 
 
 public class SchemaBuilder {
@@ -22,9 +24,8 @@ public class SchemaBuilder {
      * Creates the specified schema from file and returns it.
      * @param n is the number of the schema that is going to be created.
      * @return the created schema.
-     * @throws IOException when there is a problem with the file reading.
      */
-    public static Schema buildSchema(int n) throws IOException {   //constructs the Schema obj from file
+    public static Schema buildSchema(int n) {
         TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
         String pathSchema = config.getParameter(SCHEMA_PATH);
         Schema sch = new Schema();
@@ -34,19 +35,14 @@ public class SchemaBuilder {
 
 
         InputStream is = SchemaBuilder.class.getResourceAsStream(filePath);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
 
-        try {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String sc;
             sc = reader.readLine();
             sch = g.fromJson(sc, Schema.class);
-        }
-        catch(IOException e){
-            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,"SchemaBuilder","buildSchema");
-        }
-        finally {
-            reader.close();
+        } catch (IOException e) {
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE, SchemaBuilder.class.getName(), BUILD_SCHEMA);
         }
         return sch;
     }
@@ -59,8 +55,8 @@ public class SchemaBuilder {
     public static Schema buildSchema(String schema) {
         Gson g = new Gson();
         Schema schemaServer = new Schema();
-        it.polimi.ingsw.client.view.Schema schemaClient;
-        schemaClient = g.fromJson(schema, it.polimi.ingsw.client.view.Schema.class);
+        SchemaClient schemaClient;
+        schemaClient = g.fromJson(schema, SchemaClient.class);
         int nConstraint = 20;
         for (int i = 0; i < ROWS_SCHEMA; i++) {
             for (int j = 0; j < COLUMNS_SCHEMA; j++) {

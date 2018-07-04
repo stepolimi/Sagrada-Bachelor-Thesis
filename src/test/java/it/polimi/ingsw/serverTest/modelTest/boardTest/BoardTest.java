@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.board.Schema;
 import it.polimi.ingsw.server.model.cards.decks.DeckToolsCard;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
 import org.junit.jupiter.api.Test;
 
 
@@ -31,12 +31,8 @@ class BoardTest {
         players.add(player2);
         players.add(player3);
         board = new Board(players);
-        try {
-            defaultSchema = buildSchema(1);
-            customSchema = buildSchema(2);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        defaultSchema = buildSchema(1);
+        customSchema = buildSchema(2);
         setTools();
     }
 

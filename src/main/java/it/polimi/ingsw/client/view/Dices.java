@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view;
 
 public class Dices {
-    private String costraint;
+    private String constraint;
     private int number;
     private Colour colour;
 
@@ -15,10 +15,10 @@ public class Dices {
             "\u2685"
     };
 
-    public Dices(String costraint,int number,Colour colour)
+    public Dices(String constraint,int number,Colour colour)
     {
         this.colour = colour;
-        this.costraint = costraint;
+        this.constraint = constraint;
         this.number = number;
     }
 
@@ -28,11 +28,11 @@ public class Dices {
         if(colour==null)
         {
             try {
-                 Integer.parseInt(costraint);
-                str += "[" + costraint + "]";
+                 Integer.parseInt(constraint);
+                str += "[" + constraint + "]";
             }catch(NumberFormatException e)
             {
-                str+= costraint+"[ ]"+Colour.RESET;
+                str+= constraint+"[ ]"+Colour.RESET;
             }
         }else
         {
@@ -43,11 +43,11 @@ public class Dices {
     }
 
     public String getConstraint() {
-        return costraint;
+        return constraint;
     }
 
-    public void setConstraint(String costraint) {
-        this.costraint = costraint;
+    public void setConstraint(String constraint) {
+        this.constraint = constraint;
     }
 
     public Colour getColour() {

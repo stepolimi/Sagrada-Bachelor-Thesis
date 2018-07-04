@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import java.util.List;
 import java.util.Observable;
@@ -10,7 +10,7 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 
 public class DiceSpace extends Observable {
     private List<Dice> dices;
-    private Board board;
+    private final Board board;
 
     public DiceSpace(Board board){
         this.board = board;
@@ -43,7 +43,7 @@ public class DiceSpace extends Observable {
     public synchronized void insertDice(Dice d) {
         this.dices.add(d);
 
-        Message message = new Message(PLACE_DICE_DICESPACE);
+        Message message = new Message(PLACE_DICE_DICE_SPACE);
         message.addStringArguments(d.getColour().toString());
         message.addIntegerArgument(d.getValue());
         message.setPlayers(board.getNicknames());
@@ -123,17 +123,4 @@ public class DiceSpace extends Observable {
         setChanged();
         notifyObservers(message);
     }
-
-    @Override
-    public String toString() {
-        String str = "DiceSpace:\n";
-        for (Dice dice: dices)
-            str += dice.toString();
-        return str;
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
 }

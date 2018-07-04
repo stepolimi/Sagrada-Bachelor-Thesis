@@ -22,7 +22,7 @@ class AdjacentRuleTest {
     private InsertionRule rule = new AdjacentRule();
 
     @Test
-    void correctInsertion() throws IOException {
+    void correctInsertion(){
         schema = buildSchema(24);
 
         //test for correct insertion in an empty schema
@@ -41,7 +41,7 @@ class AdjacentRuleTest {
     }
 
     @Test
-    void wrongInsertion() throws IOException {
+    void wrongInsertion(){
         schema = buildSchema(24);
 
         //test for wrong insertion in an empty schema

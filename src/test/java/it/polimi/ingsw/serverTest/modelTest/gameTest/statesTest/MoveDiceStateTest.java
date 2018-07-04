@@ -1,11 +1,11 @@
 package it.polimi.ingsw.serverTest.modelTest.gameTest.statesTest;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.states.MoveDiceState;
 import it.polimi.ingsw.server.model.game.states.Round;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class MoveDiceStateTest {
         players.add(new Player("player 1"));
         players.add(new Player("player 2"));
         players.add(new Player("player 3"));
-        GameMultiplayer game = new GameMultiplayer(players);
+        GameMultiPlayer game = new GameMultiPlayer(players);
         board = game.getBoard();
         round = new Round(players.get(0),board,game.getRoundManager(), game);
         round.roundInit();
@@ -45,17 +45,13 @@ class MoveDiceStateTest {
 
     }
 
-    private void setSchemas(){
-        try {
-            players.get(0).setSchema(buildSchema(1));
-            players.get(1).setSchema(buildSchema(2));
-            players.get(2).setSchema(buildSchema(5));
-            players.get(0).getSchema().setPlayers(board.getNicknames());
-            players.get(1).getSchema().setPlayers(board.getNicknames());
-            players.get(2).getSchema().setPlayers(board.getNicknames());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void setSchemas() {
+        players.get(0).setSchema(buildSchema(1));
+        players.get(1).setSchema(buildSchema(2));
+        players.get(2).setSchema(buildSchema(5));
+        players.get(0).getSchema().setPlayers(board.getNicknames());
+        players.get(1).getSchema().setPlayers(board.getNicknames());
+        players.get(2).getSchema().setPlayers(board.getNicknames());
     }
 
     private void moveDice(int oldRow, int oldColumn, int row, int column){

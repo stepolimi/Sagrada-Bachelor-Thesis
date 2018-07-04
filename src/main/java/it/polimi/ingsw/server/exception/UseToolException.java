@@ -8,6 +8,6 @@ public class UseToolException extends Exception {
 
     @Override
     public String getMessage() {
-        return "Impossible to use this toolcard now";
+        return "Impossible to use this toolCard now";
     }
 }

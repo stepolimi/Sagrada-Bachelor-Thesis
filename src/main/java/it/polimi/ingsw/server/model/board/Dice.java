@@ -1,22 +1,10 @@
-
-
 package it.polimi.ingsw.server.model.board;
-
 
 import it.polimi.ingsw.server.exception.ChangeDiceValueException;
 
 public class Dice {
-    private Colour colour;
+    private final Colour colour;
     private int value;
-    private static final String[] faces = {
-
-            "\u2680",
-            "\u2681",
-            "\u2682",
-            "\u2683",
-            "\u2684",
-            "\u2685"
-    };
 
     public Dice(Colour colour, int value) {
         this.colour = colour;
@@ -43,7 +31,7 @@ public class Dice {
     /**
      * Resets the value of the dice to the initial value of zero.
      */
-    public void resetValue(){ this.value = 0; }
+    void resetValue(){ this.value = 0; }
 
     public Colour getColour()
     {
@@ -75,7 +63,7 @@ public class Dice {
     }
 
     /**
-     * Dacrements the dice's value by one. If it's actual value is one, throws an exception.
+     * Decrements the dice's value by one. If it's actual value is one, throws an exception.
      * @throws ChangeDiceValueException if the actual value of the dice is one.
      */
     public void decrementValue() throws ChangeDiceValueException {
@@ -83,17 +71,6 @@ public class Dice {
             throw new ChangeDiceValueException();
         value --;
     }
-
-    @Override
-    public String toString() {
-        if(this!=null) {
-            String escape = this.colour.escape();
-            return escape + faces[value - 1] + Colour.RESET;
-        }
-        return "";
-    }
-
-    public void dump(){System.out.println(this); }
 }
 
 

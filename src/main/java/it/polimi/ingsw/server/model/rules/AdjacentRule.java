@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.rules;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.ADJACENT_RESTRICTION;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_CHECK_RULE;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_ERROR;
 
 public class AdjacentRule implements InsertionRule {
-    private static String restriction = ADJACENT_RESTRICTION;
-
     /**
      * Checks if there is at least one dice in the schema near the specified position or if the schema is empty.
      * @param x is the row of the schema where the dice will eventually be inserted.
@@ -26,19 +26,19 @@ public class AdjacentRule implements InsertionRule {
         if (sch.isEmpty()) {
             if (x == 0 || y == 0 || x == 3 || y == 4)
                 return true;
-            Log.getLogger().addLog("Adjacent rule error", Level.INFO,this.getClass().getName(),"checkRule");
+            Log.getLogger().addLog(RULE_ERROR, Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
             return false;
         }
 
         for (Dice d : nearDices)
             if (d != null)
                 return true;
-        Log.getLogger().addLog("Adjacent rule error",Level.INFO,this.getClass().getName(),"checkRule");
+        Log.getLogger().addLog(RULE_ERROR,Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
         return false;
     }
 
     public String getRestriction() {
-        return restriction;
+        return ADJACENT_RESTRICTION;
     }
 
 }

@@ -1,21 +1,20 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.MOVE_DICE_STATE;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ACCEPTED;
 import static it.polimi.ingsw.server.costants.MessageConstants.MOVE_DICE_ERROR;
 
 public class MoveDiceState extends State {
-    private static String state = MOVE_DICE_STATE;
-
     /**
      * Moves a dice from a position to another of the current player's schema.
      * If a tool card with special restrictions has been used, checks if those are respected.
@@ -45,19 +44,18 @@ public class MoveDiceState extends State {
             round.getNextActions().remove(0);
             round.getCurrentPlayer().getSchema().removeDice(oldRowSchema, oldColumnSchema);
             schema.insertDice(rowSchema, columnSchema, dice);
-            Log.getLogger().addLog("dice: " + dice.toString() + " moved from: " + oldRowSchema + "," + oldColumnSchema + " to: " + rowSchema + "," + columnSchema + "\n ---", Level.INFO,this.getClass().getName(),"execute");
         } catch (RemoveDiceException e) {
-            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),STATE_EXECUTE);
         } catch (InsertDiceException e) {
             schema.silentInsertDice(oldRowSchema, oldColumnSchema, dice);
-            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(),STATE_EXECUTE);
         }
         giveLegalActions(round);
     }
 
     @Override
     public String toString() {
-        return state;
+        return MOVE_DICE_STATE;
     }
 
 }

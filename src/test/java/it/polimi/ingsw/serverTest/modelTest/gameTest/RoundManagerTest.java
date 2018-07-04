@@ -2,7 +2,7 @@ package it.polimi.ingsw.serverTest.modelTest.gameTest;
 
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.Player;
-import it.polimi.ingsw.server.model.game.GameMultiplayer;
+import it.polimi.ingsw.server.model.game.GameMultiPlayer;
 import it.polimi.ingsw.server.model.game.RoundManager;
 import org.junit.jupiter.api.Test;
 
@@ -19,9 +19,9 @@ class RoundManagerTest {
         List<Player> players = new ArrayList<>();
         players.add(new Player("player1"));
         players.add(new Player("player2"));
-        GameMultiplayer gameMultiplayer = new GameMultiplayer(players);
+        GameMultiPlayer gameMultiPlayer = new GameMultiPlayer(players);
         Board board = new Board(players);
-        roundManager = new RoundManager(board,gameMultiplayer);
+        roundManager = new RoundManager(board, gameMultiPlayer);
     }
 
     @Test

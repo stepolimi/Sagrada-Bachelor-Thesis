@@ -22,13 +22,5 @@ class BoxTest {
         assertFalse(!((b.getNumber() != 0) && (b.getC() != null)), "wrong box format. Box could not have " +
                 "number and colour restriction at the same time");
     }
-
-    @Test
-    void string() {
-        Box b = new Box(Colour.ANSI_RED, 4);
-
-        assertEquals("[ 4 ]",b.toString());
-    }
-
 }
 

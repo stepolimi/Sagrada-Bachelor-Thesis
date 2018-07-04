@@ -1,13 +1,11 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import static it.polimi.ingsw.server.costants.Constants.ROLL_DICE_SPACE_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.ROLL_DICE_SPACE_ACCEPTED;
 
 public class RollDiceSpaceState extends State {
-    private static String state = ROLL_DICE_SPACE_STATE;
-
     /**
      * Changes randomly the values of every dice of the dice space.
      * @param round is the current round
@@ -22,6 +20,6 @@ public class RollDiceSpaceState extends State {
 
     @Override
     public String toString() {
-        return state;
+        return ROLL_DICE_SPACE_STATE;
     }
 }

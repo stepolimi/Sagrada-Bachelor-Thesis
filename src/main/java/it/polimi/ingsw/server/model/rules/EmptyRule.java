@@ -1,16 +1,16 @@
 package it.polimi.ingsw.server.model.rules;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.EMPTY_RESTRICTION;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_CHECK_RULE;
+import static it.polimi.ingsw.server.costants.LogConstants.RULE_ERROR;
 
 public class EmptyRule implements InsertionRule {
-    private static String restriction = EMPTY_RESTRICTION;
-
     /**
      * Checks if the specified box of the specified schema is empty.
      * @param x is the row of the schema where the dice will eventually be inserted.
@@ -22,11 +22,11 @@ public class EmptyRule implements InsertionRule {
     public boolean checkRule(int x, int y, Dice dice, Schema sch) {
         if (sch.getTable(x, y).getDice() == null)
             return true;
-        Log.getLogger().addLog("Empty rule error", Level.INFO,this.getClass().getName(),"checkRule");
+        Log.getLogger().addLog(RULE_ERROR, Level.INFO,this.getClass().getName(),RULE_CHECK_RULE);
         return false;
     }
 
     public String getRestriction() {
-        return restriction;
+        return EMPTY_RESTRICTION;
     }
 }

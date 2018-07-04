@@ -49,33 +49,6 @@ class DiceBagTest {
     }
 
     @Test
-    void ExtractDice() {
-        String str;
-        int r = 18, y = 18, p = 18, g = 18, b = 18;
-        switch (db.takeDice().getColour()) {
-            case ANSI_RED:
-                r--;
-                break;
-            case ANSI_YELLOW:
-                y--;
-                break;
-            case ANSI_PURPLE:
-                p--;
-                break;
-            case ANSI_GREEN:
-                g--;
-                break;
-            case ANSI_BLUE:
-                b--;
-                break;
-            default:
-        }
-        str = "dices in the dicebag:" + db.getDices().size() + "\n";
-        str += "Red:" + r + "\nGreen:" + g + "\nYellow:" + y + "\nBlue:" + b + "\nPurple:" + p;
-        assertEquals(str, db.toString());
-    }
-
-    @Test
     void NumberExtractDice() {
         int nPlayer = 4;
         db.extract(nPlayer);

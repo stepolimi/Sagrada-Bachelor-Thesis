@@ -29,8 +29,7 @@ class SessionTest {
     void join_players(){
         setup();
         String p5 = "Player 5";
-        //no duplicate nickname
-        session.joinPlayer(players.get(0));
+
         session.joinPlayer(players.get(0));
         assertEquals(1,session.getPlayersInLobby().size());
 

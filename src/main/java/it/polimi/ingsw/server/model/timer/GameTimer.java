@@ -2,12 +2,10 @@ package it.polimi.ingsw.server.model.timer;
 
 import java.util.TimerTask;
 
-import static it.polimi.ingsw.server.costants.MessageConstants.TIMER_PING;
-
 public class GameTimer extends TimerTask{
     private Long startingTime = 0L;
-    private int waitTime;
-    private TimedComponent timedComponent;
+    private final int waitTime;
+    private final TimedComponent timedComponent;
 
     public GameTimer(int waitTime, TimedComponent timedComponent) {
         this.waitTime = waitTime ;

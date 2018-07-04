@@ -1,12 +1,12 @@
 package it.polimi.ingsw.server.model.game;
 
-import it.polimi.ingsw.server.Log.Log;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.log.Log;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Player;
 import it.polimi.ingsw.server.model.timer.GameTimer;
 import it.polimi.ingsw.server.model.timer.TimedComponent;
-import it.polimi.ingsw.server.setUp.TakeDataFile;
-import it.polimi.ingsw.server.virtualView.VirtualView;
+import it.polimi.ingsw.server.set.up.TakeDataFile;
+import it.polimi.ingsw.server.virtual.view.VirtualView;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -15,9 +15,10 @@ import java.util.logging.Level;
 import static it.polimi.ingsw.server.costants.Constants.EVERYONE;
 import static it.polimi.ingsw.server.costants.Constants.MAX_PLAYERS;
 import static it.polimi.ingsw.server.costants.Constants.MIN_PLAYERS;
+import static it.polimi.ingsw.server.costants.LogConstants.*;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
-import static it.polimi.ingsw.server.costants.NameCostants.LOBBY_TIMER;
-import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
+import static it.polimi.ingsw.server.costants.NameConstants.LOBBY_TIMER;
+import static it.polimi.ingsw.server.costants.SetupConstants.CONFIGURATION_FILE;
 
 /**
  * Manages the process of game start; players can join/left the lobby before game starts.
@@ -26,11 +27,10 @@ import static it.polimi.ingsw.server.costants.SetupCostants.CONFIGURATION_FILE;
 public  class Session extends Observable implements TimedComponent {
     private static Session instance = null;
     private List<Player> lobby ;
-    private Map<String,GameMultiplayer> playersInGames;
-    private GameTimer lobbyTimer;
+    private final Map<String,GameMultiPlayer> playersInGames;
     private Timer timer;
     private Long startingTime = 0L;
-    private int lobbyTimerValue;
+    private final int lobbyTimerValue;
 
     private Session() {
         TakeDataFile timerConfig;
@@ -52,19 +52,13 @@ public  class Session extends Observable implements TimedComponent {
      *
      * @param player name of the player that is going to join the lobby
      */
-    public synchronized void joinPlayer(String player) {
-        for (Player p : lobby) {
-            if (p.getNickname().equals(player)) {
-                notifyChanges(LOGIN_ERROR, player);
-                return;
-            }
-        }
+    public void joinPlayer(String player) {
         lobby.add(new Player(player));
         notifyChanges(LOGIN_SUCCESSFUL, player);
-        Log.getLogger().addLog("connected\n" + "players in lobby: " + lobby.size() + "\n ---", Level.INFO, this.getClass().getName(), "joinPlayer");
+        Log.getLogger().addLog(CONNECT + lobby.size(), Level.INFO, this.getClass().getName(), SESSION_JOIN_PLAYER);
         if (lobby.size() == MIN_PLAYERS) {
             startingTime = System.currentTimeMillis();
-            lobbyTimer = new GameTimer(lobbyTimerValue, this);
+            GameTimer lobbyTimer = new GameTimer(lobbyTimerValue, this);
             timer = new Timer();
             timer.schedule(lobbyTimer, 0L, 5000L);
         } else if (lobby.size() == MAX_PLAYERS) {
@@ -74,7 +68,7 @@ public  class Session extends Observable implements TimedComponent {
         }
     }
 
-    public synchronized void reconnectPlayer(String player, GameMultiplayer game) {
+    public void reconnectPlayer(String player, GameMultiPlayer game) {
         notifyChanges(RECONNECT_PLAYER, player);
         game.reconnectPlayer(player);
     }
@@ -83,7 +77,7 @@ public  class Session extends Observable implements TimedComponent {
      * Removes players from the lobby, if it's size reaches one player, the timer will be reset
      * @param player name of the player that is going to leave the lobby
      */
-    public synchronized void removePlayer(String player) {
+    public void removePlayer(String player) {
         for (int i = 0; i < lobby.size(); i++)
             if (lobby.get(i).getNickname().equals(player)) {
                 notifyChanges(LOGOUT, player);
@@ -93,48 +87,51 @@ public  class Session extends Observable implements TimedComponent {
             timer.cancel();
             startingTime = 0L;
         }
-        Log.getLogger().addLog(player + " disconnected:\n" + "players in lobby: " + lobby.size() + "\n ---", Level.INFO, this.getClass().getName(), "removePlayer");
+        Log.getLogger().addLog(player + DISCONNECT + lobby.size(), Level.INFO, this.getClass().getName(), SESSION_REMOVE_PLAYER);
 
     }
 
-    public synchronized void disconnectPlayer(String player, GameMultiplayer game) {
+    public void disconnectPlayer(String player, GameMultiPlayer game) {
         if (game.getRoundManager().getRound() != null && game.getRoundManager().getRound().getCurrentPlayer().getNickname().equals(player))
             game.getRoundManager().getRound().disconnectPlayer();
         else {
             for (Player p : game.getPlayers()) {
                 if (p.getNickname().equals(player)) {
                     p.setConnected(false);
-                    Log.getLogger().addLog(player + " disconnected:\n" + "players still connected: " + game.getBoard().getConnected() + "\n ---", Level.INFO, this.getClass().getName(), "removePlayer");
+                    Log.getLogger().addLog(player + DISCONNECT + game.getBoard().getConnected(), Level.INFO, this.getClass().getName(), SESSION_DISCONNECT_PLAYER);
                     notifyChanges(LOGOUT, player);
                 }
             }
             if (game.getBoard().getConnected() == 1) {
-                game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
+                if(game.getRoundManager().getRound()!= null)
+                    game.endGame(game.getRoundManager().getRound().getCurrentPlayer());
+                else
+                    game.endGame(game.getPlayers().get(0));
             }
         }
     }
 
     public List<Player> getPlayersInLobby(){ return this.lobby; }
 
-    public synchronized List<String> getNicknames(){
+    public List<String> getNicknames(){
         List<String> nicknames = new ArrayList<>();
         lobby.forEach(player -> nicknames.add(player.getNickname()));
         return nicknames;
     }
 
-    public Map<String,GameMultiplayer> getPlayersInGames() { return playersInGames; }
+    public Map<String,GameMultiPlayer> getPlayersInGames() { return playersInGames; }
 
     /**
      * Creates and initializes a new game and sets it's observer
      */
-    private synchronized void startGame() {
-        GameMultiplayer game = new GameMultiplayer(lobby);
-        Log.getLogger().addLog("starting game\n" + " ---", Level.INFO, this.getClass().getName(), "startGame");
+    private void startGame() {
+        GameMultiPlayer game = new GameMultiPlayer(lobby);
+        Log.getLogger().addLog(STARTING_GAME, Level.INFO, this.getClass().getName(), SESSION_START_GAME);
         game.addObserver(VirtualView.getVirtualView());
         game.gameInit();
         lobby.forEach(player -> playersInGames.put(player.getNickname(),game));
         lobby = new ArrayList<>();
-        Log.getLogger().addLog("game started:\n" + "waiting for players to choose their schema\n" + " ---", Level.INFO, this.getClass().getName(), "startGame");
+        Log.getLogger().addLog(GAME_STARTED, Level.INFO, this.getClass().getName(), SESSION_START_GAME);
     }
 
     /**
@@ -157,7 +154,7 @@ public  class Session extends Observable implements TimedComponent {
      * @param string head of the message that will be sent to the observer
      * @param player name of the player to whom the message will be sent. Can be sent to all of them.
      */
-    public void notifyChanges(String string,String player){
+    private void notifyChanges(String string, String player){
         Message message = new Message(string);
 
         switch (string) {
@@ -167,11 +164,6 @@ public  class Session extends Observable implements TimedComponent {
             case TIMER_PING:
                 message.addIntegerArgument((int) (lobbyTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
                 message.setPlayers(getNicknames());
-                break;
-            case LOGIN_ERROR:
-                message.addStringArguments(player);
-                message.addStringArguments("game");
-                message.addPlayer(player);
                 break;
             case RECONNECT_PLAYER:
                 message.addPlayer(player);

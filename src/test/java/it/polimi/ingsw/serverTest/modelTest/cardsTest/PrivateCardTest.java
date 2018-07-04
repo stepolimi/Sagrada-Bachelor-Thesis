@@ -16,11 +16,7 @@ class PrivateCardTest {
     private Schema s;
 
     private void insertDices(){
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);
@@ -46,19 +42,13 @@ class PrivateCardTest {
         insertDices();
 
         PrivateObjective card = buildPrivateObjective(4);
-        card.dump();
         assertEquals(6, card.scoreCard(s));
     }
 
     @Test
     void nullScore() {
-        try {
-            s = buildSchema(1);
-            PrivateObjective card = buildPrivateObjective(4);
-            card.dump();
-            assertEquals(0, card.scoreCard(s), "result is 0");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
+        PrivateObjective card = buildPrivateObjective(4);
+        assertEquals(0, card.scoreCard(s), "result is 0");
     }
 }

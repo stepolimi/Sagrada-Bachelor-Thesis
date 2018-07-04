@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 
 import java.util.ArrayList;
 import java.util.List;

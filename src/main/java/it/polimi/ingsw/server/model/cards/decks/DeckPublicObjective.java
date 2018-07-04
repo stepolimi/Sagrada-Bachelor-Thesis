@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model.cards.decks;
 
-import it.polimi.ingsw.server.model.cards.objectiveCards.*;
+import it.polimi.ingsw.server.model.cards.objective.cards.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,23 +9,23 @@ import java.util.Random;
 import static it.polimi.ingsw.server.costants.Constants.DECK_PUBLIC_OBJECTIVES_SIZE;
 
 public class DeckPublicObjective {
-    private ArrayList<ObjectiveCard> deckPub;
+    private final ArrayList<ObjectiveCard> deckPub;
 
     /**
      * Creates the public objectives.
      */
     public DeckPublicObjective() {
         this.deckPub = new ArrayList<>();
-        RowsObj card1 = new RowsObj("Colori diversi_riga", "Righe senza colori ripetuti", 6);
-        RowsObj card2 = new RowsObj("Sfumature diverse_riga", "Righe senza sfumature ripetute", 5);
-        ColumnsObj card3 = new ColumnsObj("Colori diversi_colonna", "Colonne senza colori ripetuti", 5);
-        ColumnsObj card4 = new ColumnsObj("Sfumature diverse_colonna", "Colonne senza sfumature ripetute", 4);
-        CoupleSetObj card5 = new CoupleSetObj("Sfumature chiare", "Set di 1 & 2 ovunque", 1, 2);
-        CoupleSetObj card6 = new CoupleSetObj("Sfumature medie", "Set di 3 & 4 ovunque", 3, 4);
-        CoupleSetObj card7 = new CoupleSetObj("Sfumature scure", "Set di 5 & 6 ovunque", 5, 6);
-        SetObj card8 = new SetObj("Sfumature diverse", "Set di dadi di ogni valore", 5);
-        SetObj card9 = new SetObj("Varietà di colore", "Set di dadi di ogni colore ovunque", 4);
-        DiagonalObj card10 = new DiagonalObj("Diagonali colorate", "Numero di dadi dello stesso colore diagonalmente adiacenti");
+        RowsObj card1 = new RowsObj("Colori diversi_riga", 6);
+        RowsObj card2 = new RowsObj("Sfumature diverse_riga", 5);
+        ColumnsObj card3 = new ColumnsObj("Colori diversi_colonna", 5);
+        ColumnsObj card4 = new ColumnsObj("Sfumature diverse_colonna", 4);
+        CoupleSetObj card5 = new CoupleSetObj("Sfumature chiare", 1, 2);
+        CoupleSetObj card6 = new CoupleSetObj("Sfumature medie", 3, 4);
+        CoupleSetObj card7 = new CoupleSetObj("Sfumature scure", 5, 6);
+        SetObj card8 = new SetObj("Sfumature diverse", 5);
+        SetObj card9 = new SetObj("Varietà di colore", 4);
+        DiagonalObj card10 = new DiagonalObj("Diagonali colorate");
 
         this.deckPub.add(card1);
         this.deckPub.add(card2);

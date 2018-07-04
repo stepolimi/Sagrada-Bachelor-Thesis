@@ -7,7 +7,7 @@ import java.util.List;
 import static it.polimi.ingsw.server.costants.Constants.TOT_DICES;
 
 public class DiceBag {
-    private List<Dice> dices;
+    private final List<Dice> dices;
 
     /**
      * Creates 90 dices, 18 for each colour.
@@ -76,41 +76,5 @@ public class DiceBag {
         d.rollDice();
         return d;
     }
-
-    @Override
-    public String toString() {
-        String str = "";
-        str += "dices in the dicebag:" + dices.size() + "\n";
-        int g = 0;
-        int y = 0;
-        int b = 0;
-        int p = 0;
-        int r = 0;
-
-        for (Dice dice : dices)
-            switch (dice.getColour()) {
-                case ANSI_RED:
-                    r++;
-                    break;
-                case ANSI_BLUE:
-                    b++;
-                    break;
-                case ANSI_GREEN:
-                    g++;
-                    break;
-                case ANSI_PURPLE:
-                    p++;
-                    break;
-                default:
-                    y++;
-            }
-        str += "Red:" + r + "\nGreen:" + g + "\nYellow:" + y + "\nBlue:" + b + "\nPurple:" + p;
-        return str;
-    }
-
-    public void dump() {
-        System.out.println(this);
-    }
-
 
 }

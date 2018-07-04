@@ -1,6 +1,6 @@
 package it.polimi.ingsw.serverTest.modelTest.cardsTest.objCardTest;
 
-import it.polimi.ingsw.server.model.cards.objectiveCards.CoupleSetObj;
+import it.polimi.ingsw.server.model.cards.objective.cards.CoupleSetObj;
 import it.polimi.ingsw.server.model.board.Colour;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.Schema;
@@ -15,11 +15,7 @@ class CoupleCTest {
     private Schema s;
 
     private void insertDice() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        s = buildSchema(1);
         Dice d1 = new Dice(Colour.ANSI_GREEN, 1);
         Dice d2 = new Dice(Colour.ANSI_RED, 2);
         Dice d3 = new Dice(Colour.ANSI_YELLOW, 3);
@@ -44,21 +40,15 @@ class CoupleCTest {
     @Test
     void CorrectScore() {
         insertDice();
-        CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2);
-        card.dump();
+        CoupleSetObj card = new CoupleSetObj("name", 1, 2);
 
         assertEquals(4, card.scoreCard(s), "correct calculus");
     }
 
     @Test
     void nullScore() {
-        try {
-            s = buildSchema(1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        CoupleSetObj card = new CoupleSetObj("name", "description", 1, 2);
-        card.dump();
+        s = buildSchema(1);
+        CoupleSetObj card = new CoupleSetObj("name", 1, 2);
 
         assertEquals(0, card.scoreCard(s), "result is 0");
     }

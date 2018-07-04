@@ -10,8 +10,8 @@ import static it.polimi.ingsw.server.model.builders.PrivateObjectiveBuilder.buil
 import static it.polimi.ingsw.server.costants.Constants.NUM_PRIVATE_OBJECTIVES;
 
 public class DeckPrivateObjective {
-    private ArrayList<PrivateObjective> privateObjectives;
-    private List<Integer> privateObjectivesAvailable;
+    private final ArrayList<PrivateObjective> privateObjectives;
+    private final List<Integer> privateObjectivesAvailable;
 
 
     public DeckPrivateObjective(int nPlayers) {

@@ -8,7 +8,7 @@ SERVER_IP 127.0.0.1
 // game's parameters
 LOBBY_TIMER_VALUE 5
 TURN_TIMER_VALUE 10000
-SCHEMA_TIMER_VALUE 30
+SCHEMA_TIMER_VALUE 20
 
 // path
 PATH_CUSTOM_SCHEMA src/main/resources/data/SchemaPlayer/

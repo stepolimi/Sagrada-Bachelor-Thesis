@@ -1,14 +1,12 @@
-//board class contains all materials used to play, like cards, schemas and the dicebag. it also contains players
-
 package it.polimi.ingsw.server.model.board;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.server.exception.UseToolException;
-import it.polimi.ingsw.server.internalMesages.Message;
-import it.polimi.ingsw.server.model.cards.objectiveCards.ObjectiveCard;
+import it.polimi.ingsw.server.internal.mesages.Message;
+import it.polimi.ingsw.server.model.cards.objective.cards.ObjectiveCard;
 import it.polimi.ingsw.server.model.cards.PrivateObjective;
-import it.polimi.ingsw.server.model.cards.toolCards.ToolCard;
-import it.polimi.ingsw.server.virtualView.VirtualView;
+import it.polimi.ingsw.server.model.cards.tool.cards.ToolCard;
+import it.polimi.ingsw.server.virtual.view.VirtualView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +18,15 @@ import static it.polimi.ingsw.server.costants.MessageConstants.*;
 import static it.polimi.ingsw.server.model.parser.SchemaParser.parseSchema;
 
 public class Board extends Observable {
-    private List<Player> playerList;
-    private DiceBag dicebag;
-    private RoundTrack roundTrack;
+    private final List<Player> playerList;
+    private final DiceBag dicebag;
+    private final RoundTrack roundTrack;
     private DiceSpace diceSpace;
-    private List<Schema> deckSchemas;
-    private List<Schema> deckDefaultSchemas;
-    private List<Schema> deckCustomSchemas;
+    private final List<Schema> deckSchemas;
+    private final List<Schema> deckDefaultSchemas;
+    private final List<Schema> deckCustomSchemas;
     private List<ObjectiveCard> deckPublic;
-    private List<PrivateObjective> deckPrivate;
+    private final List<PrivateObjective> deckPrivate;
     private List<ToolCard> deckTool;
 
     public Board(List<Player> p) {
@@ -108,7 +106,7 @@ public class Board extends Observable {
         return deckSchemas;
     }
 
-    public List<PrivateObjective> getDeckpriv() {
+    public List<PrivateObjective> getDeckPrivate() {
         return deckPrivate;
     }
 
@@ -212,7 +210,7 @@ public class Board extends Observable {
      * @param string head of the message that will be sent to the observer.
      * @param player name of the player to whom the message will be sent. Can be sent to all of them.
      */
-    public void notifyChanges(String string,String player) {
+    private void notifyChanges(String string, String player) {
         Message message = new Message(string);
         List<String> publicObjectives;
         List<Integer> toolCards;

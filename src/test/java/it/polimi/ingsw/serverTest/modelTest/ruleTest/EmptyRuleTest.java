@@ -25,7 +25,7 @@ class EmptyRuleTest {
     private List<Schema> schemas = new ArrayList<>();
 
     @Test
-    void correctInsertion() throws IOException {
+    void correctInsertion(){
         schema = buildSchema(24);
         schema.silentInsertDice(0,0,dice_1);
         schemas.add(schema);
@@ -35,7 +35,7 @@ class EmptyRuleTest {
     }
 
     @Test
-    void wrongInsertion() throws IOException {
+    void wrongInsertion(){
         schema = buildSchema(24);
         schema.silentInsertDice(0,0,dice_1);
         schemas.add(schema);

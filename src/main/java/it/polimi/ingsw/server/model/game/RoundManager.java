@@ -2,18 +2,20 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.game.states.Round;
-import it.polimi.ingsw.server.virtualView.VirtualView;
+import it.polimi.ingsw.server.virtual.view.VirtualView;
 
 import java.util.Random;
 
+import static it.polimi.ingsw.server.costants.Constants.TOT_ROUNDS;
+
 public class RoundManager  {
-    private Board board;
-    private GameMultiplayer game;
+    private final Board board;
+    private final GameMultiPlayer game;
     private int firstPlayerIndex = 0;
     private int roundNum = 0;
     private Round round ;
 
-    public RoundManager(Board board, GameMultiplayer game){
+    public RoundManager(Board board, GameMultiPlayer game){
         this.board = board;
         this.game = game;
         round = null;
@@ -23,7 +25,7 @@ public class RoundManager  {
      * Create a new round and makes it start, calculates the next round's first player
      */
     public void startNewRound() {
-        if(roundNum <10){
+        if(roundNum < TOT_ROUNDS){
             boolean playerConnected = false;
             do{
                 if(board.getPlayerList().get(firstPlayerIndex).isConnected()) {

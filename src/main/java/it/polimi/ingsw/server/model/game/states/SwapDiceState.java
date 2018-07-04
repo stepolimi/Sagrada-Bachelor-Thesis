@@ -1,20 +1,19 @@
 package it.polimi.ingsw.server.model.game.states;
 
-import it.polimi.ingsw.server.Log.Log;
+import it.polimi.ingsw.server.log.Log;
 import it.polimi.ingsw.server.exception.InsertDiceException;
 import it.polimi.ingsw.server.exception.RemoveDiceException;
-import it.polimi.ingsw.server.internalMesages.Message;
+import it.polimi.ingsw.server.internal.mesages.Message;
 import it.polimi.ingsw.server.model.board.Dice;
 import it.polimi.ingsw.server.model.board.RoundTrack;
 
 import java.util.logging.Level;
 
 import static it.polimi.ingsw.server.costants.Constants.SWAP_DICE_STATE;
+import static it.polimi.ingsw.server.costants.LogConstants.STATE_EXECUTE;
 import static it.polimi.ingsw.server.costants.MessageConstants.SWAP_DICE_ACCEPTED;
 
 public class SwapDiceState extends State {
-    private static String state = SWAP_DICE_STATE;
-
     /**
      * Swaps the pending dice with the specified dice of the specified round of the round track.
      * @param round is the current round
@@ -33,13 +32,13 @@ public class SwapDiceState extends State {
             round.setPendingDice(dice);
 
         } catch (InsertDiceException | RemoveDiceException e) {
-            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),"execute");
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE,this.getClass().getName(),STATE_EXECUTE);
         }
         giveLegalActions(round);
     }
 
     @Override
     public String toString() {
-        return state;
+        return SWAP_DICE_STATE;
     }
 }
