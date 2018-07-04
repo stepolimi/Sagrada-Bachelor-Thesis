@@ -5,9 +5,7 @@ import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
 import it.polimi.ingsw.client.setUp.TakeDataFile;
-import it.polimi.ingsw.client.view.Handler;
-import it.polimi.ingsw.client.view.Schema;
-import it.polimi.ingsw.client.view.View;
+import it.polimi.ingsw.client.view.*;
 import javafx.animation.Animation;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
@@ -47,12 +45,16 @@ import java.util.stream.IntStream;
 
 import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
+import static it.polimi.ingsw.client.constants.printCostants.CONNECTION_ERROR;
+import static it.polimi.ingsw.client.constants.printCostants.ERROR_SAVE_SCHEMA;
+import static it.polimi.ingsw.client.constants.printCostants.SCHEMA_ALREADY_INSERT;
 import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
 import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.exit;
 import static java.lang.System.out;
 import static java.lang.Thread.sleep;
+import static sun.management.AgentConfigurationError.FILE_NOT_FOUND;
 
 
 /**
@@ -212,7 +214,7 @@ public class ControllerGUI implements View {
         try {
             connection = new RmiConnection(hand);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            Message.println(CONNECTION_ERROR, TypeMessage.ERROR_MESSAGE);
         }
 
 
@@ -234,7 +236,7 @@ public class ControllerGUI implements View {
         try {
             connection = new SocketConnection(hand);
         } catch (IOException e) {
-            e.printStackTrace();
+            Message.println(ERROR_SAVE_SCHEMA,TypeMessage.ERROR_MESSAGE);
         }
         Thread t = new Thread((SocketConnection) connection);
         t.start();
@@ -274,7 +276,7 @@ public class ControllerGUI implements View {
             loader.setLocation(getClass().getResource(FxmlConstant.FXML_URL + FxmlConstant.GO_TO_SCHEMA_EDITOR + FxmlConstant.FXML));
             p = loader.load();
         } catch (IOException e) {
-            e.printStackTrace();
+            Message.println(ERROR_SAVE_SCHEMA,TypeMessage.ERROR_MESSAGE);
         }
         Scene scene = new Scene(p);
         stage.setScene(scene);
@@ -313,8 +315,7 @@ public class ControllerGUI implements View {
                 connection.login(getName());
 
             } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println(GameMessage.CONNECTION_ERROR);
+                Message.println(SCHEMA_ALREADY_INSERT,TypeMessage.INFO_MESSAGE);
             }
 
         }
@@ -512,7 +513,7 @@ public class ControllerGUI implements View {
     }
 
     /**
-     * @param hand
+     * @param hand handler of view
      */
     public void setHandler(Handler hand) {
         this.hand = hand;
@@ -523,7 +524,7 @@ public class ControllerGUI implements View {
      * It was also defined setOnCloseRequest in order to disconnect() client from server after closing JavaFx application
      * @param src is the name of FXML which it loads
      */
-    public void changeScene(String src) {
+    private void changeScene(String src) {
 
         Stage stage = new Stage();
         Pane p = null;
@@ -559,7 +560,7 @@ public class ControllerGUI implements View {
             p = loader.load();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Message.println(ERROR_SAVE_SCHEMA,TypeMessage.ERROR_MESSAGE);
         }
         return p;
     }
@@ -568,7 +569,7 @@ public class ControllerGUI implements View {
      * method used to open a new scene.
      * @param src is the name of FXML which it loads
      */
-    public void setNotice(String src) {
+    private void setNotice(String src) {
 
         Stage stage = new Stage();
         Pane p = null;
@@ -662,7 +663,7 @@ public class ControllerGUI implements View {
                 try {
                     in = new Scanner(new FileReader(file));
                 } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                    Message.println(FILE_NOT_FOUND, TypeMessage.ERROR_MESSAGE);
                 }
 
                 StringBuilder sb = new StringBuilder();
@@ -2116,7 +2117,9 @@ public class ControllerGUI implements View {
                             if(schema.getGrid()[i][j].getColour() !=null || schema.getGrid()[i][j].getNumber() != 0) {
                                 String color = schema.getGrid()[i][j].getColour().toString();
                                 int number = schema.getGrid()[i][j].getNumber();
-                                imageView.setImage(null);
+                                if (imageView != null) {
+                                    imageView.setImage(null);
+                                }
                                 setDice(imageView, color, number);
                             }
                             else if(!schema.getGrid()[i][j].getConstraint().equals(""))
