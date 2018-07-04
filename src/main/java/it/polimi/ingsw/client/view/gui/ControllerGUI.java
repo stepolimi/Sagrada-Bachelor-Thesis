@@ -411,9 +411,9 @@ public class ControllerGUI implements View {
             if (width > 1500 && height > 1000)
                 changeScene("game_15");
             else changeScene(FxmlConstant.NEW_GAME);
-            changeScene(FxmlConstant.NEW_GAME);
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 20);
             textflow.setFont(ea);
+            serverMessage.setFont(ea);
 
 
             if (progressBar != null) {
