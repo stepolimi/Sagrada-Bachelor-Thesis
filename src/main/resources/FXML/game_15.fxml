@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="933.0" prefWidth="1316.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="933.0" prefWidth="1317.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="pane" prefHeight="815.0" prefWidth="1182.0" HBox.hgrow="ALWAYS">
          <children>
@@ -43,7 +43,7 @@
                         <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="71.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <ImageView fx:id="publObj1" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <ImageView fx:id="publObj1" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -51,7 +51,7 @@
                               <Image url="@../assets/image/Cards/PublicObj/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="publObj2" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                        <ImageView fx:id="publObj2" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -59,7 +59,7 @@
                               <Image url="@../assets/image/Cards/PublicObj/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="publObj3" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <ImageView fx:id="publObj3" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -67,7 +67,7 @@
                               <Image url="@../assets/image/Cards/PublicObj/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="toolCard1" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                        <ImageView fx:id="toolCard1" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -75,7 +75,7 @@
                               <Image url="@../assets/image/Cards/ToolCard/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="toolCard2" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                        <ImageView fx:id="toolCard2" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -83,7 +83,7 @@
                               <Image url="@../assets/image/Cards/ToolCard/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="toolCard3" fitHeight="236.0" fitWidth="160.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                        <ImageView fx:id="toolCard3" fitHeight="236.0" fitWidth="170.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -372,7 +372,7 @@
                                           </ImageView>
                                        </children>
                                     </GridPane>
-                                    <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="646.0" layoutY="244.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="170.0" layoutX="646.0" layoutY="244.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -420,7 +420,7 @@
                                           <Font size="24.0" />
                                        </font>
                                     </Text>
-                                    <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="704.0" layoutY="70.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="708.0" layoutY="70.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../assets/image/icon%20copia.png" />
                                        </image>
