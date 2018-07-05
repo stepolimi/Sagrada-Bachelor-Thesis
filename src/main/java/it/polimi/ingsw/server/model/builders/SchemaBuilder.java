@@ -83,23 +83,23 @@ public class SchemaBuilder {
                     continue;
                 }
 
-                switch (constraint.charAt(0)) {
-                    case '1':
+                switch (constraint) {
+                    case "1":
                         schemaServer.setTable(i, j, new Box(null, 1));
                         break;
-                    case '2':
+                    case "2":
                         schemaServer.setTable(i, j, new Box(null, 2));
                         break;
-                    case '3':
+                    case "3":
                         schemaServer.setTable(i, j, new Box(null, 3));
                         break;
-                    case '4':
+                    case "4":
                         schemaServer.setTable(i, j, new Box(null, 4));
                         break;
-                    case '5':
+                    case "5":
                         schemaServer.setTable(i, j, new Box(null, 5));
                         break;
-                    case '6':
+                    case "6":
                         schemaServer.setTable(i, j, new Box(null, 6));
                         break;
                     default:

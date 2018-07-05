@@ -28,6 +28,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static it.polimi.ingsw.client.constants.MessageConstants.*;
 import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.CONNECTION_ERROR;
@@ -411,9 +413,11 @@ public class ControllerGUI implements View {
             if (width > 1500 && height > 1000)
                 changeScene(FxmlConstant.GAMESCENE_15);
             else changeScene(FxmlConstant.NEW_GAME);
-            ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 20);
+            ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 17);
             textflow.setFont(ea);
             serverMessage.setFont(ea);
+            textflow.setTextAlignment(TextAlignment.LEFT);
+            textflow.setText("Seleziona il tuo schema prima di iniziare");
 
 
             if (progressBar != null) {
@@ -951,8 +955,41 @@ public class ControllerGUI implements View {
                 iconTool.setVisible(true);
             else iconTool.setVisible(false);
 
+            //setText(actions);
 
         });
+    }
+
+    private void setText(List<String> actions){
+        textflow.setText("Azioni disponibili\n");
+        if(actions.contains(PICK_DICE))
+            textflow.setText(textflow.getText() + "Inserisci un dado\n");
+        if(actions.contains(USE_TOOL_CARD))
+            textflow.setText(textflow.getText() + "Usa una carta utensile\n");
+        if(actions.contains(ROLL_DICE_SPACE))
+            textflow.setText(textflow.getText() + "Tira i dadi della riserva\n");
+        if(actions.contains(ROLL_DICE))
+            textflow.setText(textflow.getText() + "Tira il dado\n");
+        if(actions.contains(MOVE_DICE))
+            textflow.setText(textflow.getText() + "Sposta un dado del tuo schema\n");
+        if(actions.contains(PLACE_DICE))
+            textflow.setText(textflow.getText() + "Inserisci il dado nel tuo schema\n");
+        if(actions.contains(PLACE_DICE_SPACE))
+            textflow.setText(textflow.getText() + "Inserisci il dado nella riserva\n");
+        if(actions.contains(CHANGE_VALUE))
+            textflow.setText(textflow.getText() + "Incrementa o decrementa il valore del dado di uno\n");
+        if(actions.contains(SWAP_DICE))
+            textflow.setText(textflow.getText() + "Seleziona il dado dal tracciato dei round con cui scambiare\n");
+        if(actions.contains(CANCEL_USE_TOOL_CARD))
+            textflow.setText(textflow.getText() + "Annula l'utilizzo della carta utensile\n");
+        if(actions.contains(FLIP_DICE))
+            textflow.setText(textflow.getText() + "Capovolgi il dado\n");
+        if(actions.contains(SWAP_DICE_BAG))
+            textflow.setText(textflow.getText() + "Estrai un nuovo dado\n");
+        if(actions.contains(DRAFT_DICE))
+            textflow.setText(textflow.getText() + "Seleziona un dado dalla riserva\n");
+        if(actions.contains(END_TURN))
+            textflow.setText(textflow.getText() + "Passa il turno");
     }
 
     /**
