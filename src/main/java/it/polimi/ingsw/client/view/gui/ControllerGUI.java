@@ -63,7 +63,7 @@ import static sun.management.AgentConfigurationError.FILE_NOT_FOUND;
  * It's the FXML controller (for GUI). It contains:
  *  -Attributes : they're mainly javaFX components (@FXML);
  *  -Event (MouseClicked, DragEvent, ActionEvent);
- *  -Modifyier
+ *  -GUI's method
  */
 public class ControllerGUI implements View {
 
@@ -82,7 +82,7 @@ public class ControllerGUI implements View {
     private List<Object> schemaPlayers;
     private int indexDiceSpace;
     private Image dragImage;
-    private Object lock = new Object();
+    private final Object lock = new Object();
     private List<String> schemasClient;
     private ImageView imageMoved;
     private ImageView schemaCell;
@@ -149,9 +149,9 @@ public class ControllerGUI implements View {
     @FXML
     private ImageView playButton;
     @FXML
-    private ImageView RMIButton;
+    private ImageView rmiButton;
     @FXML
-    private ImageView SocketButton;
+    private ImageView socketButton;
     @FXML
     private TextField nickname;
     @FXML
@@ -343,18 +343,17 @@ public class ControllerGUI implements View {
      */
     public void login(String src) {
 
-        text = src;
         Platform.runLater(() -> {
-            if (text.equals("Welcome")) {
+            if (src.equals("Welcome")) {
                 Stage stage;
                 stage = (Stage) loginAction.getScene().getWindow();
                 stage.close();
                 changeScene(FxmlConstant.GO_TO_LOBBY);
 
 
-            } else if (text.equals("Login_error-username")) {
+            } else if (src.equals("Login_error-username")) {
                 setNotice(FxmlConstant.NICKNAME_ALREADY_USE);
-            } else if (text.equals("Login_error-game"))
+            } else if (src.equals("Login_error-game"))
                 setNotice(FxmlConstant.PLAYER_LIMIT);
 
         });
@@ -716,7 +715,7 @@ public class ControllerGUI implements View {
     public void setOpponentsSchemas(final List<String> schemas) {
         List<String> stringList = new ArrayList<>(schemas);
         Platform.runLater(() -> {
-            schemaPlayers = new ArrayList<Object>();
+            schemaPlayers = new ArrayList<>();
             schemaPlayers = Arrays.asList(nickname2, constrain2,
                     nickname3, constrain3, nickname4, constrain4);
 
@@ -857,7 +856,7 @@ public class ControllerGUI implements View {
             imageZoomed.setImage(image.getImage());
             alreadyZoom = true;
         }
-        imageZoomed.getScene().getWindow().setOnCloseRequest(eventClose -> {alreadyZoom = false;});
+        imageZoomed.getScene().getWindow().setOnCloseRequest(eventClose -> alreadyZoom = false);
 
     }
 
@@ -1156,7 +1155,9 @@ public class ControllerGUI implements View {
             GridPane gridPaneLocal = (GridPane) schemaPlayers.get(i);
             if (gridPaneLocal.getId().equals(nickname)) {
                 ImageView imageView = (ImageView) getNodeFromGridPane(gridPaneLocal, column, row);
-                imageView.setImage(null);
+                if (imageView != null) {
+                    imageView.setImage(null);
+                }
             }
         }
 
@@ -1308,20 +1309,17 @@ public class ControllerGUI implements View {
      */
     public void placeDiceRoundTrack(int nRound, final List<String> colours, List<Integer> values) {
 
-        Platform.runLater(() -> {
+        Platform.runLater(() -> IntStream.iterate(0, i -> i + 1)
+                .limit(colours.size())
+                .forEach(i -> {
+                    String color = colours.get(i);
+                    String number = values.get(i).toString();
+                    ImageView imageView = getLastRoundCell(nRound, roundTrack);
+                    setDice(imageView, color, number);
 
-            IntStream.iterate(0, i -> i + 1)
-                    .limit(colours.size())
-                    .forEach(i -> {
-                        String color = colours.get(i);
-                        String number = values.get(i).toString();
-                        ImageView imageView = getLastRoundCell(nRound, roundTrack);
-                        setDice(imageView, color, number);
+                        }
 
-                            }
-
-                    );
-        });
+                ));
 
 
     }
