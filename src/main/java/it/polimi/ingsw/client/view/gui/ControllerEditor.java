@@ -27,6 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import static it.polimi.ingsw.client.constants.NameConstants.ICON_GAME;
+import static it.polimi.ingsw.client.constants.NameConstants.NAME_IS_EMPTY;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 
 public class ControllerEditor {
@@ -201,7 +202,7 @@ public class ControllerEditor {
             String copyPath;
             name = schemaName.getText();
             if (name.equals("")) {
-                setNotice(FxmlConstant.NAME_IS_EMPTY);
+                setNotice(config.getParameter(NAME_IS_EMPTY));
                 return;
             }
             else {
