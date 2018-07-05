@@ -30,32 +30,15 @@ public class MultiSocketServer{
     public void startServer()
     {
         ExecutorService execute = Executors.newCachedThreadPool();
-        ServerSocket serverSocket=null;
-        try {
-            serverSocket = new ServerSocket(port);
-
+        try(ServerSocket serverSocket = new ServerSocket(port)){
             Log.getLogger().addLog(SOCKET_READY, Level.INFO,this.getClass().getName(),MULTI_SOCKET_SERVER_START_SERVER);
             while(loop) {
-                try {
                     Socket socket = serverSocket.accept();
                     SocketConnection sock = new SocketConnection(socket,virtual,connection);
                     execute.submit(sock);
-
-                }catch(Exception ex) {
-                    Log.getLogger().addLog(ex.getMessage(),Level.SEVERE,this.getClass().getName(),MULTI_SOCKET_SERVER_START_SERVER);
-                }
             }
         }catch(IOException e) {
-            Log.getLogger().addLog(e.getMessage(),Level.SEVERE,this.getClass().getName(), MULTI_SOCKET_SERVER_START_SERVER);
-        }finally {
-            try {
-                if(serverSocket!= null)
-                    serverSocket.close();
-            }catch(IOException ex2){
-                Log.getLogger().addLog(ex2.getMessage(),Level.SEVERE, this.getClass().getName(), MULTI_SOCKET_SERVER_START_SERVER);
-            }
+            Log.getLogger().addLog(e.getMessage(), Level.SEVERE, this.getClass().getName(), MULTI_SOCKET_SERVER_START_SERVER);
         }
-
-
     }
 }

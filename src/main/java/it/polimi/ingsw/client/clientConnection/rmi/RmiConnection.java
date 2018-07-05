@@ -63,6 +63,7 @@ public class RmiConnection implements Connection {
                         System.exit(1);
                     } catch (InterruptedException ex){
                         Message.print(THREAD_ERROR, TypeMessage.ERROR_MESSAGE);
+                        Thread.currentThread().interrupt();
                     }
                 }
             });

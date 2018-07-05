@@ -10,15 +10,14 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 
 import java.io.*;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
+import static it.polimi.ingsw.client.constants.MessageConstants.CHANGE_VALUE;
 import static it.polimi.ingsw.client.constants.MessageConstants.PAINT_ROW;
 import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.*;
+import static it.polimi.ingsw.client.constants.printCostants.NICKNAME_ALREADY_USE;
 
 public class ViewCLI implements View {
     private Scanner input;
@@ -431,7 +430,6 @@ public class ViewCLI implements View {
             String copyPath;
             copyPath = pathCustomSchemas + s.getName() + ".json";
             FileWriter fw;
-            BufferedWriter b=null;
             File file = new File(copyPath);
 
             if (file.exists())
@@ -440,12 +438,10 @@ public class ViewCLI implements View {
 
                 Message.println(FILE_INFO + copyPath + CREATE,TypeMessage.CONFIRM_MESSAGE);
                 fw = new FileWriter(file);
-                try {
-                    b = new BufferedWriter(fw);
+                try(BufferedWriter b = new BufferedWriter(fw)) {
                     b.write(schema);
                     b.flush();
                 }finally {
-                    b.close();
                     fw.close();
                 }
                 correct = true;
@@ -551,6 +547,7 @@ public class ViewCLI implements View {
                 case CHANGE_VALUE:
                     move = CHANGE_VALUE_INFO;
                     break;
+                default:break;
             }
             moves.add(move);
         }
@@ -737,12 +734,14 @@ public class ViewCLI implements View {
         Schema sc = new Schema();
 
         Message.println(CHOOSE_LOAD_SCHEME,TypeMessage.INFO_MESSAGE);
-        if (f.list().length == 0) {
+
+
+        if (Objects.requireNonNull(f.list()).length == 0) {
             Message.println(EMPTY_CUSTOM_SCHEMAS,TypeMessage.ERROR_MESSAGE);
             return;
         }
 
-        for (String file : f.list())
+        for (String file : Objects.requireNonNull(f.list()))
             Message.println(file.substring(0, file.length() - 5),TypeMessage.INFO_MESSAGE);
         name = input.nextLine();
         try {
@@ -783,6 +782,7 @@ public class ViewCLI implements View {
                     Message.println(TRY_LATER,TypeMessage.INFO_MESSAGE);
                     break;
                 }
+            default: break;
         }
 
     }
@@ -871,7 +871,8 @@ public class ViewCLI implements View {
             try {
                 schemaThread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                e.getMessage();
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -885,7 +886,7 @@ public class ViewCLI implements View {
         try {
             load.displayImage(config.getParameter(PATH_ROUND_GAME_IMAGE)+ round + ".txt");
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         Message.println(YOUR_SCHEME2,TypeMessage.INFO_MESSAGE);
         showMyschema();
@@ -1475,13 +1476,13 @@ public class ViewCLI implements View {
         try {
             load.displayImage(config.getParameter(winner));
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         Message.println("",TypeMessage.INFO_MESSAGE);
 
     }
 
-    public void restart()
+    private void restart()
     {
 
         Message.println("GAME RESTART", TypeMessage.INFO_MESSAGE);
@@ -1490,7 +1491,8 @@ public class ViewCLI implements View {
         try {
             threadRound.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.getMessage();
+            Thread.currentThread().interrupt();
         }
         connection.disconnect();
         endGame = false;
@@ -1555,7 +1557,7 @@ public class ViewCLI implements View {
         try {
             load.displayImage(config.getParameter(PATH_ROUND_GAME_IMAGE)+round + ".txt");
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         Message.println(YOUR_SCHEME2,TypeMessage.INFO_MESSAGE);
         showMyschema();

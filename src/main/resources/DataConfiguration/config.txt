@@ -3,7 +3,7 @@
 // connection's parameters
 RMI_PORT 1099
 SOCKET_PORT 1666
-SERVER_IP 127.0.0.1
+SERVER_IP 169.254.181.252
 
 // game's parameters
 LOBBY_TIMER_VALUE 5
