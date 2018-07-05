@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.clientConnection.rmi.RmiConnection;
 import it.polimi.ingsw.client.clientConnection.socket.SocketConnection;
+import it.polimi.ingsw.client.constants.NameConstants;
 import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.*;
 import javafx.animation.Animation;
@@ -44,12 +45,24 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
+import static it.polimi.ingsw.client.constants.MessageConstants.CANCEL_USE_TOOL_CARD;
+import static it.polimi.ingsw.client.constants.MessageConstants.CHANGE_VALUE;
+import static it.polimi.ingsw.client.constants.MessageConstants.DRAFT_DICE;
+import static it.polimi.ingsw.client.constants.MessageConstants.END_TURN;
+import static it.polimi.ingsw.client.constants.MessageConstants.FLIP_DICE;
+import static it.polimi.ingsw.client.constants.MessageConstants.MOVE_DICE;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
+import static it.polimi.ingsw.client.constants.MessageConstants.PLACE_DICE;
+import static it.polimi.ingsw.client.constants.MessageConstants.PLACE_DICE_SPACE;
+import static it.polimi.ingsw.client.constants.MessageConstants.ROLL_DICE;
+import static it.polimi.ingsw.client.constants.MessageConstants.ROLL_DICE_SPACE;
+import static it.polimi.ingsw.client.constants.MessageConstants.SWAP_DICE;
+import static it.polimi.ingsw.client.constants.MessageConstants.SWAP_DICE_BAG;
+import static it.polimi.ingsw.client.constants.MessageConstants.USE_TOOL_CARD;
 import static it.polimi.ingsw.client.constants.NameConstants.*;
+import static it.polimi.ingsw.client.constants.NameConstants.NICKNAME_ALREADY_USE;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
-import static it.polimi.ingsw.client.constants.printCostants.CONNECTION_ERROR;
-import static it.polimi.ingsw.client.constants.printCostants.ERROR_SAVE_SCHEMA;
-import static it.polimi.ingsw.client.constants.printCostants.SCHEMA_ALREADY_INSERT;
+import static it.polimi.ingsw.client.constants.printCostants.*;
 import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
 import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
 import static java.lang.Integer.parseInt;
@@ -220,7 +233,7 @@ public class ControllerGUI implements View {
         }
 
 
-        changeScene(FxmlConstant.GO_TO_LOGIN);
+        changeScene(config.getParameter(GO_TO_LOGIN));
         loginAction.setDefaultButton(true);
     }
 
@@ -244,7 +257,7 @@ public class ControllerGUI implements View {
         t.start();
 
 
-        changeScene(FxmlConstant.GO_TO_LOGIN);
+        changeScene(config.getParameter(GO_TO_LOGIN));
         loginAction.setDefaultButton(true);
 
     }
@@ -258,7 +271,7 @@ public class ControllerGUI implements View {
         Stage stage = (Stage) playButton.getScene().getWindow();
         stage.close();
 
-        changeScene(FxmlConstant.CHOOSE_CONNECTION);
+        changeScene(config.getParameter(CHOOSE_CONNECTION));
     }
 
 
@@ -275,7 +288,8 @@ public class ControllerGUI implements View {
         Pane p = null;
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(FxmlConstant.FXML_URL + FxmlConstant.GO_TO_SCHEMA_EDITOR + FxmlConstant.FXML));
+            loader.setLocation(getClass().getResource(config.getParameter(FXML_URL) +
+                    config.getParameter(GO_TO_SCHEMA_EDITOR) + config.getParameter(FXML)));
             p = loader.load();
         } catch (IOException e) {
             Message.println(ERROR_SAVE_SCHEMA,TypeMessage.ERROR_MESSAGE);
@@ -306,12 +320,8 @@ public class ControllerGUI implements View {
     @FXML
     public void captureNickname(ActionEvent actionEvent) {
 
-        if (getName().equals(GameMessage.EMPTY)) {
-            setNotice(FxmlConstant.NICKNAME_IS_EMPTY);
-
-        } else if (getName().length() > 8)
-            setNotice(FxmlConstant.NICKNAME_IS_EMPTY);
-
+        if (getName().equals(GameMessage.EMPTY) || getName().length() > 8 )
+            setNotice(config.getParameter(NICKNAME_IS_EMPTY));
         else {
             try {
                 connection.login(getName());
@@ -344,17 +354,20 @@ public class ControllerGUI implements View {
     public void login(String src) {
 
         Platform.runLater(() -> {
-            if (src.equals("Welcome")) {
-                Stage stage;
-                stage = (Stage) loginAction.getScene().getWindow();
-                stage.close();
-                changeScene(FxmlConstant.GO_TO_LOBBY);
-
-
-            } else if (src.equals("Login_error-username")) {
-                setNotice(FxmlConstant.NICKNAME_ALREADY_USE);
-            } else if (src.equals("Login_error-game"))
-                setNotice(FxmlConstant.PLAYER_LIMIT);
+            switch (src) {
+                case GameMessage.CONNECTION_SUCCEDED:
+                    Stage stage;
+                    stage = (Stage) loginAction.getScene().getWindow();
+                    stage.close();
+                    changeScene(config.getParameter(GO_TO_LOBBY));
+                    break;
+                case GameMessage.NICKNAME_USED:
+                    setNotice(config.getParameter(NICKNAME_ALREADY_USE));
+                    break;
+                case GameMessage.GAME_STARTED:
+                    setNotice(config.getParameter(PLAYER_LIMIT));
+                    break;
+            }
 
         });
     }
@@ -411,8 +424,8 @@ public class ControllerGUI implements View {
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
-                changeScene(FxmlConstant.GAMESCENE_15);
-            else changeScene(FxmlConstant.NEW_GAME);
+                changeScene(config.getParameter(GAMESCENE_15));
+            else changeScene(config.getParameter(NEW_GAME));
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 17);
             textflow.setFont(ea);
             serverMessage.setFont(ea);
@@ -438,7 +451,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             String path = config.getParameter(SCHEMI);
 
-            changeScene(FxmlConstant.CHOOSE_SCHEMA);
+            changeScene(config.getParameter(NameConstants.CHOOSE_SCHEMA));
             List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
 
             IntStream.range(0, 4)
@@ -603,7 +616,7 @@ public class ControllerGUI implements View {
      */
     @FXML
     public void QuitPaneAction(ActionEvent actionEvent) {
-        setNotice(FxmlConstant.CLOSE_MESSAGE);
+        setNotice(config.getParameter(CLOSE_MESSAGE));
 
     }
 
@@ -681,7 +694,7 @@ public class ControllerGUI implements View {
 
                 connection.sendCustomSchema(schemaChoosen);
 
-            } else setNotice(FxmlConstant.OPEN_SCHEMA_ERROR);
+            } else setNotice(config.getParameter(OPEN_SCHEMA_ERROR));
 
         });
     }
@@ -852,7 +865,7 @@ public class ControllerGUI implements View {
         if(!alreadyZoom)
         {
             ImageView image = (ImageView) event.getTarget();
-            setNotice(FxmlConstant.ZOOM_CARD);
+            setNotice(config.getParameter(ZOOM_CARD));
             imageZoomed.setImage(image.getImage());
             alreadyZoom = true;
         }
@@ -1039,7 +1052,7 @@ public class ControllerGUI implements View {
             diceChanged = true;
 
             if (currentTool == 1) {
-                changeScene(FxmlConstant.CHANGE_VALUE);
+                changeScene(config.getParameter(NameConstants.CHANGE_VALUE));
             } else if (currentTool == 6) {
                 textflow.setText(GameMessage.USE_TOOL_6);
             } else if (currentTool == 5) {
@@ -1234,7 +1247,7 @@ public class ControllerGUI implements View {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            changeScene(FxmlConstant.CHANGE_VALUE);
+            changeScene(config.getParameter(NameConstants.CHANGE_VALUE));
 
         });
     }
@@ -1412,7 +1425,7 @@ public class ControllerGUI implements View {
             colorMoved = colour;
             numberMoved = value;
             setDice(pendingDice, colour, value);
-            changeScene(FxmlConstant.CHOOSE_VALUE);
+            changeScene(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1435,7 +1448,7 @@ public class ControllerGUI implements View {
     public void chooseValueError() {
         Platform.runLater(() -> {
             textflow.setText(GameMessage.CHOOSE_VALUE_ERROR);
-            changeScene(FxmlConstant.CHOOSE_VALUE);
+            changeScene(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1497,8 +1510,8 @@ public class ControllerGUI implements View {
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
             if (nick.equals(nickname.getText()))
-                changeScene(FxmlConstant.WINNER_SCENE);
-            else changeScene(FxmlConstant.LOSE_SCENE);
+                changeScene(config.getParameter(NameConstants.WINNER_SCENE));
+            else changeScene(config.getParameter(NameConstants.LOSE_SCENE));
         });
 
     }
@@ -2111,7 +2124,7 @@ public class ControllerGUI implements View {
         stage.close();
         stage = (Stage) gridPane.getScene().getWindow();
         stage.close();
-        changeScene(FxmlConstant.FIRST_SCENE);
+        changeScene(config.getParameter(NameConstants.FIRST_SCENE));
     }
 
 
