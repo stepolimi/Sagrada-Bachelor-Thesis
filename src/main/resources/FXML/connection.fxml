@@ -19,7 +19,7 @@
             <Font size="36.0" />
          </font>
       </Text>
-      <ImageView fx:id="RMButton" fitHeight="96.0" fitWidth="95.0" layoutX="94.0" layoutY="91.0" onMouseClicked="#goRMI" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="rmiButton" fitHeight="96.0" fitWidth="95.0" layoutX="94.0" layoutY="91.0" onMouseClicked="#goRMI" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/rmi.png" />
          </image>
@@ -27,7 +27,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="SocketButton" fitHeight="115.0" fitWidth="95.0" layoutX="327.0" layoutY="91.0" onMouseClicked="#goSocket" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="socketButton" fitHeight="115.0" fitWidth="95.0" layoutX="327.0" layoutY="91.0" onMouseClicked="#goSocket" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../assets/image/socket.png" />
          </image>

@@ -8,8 +8,6 @@ public class GameMessage {
     //Connection Message
     static final String NEW_PLAYER = " si è aggiunto alla lobby......\n";
     static final String PLAYER_DISCONNECTED = " si è disconnesso........\n";
-    static final String CONNECTION_ERROR = "Errore di connessione";
-
 
 
     //message about Turn and Round
