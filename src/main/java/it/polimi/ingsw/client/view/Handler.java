@@ -1,7 +1,7 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.gui.ControllerGUI;
-import it.polimi.ingsw.server.set.up.TakeDataFile;
 
 import java.io.IOException;
 import java.util.Scanner;
