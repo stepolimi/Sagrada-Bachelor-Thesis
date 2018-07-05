@@ -30,11 +30,6 @@ public class LogConstants {
     public static final String CONFIGURATION_FILE_ERROR = "configuration file not found";
 
 
-
-
-
-
-
     public static final String CONNECTED_CHECK_USERNAME = "checkUsername";
     public static final String RMI_SERVER_CONNECTION_PING_CLIENT = "pingClient";
     public static final String RMI_SERVER_METHOD_LOGIN = "login";
@@ -60,11 +55,4 @@ public class LogConstants {
     public static final String RULE_CHECK_RULE = "checkRule";
     public static final String TAKE_DATA_FILE_GET_PARAMETER = "getParameter";
     public static final String TAKE_DATA_FILE_CLOSE_BUFFER = "closeBuffer";
-    public static final String TAKE_DATA_FILE_PRINT_CONTENT = "printContent";
-
-
-
-
-
-
 }

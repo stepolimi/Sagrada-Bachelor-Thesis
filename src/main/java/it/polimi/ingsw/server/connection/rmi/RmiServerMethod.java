@@ -15,7 +15,7 @@ public class RmiServerMethod implements RmiServerMethodInterface {
     private final VirtualView virtual;
     private final Connected connection;
 
-    public RmiServerMethod(VirtualView virtual,Connected connection) throws RemoteException {
+    public RmiServerMethod(VirtualView virtual,Connected connection){
         this.virtual = virtual;
         this.connection = connection;
     }
