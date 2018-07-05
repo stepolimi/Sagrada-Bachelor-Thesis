@@ -91,7 +91,7 @@
                               <Image url="@../assets/image/Cards/ToolCard/0.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="use3" fitHeight="54.0" fitWidth="55.0" onMouseClicked="#useToolCard" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
+                        <ImageView fx:id="use3" fitHeight="54.0" fitWidth="55.0" onMouseClicked="#useToolCard" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                            <image>
                               <Image url="@../assets/image/usetool.png" />
                            </image>
@@ -99,7 +99,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fx:id="use2" fitHeight="54.0" fitWidth="55.0" onMouseClicked="#useToolCard" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
+                        <ImageView fx:id="use2" fitHeight="54.0" fitWidth="55.0" onMouseClicked="#useToolCard" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                            <image>
                               <Image url="@../assets/image/usetool.png" />
                            </image>

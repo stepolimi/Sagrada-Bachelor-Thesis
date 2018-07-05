@@ -35,3 +35,26 @@ CONSTRAIN_PATH /assets/image/SchemaElement/
 DICE_PATH /assets/image/Dice
 ZOOM_CURSOR /assets/image/zoom.png
 
+//fxml file name
+
+FXML_URL /FXML/
+FXML .fxml
+CHANGE_VALUE changeDiceValue
+CHOOSE_SCHEMA choose_schema
+CHOOSE_VALUE chooseDiceNumber
+CHOOSE_CONNECTION connection
+NEW_GAME game
+GO_TO_LOGIN login
+NAME_IS_EMPTY NameSchemaError
+NICKNAME_IS_EMPTY nickname_empty
+NICKNAME_ALREADY_USE nickname_error
+OPEN_SCHEMA_ERROR OpenSchemaError
+CLOSE_MESSAGE QuitPane
+GO_TO_SCHEMA_EDITOR SchemaEditor+
+PLAYER_LIMIT TooManyPlayers
+GO_TO_LOBBY waiting
+ZOOM_CARD zoomImage
+WINNER_SCENE win
+LOSE_SCENE lose
+FIRST_SCENE play
+GAMESCENE_15 game_15
