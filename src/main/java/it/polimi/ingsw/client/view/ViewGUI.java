@@ -10,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import static it.polimi.ingsw.client.constants.NameConstants.ICON_GAME;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 
 public class ViewGUI extends Application {
 

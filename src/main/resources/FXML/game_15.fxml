@@ -1029,6 +1029,14 @@
                                           <Font size="21.0" />
                                        </font>
                                     </Text>
+                                    <ImageView fitHeight="66.0" fitWidth="54.0" layoutX="762.0" layoutY="12.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#exitAction" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../assets/image/exitButton.png" />
+                                       </image>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ImageView>
                                  </children>
                               </Pane>
                            </content>

@@ -32,6 +32,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.awt.*;
@@ -61,7 +62,6 @@ import static it.polimi.ingsw.client.constants.MessageConstants.SWAP_DICE_BAG;
 import static it.polimi.ingsw.client.constants.MessageConstants.USE_TOOL_CARD;
 import static it.polimi.ingsw.client.constants.NameConstants.*;
 import static it.polimi.ingsw.client.constants.NameConstants.NICKNAME_ALREADY_USE;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.*;
 import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
 import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
@@ -430,8 +430,8 @@ public class ControllerGUI implements View {
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
-                changeScene(config.getParameter(GAMESCENE_15));
-            else changeScene(config.getParameter(NEW_GAME));
+                openGameScene(config.getParameter(GAMESCENE_15));
+            else openGameScene(config.getParameter(NEW_GAME));
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 17);
             textflow.setFont(ea);
             serverMessage.setFont(ea);
@@ -457,7 +457,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             String path = config.getParameter(SCHEMI);
 
-            changeScene(config.getParameter(NameConstants.CHOOSE_SCHEMA));
+            openGameScene(config.getParameter(NameConstants.CHOOSE_SCHEMA));
             List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
 
             IntStream.range(0, 4)
@@ -541,6 +541,26 @@ public class ControllerGUI implements View {
         this.hand = hand;
     }
 
+    public void openGameScene(String src){
+
+    Stage stage = new Stage();
+    Pane p = null;
+
+    p = loadFXML(src, p);
+    Scene scene = new Scene(p);
+        stage.setScene(scene);
+        stage.setTitle("Sagrada");
+    Image image = new Image(config.getParameter(ICON_GAME));
+        stage.getIcons().add(image);
+        stage.setResizable(false);
+        stage.initStyle(StageStyle.UTILITY);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.resizableProperty().setValue(false);
+        stage.show();
+}
+
+
+
     /**
      * method used to open a new scene.
      * It was also defined setOnCloseRequest in order to disconnect() client from server after closing JavaFx application
@@ -557,7 +577,8 @@ public class ControllerGUI implements View {
         stage.setTitle("Sagrada");
         Image image = new Image(config.getParameter(ICON_GAME));
         stage.getIcons().add(image);
-        stage.setResizable(false);
+
+
 
         stage.setOnCloseRequest(event -> {
             if (connection != null)
@@ -600,8 +621,9 @@ public class ControllerGUI implements View {
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
         Image image = new Image(config.getParameter(ICON_GAME));
-        stage.getIcons().add(image);
-        stage.setResizable(false);
+        stage.resizableProperty().setValue(false);
+
+
 
         stage.show();
 
@@ -888,6 +910,7 @@ public class ControllerGUI implements View {
         disableAll();
         x1 = null;
         x2 = null;
+        textflow.setText(GameMessage.EMPTY);
         connection.sendEndTurn();
 
 
@@ -1062,7 +1085,7 @@ public class ControllerGUI implements View {
             diceChanged = true;
 
             if (currentTool == 1) {
-                changeScene(config.getParameter(NameConstants.CHANGE_VALUE));
+                openGameScene(config.getParameter(NameConstants.CHANGE_VALUE));
             } else if (currentTool == 6) {
                 textflow.setText(GameMessage.USE_TOOL_6);
             } else if (currentTool == 5) {
@@ -1257,7 +1280,7 @@ public class ControllerGUI implements View {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            changeScene(config.getParameter(NameConstants.CHANGE_VALUE));
+            openGameScene(config.getParameter(NameConstants.CHANGE_VALUE));
 
         });
     }
@@ -1435,7 +1458,7 @@ public class ControllerGUI implements View {
             colorMoved = colour;
             numberMoved = value;
             setDice(pendingDice, colour, value);
-            changeScene(config.getParameter(NameConstants.CHOOSE_VALUE));
+            openGameScene(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1458,7 +1481,7 @@ public class ControllerGUI implements View {
     public void chooseValueError() {
         Platform.runLater(() -> {
             textflow.setText(GameMessage.CHOOSE_VALUE_ERROR);
-            changeScene(config.getParameter(NameConstants.CHOOSE_VALUE));
+            openGameScene(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1520,8 +1543,8 @@ public class ControllerGUI implements View {
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
             if (nick.equals(nickname.getText()))
-                changeScene(config.getParameter(NameConstants.WINNER_SCENE));
-            else changeScene(config.getParameter(NameConstants.LOSE_SCENE));
+                openGameScene(config.getParameter(NameConstants.WINNER_SCENE));
+            else openGameScene(config.getParameter(NameConstants.LOSE_SCENE));
         });
 
     }
@@ -2198,6 +2221,12 @@ public class ControllerGUI implements View {
         Glow glow = new Glow();
         glow.setLevel(0.0);
         imageView.setEffect(glow);
+
+    }
+
+    @FXML
+    void exitAction(MouseEvent event) {
+        setNotice(config.getParameter(CLOSE_MESSAGE));
 
     }
 
