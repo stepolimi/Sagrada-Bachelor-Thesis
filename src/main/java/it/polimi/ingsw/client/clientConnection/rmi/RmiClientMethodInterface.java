@@ -15,6 +15,8 @@ public interface RmiClientMethodInterface extends Remote {
 
     void timerPing(int timeLeft) throws RemoteException;
 
+    void turnTimerPing(int timeLeft) throws RemoteException;
+
     void createGame() throws RemoteException;
 
     void setSchemas(List<String> schemas) throws RemoteException;

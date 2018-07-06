@@ -13,6 +13,8 @@ public interface Connection {
 
     void timerPing(int timeLeft);
 
+    void turnTimerPing(int timeLeft);
+
     void createGame();
 
     void setSchemas(List<String> schemas);

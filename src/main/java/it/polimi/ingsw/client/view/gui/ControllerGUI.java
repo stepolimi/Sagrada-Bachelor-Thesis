@@ -411,6 +411,10 @@ public class ControllerGUI implements View {
 
     }
 
+    public void turnTimerPing(int time) {
+        //todo;
+    }
+
     /**
      * A new game begins. This method opens the FXML of game and set font of textflow, used to show message sent from
      * server during game.

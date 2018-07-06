@@ -10,6 +10,7 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 
 import java.io.*;
 import java.rmi.RemoteException;
+import java.sql.SQLOutput;
 import java.util.*;
 
 import static it.polimi.ingsw.client.constants.MessageConstants.CHANGE_VALUE;
@@ -844,6 +845,11 @@ public class ViewCLI implements View {
         Message.print(Colour.colorString(percent + "%", Colour.ANSI_BLUE),TypeMessage.INFO_MESSAGE);
     }
 
+    public void turnTimerPing(int time) {
+        System.out.println("Hai ancora: " + time + " secondi per finire il tuo turno");
+        //todo;
+    }
+
     /**
      * invoked when the game starts
      */
@@ -1489,7 +1495,8 @@ public class ViewCLI implements View {
         Message.println(PRESS_ENTER,TypeMessage.INFO_MESSAGE);
 
         try {
-            threadRound.join();
+            if(threadRound != null)
+                threadRound.join();
         } catch (InterruptedException e) {
             e.getMessage();
             Thread.currentThread().interrupt();

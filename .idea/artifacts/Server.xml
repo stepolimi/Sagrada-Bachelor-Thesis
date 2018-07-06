@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="Server">
-    <output-path>$PROJECT_DIR$/classes/artifacts/Server</output-path>
-    <root id="archive" name="LM19.jar">
+    <output-path>$PROJECT_DIR$</output-path>
+    <root id="archive" name="Server.jar">
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/src/main/java/it/polimi/ingsw/server/META-INF/MANIFEST.MF" />
       </element>

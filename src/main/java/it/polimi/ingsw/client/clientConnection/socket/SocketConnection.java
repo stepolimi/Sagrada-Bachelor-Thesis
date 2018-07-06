@@ -18,6 +18,7 @@ import static it.polimi.ingsw.client.constants.NameConstants.SOCKET_PORT;
 import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
 import static it.polimi.ingsw.client.constants.printCostants.SERVER_CONNECTION_ERROR;
+import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class SocketConnection implements Connection,Runnable {
 
@@ -204,6 +205,9 @@ public class SocketConnection implements Connection,Runnable {
                 break;
             case TIMER_PING:
                 v.timerPing(action.get(1));
+                break;
+            case TURN_TIMER_PING:
+                v.turnTimerPing(Integer.parseInt(action.get(1)));
                 break;
             case START_GAME:
                 v.createGame();

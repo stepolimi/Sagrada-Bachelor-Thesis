@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class VirtualView extends Observable implements Observer {
     private static VirtualView instance = null;
@@ -199,6 +200,9 @@ public class VirtualView extends Observable implements Observer {
                 break;
             case TIMER_PING:
                 connection.timerPing(message.getPlayers(),message.getIntegerArgument(0));
+                break;
+            case TURN_TIMER_PING:
+                connection.turnTimerPing(message.getPlayers(),message.getIntegerArgument(0));
                 break;
             case START_GAME:
                 connection.createGame(message.getPlayers());

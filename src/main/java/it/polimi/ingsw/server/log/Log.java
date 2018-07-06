@@ -34,7 +34,7 @@ public class Log {
     public static Log getLogger(){
         if(log==null)
              log = new Log();
-            return log;
+        return log;
     }
     public void setLevelLog(Level level){
         logger.setLevel(level);

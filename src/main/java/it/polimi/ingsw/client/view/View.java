@@ -15,6 +15,8 @@ public interface View {
 
     void timerPing(String time);
 
+    void turnTimerPing(int time);
+
     void createGame();
 
     void setSchemas(List<String> schemas);

@@ -76,6 +76,14 @@ public class RmiServerConnection implements Connection {
         }
     }
 
+    public void turnTimerPing(int timeLeft) {
+        try {
+            client.turnTimerPing(timeLeft);
+        }catch (RemoteException e){
+            serverMethod.disconnected(name);
+        }
+    }
+
     public void createGame() {
         try {
             client.createGame();

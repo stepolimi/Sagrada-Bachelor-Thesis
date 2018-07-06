@@ -19,6 +19,7 @@ import static it.polimi.ingsw.server.costants.LogConstants.CONNECTING_WITH_SOCKE
 import static it.polimi.ingsw.server.costants.LogConstants.SOCKET_CONNECTION_LOGIN;
 import static it.polimi.ingsw.server.costants.LogConstants.SOCKET_CONNECTION_LOGOUT;
 import static it.polimi.ingsw.server.costants.MessageConstants.*;
+import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class SocketConnection implements Runnable,Connection {
     private final Socket s;
@@ -39,14 +40,18 @@ public class SocketConnection implements Runnable,Connection {
         try {
             in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             out = new PrintWriter(s.getOutputStream());
-            while(in!=null) {
+            String str = "";
+            while(str!=null) {
                 action.clear();
-                String str = in.readLine();
-                StringTokenizer token = new StringTokenizer(str, "-");
-                while(token.hasMoreTokens())
-                    action.add(token.nextToken());
-                sendMessage();
+                str = in.readLine();
+                if(str != null) {
+                    StringTokenizer token = new StringTokenizer(str, "-");
+                    while (token.hasMoreTokens())
+                        action.add(token.nextToken());
+                    sendMessage();
+                }
             }
+            this.logout();
         }catch(IOException e) {
             this.logout();
         }
@@ -160,6 +165,11 @@ public class SocketConnection implements Runnable,Connection {
 
     public void timerPing(int timeLeft){
         out.println(TIMER_PING + "-" + timeLeft);
+        out.flush();
+    }
+
+    public void turnTimerPing(int timeLeft) {
+        out.println(TURN_TIMER_PING + "-" + timeLeft);
         out.flush();
     }
 

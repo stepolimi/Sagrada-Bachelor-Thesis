@@ -41,6 +41,8 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.timerPing(((Integer)timeLeft).toString());
     }
 
+    public void turnTimerPing(int timeLeft){ v.turnTimerPing(timeLeft); }
+
     public void createGame() {
         v.createGame();
     }

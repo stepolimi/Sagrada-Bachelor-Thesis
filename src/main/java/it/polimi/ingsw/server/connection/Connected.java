@@ -84,6 +84,14 @@ public class Connected {
         });
     }
 
+    public void turnTimerPing(List<String> nicknames, int timeLeft) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.turnTimerPing(timeLeft);
+        });
+    }
+
     public void createGame(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
