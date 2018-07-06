@@ -539,6 +539,10 @@ public class ControllerGUI implements View {
         this.hand = hand;
     }
 
+    /**
+     * @param src name of fxml loaded
+     *            method loaded stage UNDECORATED with UTILITY style and no resizable
+     */
     public void openGameScene(String src){
 
     Stage stage = new Stage();
