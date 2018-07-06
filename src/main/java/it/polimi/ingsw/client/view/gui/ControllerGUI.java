@@ -201,6 +201,8 @@ public class ControllerGUI implements View {
     private GridPane roundTrack;
     @FXML
     private GridPane score;
+    @FXML
+    private Text timer;
     private boolean moveCorrect;
 
     /**
@@ -412,7 +414,7 @@ public class ControllerGUI implements View {
     }
 
     public void turnTimerPing(int time) {
-        //todo;
+        Platform.runLater(() -> timer.setText(String.valueOf(time)));
     }
 
     /**
@@ -888,6 +890,7 @@ public class ControllerGUI implements View {
         x2 = null;
         connection.sendEndTurn();
 
+
     }
 
     /**
@@ -907,8 +910,11 @@ public class ControllerGUI implements View {
         if (!name.equals(nickname.getText())) {
             serverMessage.setText(GameMessage.NOT_MY_TURN + name);
             disableAll();
+            timer.setVisible(false);
+            timer.setText(GameMessage.EMPTY);
         } else {
-
+            timer.setVisible(true);
+            timer.setText(GameMessage.EMPTY);
             serverMessage.setText(GameMessage.MY_TURN);
 
         }

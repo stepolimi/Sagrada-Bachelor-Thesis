@@ -34,4 +34,8 @@ public enum Colour {
     {
         return colour.escape+str+Colour.RESET;
     }
+
+    public String getColour(Colour colour){
+        return colour.escape;
+    }
 }

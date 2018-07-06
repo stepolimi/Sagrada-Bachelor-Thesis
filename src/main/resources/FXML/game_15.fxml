@@ -1006,7 +1006,7 @@
                                           <Image url="@../assets/image/tool-icon-33.png" />
                                        </image>
                                     </ImageView>
-                                    <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="555.0" layoutY="591.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="cancelButton" fitHeight="46.0" fitWidth="43.0" layoutX="555.0" layoutY="591.0" onMouseClicked="#cancelTool" pickOnBounds="true" preserveRatio="true" visible="false">
                                        <image>
                                           <Image url="@../assets/image/undo_icon.png" />
                                        </image>
@@ -1017,6 +1017,16 @@
                                     <Text fx:id="serverMessage" layoutX="616.0" layoutY="652.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
                                        <font>
                                           <Font name="Apple Chancery" size="18.0" />
+                                       </font>
+                                    </Text>
+                                    <ImageView fitHeight="54.0" fitWidth="47.0" layoutX="57.0" layoutY="745.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../assets/image/timer-512.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Text fx:id="timer" layoutX="68.0" layoutY="778.0" strokeType="OUTSIDE" strokeWidth="0.0" text="60">
+                                       <font>
+                                          <Font size="21.0" />
                                        </font>
                                     </Text>
                                  </children>
