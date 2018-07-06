@@ -25,7 +25,7 @@ public class ToolCardBuilder {
      * @return the created tool card.
      */
     public static ToolCard buildToolCard(int n){
-        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile config = new TakeDataFile();
         String pathToolCard = config.getParameter(TOOL_CARD_PATH);
         ToolCard toolCard = new ToolCard();
         final String filePath = pathToolCard + n;

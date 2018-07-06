@@ -44,7 +44,7 @@ public class RmiConnection implements Connection {
     }
 
         private void setConnection() throws IOException {
-            TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+            TakeDataFile config = new TakeDataFile();
             host = config.getParameter(SERVER_IP);
             port = Integer.parseInt(config.getParameter(RMI_PORT));
         }

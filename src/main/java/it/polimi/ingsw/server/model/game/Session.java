@@ -35,7 +35,7 @@ public  class Session extends Observable implements TimedComponent {
     private Session() {
         TakeDataFile timerConfig;
         playersInGames = new HashMap<>();
-        timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        timerConfig = new TakeDataFile();
         lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
         lobby = new ArrayList<>();
     }

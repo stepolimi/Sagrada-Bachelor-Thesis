@@ -21,7 +21,7 @@ public class ViewGUI extends Application {
     private static Handler hand;
     private TakeDataFile config;
     public ViewGUI() {
-        config = new TakeDataFile(CONFIGURATION_FILE);
+        config = new TakeDataFile();
         // this.hand = hand;
     }
 

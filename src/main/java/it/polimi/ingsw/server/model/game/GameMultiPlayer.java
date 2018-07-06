@@ -41,7 +41,7 @@ public class GameMultiPlayer extends Observable implements TimedComponent {
     private final int schemaTimerValue;
 
     public GameMultiPlayer(List<Player> players) {
-        TakeDataFile timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile timerConfig = new TakeDataFile();
         lobbyTimerValue = Integer.parseInt(timerConfig.getParameter(LOBBY_TIMER));
         schemaTimerValue = Integer.parseInt(timerConfig.getParameter(SCHEMA_TIMER));
         this.players = new ArrayList<>();

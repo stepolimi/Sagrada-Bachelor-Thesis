@@ -10,7 +10,9 @@ import it.polimi.ingsw.server.connection.rmi.RmiServerMethodInterface;
 import it.polimi.ingsw.server.set.up.TakeDataFile;
 import it.polimi.ingsw.server.virtual.view.VirtualView;
 
+import java.net.MalformedURLException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,7 +30,7 @@ public class Main {
     public static void main(String[] args){
         int rmiPort;
         int socketPort;
-        TakeDataFile netConfig = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile netConfig = new TakeDataFile();
         Observer virtual = VirtualView.getVirtualView();
         Session session = Session.getSession();
         ServerController controller = ServerController.getServerController();
@@ -37,7 +39,6 @@ public class Main {
         Connected connection = Connected.getConnected();
         rmiPort = Integer.parseInt(netConfig.getParameter(RMI_PORT));
         socketPort = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
-
         try {
             RmiServerMethod obj = new  RmiServerMethod((VirtualView)virtual,connection);
             RmiServerMethodInterface stub = (RmiServerMethodInterface) UnicastRemoteObject.exportObject(obj,rmiPort);
@@ -45,7 +46,7 @@ public class Main {
             Naming.rebind("RmiServerMethodInterface", stub);
             Log.getLogger().addLog(RMI_READY, Level.INFO, Main.class.getName(),MAIN_MAIN);
 
-        }catch (Exception e) {
+        }catch (RemoteException | MalformedURLException e) {
             Log.getLogger().addLog(CONNECTION_ERROR + e, Level.SEVERE, Main.class.getName(),MAIN_MAIN);
         }
 

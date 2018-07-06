@@ -208,7 +208,7 @@ public class ControllerGUI implements View {
      * @param hand : is about what type of view interface was choosen; in this case handler was set on GUI
      */
     public ControllerGUI(Handler hand) {
-        this.config = new TakeDataFile(CONFIGURATION_FILE);
+        this.config = new TakeDataFile();
         this.isFirst = true;
         this.hand = hand;
         this.alreadyZoom = false;

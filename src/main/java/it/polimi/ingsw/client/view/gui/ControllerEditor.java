@@ -54,7 +54,7 @@ public class ControllerEditor {
 
     public ControllerEditor(){
         this.s = new Schema();
-         config = new TakeDataFile(CONFIGURATION_FILE);
+         config = new TakeDataFile();
     }
 
 

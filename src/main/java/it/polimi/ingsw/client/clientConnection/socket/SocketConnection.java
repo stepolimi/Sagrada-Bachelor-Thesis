@@ -41,7 +41,7 @@ public class SocketConnection implements Connection,Runnable {
     }
 
     private void setConnection() throws IOException {
-        TakeDataFile netConfig = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile netConfig = new TakeDataFile();
 
         host = netConfig.getParameter(SERVER_IP);
         port = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));

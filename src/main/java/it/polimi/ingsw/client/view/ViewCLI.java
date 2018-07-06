@@ -56,7 +56,7 @@ public class ViewCLI implements View {
     private Thread threadRound;
     private TakeDataFile config;
      ViewCLI() {
-         config = new TakeDataFile(CONFIGURATION_FILE);
+         config = new TakeDataFile();
         lobbyTimerValue = Integer.parseInt(config.getParameter(LOBBY_TIMER));
         pathCustomSchemas = config.getParameter(PATH_CUSTOM_SCHEMA);
         pathInitCustomSchema = config.getParameter(PATH_INIT_CUSTOM_SCHEMA);

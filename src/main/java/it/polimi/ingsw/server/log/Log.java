@@ -2,12 +2,11 @@ package it.polimi.ingsw.server.log;
 
 import it.polimi.ingsw.server.set.up.TakeDataFile;
 
-import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.logging.*;
 
 import static it.polimi.ingsw.server.costants.NameConstants.PATH_LOG_FILE;
-import static it.polimi.ingsw.server.costants.SetupConstants.CONFIGURATION_FILE;
 
 public class Log {
     private static Log log;
@@ -16,11 +15,11 @@ public class Log {
     private Log() {
         logger = Logger.getLogger(Log.class.toString());
         logger.setUseParentHandlers(false);
-        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile config = new TakeDataFile();
         FileHandler fileHandler = null;
         try {
-            fileHandler = new FileHandler(config.getParameter(PATH_LOG_FILE));
-        } catch (IOException e) {
+            fileHandler = new FileHandler(Paths.get(config.getParameter(PATH_LOG_FILE)).toString());
+        } catch (Exception e) {
             e.printStackTrace();
         }
         consoleHandler = new ConsoleHandler();
@@ -32,8 +31,8 @@ public class Log {
     }
 
     public static Log getLogger(){
-        if(log==null)
-             log = new Log();
+        if(log == null)
+            log = new Log();
         return log;
     }
     public void setLevelLog(Level level){

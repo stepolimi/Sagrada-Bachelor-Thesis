@@ -15,7 +15,7 @@ public class Handler {
     private LoadImage load;
     private TakeDataFile config;
     public Handler() {
-        config = new TakeDataFile(CONFIGURATION_FILE);
+        config = new TakeDataFile();
         load = new LoadImage();
         this.setGraphicInterface();
         v.startScene();

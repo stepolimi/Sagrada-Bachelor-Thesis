@@ -26,7 +26,7 @@ public class SchemaBuilder {
      * @return the created schema.
      */
     public static Schema buildSchema(int n) {
-        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile config = new TakeDataFile();
         String pathSchema = config.getParameter(SCHEMA_PATH);
         Schema sch = new Schema();
         final String filePath = pathSchema + n + JSON_EXTENSION;

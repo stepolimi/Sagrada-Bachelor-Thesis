@@ -11,13 +11,13 @@ TURN_TIMER_VALUE 10000
 SCHEMA_TIMER_VALUE 30
 
 // path
-PATH_CUSTOM_SCHEMA src/main/resources/data/SchemaPlayer/
+PATH_CUSTOM_SCHEMA /data/SchemaPlayer/
 PATH_INIT_CUSTOM_SCHEMA /data/SchemaPlayer/
 PATH_INIT_DEFAULT_SCHEMA /data/SchemaClient/
 PATH_SCHEMA /data/schema/
 PATH_PRIVATE_OBJECTIVE /data/privCard/
 PATH_TOOL_CARD /data/toolCard/ToolCard
-PATH_LOG_FILE src/main/resources/data/FileLog/logMessage.log
+PATH_LOG_FILE logMessage.log
 
 //path image cli
 PATH_LOSE_IMAGE /data/CliImage/haiPerso.txt

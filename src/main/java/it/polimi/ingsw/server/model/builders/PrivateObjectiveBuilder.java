@@ -26,7 +26,7 @@ public class PrivateObjectiveBuilder {
      * @return the created private objectives.
      */
     public static PrivateObjective buildPrivateObjective(int n){
-        TakeDataFile config = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile config = new TakeDataFile();
         String pathPrivateObjective = config.getParameter(PRIVATE_OBJECTIVE_PATH);
 
         PrivateObjective privateObjective = new PrivateObjective();

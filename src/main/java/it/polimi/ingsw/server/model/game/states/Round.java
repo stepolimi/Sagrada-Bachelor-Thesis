@@ -51,7 +51,7 @@ public class Round extends Observable implements TimedComponent {
     private final int turnTimerValue;
 
     public Round(Player first, Board board, RoundManager roundManager, GameMultiPlayer game) {
-        TakeDataFile timerConfig = new TakeDataFile(CONFIGURATION_FILE);
+        TakeDataFile timerConfig = new TakeDataFile();
         turnTimerValue = Integer.parseInt(timerConfig.getParameter(TURN_TIMER));
         usingTool = null;
         this.roundManager = roundManager;
