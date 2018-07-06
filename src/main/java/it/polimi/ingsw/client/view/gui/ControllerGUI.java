@@ -84,7 +84,6 @@ public class ControllerGUI implements View {
     private Connection connection;
     private Handler hand;
     private TakeDataFile config;
-    private boolean alreadyZoom;
 
     private String schemaChoosen;
     private Integer roundNumber;
@@ -213,7 +212,6 @@ public class ControllerGUI implements View {
         this.config = new TakeDataFile();
         this.isFirst = true;
         this.hand = hand;
-        this.alreadyZoom = false;
         this.diceChanged = false;
         diceExtract = new ArrayList<>();
     }
@@ -890,15 +888,12 @@ public class ControllerGUI implements View {
      */
     @FXML
     void imageZoom(MouseEvent event) {
-        if(!alreadyZoom)
-        {
-            ImageView image = (ImageView) event.getTarget();
-            setNotice(config.getParameter(ZOOM_CARD));
-            imageZoomed.setImage(image.getImage());
-            alreadyZoom = true;
-        }
-        imageZoomed.getScene().getWindow().setOnCloseRequest(eventClose -> alreadyZoom = false);
 
+        Platform.runLater(() -> {
+            ImageView image = (ImageView) event.getTarget();
+            openGameScene(config.getParameter(ZOOM_CARD));
+            imageZoomed.setImage(image.getImage());
+        });
     }
 
     /**
@@ -2229,5 +2224,13 @@ public class ControllerGUI implements View {
         setNotice(config.getParameter(CLOSE_MESSAGE));
 
     }
+    @FXML
+    void exitImageZoom(MouseEvent event) {
+        Platform.runLater(() -> {
+            Stage stage = (Stage) imageZoomed.getScene().getWindow();
+            stage.close();
+        });
+    }
+
 
 }

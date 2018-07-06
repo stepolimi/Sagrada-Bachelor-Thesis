@@ -41,7 +41,7 @@
                   <RowConstraints maxHeight="784.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <ImageView fx:id="publObj1" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                  <ImageView fx:id="publObj1" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -49,7 +49,7 @@
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="publObj2" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                  <ImageView fx:id="publObj2" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -57,7 +57,7 @@
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="publObj3" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                  <ImageView fx:id="publObj3" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -65,7 +65,7 @@
                         <Image url="@../assets/image/Cards/PublicObj/0.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="toolCard1" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                  <ImageView fx:id="toolCard1" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -73,7 +73,7 @@
                         <Image url="@../assets/image/Cards/ToolCard/0.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="toolCard2" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                  <ImageView fx:id="toolCard2" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -81,7 +81,7 @@
                         <Image url="@../assets/image/Cards/ToolCard/0.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="toolCard3" fitHeight="234.0" fitWidth="156.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                  <ImageView fx:id="toolCard3" fitHeight="234.0" fitWidth="156.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="5">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -370,7 +370,7 @@
                                     </ImageView>
                                  </children>
                               </GridPane>
-                              <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="549.0" layoutY="255.0" onMouseClicked="#imageZoom" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="privateCard" fitHeight="226.0" fitWidth="156.0" layoutX="549.0" layoutY="255.0" onMouseEntered="#imageZoom" onMouseExited="#exitImageZoom" pickOnBounds="true" preserveRatio="true">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
