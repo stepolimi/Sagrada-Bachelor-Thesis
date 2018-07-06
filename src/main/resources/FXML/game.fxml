@@ -1012,9 +1012,19 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ImageView>
-                              <Text fx:id="serverMessage" layoutX="490.0" layoutY="612.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
+                              <Text fx:id="serverMessage" layoutX="490.0" layoutY="600.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="163.4895420074463">
                                  <font>
                                     <Font name="Apple Chancery" size="18.0" />
+                                 </font>
+                              </Text>
+                              <ImageView fitHeight="54.0" fitWidth="47.0" layoutX="63.0" layoutY="687.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/timer-512.png" />
+                                 </image>
+                              </ImageView>
+                              <Text fx:id="timer" layoutX="73.0" layoutY="721.0" strokeType="OUTSIDE" strokeWidth="0.0" text="60" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="21.0" />
                                  </font>
                               </Text>
                            </children>
