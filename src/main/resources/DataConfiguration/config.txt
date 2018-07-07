@@ -50,7 +50,7 @@ NICKNAME_IS_EMPTY nickname_empty
 NICKNAME_ALREADY_USE nickname_error
 OPEN_SCHEMA_ERROR OpenSchemaError
 CLOSE_MESSAGE QuitPane
-GO_TO_SCHEMA_EDITOR SchemaEditor+
+GO_TO_SCHEMA_EDITOR SchemaEditor
 PLAYER_LIMIT TooManyPlayers
 GO_TO_LOBBY waiting
 ZOOM_CARD zoomImage

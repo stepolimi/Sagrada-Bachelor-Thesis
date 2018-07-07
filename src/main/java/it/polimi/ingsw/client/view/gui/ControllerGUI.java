@@ -288,8 +288,8 @@ public class ControllerGUI implements View {
         Pane p = null;
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource(config.getParameter(FXML_URL) +
-                    config.getParameter(GO_TO_SCHEMA_EDITOR) + config.getParameter(FXML)));
+            loader.setLocation(getClass().getResource("/FXML/" +
+                    config.getParameter(GO_TO_SCHEMA_EDITOR) + ".fxml"));
             p = loader.load();
         } catch (IOException e) {
             Message.println(ERROR_SAVE_SCHEMA,TypeMessage.ERROR_MESSAGE);
@@ -1878,7 +1878,7 @@ public class ControllerGUI implements View {
      * @param event clicking on pending dice, player sent to server request to change the pending dice (using tool 6,10,11)
      */
     @FXML
-    void RollDice(final MouseEvent event) {
+    void rollDice(final MouseEvent event) {
         Platform.runLater(() -> {
             ImageView diceRolling = (ImageView) event.getTarget();
             rotateImage(diceRolling);
