@@ -27,7 +27,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -42,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
@@ -429,13 +427,9 @@ public class ControllerGUI implements View {
     public void createGame() {
         Platform.runLater(() -> {
             String musicPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
-            musicPath = musicPath.substring(0, musicPath.lastIndexOf("/"));
-            musicPath = musicPath + config.getParameter(MUSIC_PATH);
+
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            Media media = new Media(Paths.get(musicPath).toUri().toString());
-            mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-            mediaPlayer.setAutoPlay(true);
+
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
