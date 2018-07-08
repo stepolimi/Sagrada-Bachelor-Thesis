@@ -433,15 +433,13 @@ public class ControllerGUI implements View {
 
             Media media = null;
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-
-
             try {
                media = new Media(getClass().getResource(config.getParameter(MUSIC_PATH)).toURI().toString());
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-
             mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setAutoPlay(true);
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
@@ -573,11 +571,26 @@ public class ControllerGUI implements View {
         stage.getIcons().add(image);
         stage.setResizable(false);
         stage.initStyle(StageStyle.UTILITY);
-        stage.initStyle(StageStyle.UNDECORATED);
         stage.resizableProperty().setValue(false);
         stage.show();
+        putCloseEvent(stage);
+        stage.show();
+
 }
 
+    /**it's set event on close request of stage
+     * @param stage  where put event
+     *
+     */
+    private void putCloseEvent(Stage stage) {
+        stage.setOnCloseRequest(event -> {
+            if (connection != null)
+                connection.disconnect();
+
+            Platform.exit();
+            exit(0);
+        });
+    }
 
 
     /**
@@ -598,14 +611,7 @@ public class ControllerGUI implements View {
         stage.getIcons().add(image);
 
 
-
-        stage.setOnCloseRequest(event -> {
-            if (connection != null)
-                connection.disconnect();
-
-            Platform.exit();
-            exit(0);
-        });
+        putCloseEvent(stage);
         stage.show();
     }
 
@@ -2301,7 +2307,6 @@ public class ControllerGUI implements View {
                 mediaPlayer.pause();
                 imageView.setId("0");
                 mute.setVisible(true);
-
             }
         });
 
