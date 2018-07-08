@@ -463,7 +463,7 @@ public class ControllerGUI implements View {
                         Image image = new Image(path + schemas.get(i) + ".png");
                         setSchemas.get(i).setImage(image);
                     });
-
+            textflow.setText(GameMessage.EMPTY);
         });
 
     }
@@ -1431,7 +1431,8 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             ImageView imageView = getLastCellDicespace(diceSpace);
             setDice(imageView, colour, value);
-
+            diceExtract.add(colour);
+            diceExtract.add(String.valueOf(value));
         });
 
     }
@@ -1925,6 +1926,7 @@ public class ControllerGUI implements View {
                     indexDiceSpace = parseInt(((ImageView) event.getTarget()).getId());
                     colorMoved = diceExtract.get(2 * indexDiceSpace);
                     numberMoved = parseInt(diceExtract.get(2 * indexDiceSpace + 1));
+
                     connection.sendDraft(indexDiceSpace);
                 } else if (diceChanged)
                     connection.placeDiceSpace();

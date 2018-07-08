@@ -142,16 +142,15 @@ public class Schema {
         if(costraint.equals(""))
             return true;
 
-        for(int i=-1;i<2;i++)
-             for (int j = -1; j < 2; j++)
-             {
-                 if(i!=0 || j!=0) {
-                     if (!checkNearCostraint(rows + i, columns + j, costraint))
-                         return false;
-                 }
-             }
 
-        return true;
+                     if ((checkNearCostraint(rows +1, columns, costraint) &&
+                             checkNearCostraint(rows -1, columns , costraint) &&
+                             checkNearCostraint(rows , columns + 1, costraint) &&
+                             checkNearCostraint(rows , columns - 1, costraint)))
+                         return true;
+
+
+        return false;
 
     }
     public boolean checkNearCostraint(int rows,int columns,String costraint)

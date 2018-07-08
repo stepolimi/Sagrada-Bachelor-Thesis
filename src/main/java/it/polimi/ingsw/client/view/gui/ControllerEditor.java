@@ -1,10 +1,9 @@
 package it.polimi.ingsw.client.view.gui;
 
 import com.google.gson.Gson;
-import it.polimi.ingsw.client.clientConnection.Connection;
 import it.polimi.ingsw.client.setUp.TakeDataFile;
-import it.polimi.ingsw.client.view.*;
-
+import it.polimi.ingsw.client.view.Colour;
+import it.polimi.ingsw.client.view.Schema;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -28,14 +27,11 @@ import java.io.IOException;
 
 import static it.polimi.ingsw.client.constants.NameConstants.ICON_GAME;
 import static it.polimi.ingsw.client.constants.NameConstants.NAME_IS_EMPTY;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 
 public class ControllerEditor {
 
 
-    GameMessage gameMessage;
     public Button okButton;
-    private Connection connection;
 
     public GridPane gridPane;
 
@@ -45,8 +41,6 @@ public class ControllerEditor {
     public int constrain = 0;
     public String id;
     public ImageView nextButton;
-
-    private ControllerGUI controllerClient;
 
     private Schema s;
 
@@ -198,8 +192,7 @@ public class ControllerEditor {
         Gson g = new Gson();
         s.setPaint(null);
         schema = g.toJson(s);
-        Boolean correct = false;
-            String copyPath;
+        String copyPath;
             name = schemaName.getText();
             if (name.equals("")) {
                 setNotice(config.getParameter(NAME_IS_EMPTY));
