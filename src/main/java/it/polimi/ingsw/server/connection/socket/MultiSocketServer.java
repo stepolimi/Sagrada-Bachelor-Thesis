@@ -27,6 +27,9 @@ public class MultiSocketServer{
         this.loop = true;
     }
 
+    /**
+     * start server connection with socket
+     */
     public void startServer()
     {
         ExecutorService execute = Executors.newCachedThreadPool();
