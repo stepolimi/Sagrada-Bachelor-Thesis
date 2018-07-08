@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 import it.polimi.ingsw.client.view.Colour;
 import it.polimi.ingsw.client.view.Schema;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -30,20 +31,19 @@ import static it.polimi.ingsw.client.constants.NameConstants.NAME_IS_EMPTY;
 
 public class ControllerEditor {
 
-
-    public Button okButton;
-
-    public GridPane gridPane;
-
-    public TextField schemaName;
-    public Text error;
-
-    public int constrain = 0;
-    public String id;
-    public ImageView nextButton;
-
+    @FXML
+    private Button okButton;
+    @FXML
+    private GridPane gridPane;
+    @FXML
+    private TextField schemaName;
+    @FXML
+    private Text error;
+    private int constrain = 0;
+    private String id;
+    @FXML
+    private ImageView nextButton;
     private Schema s;
-
     private TakeDataFile config;
 
     public ControllerEditor(){
