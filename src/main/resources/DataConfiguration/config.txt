@@ -23,12 +23,14 @@ PATH_LOG_FILE logMessage.log
 MUSIC_PATH /MUSIC/Insane.mp3
 
 //path image cli
+
 PATH_LOSE_IMAGE /data/CliImage/haiPerso.txt
 PATH_WIN_IMAGE /data/CliImage/haiVinto.txt
 PATH_START_GAME_IMAGE /data/CliImage/startGame.txt
 PATH_ROUND_GAME_IMAGE /data/CliImage/Round
 //path resource
 ICON_GAME /assets/image/icon.png
+NOT_USED_TOOL /assets/image/usetool.png
 USED_TOOL /assets/image/used.png
 FONT /fonts/EA.ttf
 SCHEMI /assets/image/Schemi/

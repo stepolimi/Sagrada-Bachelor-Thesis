@@ -49,5 +49,6 @@ public class NameConstants {
     public static final String CUSTOM_SCHEME = "CUSTOM_SCHEME";
     public static final String CONFIG_FILE = "/config.txt";
     public static final String MUSIC_PATH = "MUSIC_PATH";
-    public static final String USED_TOOL = "USED_TOOL";
+    public static final String USED_TOOL = "/assets/image/used.png";
+    public static final String NOT_USED_TOOL = "/assets/image/usetool.png";
 }

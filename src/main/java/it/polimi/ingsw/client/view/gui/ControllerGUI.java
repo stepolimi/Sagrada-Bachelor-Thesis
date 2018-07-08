@@ -1269,7 +1269,7 @@ public class ControllerGUI implements View {
      * @param toolCard the tool card that has been used
      */
     public void usedToolCard(int toolCard) {
-        //todo;
+        setToolUsed(toolCard, USED_TOOL);
     }
 
     /**
@@ -1277,7 +1277,25 @@ public class ControllerGUI implements View {
      * @param toolCard the tool card that has not been used
      */
     public void notUsedToolCard(int toolCard) {
-        //todo;
+        setToolUsed(toolCard, NOT_USED_TOOL);
+    }
+
+    /**
+     * set Image of tool in function of if it's used or not
+     * @param toolCard number of toolcard
+     * @param notUsedTool tool which is used or not used
+     */
+    private void setToolUsed(int toolCard, String notUsedTool) {
+        Platform.runLater(() -> {
+            final int[] tool = {0};
+            List<ImageView> useTool = Arrays.asList(use1, use2, use3);
+            IntStream.range(0, 3)
+                    .forEach(i -> {
+                        tool[0] = Integer.parseInt(useTool.get(i).getId());
+                        if(tool[0] == toolCard)
+                            useTool.get(i).setImage(new Image(notUsedTool));
+                    });
+        });
     }
 
     /**
