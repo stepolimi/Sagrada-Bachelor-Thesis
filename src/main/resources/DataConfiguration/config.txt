@@ -19,6 +19,9 @@ PATH_PRIVATE_OBJECTIVE /data/privCard/
 PATH_TOOL_CARD /data/toolCard/ToolCard
 PATH_LOG_FILE logMessage.log
 
+//path mp3
+MUSIC_PATH /MUSIC/Insane.mp3
+
 //path image cli
 PATH_LOSE_IMAGE /data/CliImage/haiPerso.txt
 PATH_WIN_IMAGE /data/CliImage/haiVinto.txt
