@@ -24,10 +24,12 @@ To run Client or Server application follow this statement:
 - Then use the the following command to open Server or Client application:
 
 ```
+cd Client
 java -jar Client.jar
  ```
  or 
  ```
+cd Server
 java -jar Server.jar
 
  ```
