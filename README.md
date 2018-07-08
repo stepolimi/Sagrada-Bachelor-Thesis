@@ -9,7 +9,7 @@ From a **Cranio Game:registered:**:
 For more information about original boarder game visit http://www.craniocreations.it/prodotto/sagrada/
 Or read [Game's Rule (ITA)](/Rules.pdf)
 
-## Instruction Running 
+## Instruction for Running jar 
 
 To runs Client or Server application follow this statement:
 
@@ -50,7 +50,7 @@ java -jar Server.jar
 ### Advanced functionality: <img align="right" width="200" height="150" src = src/main/resources/assets/Screenshoot/schemaEditor.png>
 <img align="right" width="200" height="150" src = src/main/resources/assets/Screenshoot/schema.png>
 
-- [x] **Dynamic Schema Card**: application builds schema (where client plays) run-time. It was added also a Schema Editor, in which every player can, before playing, built his own schema with a simple drag and drop action. This editor should be used to import new Schema that Cranio could realeas with new version of Sagrada
+- [x] **Dynamic Schema Card**: application builds schema (where client plays) run-time. It was added also a Schema Editor, in which every player can, before playing, built his own schema with a simple drag and drop action. This editor should be used to import new Schema that Cranio could realease with new version of Sagrada
 
 - [x] **Multiple Games**: Server can gesture more than one game at the same moment. So if you're more than 4 players don't worry! You can play anyway in 2 or more different match concurrently.
 
