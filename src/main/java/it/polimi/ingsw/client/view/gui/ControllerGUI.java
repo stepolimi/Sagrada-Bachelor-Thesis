@@ -2179,6 +2179,7 @@ public class ControllerGUI implements View {
     @FXML
     void newGame(MouseEvent event) {
         connection.disconnect();
+        mediaPlayer.stop();
         ImageView imageView = (ImageView) event.getTarget();
         Stage stage = (Stage) imageView.getScene().getWindow();
         stage.close();
