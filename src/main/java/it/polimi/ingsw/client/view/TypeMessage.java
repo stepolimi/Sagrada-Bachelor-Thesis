@@ -7,5 +7,6 @@ public enum TypeMessage{
 
     private String colorString;
     TypeMessage(String colorString){this.colorString = colorString;}
+
     public String colorString(){return colorString;}
 }

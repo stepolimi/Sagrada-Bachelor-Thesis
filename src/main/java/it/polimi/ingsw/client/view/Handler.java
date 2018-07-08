@@ -22,6 +22,10 @@ public class Handler {
         v.setScene(LOGIN);
     }
 
+
+    /**
+     * set graphic interface
+     */
     public void setGraphicInterface()
     {
         boolean correct=false;
@@ -32,7 +36,7 @@ public class Handler {
             try {
                 load.displayImage(config.getParameter(PATH_START_GAME_IMAGE));
             } catch (IOException e) {
-                e.printStackTrace();
+               Message.println(e.getMessage(),TypeMessage.ERROR_MESSAGE);
             }
             Message.println("\u001B[37m"+CHOOSE_GRAPHIC_INTERFACE,TypeMessage.INFO_MESSAGE);
             Message.println(CLI_CHOOSE,TypeMessage.INFO_MESSAGE);
@@ -61,6 +65,10 @@ public class Handler {
 
     }
 
+    /**
+     * get a view
+     * @return view
+     */
     public View getView() { return v; }
 
 

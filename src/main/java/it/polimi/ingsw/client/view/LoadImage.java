@@ -4,6 +4,11 @@ import java.io.*;
 
 public class LoadImage {
 
+    /**
+     * display image on the screen
+     * @param file name of file to read
+     * @throws IOException
+     */
     public void displayImage(String file) throws IOException
     {
         InputStream is = LoadImage.class.getResourceAsStream(file);

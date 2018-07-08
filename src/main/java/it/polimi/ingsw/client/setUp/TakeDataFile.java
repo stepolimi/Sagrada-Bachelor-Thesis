@@ -10,9 +10,15 @@ import static it.polimi.ingsw.client.constants.NameConstants.CONFIG_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.CONFIGURATION_FILE_NOT_FOUND;
 
 public class TakeDataFile {
+
+    /**
+     * @param parameter is the name of parameter in config file
+     * @return value of parameter in config file
+     */
         public String getParameter(String parameter){
             String result = null;
             String configFile  = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+
             configFile = configFile.substring(0, configFile.lastIndexOf("/"));
 
             try(InputStream inputStream = new FileInputStream(configFile+CONFIG_FILE);InputStreamReader streamReader = new InputStreamReader(inputStream);BufferedReader input = new BufferedReader(streamReader)) {

@@ -16,6 +16,10 @@ public enum Colour {
         this.escape = escape;
     }
 
+    /**
+     * @param c convert string in color
+     * @return color
+     */
     public static Colour stringToColour(String c)
     {
         if(c.equals("ANSI_GREEN")){ return Colour.ANSI_GREEN; }
@@ -26,15 +30,27 @@ public enum Colour {
         return null;
     }
 
+    /**
+     * @return color's string
+     */
     public String escape() {
         return escape;
     }
 
+    /**
+     * @param str is the string that will be coloured
+     * @param colour is the color of a new string
+     * @return coloured string
+     */
     public static String colorString(String str, Colour colour)
     {
         return colour.escape+str+Colour.RESET;
     }
 
+    /**
+     * @param colour is the color to convert a string
+     * @return color's string
+     */
     public String getColour(Colour colour){
         return colour.escape;
     }

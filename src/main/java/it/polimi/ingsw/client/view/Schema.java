@@ -29,10 +29,18 @@ public class Schema {
         }
     }
 
+    /**
+     * @param paint is the image split in row
+     */
     public void setPaint(String[] paint) {
         this.paint = paint;
     }
 
+    /**
+     * load a standard schema
+     * @param nome is the name of the schema
+     * @return load Schema
+     */
     public Schema InitSchema(String nome)
     {
         Schema sch;
@@ -47,6 +55,12 @@ public class Schema {
         return sch;
     }
 
+    /**
+     * get json of standard schema
+     * @param nome is names scheme
+     * @return json of scheme
+     * @throws IOException
+     */
     public String getGson(String nome) throws IOException
     {
         final String filePath = nome + ".json";  //import every schema from
@@ -68,6 +82,11 @@ public class Schema {
         return sc;
     }
 
+    /**
+     * load a custom schema
+     * @param nome is the name of the schema
+     * @return load Schema
+     */
     public Schema initCustomSchema(String nome)
     {
         Schema sch;
@@ -82,6 +101,12 @@ public class Schema {
         return sch;
     }
 
+    /**
+     * get json of custom schema
+     * @param nome is names scheme
+     * @return json of costum scheme
+     * @throws IOException
+     */
     public String getCustomGson(String nome) throws  IOException
     {
         final String filePath = nome+".json";
@@ -92,15 +117,27 @@ public class Schema {
         return gson;
     }
 
+    /**
+     *
+     * @return the image split in row
+     */
     public String[] getPaint() {
         return paint;
     }
 
+    /**
+     *
+     * @return grid scheme
+     */
     public Dices[][] getGrid()
     {
         return this.grid;
     }
 
+
+    /**
+     * split image in row
+     */
     public void splitImageSchema() {
         paint[1]= this.name;
 
@@ -122,6 +159,9 @@ public class Schema {
 
     }
 
+    /**
+     * display scheme
+     */
     public void showImage()
     {
         for(int i=0;i<PAINT_ROW;i++)
@@ -130,9 +170,18 @@ public class Schema {
         }
     }
 
+    /**
+     * set name of scheme
+     * @param name is the name of scheme
+     */
     public void setName(String name) {
         this.name = name;
     }
+
+    /**
+     * set difficult of scheme
+     * @param nConstraint is the number of constraint
+     */
     public void setDifficult(int nConstraint)
     {
         int difficult;
@@ -153,35 +202,58 @@ public class Schema {
         this.difficult = difficult;
     }
 
+    /**
+     *
+     * @return name of scheme
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * get difficult of scheme
+     * @return  difficult of scheme
+     */
     public int getDifficult() {
         return difficult;
     }
 
+    /**
+     * check constraint all around  position [rows,columns] in constraint
+     * @param rows is index of row to check constraint
+     * @param columns is index of column to check constraint
+     * @param costraint is the constraint
+     * @return true if constraint was respected, false otherwise
+     */
     public boolean nearConstraint(int rows, int columns, String costraint)
     {
         if(costraint.equals(""))
             return true;
 
 
-                     if ((checkNearCostraint(rows +1, columns, costraint) &&
-                             checkNearCostraint(rows -1, columns , costraint) &&
-                             checkNearCostraint(rows , columns + 1, costraint) &&
-                             checkNearCostraint(rows , columns - 1, costraint)))
+                     if ((checkNearConstraint(rows +1, columns, costraint) &&
+                             checkNearConstraint(rows -1, columns , costraint) &&
+                             checkNearConstraint(rows , columns + 1, costraint) &&
+                             checkNearConstraint(rows , columns - 1, costraint)))
                          return true;
 
 
         return false;
 
     }
-    public boolean checkNearCostraint(int rows,int columns,String costraint)
+
+    /**
+     * check constraint in specific position [rows,columns] in constraint
+     * @param rows is index of row to check constraint
+     * @param columns is index of column to check constraint
+     * @param constraint is the constraint
+     * @return true if constraint was respected, false otherwise
+     */
+    private boolean checkNearConstraint(int rows,int columns,String constraint)
     {
 
         try {
-            if(grid[rows][columns].getConstraint().equals(costraint))
+            if(grid[rows][columns].getConstraint().equals(constraint))
               return false;
         }catch (ArrayIndexOutOfBoundsException e) {
             return true;

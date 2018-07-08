@@ -15,7 +15,7 @@ public class Dices {
             "\u2685"
     };
 
-    public Dices(String constraint,int number,Colour colour)
+     Dices(String constraint,int number,Colour colour)
     {
         this.colour = colour;
         this.constraint = constraint;
@@ -42,23 +42,44 @@ public class Dices {
         return str;
     }
 
+    /**
+     * @return constraint of  dice in cell
+     */
     public String getConstraint() {
         return constraint;
     }
 
+    /**
+     * @param constraint is constraint of dice in cell
+     */
     public void setConstraint(String constraint) {
         this.constraint = constraint;
     }
 
+    /**
+     * get colour of dice
+     * @return colour of dice
+     */
     public Colour getColour() {
         return colour;
     }
 
+    /**
+     * set colour of dice
+     * @param colour colour of dice
+     */
     public void setColour(Colour colour) {
         this.colour = colour;
     }
 
+    /**
+     * set value of dice
+     * @param number set value of dice
+     */
     public void setNumber(int number){ this.number = number; }
 
+    /**
+     * @return value of dice
+     */
     public int getNumber() {return number; }
 }

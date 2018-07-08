@@ -17,6 +17,7 @@ import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
 import static it.polimi.ingsw.client.constants.NameConstants.SOCKET_PORT;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
 import static it.polimi.ingsw.client.constants.printCostants.SERVER_CONNECTION_ERROR;
+import static it.polimi.ingsw.client.constants.printCostants.THREAD_ERROR;
 import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;
 
 public class SocketConnection implements Connection,Runnable {
@@ -28,7 +29,7 @@ public class SocketConnection implements Connection,Runnable {
     private boolean stopThread = false;
     private String host;
     private int port;
-    boolean inGame;
+    private boolean inGame;
 
     public SocketConnection(Handler hand) throws IOException {
         setConnection();
@@ -39,6 +40,9 @@ public class SocketConnection implements Connection,Runnable {
         inGame = false;
     }
 
+    /**
+     * sets the connection
+     */
     private void setConnection() throws IOException {
         TakeDataFile netConfig = new TakeDataFile();
 
@@ -46,6 +50,10 @@ public class SocketConnection implements Connection,Runnable {
         port = Integer.parseInt(netConfig.getParameter(SOCKET_PORT));
     }
 
+
+    /**
+     * @param str is scheme's name
+     */
     public void sendSchema(String str) {
         String action = CHOOSE_SCHEMA+"-";
         action += hand.getView().getName() + "-";
@@ -55,12 +63,19 @@ public class SocketConnection implements Connection,Runnable {
     }
 
 
+    /**
+     * log the player
+     * @param nickname is the name of player
+     */
     public void login(String nickname) {
         inGame = true;
         out.println(LOGIN +"-"+ nickname);
         out.flush();
     }
 
+    /**
+     * disconnect the player
+     */
     public void disconnect() {
         inGame = false;
         stopRunning();
@@ -70,96 +85,167 @@ public class SocketConnection implements Connection,Runnable {
         try {
            socket.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            Message.println(e.getMessage(),TypeMessage.ERROR_MESSAGE);
         }
         in.close();
     }
 
+
+    /**
+     * used to insert dice to scheme from diceSpace
+     * @param indexDiceSpace is index of dice space
+     * @param row is index of row
+     * @param column is index of column
+     */
     public void insertDice(int indexDiceSpace, int row, int column) {
         out.println(PICK_DICE + "-" + indexDiceSpace + "-" + row + "-" + column);
         out.flush();
     }
 
+    /**
+     * invoked when you want use tool card
+     * @param toolNumber is tool card's number
+     */
     public void useToolCard(int toolNumber) {
         out.println(USE_TOOL_CARD + "-" + toolNumber);
         out.flush();
     }
 
+    /**
+     * invoked when you want move dice in scheme
+     * @param oldRow is the row from take dice
+     * @param oldColumn is the column from take dice
+     * @param newRow is the row to move dice
+     * @param newColumn is the column to move dice
+     */
     public void moveDice(int oldRow, int oldColumn, int newRow, int newColumn) {
         out.println(MOVE_DICE + "-" + oldRow + "-" + oldColumn + "-" + newRow + "-" + newColumn);
         out.flush();
     }
 
+
+    /**
+     * is invoked when use draft dice
+     * @param indexDiceSpace is index of dice space
+     */
     public void sendDraft(int indexDiceSpace) {
         out.println(DRAFT_DICE + "-" + indexDiceSpace);
         out.flush();
     }
 
+    /**
+     * is invoked when use place dice
+     * @param row is row index of scheme
+     * @param column is column index of scheme
+     */
     public void sendPlaceDice(int row, int column) {
         out.println(PLACE_DICE + "-" + row + "-" + column);
         out.flush();
     }
 
+    /**
+     * is invoked when use changeValue
+     * @param change is "decrement" or "increment"
+     */
     public void changeValue(String change) {
         out.println(CHANGE_VALUE + "-" + change);
         out.flush();
     }
 
+    /**
+     * is invoked when use roll dice
+     */
     public void rollDice() {
         out.println(ROLL_DICE);
         out.flush();
     }
 
+    /**
+     * take a dice from round track
+     * @param numRound is the number of round
+     * @param indexDice is index of dice
+     */
     public void swapDice(int numRound, int indexDice) {
         out.println(SWAP_DICE + "-" + numRound + "-" + indexDice);
         out.flush();
     }
 
+    /**
+     * invoked when use cancel tool card
+     */
     public void cancelUseToolCard() {
         out.println(CANCEL_USE_TOOL_CARD);
         out.flush();
     }
 
+    /**
+     * send end turn message
+     */
     public void sendEndTurn() {
         out.println(END_TURN);
         out.flush();
     }
 
+    /**
+     * turn to opposite face of dice
+     */
     public void flipDice() {
         out.println(FLIP_DICE);
         out.flush();
     }
 
+    /**
+     * place dices in dice space
+     */
     public void placeDiceSpace() {
         out.println(PLACE_DICE_SPACE);
         out.flush();
     }
 
+    /**
+     * roll dices in dice space
+     */
     public void rollDiceSpace() {
         out.println(ROLL_DICE_SPACE);
         out.flush();
     }
 
+    /**
+     * exchange dice with dice bag
+     */
     public void swapDiceBag() {
         out.println(SWAP_DICE_BAG);
         out.flush();
     }
 
+    /**
+     * is invoked when choose value of dice
+     * @param chooseValue is the new value of dice
+     */
     public void chooseValue(int chooseValue) {
         out.println(CHOOSE_VALUE + "-" + chooseValue);
         out.flush();
     }
 
+    /**
+     * send custom scheme to server
+     * @param schema is the name of custom schema
+     */
     public void sendCustomSchema(String schema) {
         out.println(CUSTOM_SCHEMA + "-" + hand.getView().getName() + "-" + schema);
         out.flush();
     }
 
-    public void stopRunning() {
+    /**
+     * stops receiving messages
+     */
+    private void stopRunning() {
         stopThread = true;
     }
 
-
+    /**
+     * starts receiving messages
+     */
     public void run() {
         while (!stopThread) {
             try {
@@ -179,7 +265,10 @@ public class SocketConnection implements Connection,Runnable {
         }
     }
 
-    // deliver action on GUI or CLI
+    /**
+     * deliver action on GUI or CLI
+     * @param action is the player's action
+     */
     private void deliverGI(List<String> action) {
         View v = hand.getView();
         List<String> players;
@@ -256,7 +345,8 @@ public class SocketConnection implements Connection,Runnable {
                 try {
                     v.pickDiceSpace(Integer.parseInt(action.get(1)));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Message.println(THREAD_ERROR,TypeMessage.ERROR_MESSAGE);
+                    Thread.currentThread().interrupt();
                 }
                 break;
             case PICK_DICE_SPACE_ERROR:

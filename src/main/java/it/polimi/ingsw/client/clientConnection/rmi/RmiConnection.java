@@ -42,12 +42,19 @@ public class RmiConnection implements Connection {
         pingServer();
     }
 
+        /**
+         * sets the connection
+         */
         private void setConnection() throws IOException {
             TakeDataFile config = new TakeDataFile();
             host = config.getParameter(SERVER_IP);
             port = Integer.parseInt(config.getParameter(RMI_PORT));
         }
 
+
+        /**
+         * check connection with the server
+         */
         private void pingServer()
         {
             Thread t = new Thread(() -> {
@@ -68,6 +75,10 @@ public class RmiConnection implements Connection {
             });
             t.start();
         }
+
+    /**
+     * @param str is the name of scheme
+     */
     public void sendSchema(final String str) {
         Thread t = new Thread(() -> {
             try {
@@ -80,6 +91,9 @@ public class RmiConnection implements Connection {
 
     }
 
+    /**
+     * @param nickname is the name of player
+     */
     public void login(String nickname) {
         try {
             server.login(client, nickname);
@@ -88,6 +102,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * disconnect the player
+     */
     public void disconnect() {
         Thread t = new Thread(()-> {
             try {
@@ -100,6 +117,12 @@ public class RmiConnection implements Connection {
 
     }
 
+    /**
+     * used to insert dice to scheme from diceSpace
+     * @param indexDiceSpace is index of dice space
+     * @param row is index of row
+     * @param column is index of column
+     */
     public void insertDice(final int indexDiceSpace, final int row, final int column) {
         Thread t = new Thread(() -> {
             try {
@@ -111,6 +134,10 @@ public class RmiConnection implements Connection {
         t.start();
     }
 
+    /**
+     * invoked when you want use tool card
+     * @param toolNumber is tool card's number
+     */
     public void useToolCard(int toolNumber) {
         try {
             server.useToolCard(hand.getView().getName(), toolNumber);
@@ -119,6 +146,13 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * invoked when you want move dice in scheme
+     * @param oldRow is the row from take dice
+     * @param oldColumn is the column from take dice
+     * @param newRow is the row to move dice
+     * @param newColumn is the column to move dice
+     */
     public void moveDice(final int oldRow, final int oldColumn, final int newRow, final int newColumn) {
         Thread t = new Thread(() -> {
             try {
@@ -131,6 +165,10 @@ public class RmiConnection implements Connection {
 
     }
 
+    /**
+     * is invoked when use draft dice
+     * @param indexDiceSpace is index of dice space
+     */
     public void sendDraft(int indexDiceSpace) {
         try {
             server.draftDice(hand.getView().getName(), indexDiceSpace);
@@ -139,6 +177,11 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * is invoked when use place dice
+     * @param row is row index of scheme
+     * @param column is column index of scheme
+     */
     public void sendPlaceDice(int row, int column) {
         try {
             server.placeDice(hand.getView().getName(), row, column);
@@ -147,6 +190,10 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * is invoked when use changeValue
+     @param change is "decrement" or "increment"
+     */
     public void changeValue(String change) {
         try {
             server.changeValue(hand.getView().getName(), change);
@@ -155,6 +202,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * is invoked when use roll dice
+     */
     public void rollDice() {
         try {
             server.rollDice(hand.getView().getName());
@@ -163,6 +213,11 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * take a dice from round track
+     * @param numRound is the number of round
+     * @param indexDice is index of dice
+     */
     public void swapDice(int numRound, int indexDice) {
         try {
             server.swapDice(hand.getView().getName(), numRound, indexDice);
@@ -171,6 +226,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * invoked when use cancel tool card
+     */
     public void cancelUseToolCard() {
         try {
             server.cancelUseToolCard(hand.getView().getName());
@@ -179,6 +237,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * turn to opposite face of dice
+     */
     public void flipDice() {
         try {
             server.flipDice(hand.getView().getName());
@@ -187,6 +248,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * place dices in dice space
+     */
     public void placeDiceSpace() {
         try {
             server.placeDiceSpace(hand.getView().getName());
@@ -195,6 +259,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * roll dices in dice space
+     */
     public void rollDiceSpace() {
         try {
             server.rollDiceSpace(hand.getView().getName());
@@ -203,6 +270,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * exchange dice with dice bag
+     */
     public void swapDiceBag() {
         try {
             server.swapDiceBag(hand.getView().getName());
@@ -211,6 +281,10 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * is invoked when choose value of dice
+     * @param value is the new value of dice
+     */
     public void chooseValue(int value) {
         try {
             server.chooseValue(hand.getView().getName(), value);
@@ -219,6 +293,9 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * send end turn message
+     */
     public void sendEndTurn() {
         try {
             server.sendEndTurn(hand.getView().getName());
@@ -227,6 +304,10 @@ public class RmiConnection implements Connection {
         }
     }
 
+    /**
+     * send custom scheme to server
+     * @param schema is the name of custom schema
+     */
     public void sendCustomSchema(String schema) {
         try {
             server.sendCustomSchema(schema, hand.getView().getName());
