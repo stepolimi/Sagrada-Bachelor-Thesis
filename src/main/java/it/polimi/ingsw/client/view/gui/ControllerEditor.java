@@ -216,9 +216,9 @@ public class ControllerEditor {
                     File file = new File(copyPath);
 
                     if (file.exists())
-                        System.out.println("Il file " + copyPath + " esiste già");
+                        error.setText("Il file " + copyPath + " esiste già");
                     else if (file.createNewFile()) {
-                        System.out.println("Il file " + copyPath + " è stato creato");
+                        error.setText("Il file " + copyPath + " è stato creato");
                         stage = (Stage) gridPane.getScene().getWindow();
                         stage.close();
                         fw = new FileWriter(file);
@@ -233,7 +233,7 @@ public class ControllerEditor {
 
 
                     } else
-                        System.out.println("Il file " + path + " non può essere creato");
+                        error.setText("Il file " + path + " non può essere creato");
 
 
                 }

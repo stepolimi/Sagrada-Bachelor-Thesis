@@ -67,7 +67,6 @@ import static it.polimi.ingsw.client.view.gui.GameMessage.DISCONNECTED;
 import static it.polimi.ingsw.client.view.gui.GameMessage.WAIT_CHOOSE_SCHEMA;
 import static java.lang.Integer.parseInt;
 import static java.lang.System.exit;
-import static java.lang.System.out;
 import static java.lang.Thread.sleep;
 import static sun.management.AgentConfigurationError.FILE_NOT_FOUND;
 
@@ -954,53 +953,51 @@ public class ControllerGUI implements View {
     public void setActions(final List<String> actions) {
 
 
-        actions.forEach(out::println);
 
         Platform.runLater(() -> {
-            if (actions.contains("UseToolCard") && !actions.contains("RollDiceSpace")) {
+            if (actions.contains(USE_TOOL_CARD) && !actions.contains(ROLL_DICE_SPACE)) {
                 disableTool(false);
-            } else if (actions.contains("RollDiceSpace") && !actions.contains("UseToolCard")) {
+            } else if (actions.contains(ROLL_DICE_SPACE) && !actions.contains(USE_TOOL_CARD)) {
                 disableTool(true);
                 disableToolNumber("7", false);
             } else disableTool(true);
 
 
-            if (actions.contains("InsertDice") || actions.contains("PickDiceState") ||
-                    actions.contains("PlaceDiceSpace") || actions.contains("DraftDice")) {
+            if (actions.contains(INSERT_DICE) || actions.contains(PLACE_DICE_SPACE) || actions.contains(DRAFT_DICE)) {
                 diceSpace.setDisable(false);
-                if (actions.contains("InsertDice"))
+                if (actions.contains(INSERT_DICE))
                     currentTool = 0;
             } else diceSpace.setDisable(true);
 
 
-            if (actions.contains("EndTurn"))
+            if (actions.contains(END_TURN))
                 endTurn.setDisable(false);
             else endTurn.setDisable(true);
 
 
-            if (actions.contains("MoveDice") || actions.contains("PlaceDice"))
+            if (actions.contains(MOVE_DICE) || actions.contains(PLACE_DICE))
                 gridPane.setDisable(false);
             else gridPane.setDisable(true);
 
 
-            if (actions.contains("RollDice") || actions.contains("FlipDice") || actions.contains("SwapDiceBag"))
+            if (actions.contains(ROLL_DICE) || actions.contains(FLIP_DICE) || actions.contains(SWAP_DICE_BAG))
                 pendingDice.setDisable(false);
             else pendingDice.setDisable(true);
 
-            if (actions.contains("SwapDice"))
+            if (actions.contains(SWAP_DICE))
                 roundTrack.setDisable(false);
             else roundTrack.setDisable(true);
 
-            if (actions.contains("CancelUseToolCard")) {
+            if (actions.contains(CANCEL_USE_TOOL_CARD)) {
                 cancelButton.setVisible(true);
                 cancelButton.setDisable(false);
             } else {
                 cancelButton.setVisible(false);
                 cancelButton.setDisable(true);
             }
-            if (actions.contains("CancelUseToolCard") || actions.contains("SwapDice")
-                    || actions.contains("MoveDice") || actions.contains("PlaceDice") ||
-                    actions.contains("PickDiceState") || actions.contains("PlaceDiceSpace"))
+            if (actions.contains(CANCEL_USE_TOOL_CARD) || actions.contains(SWAP_DICE)
+                    || actions.contains(MOVE_DICE) || actions.contains(PLACE_DICE) ||
+                   actions.contains(PLACE_DICE_SPACE))
                 iconTool.setVisible(true);
             else iconTool.setVisible(false);
 
