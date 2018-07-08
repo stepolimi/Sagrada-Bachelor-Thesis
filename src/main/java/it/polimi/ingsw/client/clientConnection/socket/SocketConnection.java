@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
 import static it.polimi.ingsw.client.constants.NameConstants.SOCKET_PORT;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.MessageConstants.*;
 import static it.polimi.ingsw.client.constants.printCostants.SERVER_CONNECTION_ERROR;
 import static it.polimi.ingsw.server.costants.TimerConstants.TURN_TIMER_PING;

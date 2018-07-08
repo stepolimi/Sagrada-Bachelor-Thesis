@@ -58,3 +58,7 @@ WINNER_SCENE win
 LOSE_SCENE lose
 FIRST_SCENE play
 GAMESCENE_15 game_15
+CUSTOM_SCHEME /CustomScheme/
+// possible value: --- OFF: Disable log in console --- INFO: Allows you to see game messages --- ERROR: Allows you to see error messages --- ALL: Allows you to see all messages
+
+LEVEL_LOG_VISIBLE INFO

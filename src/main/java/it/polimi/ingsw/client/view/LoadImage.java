@@ -8,6 +8,7 @@ public class LoadImage {
     {
         InputStream is = LoadImage.class.getResourceAsStream(file);
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
         Colour colour;
 
         int i=0;

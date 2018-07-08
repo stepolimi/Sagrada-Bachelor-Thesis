@@ -10,13 +10,11 @@ import it.polimi.ingsw.client.setUp.TakeDataFile;
 
 import java.io.*;
 import java.rmi.RemoteException;
-import java.sql.SQLOutput;
 import java.util.*;
 
 import static it.polimi.ingsw.client.constants.MessageConstants.CHANGE_VALUE;
 import static it.polimi.ingsw.client.constants.MessageConstants.PAINT_ROW;
 import static it.polimi.ingsw.client.constants.NameConstants.*;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.*;
 import static it.polimi.ingsw.client.constants.printCostants.NICKNAME_ALREADY_USE;
 
@@ -52,18 +50,19 @@ public class ViewCLI implements View {
     private int lobbyTimerValue;
     private String pathCustomSchemas;
     private String pathInitDefaultSchema;
-    private String pathInitCustomSchema;
+
     private Thread threadRound;
     private TakeDataFile config;
+    private int timerRound;
      ViewCLI() {
          config = new TakeDataFile();
         lobbyTimerValue = Integer.parseInt(config.getParameter(LOBBY_TIMER));
         pathCustomSchemas = config.getParameter(PATH_CUSTOM_SCHEMA);
-        pathInitCustomSchema = config.getParameter(PATH_INIT_CUSTOM_SCHEMA);
         pathInitDefaultSchema = config.getParameter(PATH_INIT_DEFAULT_SCHEMA);
         roundTrack = new ArrayList<>();
         load = new LoadImage();
         endGame = false;
+        timerRound = 0;
         opVal = 0;
         round = 1;
         username = "";
@@ -75,7 +74,7 @@ public class ViewCLI implements View {
         publicObjcective = new ArrayList<>();
         toolCard = new ArrayList<>();
         diceSpace = new ArrayList<>();
-    }
+     }
 
 
     // set method
@@ -152,19 +151,28 @@ public class ViewCLI implements View {
             selSchema.get(nameSchema).splitImageSchema();
         }
 
-        showSchemas(selSchema);
-
-        Message.println(INFO_CUSTOM_SCHEMA, TypeMessage.INFO_MESSAGE);
-
         schemaThread = new Thread(() -> {
             try {
-                String nameSchema;
-                nameSchema = input.nextLine();
-                if (!schemaThread.isInterrupted())
-                    if (!nameSchema.equals(CHOOSE_LOAD_CUSTOM_SCHEMA))
-                        connection.sendSchema(nameSchema);
+                boolean correct;
+                String nameSchema="";
+
+                showSchemas(selSchema);
+                Message.println(INFO_CUSTOM_SCHEMA, TypeMessage.INFO_MESSAGE);
+
+                correct = false;
+                while(!correct) {
+                    nameSchema = input.nextLine();
+                    if (nameSchema.equals(CHOOSE_LOAD_CUSTOM_SCHEMA) || schemas.contains(nameSchema) || schemaThread.isInterrupted())
+                        correct = true;
                     else
-                        loadSchema();
+                        Message.println(SCHEME_NOT_FOUND, TypeMessage.ERROR_MESSAGE);
+
+                    if (!schemaThread.isInterrupted())
+                        if (!nameSchema.equals(CHOOSE_LOAD_CUSTOM_SCHEMA))
+                            connection.sendSchema(nameSchema);
+                        else
+                            correct = loadSchema();
+                }
             } catch (Exception e) {
                 Message.println(SCHEMA_ALREADY_INSERT,TypeMessage.INFO_MESSAGE);
             }
@@ -426,16 +434,19 @@ public class ViewCLI implements View {
         s.setPaint(null);
         schema = g.toJson(s);
         correct = false;
+        String jarPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        jarPath = jarPath.substring(0, jarPath.lastIndexOf("/"));
 
         while (!correct) {
             String copyPath;
-            copyPath = pathCustomSchemas + s.getName() + ".json";
+            copyPath = jarPath+config.getParameter(CUSTOM_SCHEME)+s.getName() + ".json";
+
+            System.out.println(copyPath);
             FileWriter fw;
             File file = new File(copyPath);
 
-            if (file.exists())
-                Message.println(FILE_INFO + copyPath +ALREADY_EXIST ,TypeMessage.ERROR_MESSAGE);
-            else if (file.createNewFile()) {
+
+            if (file.createNewFile()) {
 
                 Message.println(FILE_INFO + copyPath + CREATE,TypeMessage.CONFIRM_MESSAGE);
                 fw = new FileWriter(file);
@@ -503,6 +514,7 @@ public class ViewCLI implements View {
         moves.add(SHOW_SCHEME);
         if (actions == null)
             return;
+        moves.add(SHOW_TIMER_ROUND);
         for (String action : actions) {
             move = action;
             switch (action) {
@@ -615,7 +627,25 @@ public class ViewCLI implements View {
     private void showPublicObjective() {
         Message.println(PUBLIC_OBJECTIVE_GAME,TypeMessage.INFO_MESSAGE);
         for (String pub : publicObjcective)
-            Message.println(pub,TypeMessage.INFO_MESSAGE);
+        {
+            String description="";
+
+            switch(pub)
+            {
+                case PUBLIC_OBJECTIVE1: description = PUBLIC_OBJCETIVE1_INFO; break;
+                case PUBLIC_OBJECTIVE2: description = PUBLIC_OBJECTIVE2_INFO; break;
+                case PUBLIC_OBJECTIVE3: description = PUBLIC_OBJECTIVE3_INFO; break;
+                case PUBLIC_OBJECTIVE4: description = PUBLIC_OBJECTIVE4_INFO ;break;
+                case PUBLIC_OBJECTIVE5: description = PUBLIC_OBJECTIVE5_INFO; break;
+                case PUBLIC_OBJECTIVE6: description = PUBLIC_OBJECTIVE6_INFO;break;
+                case PUBLIC_OBJECTIVE7: description = PUBLIC_OBJECTIVE7_INFO;break;
+                case PUBLIC_OBJECTIVE8: description = PUBLIC_OBJECTIVE8_INFO;break;
+                case PUBLIC_OBJECTIVE9: description = PUBLIC_OBJECTIVE9_INFO;break;
+                case PUBLIC_OBJECTIVE10: description = PUBLIC_OBJECTIVE10_INFO;break;
+                default: break;
+            }
+            Message.println(description,TypeMessage.INFO_MESSAGE);
+        }
     }
 
     /**
@@ -727,35 +757,48 @@ public class ViewCLI implements View {
     /**
      * used to load a custom schema
      */
-    private void loadSchema() {
+    private boolean loadSchema() {
         String name;
-
-
+        String absolutePath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        absolutePath = absolutePath.substring(0, absolutePath.lastIndexOf("/"));
+        pathCustomSchemas = absolutePath+config.getParameter(CUSTOM_SCHEME);
         File f = new File(pathCustomSchemas);
+        System.out.println(pathCustomSchemas);
         Schema sc = new Schema();
 
         Message.println(CHOOSE_LOAD_SCHEME,TypeMessage.INFO_MESSAGE);
 
-
         if (Objects.requireNonNull(f.list()).length == 0) {
             Message.println(EMPTY_CUSTOM_SCHEMAS,TypeMessage.ERROR_MESSAGE);
-            return;
+            return false;
         }
 
         for (String file : Objects.requireNonNull(f.list()))
             Message.println(file.substring(0, file.length() - 5),TypeMessage.INFO_MESSAGE);
         name = input.nextLine();
-        try {
-            connection.sendCustomSchema(sc.getGson(pathInitCustomSchema + name));
-            Message.println(LOAD_THIS_SCHEME,TypeMessage.CONFIRM_MESSAGE);
-            schemas.put(username, sc.InitSchema(pathInitCustomSchema + name));
-            schemas.get(username).splitImageSchema();
-            schemas.get(username).showImage();
-            correct = true;
-        } catch (IOException e) {
-            Message.println(ERROR_LOAD_SCHEME,TypeMessage.ERROR_MESSAGE);
+
+        if(schemaThread.isInterrupted())
+            return true;
+
+        if( Arrays.stream(f.list()).anyMatch(string->string.equals(name+".json"))) {
+
+            try {
+                System.out.println(sc.getCustomGson(pathCustomSchemas+name));
+                connection.sendCustomSchema(sc.getCustomGson(pathCustomSchemas+name));
+                Message.println(LOAD_THIS_SCHEME, TypeMessage.CONFIRM_MESSAGE);
+                schemas.put(username, sc.initCustomSchema(pathCustomSchemas+name));
+                schemas.get(username).splitImageSchema();
+                schemas.get(username).showImage();
+                correct=true;
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
+            Message.println(SCHEME_NOT_FOUND, TypeMessage.ERROR_MESSAGE);
+            Message.println(REINSERT_SCHEME, TypeMessage.INFO_MESSAGE);
+                return false;
     }
 
 
@@ -842,12 +885,24 @@ public class ViewCLI implements View {
         for (int i = percent; i < 100; i++) {
             Message.print(" ",TypeMessage.INFO_MESSAGE);
         }
-        Message.print(Colour.colorString(percent + "%", Colour.ANSI_BLUE),TypeMessage.INFO_MESSAGE);
+        Message.print(Colour.colorString(percent + "%", Colour.ANSI_YELLOW),TypeMessage.INFO_MESSAGE);
     }
 
+    /**
+     * set timer round
+     * @param time is time remain to elapse of turn
+     */
     public void turnTimerPing(int time) {
-        System.out.println("Hai ancora: " + time + " secondi per finire il tuo turno");
-        //todo;
+        timerRound = time;
+    }
+
+
+    /**
+     * show timer round
+     */
+    public void showTimerRound()
+    {
+        Message.println(TIMER_ROUND_INFO+timerRound,TypeMessage.INFO_MESSAGE);
     }
 
     /**
@@ -961,6 +1016,8 @@ public class ViewCLI implements View {
                         break;
                     case 5: showMyschema();
                         break;
+                    case 6: showTimerRound();
+                    break;
                     default:
                         right = false;
                 }
@@ -970,7 +1027,7 @@ public class ViewCLI implements View {
                 e.getMessage();
                 right = false;
             } catch (NumberFormatException e) {
-                Message.println(INSERT_NUMBER,TypeMessage.INFO_MESSAGE);
+                Message.println(INSERT_NUMBER,TypeMessage.ERROR_MESSAGE);
                 right = false;
             }
         }
@@ -1443,7 +1500,7 @@ public class ViewCLI implements View {
      */
     public void schemaCustomAccepted(String name) {
         Schema s = new Schema();
-        schemas.put(this.getName(), s.InitSchema(pathInitCustomSchema + name));
+        schemas.put(this.getName(), s.initCustomSchema(pathCustomSchemas + name));
         Message.println(SCHEMA_APPROVED + name,TypeMessage.CONFIRM_MESSAGE);
         Message.println(WAITING_CHOOSE_PLAYER,TypeMessage.INFO_MESSAGE);
     }
@@ -1488,13 +1545,18 @@ public class ViewCLI implements View {
 
     }
 
+    /**
+     * restart the game
+     */
     private void restart()
     {
 
-        Message.println("GAME RESTART", TypeMessage.INFO_MESSAGE);
+        Message.println(RESTART_GAME, TypeMessage.INFO_MESSAGE);
         Message.println(PRESS_ENTER,TypeMessage.INFO_MESSAGE);
-
         try {
+            if(schemaThread!=null)
+                schemaThread.join();
+
             if(threadRound != null)
                 threadRound.join();
         } catch (InterruptedException e) {
@@ -1574,4 +1636,10 @@ public class ViewCLI implements View {
 
     }
 
+
+
 }
+
+
+
+

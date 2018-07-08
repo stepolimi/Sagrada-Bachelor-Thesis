@@ -1,6 +1,8 @@
 package it.polimi.ingsw.client.constants;
 
 public class NameConstants {
+    private NameConstants(){}
+
     public static final String SOCKET_PORT = "SOCKET_PORT";
     public static final String RMI_PORT = "RMI_PORT";
     public static final String SERVER_IP = "SERVER_IP";
@@ -44,6 +46,6 @@ public class NameConstants {
     public static final String LOSE_SCENE = "LOSE_SCENE";
     public static final String FIRST_SCENE = "FIRST_SCENE";
     public static final String GAMESCENE_15 = "GAMESCENE_15";
-
-
+    public static final String CUSTOM_SCHEME = "CUSTOM_SCHEME";
+    public static final String CONFIG_FILE = "/config.txt";
 }

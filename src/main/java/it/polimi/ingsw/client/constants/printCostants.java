@@ -47,6 +47,7 @@ public class printCostants {
     public static final String SHOW_TOOL_CARD = "Mostra le carte utensili";
     public static final String SHOW_ROUND_TRACK = "Mostra il tracciato dei round";
     public static final String SHOW_SCHEME = "Mostra il tuo schema";
+    public static final String SHOW_TIMER_ROUND = "Mostra il tempo rimanente alla fine del turno";
     public static final String INSERT_DICE = "InsertDice";
     public static final String INSERT_DICE_INFO = "Inserisci un dado";
     public static final String DRAFT_DICE = "DraftDice";
@@ -100,7 +101,9 @@ public class printCostants {
     public static final String CHOOSE_LOAD_SCHEME = "Scegli il nome dello schema da caricare";
     public static final String EMPTY_CUSTOM_SCHEMAS = " Nessuno schema da caricare, te ne verrà assegnato uno allo scadere del tempo ";
     public static final String LOAD_THIS_SCHEME = "Hai caricato questo schema";
-    public static final String ERROR_LOAD_SCHEME = "Errore con lo schema da caricare,te ne verrà assegnato uno allo scadere del tempo";
+    public static final String ERROR_LOAD_SCHEME = "Errore con lo schema da caricare";
+    public static final String REINSERT_SCHEME = "Inserisci il nome dello schema che vuoi scegliere oppure caricalo (load)";
+    public static final String SCHEME_NOT_FOUND = "Nome dello schema non presente tra quelli selezionabili,riprova";
     public static final String WELCOME = "Welcome";
     public static final String GAME_EARLY_START = "La partita inizierà a breve";
     public static final String WAIT_PLAYERS = "Aspettando altri giocatori...";
@@ -123,7 +126,7 @@ public class printCostants {
     public static final String TURN_START = "Turno iniziato, tocca a: ";
     public static final String IS_YOUR_TURN = "Tocca a te!";
     public static final String CHOOSE_VALUE_INFO = "ChooseValue";
-    public static final String INSERT_NUMBER = "Inserisci un numero";
+    public static final String INSERT_NUMBER = "Errore,inserisci un numero tra quelli presenti";
     public static final String ROLL_THIS_DICES ="Rolliamo 'sti dadi";
     public static final String REALLY_ROLL = "Vuoi davvero rollare il dado?";
     public static final String IS_RHETORICAL = "Era retorico.";
@@ -169,8 +172,6 @@ public class printCostants {
     public static final String SWAP_THIS_DICE ="Lo swappo tutto 'sto dado";
     public static final String CHOOSE_DICE_VALUE = "Scegli il valore dal dado: ";
     public static final String SCHEMA_APPROVED = "schema approvato: ";
-    public static final String YOU_WIN = "haiVinto";
-    public static final String YOU_LOSE = "haiPerso";
     public static final String RANKING = "Classifica: ";
     public static final String RANKING_TITLE = "Pos    Giocatore     Punteggio";
     public static final String CONNECTION = "connection";
@@ -178,11 +179,30 @@ public class printCostants {
     public static final String CHOOSE_GRAPHIC_INTERFACE = "Scegli l'interfaccia grafica";
     public static final String CLI_CHOOSE ="1 ----> Cli";
     public static final String GUI_CHOOSE = "2-----> GUI";
-    public static final String START_GAME ="startGame";
-    public static final String RESTART_GAME = "Vuoi giocare una nuova partita?(y)";
-    public static final String CLOSE_GAME ="Chiusura del gioco";
     public static final String SERVER_CONNECTION_ERROR = "Errore di collegamento con il server";
     public static final String THREAD_ERROR = "Errore di sospensione del thread";
     public static final String CONFIGURATION_FILE_NOT_FOUND = "File di configurazione non trovato";
+    public static final String TIMER_ROUND_INFO = "Secondi mancanti alla fine del turno: ";
+    public static final String PUBLIC_OBJECTIVE1 ="Colori diversi_riga";
+    public static final String PUBLIC_OBJCETIVE1_INFO = "Righe senza colori ripetuti: \n- I dadi sulla stessa riga devono avere colori diversi";
+    public static final String PUBLIC_OBJECTIVE2 = "Sfumature diverse_riga";
+    public static final String PUBLIC_OBJECTIVE2_INFO = "Righe senza valori ripetuti: \n- I dadi sulla stessa riga devono avere valori diversi";
+    public static final String PUBLIC_OBJECTIVE3 = "Colori diversi_colonna";
+    public static final String PUBLIC_OBJECTIVE3_INFO = "Colonne senza colori ripetuti: \n- I dadi sulla stessa colonna devono avere colori diversi";
+    public static final String PUBLIC_OBJECTIVE4 = "Sfumature diverse_colonna";
+    public static final String PUBLIC_OBJECTIVE4_INFO = "Colonne senza valori ripetuti: \n- I dadi sulla stessa colonna devono avere valori diversi";
+    public static final String PUBLIC_OBJECTIVE5 = "Sfumature chiare";
+    public static final String PUBLIC_OBJECTIVE5_INFO = "Set di 1 e 2 ovunque: \n- Per ogni coppia di dadi di valore 1 e 2 si totalizzano punti";
+    public static final String PUBLIC_OBJECTIVE6 = "Sfumature medie";
+    public static final String PUBLIC_OBJECTIVE6_INFO = "Set di 3 e 4 ovunque: \n- Per ogni coppia di dadi di valore 3 e 4 si totalizzano punti";
+    public static final String PUBLIC_OBJECTIVE7 = "Sfumature scure";
+    public static final String PUBLIC_OBJECTIVE7_INFO = "Set di 5 o 6 ovunque: \n- Per ogni coppia di dadi di valore 5 e 6 si totalizzano punti";
+    public static final String PUBLIC_OBJECTIVE8 = "Sfumature diverse";
+    public static final String PUBLIC_OBJECTIVE8_INFO = "Set di dadi di ogni valore ovunque: \n- Per ogni coppia di dadi di valore qualunque si totalizzano punti";
+    public static final String PUBLIC_OBJECTIVE9 = "Varietà di colore";
+    public static final String PUBLIC_OBJECTIVE9_INFO = "Set di dadi di ogni colore ovunque: \n- Per ogni coppia di dadi di colore qualunque si totalizzano punti";
+    public static final String PUBLIC_OBJECTIVE10 = "Diagonali colorate";
+    public static final String PUBLIC_OBJECTIVE10_INFO = "- Numero di dadi dello stesso colore diagonalmente adiacenti";
+    public static final String RESTART_GAME = "Gioca un'altra partita";
 
 }

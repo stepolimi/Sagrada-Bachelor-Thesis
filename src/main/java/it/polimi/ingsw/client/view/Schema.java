@@ -68,6 +68,30 @@ public class Schema {
         return sc;
     }
 
+    public Schema initCustomSchema(String nome)
+    {
+        Schema sch;
+        Gson g = new Gson();
+        String gsonString = null;
+        try {
+            gsonString = getCustomGson(nome);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        sch = g.fromJson(gsonString,Schema.class);
+        return sch;
+    }
+
+    public String getCustomGson(String nome) throws  IOException
+    {
+        final String filePath = nome+".json";
+        String gson;
+        try (BufferedReader b = new BufferedReader(new FileReader(filePath))) {
+            gson  = b.readLine();
+        }
+        return gson;
+    }
+
     public String[] getPaint() {
         return paint;
     }

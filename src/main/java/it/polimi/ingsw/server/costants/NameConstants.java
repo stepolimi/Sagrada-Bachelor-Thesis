@@ -12,7 +12,8 @@ public class NameConstants {
     public static final String PRIVATE_OBJECTIVE_PATH = "PATH_PRIVATE_OBJECTIVE";
     public static final String TOOL_CARD_PATH = "PATH_TOOL_CARD";
     public static final String PATH_LOG_FILE = "PATH_LOG_FILE";
-
+    public static final String LEVEL_LOG_VISIBLE = "LEVEL_LOG_VISIBLE";
+    public static final String CONFIG_FILE = "/config.txt";
 
 
 

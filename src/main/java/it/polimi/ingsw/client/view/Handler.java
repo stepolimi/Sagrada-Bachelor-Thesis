@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import static it.polimi.ingsw.client.constants.NameConstants.PATH_START_GAME_IMAGE;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.*;
 
 public class Handler {

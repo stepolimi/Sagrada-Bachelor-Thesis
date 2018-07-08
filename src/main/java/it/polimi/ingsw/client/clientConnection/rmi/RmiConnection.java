@@ -16,7 +16,6 @@ import java.rmi.registry.Registry;
 
 import static it.polimi.ingsw.client.constants.NameConstants.SERVER_IP;
 import static it.polimi.ingsw.client.constants.NameConstants.RMI_PORT;
-import static it.polimi.ingsw.client.constants.SetupConstants.CONFIGURATION_FILE;
 import static it.polimi.ingsw.client.constants.printCostants.SERVER_CONNECTION_ERROR;
 import static it.polimi.ingsw.client.constants.printCostants.THREAD_ERROR;
 import static java.lang.Thread.sleep;

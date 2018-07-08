@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.logging.*;
 
+import static it.polimi.ingsw.server.costants.NameConstants.LEVEL_LOG_VISIBLE;
 import static it.polimi.ingsw.server.costants.NameConstants.PATH_LOG_FILE;
 
 public class Log {
@@ -26,6 +27,7 @@ public class Log {
         logger.addHandler(Objects.requireNonNull(fileHandler));
         logger.addHandler(consoleHandler);
         logger.setLevel(Level.ALL);
+        this.setVisibleLog(config.getParameter(LEVEL_LOG_VISIBLE));
         Formatter f = new SimpleFormatter();
         fileHandler.setFormatter(f);
     }
@@ -41,9 +43,16 @@ public class Log {
 
     public Level getLevelLog() { return logger.getLevel(); }
 
-    public void serVisibleLog(Level level)
-    {
-        consoleHandler.setLevel(level);
+    public void setVisibleLog(String level)
+    { Level level_log;
+        switch(level)
+        {
+            case "ERROR": level_log = Level.SEVERE; break;
+            case "INFO": level_log = Level.INFO; break;
+            case "ALL": level_log = Level.ALL; break;
+            default: level_log= Level.OFF;
+        }
+        consoleHandler.setLevel(level_log);
     }
 
     public void addLog(String message,Level levelLogin,String sourceClass,String sourceMethod)
