@@ -444,8 +444,8 @@ public class ControllerGUI implements View {
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
-                openGameScene(config.getParameter(GAMESCENE_15));
-            else openGameScene(config.getParameter(NEW_GAME));
+                changeScene(config.getParameter(GAMESCENE_15));
+            else changeScene(config.getParameter(NEW_GAME));
             ea = Font.loadFont(getClass().getResourceAsStream(config.getParameter(FONT)), 17);
             textflow.setFont(ea);
             serverMessage.setFont(ea);
@@ -471,7 +471,7 @@ public class ControllerGUI implements View {
         Platform.runLater(() -> {
             String path = config.getParameter(SCHEMI);
 
-            openGameScene(config.getParameter(NameConstants.CHOOSE_SCHEMA));
+            openUndecoreted(config.getParameter(NameConstants.CHOOSE_SCHEMA));
             List<ImageView> setSchemas = Arrays.asList(schemaA, schemaB, schemaC, schemaD);
 
             IntStream.range(0, 4)
@@ -558,7 +558,7 @@ public class ControllerGUI implements View {
     /**method loaded stage UNDECORATED with UTILITY style and no resizable
      * @param src name of fxml loaded
      */
-    public void openGameScene(String src){
+    public void openUndecoreted(String src){
 
     Stage stage = new Stage();
     Pane p = null;
@@ -572,6 +572,7 @@ public class ControllerGUI implements View {
         stage.setResizable(false);
         stage.initStyle(StageStyle.UTILITY);
         stage.resizableProperty().setValue(false);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.show();
         putCloseEvent(stage);
         stage.show();
@@ -645,7 +646,6 @@ public class ControllerGUI implements View {
         Scene scene = new Scene(p);
         stage.setScene(scene);
         stage.setTitle("SAGRADA GAME");
-        Image image = new Image(config.getParameter(ICON_GAME));
         stage.resizableProperty().setValue(false);
 
 
@@ -919,7 +919,7 @@ public class ControllerGUI implements View {
 
         Platform.runLater(() -> {
             ImageView image = (ImageView) event.getTarget();
-            openGameScene(config.getParameter(ZOOM_CARD));
+            openUndecoreted(config.getParameter(ZOOM_CARD));
             imageZoomed.setImage(image.getImage());
         });
     }
@@ -1106,7 +1106,7 @@ public class ControllerGUI implements View {
             diceChanged = true;
 
             if (currentTool == 1) {
-                openGameScene(config.getParameter(NameConstants.CHANGE_VALUE));
+                openUndecoreted(config.getParameter(NameConstants.CHANGE_VALUE));
             } else if (currentTool == 6) {
                 textflow.setText(GameMessage.USE_TOOL_6);
             } else if (currentTool == 5) {
@@ -1302,7 +1302,7 @@ public class ControllerGUI implements View {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            openGameScene(config.getParameter(NameConstants.CHANGE_VALUE));
+            openUndecoreted(config.getParameter(NameConstants.CHANGE_VALUE));
 
         });
     }
@@ -1483,7 +1483,7 @@ public class ControllerGUI implements View {
             colorMoved = colour;
             numberMoved = value;
             setDice(pendingDice, colour, value);
-            openGameScene(config.getParameter(NameConstants.CHOOSE_VALUE));
+            openUndecoreted(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1506,7 +1506,7 @@ public class ControllerGUI implements View {
     public void chooseValueError() {
         Platform.runLater(() -> {
             textflow.setText(GameMessage.CHOOSE_VALUE_ERROR);
-            openGameScene(config.getParameter(NameConstants.CHOOSE_VALUE));
+            openUndecoreted(config.getParameter(NameConstants.CHOOSE_VALUE));
         });
 
     }
@@ -1568,8 +1568,8 @@ public class ControllerGUI implements View {
             Stage stage = (Stage) schemaA.getScene().getWindow();
             stage.close();
             if (nick.equals(nickname.getText()))
-                openGameScene(config.getParameter(NameConstants.WINNER_SCENE));
-            else openGameScene(config.getParameter(NameConstants.LOSE_SCENE));
+                openUndecoreted(config.getParameter(NameConstants.WINNER_SCENE));
+            else openUndecoreted(config.getParameter(NameConstants.LOSE_SCENE));
         });
 
     }

@@ -168,3 +168,5 @@ Thumbs.db
 .name
 *.lck
 *.1
+.idea/artifacts/Server.xml
+.idea/artifacts/Client.xml
