@@ -20,6 +20,11 @@ public class Connected {
         return instance;
     }
 
+    /**
+     * check if the username is already used
+     * @param str is the name of tool card
+     * @return false if is already use, true otherwise
+     */
     public boolean checkUsername(String str) {
         if(users.keySet().contains(str)){
             Log.getLogger().addLog(INVALID_USERNAME , Level.INFO,this.getClass().getName(),CONNECTED_CHECK_USERNAME);
@@ -28,11 +33,21 @@ public class Connected {
         return true;
     }
 
+    /**
+     * add player to game
+     * @param user is name the player
+     * @param connection is connection of player
+     */
     public void addPlayer(String user,Connection connection){
         if(!users.keySet().contains(user))
             users.put(user,connection);
     }
 
+    /**
+     * remove player from the game
+     * @param user is the name of player
+     * @return true if player is removed, false otherwise
+     */
     public boolean removePlayer(String user) {
         if(users.keySet().contains(user)) {
             users.remove(user);
@@ -42,6 +57,12 @@ public class Connected {
     }
 
 
+    /**
+     * log a player to game
+     * @param nicknames list of players to send the message to
+     * @param nickname is the nickname of the player wants to connect
+     * @param lobbySize is the number of player in game
+     */
     public void login(List<String> nicknames, String nickname, int lobbySize) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -50,6 +71,10 @@ public class Connected {
         });
     }
 
+    /**
+     * reconnect a player
+     * @param nicknames list of players to send the message to
+     */
     public void reconnectPlayer(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -58,6 +83,12 @@ public class Connected {
         });
     }
 
+    /**
+     * send login error message
+     * @param nicknames list of players to send the message to
+     * @param nickname is the name of player
+     * @param cause it is the cause of the disconnection of the player
+     */
     public void loginError(List<String> nicknames,String nickname ,String cause) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -68,6 +99,11 @@ public class Connected {
         });
     }
 
+    /**
+     * disconnect a player
+     * @param nicknames list of players to send the message to
+     * @param nickname is the name of player
+     */
     public void playerDisconnected(List<String> nicknames, String nickname) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -76,6 +112,11 @@ public class Connected {
         });
     }
 
+    /**
+     * send lobby timer
+     * @param nicknames list of players to send the message to
+     * @param timeLeft is remaining time
+     */
     public void timerPing(List<String> nicknames, int timeLeft) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -84,6 +125,11 @@ public class Connected {
         });
     }
 
+    /**
+     * send  turn timer
+     * @param nicknames list of players to send the message to
+     * @param timeLeft is remaining time
+     */
     public void turnTimerPing(List<String> nicknames, int timeLeft) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -92,6 +138,10 @@ public class Connected {
         });
     }
 
+    /**
+     * create game
+     * @param nicknames list of players to send the message to
+     */
     public void createGame(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -100,6 +150,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set schemas
+     * @param nicknames list of players to send the message to
+     * @param schemas is the name of player's scheme
+     */
     public void setSchemas(List<String> nicknames, List<String> schemas) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -108,6 +163,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set private card to game
+     * @param nicknames list of players to send the message to
+     * @param privateCard is the name of private card
+     */
     public void setPrivateCard(List<String> nicknames, String privateCard) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -116,6 +176,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set public objective
+     * @param nicknames list of players to send the message to
+     * @param publicObjectives is tha name of public objective
+     */
     public void setPublicObjectives(List<String> nicknames, List<String> publicObjectives) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -124,6 +189,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set tool card
+     * @param nicknames list of players to send the message to
+     * @param toolCards is the name of tool card
+     */
     public void setToolCards(List<String> nicknames, List<Integer> toolCards) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -132,6 +202,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set schema player
+     * @param nicknames list of players to send the message to
+     * @param schema is the name of schema
+     */
     public void chooseSchema(List<String> nicknames, String schema) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -140,6 +215,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set opponents schema
+     * @param nicknames list of players to send the message to
+     * @param opponentsSchemas is the name of opponents schemas
+     */
     public void setOpponentsSchemas(List<String> nicknames, List<String> opponentsSchemas) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -148,6 +228,11 @@ public class Connected {
         });
     }
 
+    /**
+     * accept costum schema
+     * @param nicknames list of players to send the message to
+     * @param schema is the name of scheme accepted
+     */
     public void schemaCustomAccepted(List<String> nicknames, String schema) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -156,6 +241,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set opponents custom schema
+     * @param nicknames list of players to send the message to
+     * @param opponentsSchemas is the name of opponents schemas
+     */
     public void setOpponentsCustomSchemas(List<String> nicknames, List<String> opponentsSchemas) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -164,6 +254,10 @@ public class Connected {
         });
     }
 
+    /**
+     * start round
+     * @param nicknames list of players to send the message to
+     */
     public void startRound(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -172,6 +266,11 @@ public class Connected {
         });
     }
 
+    /**
+     * start turn
+     * @param nicknames list of players to send the message to
+     * @param nickname is the name of the player to whom the turn was assigned
+     */
     public void startTurn(List<String> nicknames, String nickname) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -180,6 +279,11 @@ public class Connected {
         });
     }
 
+    /**
+     * set possible action
+     * @param nicknames list of players to send the message to
+     * @param actions
+     */
     public void setActions(List<String> nicknames, List<String> actions) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -188,6 +292,12 @@ public class Connected {
         });
     }
 
+    /**
+     * set dice space
+     * @param nicknames list of players to send the message to
+     * @param colours is the colour of dice
+     * @param values is the value of dice
+     */
     public void setDiceSpace(List<String> nicknames, List<String> colours, List<Integer> values) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -196,6 +306,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send draft dice accepted message
+     * @param nicknames list of players to send the message to
+     */
     public void draftDiceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -204,6 +318,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send insert dice message accept
+     * @param nicknames list of players to send the message to
+     */
     public void insertDiceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -212,6 +330,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send move dice message accept
+     * @param nicknames list of players to send the message to
+     */
     public void moveDiceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -220,6 +342,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send move dice error message
+     * @param nicknames list of players to send the message to
+     */
     public void moveDiceError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -228,6 +354,11 @@ public class Connected {
         });
     }
 
+    /**
+     * pick dice from dice space
+     * @param nicknames list of players to send the message to
+     * @param index is the index of dice space
+     */
     public void pickDiceSpace(List<String> nicknames, Integer index) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -236,6 +367,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send pick dice space error
+     * @param nicknames list of players to send the message to
+     */
     public void pickDiceSpaceError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -244,6 +379,15 @@ public class Connected {
         });
     }
 
+    /**
+     * place dice in schema
+     * @param nicknames list of players to send the message to
+     * @param nickname is the name of player
+     * @param row is the index of row
+     * @param column is the index of columns
+     * @param colour is the colour of dice
+     * @param value is the value of dice
+     */
     public void placeDiceSchema(List<String> nicknames, String nickname, int row, int column, String colour, int value) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -252,6 +396,10 @@ public class Connected {
         });
     }
 
+    /**
+     * send place dice schema error message
+     * @param nicknames list of players to send the message to
+     */
     public void placeDiceSchemaError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -260,6 +408,13 @@ public class Connected {
         });
     }
 
+    /**
+     * pick dice from schema
+     * @param nicknames list of players to send the message to
+     * @param nickname is the name of player
+     * @param row is index of row
+     * @param column is index of column
+     */
     public void pickDiceSchema(List<String> nicknames, String nickname, int row, int column) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
