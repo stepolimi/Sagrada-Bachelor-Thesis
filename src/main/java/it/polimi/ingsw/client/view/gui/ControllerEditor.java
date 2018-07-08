@@ -205,38 +205,40 @@ public class ControllerEditor {
                 DirectoryChooser directoryChooser = new DirectoryChooser();
                 directoryChooser.setTitle(GameMessage.CHOOSE_DESTINATION);
                 File selectedDirectory = directoryChooser.showDialog(stage);
-                if(selectedDirectory == null){
+                if (selectedDirectory == null) {
                     labelSelectedDirectory.setText(GameMessage.NO_DIRECTORY);
-                }else {
-                    path =selectedDirectory.getAbsolutePath();
+                } else {
+                    path = selectedDirectory.getAbsolutePath();
+
+                    copyPath = path + "/" + name + ".json";
+                    FileWriter fw;
+                    BufferedWriter b = null;
+                    File file = new File(copyPath);
+
+                    if (file.exists())
+                        System.out.println("Il file " + copyPath + " esiste già");
+                    else if (file.createNewFile()) {
+                        System.out.println("Il file " + copyPath + " è stato creato");
+                        stage = (Stage) gridPane.getScene().getWindow();
+                        stage.close();
+                        fw = new FileWriter(file);
+                        try {
+                            b = new BufferedWriter(fw);
+                            b.write(schema);
+                            b.flush();
+                        } finally {
+                            b.close();
+                            fw.close();
+                        }
+
+
+                    } else
+                        System.out.println("Il file " + path + " non può essere creato");
+
+
                 }
-                copyPath = path + "/" + name + ".json";
-                FileWriter fw;
-                BufferedWriter b=null;
-                File file = new File(copyPath);
-
-                if (file.exists())
-                    System.out.println("Il file " + copyPath + " esiste già");
-                else if (file.createNewFile()) {
-                    System.out.println("Il file " + copyPath + " è stato creato");
-                    stage = (Stage) gridPane.getScene().getWindow();
-                    stage.close();
-                    fw = new FileWriter(file);
-                    try {
-                        b = new BufferedWriter(fw);
-                        b.write(schema);
-                        b.flush();
-                    }finally {
-                        b.close();
-                        fw.close();
-                    }
-
-
-                } else
-                    System.out.println("Il file " + path + " non può essere creato");
 
             }
-
 
     }
 
