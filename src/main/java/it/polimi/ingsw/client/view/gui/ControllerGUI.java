@@ -436,7 +436,7 @@ public class ControllerGUI implements View {
 
 
             try {
-               media = new Media(getClass().getResource("/MUSIC/Insane.mp3").toURI().toString());
+               media = new Media(getClass().getResource(config.getParameter(MUSIC_PATH)).toURI().toString());
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
@@ -2285,6 +2285,10 @@ public class ControllerGUI implements View {
         });
     }
 
+    /**
+     * Play and Pause music during game
+     * @param event Mouse Clicked
+     */
     @FXML
     void play_stop_Music(MouseEvent event) {
         Platform.runLater(() -> {

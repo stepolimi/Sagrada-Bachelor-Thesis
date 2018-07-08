@@ -48,4 +48,5 @@ public class NameConstants {
     public static final String GAMESCENE_15 = "GAMESCENE_15";
     public static final String CUSTOM_SCHEME = "CUSTOM_SCHEME";
     public static final String CONFIG_FILE = "/config.txt";
+    public static final String MUSIC_PATH = "MUSIC_PATH";
 }
