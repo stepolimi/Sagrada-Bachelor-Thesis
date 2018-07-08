@@ -197,12 +197,22 @@ public class Board extends Observable {
 
     /**
      * Sends the public objectives, the tool cards and the schemas of the players to the player that is going to reconnect.
+     * It also notifies to him which tool was already been used.
      * @param player is the player that is going to reconnect to the game.
      */
     public void reconnectPlayer(Player player){
         notifyChanges(SET_PUBLIC_OBJECTIVES_ON_RECONNECT,player.getNickname());
         notifyChanges(SET_TOOL_CARDS_ON_RECONNECT,player.getNickname());
         notifyChanges(SET_SCHEMAS_ON_RECONNECT,player.getNickname());
+        deckTool.stream()
+                .filter(ToolCard::isUsed)
+                .forEach(toolCard -> {
+                    Message message = new Message(USED_TOOL_CARD);
+                    message.addIntegerArgument(toolCard.getNumber());
+                    message.setPlayers(getNicknames());
+                    setChanged();
+                    notifyObservers(message);
+                });
     }
 
     /**

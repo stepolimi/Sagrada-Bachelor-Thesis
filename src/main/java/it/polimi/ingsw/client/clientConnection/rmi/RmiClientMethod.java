@@ -234,6 +234,20 @@ public class RmiClientMethod extends UnicastRemoteObject implements RmiClientMet
         v.useToolCardAccepted(favors);
     }
 
+
+    /**
+     * notifies that the specified tool card has been used
+     * @param toolCard is the tool card that has been used
+     */
+    public void usedToolCard(int toolCard) { v.usedToolCard(toolCard); }
+
+
+    /**
+     * notifies that the specified tool card has not been used
+     * @param toolCard is the tool card that has not been used
+     */
+    public void notUsedToolCard(int toolCard) { v.notUsedToolCard(toolCard); }
+
     /**
      * rejects the use of the toolcard
      */

@@ -1265,6 +1265,22 @@ public class ControllerGUI implements View {
     }
 
     /**
+     * notifies that the specified tool card has been used
+     * @param toolCard the tool card that has been used
+     */
+    public void usedToolCard(int toolCard) {
+        //todo;
+    }
+
+    /**
+     * notifies that the specified tool card has not been used
+     * @param toolCard the tool card that has not been used
+     */
+    public void notUsedToolCard(int toolCard) {
+        //todo;
+    }
+
+    /**
      * Error to use tool card. Notify message from server.
      */
     public void useToolCardError() {

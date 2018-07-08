@@ -36,6 +36,8 @@ public class MessageConstants {
     public static final String PICK_DICE_ROUND_TRACK_ERROR = "pickDiceRoundTrackError";
     public static final String INSERT_DICE_ACCEPTED = "insertDiceAccepted";
     public static final String USE_TOOL_CARD_ACCEPTED = "useToolCardAccepted";
+    public static final String USED_TOOL_CARD = "usedToolCard";
+    public static final String NOT_USED_TOOL_CARD = "notUsedToolCard";
     public static final String USE_TOOL_CARD_ERROR = "useToolCardError";
     public static final String MOVE_DICE_ACCEPTED = "moveDiceAccepted";
     public static final String MOVE_DICE_ERROR = "moveDiceError";

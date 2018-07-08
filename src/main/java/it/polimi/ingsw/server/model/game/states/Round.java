@@ -338,6 +338,11 @@ public class Round extends Observable implements TimedComponent {
                 message.addIntegerArgument(currentPlayer.getFavour());
                 message.addPlayer(currentPlayer.getNickname());
                 break;
+            case NOT_USED_TOOL_CARD:
+            case USED_TOOL_CARD:
+                message.addIntegerArgument(usingTool.getNumber());
+                message.setPlayers(board.getNicknames());
+                break;
             case TURN_TIMER_PING:
                 message.addIntegerArgument((int)(turnTimerValue - (System.currentTimeMillis() - startingTime) / 1000));
                 message.addPlayer(currentPlayer.getNickname());

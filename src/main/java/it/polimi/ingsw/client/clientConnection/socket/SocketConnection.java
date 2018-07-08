@@ -361,6 +361,12 @@ public class SocketConnection implements Connection,Runnable {
             case USE_TOOL_CARD_ACCEPTED:
                 v.useToolCardAccepted(Integer.parseInt(action.get(1)));
                 break;
+            case USED_TOOL_CARD:
+                v.usedToolCard(Integer.parseInt(action.get(1)));
+                break;
+            case NOT_USED_TOOL_CARD:
+                v.notUsedToolCard(Integer.parseInt(action.get(1)));
+                break;
             case USE_TOOL_CARD_ERROR:
                 v.useToolCardError();
                 break;
