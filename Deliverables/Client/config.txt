@@ -1,0 +1,67 @@
+// Per configurare il file di configurazione bisogna attenersi alla specifica PARAMETRO VALORE (Uno spazio tra parametro e valore)
+
+// connection's parameters
+RMI_PORT 1099
+SOCKET_PORT 1666
+SERVER_IP 127.0.0.1
+
+// game's parameters
+LOBBY_TIMER_VALUE 5
+TURN_TIMER_VALUE 10000
+SCHEMA_TIMER_VALUE 30
+
+// path
+PATH_CUSTOM_SCHEMA /data/SchemaPlayer/
+PATH_INIT_CUSTOM_SCHEMA /data/SchemaPlayer/
+PATH_INIT_DEFAULT_SCHEMA /data/SchemaClient/
+PATH_SCHEMA /data/schema/
+PATH_PRIVATE_OBJECTIVE /data/privCard/
+PATH_TOOL_CARD /data/toolCard/ToolCard
+PATH_LOG_FILE logMessage.log
+
+//path image cli
+PATH_LOSE_IMAGE /data/CliImage/haiPerso.txt
+PATH_WIN_IMAGE /data/CliImage/haiVinto.txt
+PATH_START_GAME_IMAGE /data/CliImage/startGame.txt
+PATH_ROUND_GAME_IMAGE /data/CliImage/Round
+//path resource
+MUSIC_PATH /music/themesong.mp3
+ICON_GAME /assets/image/icon.png
+NOT_USED_TOOL /assets/image/usetool.png
+USED_TOOL /assets/image/used.png
+FONT /fonts/EA.ttf
+SCHEMI /assets/image/Schemi/
+PRIVATE_OBJ_PATH /assets/image/Cards/PrivateObj/
+PUBLIC_OBJ_PATH /assets/image/Cards/PublicObj/
+TOOLCARD_PATH /assets/image/Cards/ToolCard/
+CONSTRAIN_PATH /assets/image/SchemaElement/
+DICE_PATH /assets/image/Dice
+ZOOM_CURSOR /assets/image/zoom.png
+
+//fxml file name
+
+FXML_URL /FXML/
+FXML .fxml
+CHANGE_VALUE changeDiceValue
+CHOOSE_SCHEMA choose_schema
+CHOOSE_VALUE chooseDiceNumber
+CHOOSE_CONNECTION connection
+NEW_GAME game
+GO_TO_LOGIN login
+NAME_IS_EMPTY NameSchemaError
+NICKNAME_IS_EMPTY nickname_empty
+NICKNAME_ALREADY_USE nickname_error
+OPEN_SCHEMA_ERROR OpenSchemaError
+CLOSE_MESSAGE QuitPane
+GO_TO_SCHEMA_EDITOR SchemaEditor
+PLAYER_LIMIT TooManyPlayers
+GO_TO_LOBBY waiting
+ZOOM_CARD zoomImage
+WINNER_SCENE win
+LOSE_SCENE lose
+FIRST_SCENE play
+GAMESCENE_15 game_15
+CUSTOM_SCHEME /CustomScheme/
+// possible value: --- OFF: Disable log in console --- INFO: Allows you to see game messages --- ERROR: Allows you to see error messages --- ALL: Allows you to see all messages
+
+LEVEL_LOG_VISIBLE INFO

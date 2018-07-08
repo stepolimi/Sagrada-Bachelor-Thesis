@@ -42,7 +42,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
@@ -50,12 +50,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 import static it.polimi.ingsw.client.constants.MessageConstants.CANCEL_USE_TOOL_CARD;
-import static it.polimi.ingsw.client.constants.MessageConstants.CHANGE_VALUE;
 import static it.polimi.ingsw.client.constants.MessageConstants.DRAFT_DICE;
 import static it.polimi.ingsw.client.constants.MessageConstants.END_TURN;
 import static it.polimi.ingsw.client.constants.MessageConstants.FLIP_DICE;
 import static it.polimi.ingsw.client.constants.MessageConstants.MOVE_DICE;
-import static it.polimi.ingsw.client.constants.MessageConstants.*;
 import static it.polimi.ingsw.client.constants.MessageConstants.PLACE_DICE;
 import static it.polimi.ingsw.client.constants.MessageConstants.PLACE_DICE_SPACE;
 import static it.polimi.ingsw.client.constants.MessageConstants.ROLL_DICE;
@@ -430,14 +428,11 @@ public class ControllerGUI implements View {
      */
     public void createGame() {
         Platform.runLater(() -> {
-
-            Media media = null;
+            String musicPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+            musicPath = musicPath.substring(0, musicPath.lastIndexOf("/"));
+            musicPath = musicPath + config.getParameter(MUSIC_PATH);
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-            try {
-               media = new Media(getClass().getResource(config.getParameter(MUSIC_PATH)).toURI().toString());
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-            }
+            Media media = new Media(Paths.get(musicPath).toUri().toString());
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setAutoPlay(true);
@@ -1022,42 +1017,10 @@ public class ControllerGUI implements View {
                 iconTool.setVisible(true);
             else iconTool.setVisible(false);
 
-            //setText(actions);
 
         });
     }
 
-    private void setText(List<String> actions){
-        textflow.setText("Azioni disponibili\n");
-        if(actions.contains(PICK_DICE))
-            textflow.setText(textflow.getText() + "Inserisci un dado\n");
-        if(actions.contains(USE_TOOL_CARD))
-            textflow.setText(textflow.getText() + "Usa una carta utensile\n");
-        if(actions.contains(ROLL_DICE_SPACE))
-            textflow.setText(textflow.getText() + "Tira i dadi della riserva\n");
-        if(actions.contains(ROLL_DICE))
-            textflow.setText(textflow.getText() + "Tira il dado\n");
-        if(actions.contains(MOVE_DICE))
-            textflow.setText(textflow.getText() + "Sposta un dado del tuo schema\n");
-        if(actions.contains(PLACE_DICE))
-            textflow.setText(textflow.getText() + "Inserisci il dado nel tuo schema\n");
-        if(actions.contains(PLACE_DICE_SPACE))
-            textflow.setText(textflow.getText() + "Inserisci il dado nella riserva\n");
-        if(actions.contains(CHANGE_VALUE))
-            textflow.setText(textflow.getText() + "Incrementa o decrementa il valore del dado di uno\n");
-        if(actions.contains(SWAP_DICE))
-            textflow.setText(textflow.getText() + "Seleziona il dado dal tracciato dei round con cui scambiare\n");
-        if(actions.contains(CANCEL_USE_TOOL_CARD))
-            textflow.setText(textflow.getText() + "Annula l'utilizzo della carta utensile\n");
-        if(actions.contains(FLIP_DICE))
-            textflow.setText(textflow.getText() + "Capovolgi il dado\n");
-        if(actions.contains(SWAP_DICE_BAG))
-            textflow.setText(textflow.getText() + "Estrai un nuovo dado\n");
-        if(actions.contains(DRAFT_DICE))
-            textflow.setText(textflow.getText() + "Seleziona un dado dalla riserva\n");
-        if(actions.contains(END_TURN))
-            textflow.setText(textflow.getText() + "Passa il turno");
-    }
 
     /**set Dice in DiceSpace
      * @param colours colors of every dice in diceSpace ordered
@@ -1254,11 +1217,13 @@ public class ControllerGUI implements View {
                 serverMessage.setText(GameMessage.EMPTY);
                 textflow.setText(GameMessage.USE_TOOL_7);
                 disableTool(false);
+
             } else {
                 textflow.setText(GameMessage.USE_TOOL_GENERIC);
                 serverMessage.setText(GameMessage.EMPTY);
-                nFavour.setText(" x" + favor);
             }
+            nFavour.setText(" x" + favor);
+
 
         });
 
@@ -1472,7 +1437,7 @@ public class ControllerGUI implements View {
      */
     public void placeDiceSpaceAccepted() {
         Platform.runLater(() -> {
-            textflow.setText(GameMessage.TOOL_NOT_USE);
+            textflow.setText(GameMessage.TOOL_USED);
             pendingDice.setImage(null);
             diceChanged = false;
             diceExtract.add(colorMoved);
@@ -2098,7 +2063,7 @@ public class ControllerGUI implements View {
      */
     @FXML
     public void cancelTool(MouseEvent event) {
-        textflow.setText("");
+        textflow.setText(GameMessage.TOOL_NOT_USE);
         connection.cancelUseToolCard();
     }
 

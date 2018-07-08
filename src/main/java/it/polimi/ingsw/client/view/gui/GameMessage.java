@@ -35,6 +35,8 @@ public class GameMessage {
     static final String TOOL_USED = "Hai usato la Carta Utensile!";
     static final String TOOL_NOT_USE = "Non hai usato la carta utensile!";
 
+
+
     //message AFTER use of Tool Card
     static final String DICE_SPACE_ROLLED = "Hai utilizzato la Carta Utensile! Ora puoi inserire un dado";
     static final String PLACE_DICE_CHOOSEN = "Hai cambiato correttamente il dado! Ora inseriscilo!";
