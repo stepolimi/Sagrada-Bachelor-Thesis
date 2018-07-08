@@ -991,7 +991,7 @@
                                           </AnchorPane>
                                        </children>
                                     </GridPane>
-                                    <ImageView fx:id="pendingDice" fitHeight="40.0" fitWidth="40.0" layoutX="437.0" layoutY="395.0" onMouseClicked="#RollDice" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="pendingDice" fitHeight="40.0" fitWidth="40.0" layoutX="437.0" layoutY="395.0" onMouseClicked="#rollDice" pickOnBounds="true" preserveRatio="true">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
