@@ -9,7 +9,28 @@ From a **Cranio Game:registered:**:
 For more information about original boarder game visit http://www.craniocreations.it/prodotto/sagrada/
 Or read [Game's Rule (ITA)](/Rules.pdf)
 
-//todo instruction to open jar file
+## Instruction Running 
+
+To runs Client or Server application follow this statement:
+
+- Browse in the terminal until your position is in *Deliverables* directory using:
+ ```
+ cd Directory
+ ...
+ cd sagrada_familia
+ cd Deliverables
+ ```
+
+- Then use the the following command to open Server or Client application:
+
+```
+java -jar Client.jar
+ ```
+ or 
+ ```
+java -jar Server.jar
+
+ ```
 
 ## Function implemeted on project
 
@@ -20,14 +41,14 @@ Or read [Game's Rule (ITA)](/Rules.pdf)
 - [x] **RMI**;  <img align="center" width="30" height="30" src = src/main/resources/assets/image/rmi.png> 
 - [x] **Socket**;  <img align="center" width="30" height="30" src = src/main/resources/assets/image/socket.png> 
 
-### View Interface: <img align="right" width="160" height="160" src = src/main/resources/assets/Screenshoot/Interface.png> 
+### View Interface:
 - [x] Graphic User Interface; (**GUI**)
 - [x] Command Line Interface; (**CLI**)
 
  You can choose one of them as soon as Application starts. 
 
-### Advanced functionality: <img align="right" width="150" height="150" src = src/main/resources/assets/Screenshoot/schemaEditor.png>
-<img align="right" width="150" height="150" src = src/main/resources/assets/Screenshoot/schema.png>
+### Advanced functionality: <img align="right" width="200" height="150" src = src/main/resources/assets/Screenshoot/schemaEditor.png>
+<img align="right" width="200" height="150" src = src/main/resources/assets/Screenshoot/schema.png>
 
 - [x] **Dynamic Schema Card**: application builds schema (where client plays) run-time. It was added also a Schema Editor, in which every player can, before playing, built his own schema with a simple drag and drop action. This editor should be used to import new Schema that Cranio could realeas with new version of Sagrada
 
