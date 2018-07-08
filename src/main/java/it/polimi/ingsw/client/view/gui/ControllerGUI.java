@@ -313,7 +313,7 @@ public class ControllerGUI implements View {
 
 
     /**Get Nickname put and makes login
-     * @param actionEvent controlls that nickname if is empty and has length > 8
+     * @param actionEvent controlls that nickname if is empty and has length longer then 8
      *                    nickname too long is not accepted)
      */
     @FXML
@@ -802,7 +802,7 @@ public class ControllerGUI implements View {
 
 
     /**
-     * @param event firs step of drag & drop use to insert dice from DiceSpace to own Schema
+     * @param event firs step of drag and drop use to insert dice from DiceSpace to own Schema
      *              in the drag step the image dragged it's placed in the DragBoard     */
     @FXML
     void handleDiceDrag(DragEvent event) {
@@ -813,7 +813,7 @@ public class ControllerGUI implements View {
 
 
     /**
-     * @param event second step of drag & drop use to insert dice from DiceSpace to own Schema
+     * @param event second step of drag and drop use to insert dice from DiceSpace to own Schema
      *              in the drop step client send x, y and index of DiceSpace to server and wait().
      *              After that if correctInsertion = true place the dice, else gives error
      */
