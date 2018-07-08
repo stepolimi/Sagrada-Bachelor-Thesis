@@ -24,6 +24,11 @@ public class ViewGUI extends Application {
         // this.hand = hand;
     }
 
+    /**
+     * it starts first scene of GUI
+     * @param primaryStage first scene of player
+     * @throws Exception
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
 
