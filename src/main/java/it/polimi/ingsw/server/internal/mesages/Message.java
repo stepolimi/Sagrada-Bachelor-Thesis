@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.internal.mesages;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Message {
     private final String head;
     private final List<String> stringArguments;

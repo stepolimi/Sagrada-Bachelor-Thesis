@@ -268,6 +268,10 @@ public class Connected {
         });
     }
 
+    /**
+     * Notify tht thre was an error while picking Dice from Schema
+     * @param nicknames List of Players to send message to
+     */
     public void pickDiceSchemaError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -276,6 +280,11 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that player can use ToolCard
+     * @param nicknames List of Players to send message to
+     * @param favors number of the new favour
+     */
     public void useToolCardAccepted(List<String> nicknames, int favors) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -284,6 +293,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that player can't use ToolCard
+     * @param nicknames List of Players to send message to
+     */
     public void useToolCardError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -292,6 +305,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that player has changed Dice value correctly
+     * @param nicknames List of Players to send message to
+     */
     public void changeValueAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -300,6 +317,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that player has changed Dice value wrongly
+     * @param nicknames List of Players to send message to
+     */
     public void changeValueError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -308,6 +329,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that one player has placed Dice on schema
+     * @param nicknames List of Players to send message to
+     */
     public void placeDiceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -316,6 +341,11 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that one player has flipped a Dice picked before
+     * @param nicknames List of Players to send message to
+     * @param value New value of Dice flipped
+     */
     public void rollDiceAccepted(List<String> nicknames, int value) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -324,6 +354,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that one player has flipped a Dice picked before
+     * @param nicknames List of Players to send message to
+     */
     public void swapDiceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -332,6 +366,12 @@ public class Connected {
         });
     }
 
+    /**
+     * it notify that one player has picked a Dice from a round in RoundTrack correctly
+     * @param nicknames List of Players to send message to
+     * @param nRound number of Round whre dice is picked
+     * @param nDice index of dice picked in round
+     */
     public void pickDiceRoundTrack(List<String> nicknames, int nRound, int nDice) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -340,6 +380,10 @@ public class Connected {
         });
     }
 
+    /**
+     * it notify that one player has picked a Dice from a round in RoundTrack wrongly
+     * @param nicknames List of Players to send message to
+     */
     public void pickDiceRoundTrackError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -348,6 +392,13 @@ public class Connected {
         });
     }
 
+    /**
+     * The method puts remaining dice from DiceSpace to Roundtrack current Round
+     * @param nicknames nicknames of player
+     * @param nRound round where dices are placed
+     * @param colours colors of dice placed
+     * @param values value of dices place on RoundTrack
+     */
     public void placeDiceRoundTrack(List<String> nicknames, int nRound, List<String> colours, List<Integer> values) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -356,6 +407,11 @@ public class Connected {
         });
     }
 
+    /**
+     * it notify that one player has flipped a Dice from DiceSpace wrongly
+     * @param nicknames List of Players to send message to
+     * @param value value of Dice flipped
+     */
     public void flipDiceAccepted(List<String> nicknames, int value) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -364,6 +420,11 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that ToolCard was not used
+     * @param nicknames List of Players to send message to
+     * @param favors
+     */
     public void cancelUseToolCardAccepted(List<String> nicknames, int favors) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -372,6 +433,12 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies to players the dice placed on DiceSpace
+     * @param nicknames List of Players to send message to
+     * @param colour color of dice
+     * @param value value of dice
+     */
     public void placeDiceSpace(List<String> nicknames, String colour, int value) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -380,6 +447,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that a Dice was placed correctly
+     * @param nicknames List of Players to send message to
+     */
     public void placeDiceSpaceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -388,6 +459,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies that player can roll the DiceSpace
+     * @param nicknames List of Players to send message to
+     */
     public void rollDiceSpaceAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -396,6 +471,12 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies correct SwapDiceBag Action
+     * @param nicknames List of Players to send message to
+     * @param colour color of dice
+     * @param value value of dice
+     */
     public void swapDiceBagAccepted(List<String> nicknames, String colour, int value) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -404,6 +485,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies correct ChooseValue Action
+     * @param nicknames List of Players to send message to
+     */
     public void chooseValueAccepted(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -412,6 +497,10 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies wrong ChooseValue Action
+     * @param nicknames List of Players to send message to
+     */
     public void chooseValueError(List<String> nicknames) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -420,6 +509,11 @@ public class Connected {
         });
     }
 
+    /**
+     * It notifies the winner of the match
+     * @param nicknames List of Players to send message to
+     * @param nickname name of player who win
+     */
     public void setWinner(List<String> nicknames, String nickname) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -428,6 +522,12 @@ public class Connected {
         });
     }
 
+    /**
+     * It send score of every player sorted
+     * @param nicknames List of Players to send message to
+     * @param players List of player sorted by score
+     * @param scores List of every @Players.get(i)
+     */
     public void setRankings(List<String> nicknames, List<String> players, List<Integer> scores) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -436,6 +536,12 @@ public class Connected {
         });
     }
 
+    /**
+     * It send every schema of every player when someone is reconnecting
+     * @param nicknames List of Players to send message to
+     * @param players List of Players who'splaying
+     * @param schemas List of Schemas of every player
+     */
     public void setSchemasOnReconnect(List<String> nicknames, List<String> players, List<String> schemas) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -444,6 +550,11 @@ public class Connected {
         });
     }
 
+    /**
+     * The method set ObjectiveCards on a Player when is reconnected
+     * @param nicknames List of Players to send message to
+     * @param schemas publicObjective of the current game
+     */
     public void setPublicObjectivesOnReconnect(List<String> nicknames, List<String> schemas) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -452,6 +563,11 @@ public class Connected {
         });
     }
 
+    /**
+     * The method set ToolCards on a Player when is reconnected
+     * @param nicknames List of Players to send message to
+     * @param toolCards Tools extracted
+     */
     public void setToolCardsOnReconnect(List<String> nicknames, List<Integer> toolCards) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -460,6 +576,12 @@ public class Connected {
         });
     }
 
+    /**
+     * The method puts dice in DiceSpace of player when is reconnected
+     * @param nicknames nicknames of players
+     * @param colours colours of dice in DiceSpace
+     * @param values  values of Dice in DiceSpace
+     */
     public void setDiceSpaceOnReconnect(List<String> nicknames, List<String> colours, List<Integer> values) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
@@ -468,6 +590,13 @@ public class Connected {
         });
     }
 
+    /**
+     * The method puts remaining dice from DiceSpace to Roundtrack current Round
+     * @param nicknames nicknames of player
+     * @param nRound round where dices are placed
+     * @param colours colors of dice placed
+     * @param values value of dices place on RoundTrack
+     */
     public void placeDiceRoundTrackOnReconnect(List<String> nicknames, int nRound, List<String> colours, List<Integer> values) {
         nicknames.forEach(name -> {
             Connection connection = users.get(name);
