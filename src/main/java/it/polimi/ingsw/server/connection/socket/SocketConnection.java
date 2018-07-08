@@ -316,6 +316,24 @@ public class SocketConnection implements Runnable,Connection {
         out.flush();
     }
 
+    /**
+     * notifies the client that the specified tool card has been used
+     * @param toolCard is the tool card that has been used
+     */
+    public void usedToolCard(int toolCard) {
+        out.println(USED_TOOL_CARD+"-"+toolCard);
+        out.flush();
+    }
+
+    /**
+     * notifies the client that the specified tool card has not been used
+     * @param toolCard is the tool card that has not been used.
+     */
+    public void notUsedToolCard(int toolCard) {
+        out.println(NOT_USED_TOOL_CARD+"-"+toolCard);
+        out.flush();
+    }
+
     public void useToolCardError() {
         out.println(USE_TOOL_CARD_ERROR);
         out.flush();

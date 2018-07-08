@@ -1214,6 +1214,18 @@ public class ViewCLI implements View {
     }
 
     /**
+     * notifies that the specified tool card has been used
+     * @param toolCard the tool card that has been used
+     */
+    public void usedToolCard(int toolCard) { /*not used by cli*/}
+
+    /**
+     * notifies that the specified tool card has not been used
+     * @param toolCard the tool card that has not been used
+     */
+    public void notUsedToolCard(int toolCard) { /*not used by cli*/}
+
+    /**
      * rejects the use of the toolcard
      */
     public void useToolCardError() {

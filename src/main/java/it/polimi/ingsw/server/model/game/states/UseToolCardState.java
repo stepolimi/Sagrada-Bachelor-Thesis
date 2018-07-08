@@ -31,13 +31,15 @@ public class UseToolCardState extends State {
                     round.getCurrentPlayer().decrementFavor(2);
                     round.setFavorsDecremented(2);
                     round.setCardWasUsed(true);
+                    round.setUsingTool(card);
                 } else {
                     round.getCurrentPlayer().decrementFavor(1);
                     round.setFavorsDecremented(1);
                     round.setCardWasUsed(false);
                     card.setUsed(true);
+                    round.setUsingTool(card);
+                    round.notifyChanges(USED_TOOL_CARD);
                 }
-                round.setUsingTool(card);
                 round.setNextActions(card.getNextActions());
                 round.setUsedCard(true);
                 round.notifyChanges(USE_TOOL_CARD_ACCEPTED);
@@ -52,6 +54,7 @@ public class UseToolCardState extends State {
                     round.setUsingTool(card);
                     round.setNextActions(card.getNextActions());
                     round.setUsedCard(true);
+                    round.notifyChanges(USED_TOOL_CARD);
                     round.notifyChanges(USE_TOOL_CARD_ACCEPTED);
                 }
             } else {

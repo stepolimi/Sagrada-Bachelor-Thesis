@@ -67,6 +67,10 @@ public interface View {
 
     void useToolCardAccepted(int favor);
 
+    void usedToolCard(int toolCard);
+
+    void notUsedToolCard(int toolCard);
+
     void useToolCardError();
 
     void changeValueAccepted();

@@ -449,6 +449,32 @@ public class Connected {
     }
 
     /**
+     * notifies the specified clients that the specified tool card has been used
+     * @param nicknames are the clients that will be notified to
+     * @param toolCard is the tool card that has been used
+     */
+    public void usedToolCard(List<String> nicknames, int toolCard) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.usedToolCard(toolCard);
+        });
+    }
+
+    /**
+     * notifies the specified clients that the specified tool card has not been used
+     * @param nicknames are the clients that will be notified to
+     * @param toolCard is the tool card that has not been used
+     */
+    public void notUsedToolCard(List<String> nicknames, int toolCard) {
+        nicknames.forEach(name -> {
+            Connection connection = users.get(name);
+            if (connection != null)
+                connection.notUsedToolCard(toolCard);
+        });
+    }
+
+    /**
      * It notifies that player can't use ToolCard
      * @param nicknames List of Players to send message to
      */

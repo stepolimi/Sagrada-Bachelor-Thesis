@@ -63,6 +63,10 @@ public interface Connection {
 
     void useToolCardAccepted(int favors);
 
+    void usedToolCard(int toolCard);
+
+    void notUsedToolCard(int toolCard);
+
     void useToolCardError();
 
     void changeValueAccepted();

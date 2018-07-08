@@ -391,6 +391,30 @@ public class RmiServerConnection implements Connection {
     }
 
     /**
+     * notifies the client that the specified tool card has been used
+     * @param toolCard is the tool card that has been used
+     */
+    public void usedToolCard(int toolCard) {
+        try {
+            client.usedToolCard(toolCard);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(name);
+        }
+    }
+
+    /**
+     * notifies the client that the specified tool card has not been used
+     * @param toolCard is the tool card that has not been used.
+     */
+    public void notUsedToolCard(int toolCard) {
+        try {
+            client.notUsedToolCard(toolCard);
+        } catch (RemoteException e) {
+            serverMethod.disconnected(name);
+        }
+    }
+
+    /**
      * rejects the use of the toolcard
      */
     public void useToolCardError() {

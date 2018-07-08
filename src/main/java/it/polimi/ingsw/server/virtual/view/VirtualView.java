@@ -278,6 +278,12 @@ public class VirtualView extends Observable implements Observer {
             case USE_TOOL_CARD_ACCEPTED:
                 connection.useToolCardAccepted(message.getPlayers(),message.getIntegerArgument(0));
                 break;
+            case USED_TOOL_CARD:
+                connection.usedToolCard(message.getPlayers(), message.getIntegerArgument(0));
+                break;
+            case NOT_USED_TOOL_CARD:
+                connection.notUsedToolCard(message.getPlayers(), message.getIntegerArgument(0));
+                break;
             case USE_TOOL_CARD_ERROR:
                 connection.useToolCardError(message.getPlayers());
                 break;

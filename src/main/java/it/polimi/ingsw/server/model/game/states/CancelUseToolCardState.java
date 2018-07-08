@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.internal.mesages.Message;
 
 import static it.polimi.ingsw.server.costants.Constants.CANCEL_USE_TOOL_CARD_STATE;
 import static it.polimi.ingsw.server.costants.MessageConstants.CANCEL_USE_TOOL_CARD_ACCEPTED;
+import static it.polimi.ingsw.server.costants.MessageConstants.NOT_USED_TOOL_CARD;
 
 public class CancelUseToolCardState extends State {
     /**
@@ -14,6 +15,8 @@ public class CancelUseToolCardState extends State {
     public void execute(Round round, Message message) {
         round.getNextActions().clear();
         round.getCurrentPlayer().incrementFavor(round.getFavorsDecremented());
+        if(! round.getCardWasUsed())
+            round.notifyChanges(NOT_USED_TOOL_CARD);
         round.getUsingTool().setUsed(round.getCardWasUsed());
         round.setUsedCard(false);
         round.notifyChanges(CANCEL_USE_TOOL_CARD_ACCEPTED);
