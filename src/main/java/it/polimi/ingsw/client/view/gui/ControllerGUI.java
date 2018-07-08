@@ -27,6 +27,8 @@ import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -40,6 +42,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
@@ -83,6 +86,7 @@ public class ControllerGUI implements View {
     private Connection connection;
     private Handler hand;
     private TakeDataFile config;
+    private MediaPlayer mediaPlayer;
 
     private String schemaChoosen;
     private Integer roundNumber;
@@ -201,6 +205,8 @@ public class ControllerGUI implements View {
     private GridPane score;
     @FXML
     private Text timer;
+    @FXML
+    private ImageView mute;
     private boolean moveCorrect;
 
     /**
@@ -425,9 +431,18 @@ public class ControllerGUI implements View {
     public void createGame() {
         Platform.runLater(() -> {
 
+            Media media = null;
             GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
 
+            try {
+               media = new Media(getClass().getResource("/MUSIC/Insane.mp3").toURI().toString());
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+
+            mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setAutoPlay(true);
             int width = gd.getDisplayMode().getWidth();
             int height = gd.getDisplayMode().getHeight();
             if (width > 1500 && height > 1000)
@@ -2267,6 +2282,25 @@ public class ControllerGUI implements View {
             Stage stage = (Stage) imageZoomed.getScene().getWindow();
             stage.close();
         });
+    }
+
+    @FXML
+    void play_stop_Music(MouseEvent event) {
+        Platform.runLater(() -> {
+            ImageView imageView = (ImageView) event.getTarget();
+            if (imageView.getId().equals("0")) {
+                mediaPlayer.play();
+                imageView.setId("1");
+                mute.setVisible(false);
+            } else {
+                mediaPlayer.pause();
+                imageView.setId("0");
+                mute.setVisible(true);
+
+            }
+        });
+
+
     }
 
 

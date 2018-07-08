@@ -418,7 +418,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="589.0" layoutY="70.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="endTurn" fitHeight="161.0" fitWidth="170.0" layoutX="589.0" layoutY="77.0" onMouseClicked="#nextPlayer" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/icon%20copia.png" />
                                  </image>
@@ -1027,9 +1027,25 @@
                                     <Font size="21.0" />
                                  </font>
                               </Text>
-                              <ImageView fitHeight="66.0" fitWidth="54.0" layoutX="645.0" layoutY="11.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#exitAction" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="66.0" fitWidth="54.0" layoutX="651.0" layoutY="11.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#exitAction" onMouseEntered="#shineEffect" onMouseExited="#canceShine" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../assets/image/exitButton.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView id="1" fitHeight="48.0" fitWidth="54.0" layoutX="603.0" layoutY="14.0" onMouseClicked="#play_stop_Music" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../assets/image/music.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                              <ImageView fx:id="mute" fitHeight="64.0" fitWidth="45.0" layoutX="605.0" layoutY="16.0" onMouseClicked="#play_stop_Music" pickOnBounds="true" preserveRatio="true" visible="false">
+                                 <image>
+                                    <Image url="@../assets/image/mute.png" />
                                  </image>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
