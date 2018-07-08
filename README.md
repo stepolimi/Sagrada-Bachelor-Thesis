@@ -11,7 +11,7 @@ Or read [Game's Rule (ITA)](/Rules.pdf)
 
 ## Instruction for Running jar 
 
-To runs Client or Server application follow this statement:
+To run Client or Server application follow this statement:
 
 - Browse in the terminal until your position is in *Deliverables* directory using:
  ```
