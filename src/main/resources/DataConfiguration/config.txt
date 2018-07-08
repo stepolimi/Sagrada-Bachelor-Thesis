@@ -29,6 +29,7 @@ PATH_START_GAME_IMAGE /data/CliImage/startGame.txt
 PATH_ROUND_GAME_IMAGE /data/CliImage/Round
 //path resource
 ICON_GAME /assets/image/icon.png
+USED_TOOL /assets/image/used.png
 FONT /fonts/EA.ttf
 SCHEMI /assets/image/Schemi/
 PRIVATE_OBJ_PATH /assets/image/Cards/PrivateObj/
