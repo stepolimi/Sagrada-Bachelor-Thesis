@@ -58,6 +58,6 @@ java -jar Server.jar
 
 ### Other functionality:
 
-- use of Lamda Expression of Java 8 (Functional)
+- use of Lambda Expression of Java 8 (Functional)
 
 
