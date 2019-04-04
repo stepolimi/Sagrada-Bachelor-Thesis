@@ -36,7 +36,7 @@ java -jar Server.jar
 
 ## Function implemeted on project
 
-### Rules      <img align="right" width="100" height="100" src = src/main/resources/assets/Screenshoot/tool-cards.png>
+### Rules      <img align="right" width="200" height="200" src = src/main/resources/assets/Screenshoot/tool-cards.png>
 - [x] Complete Rules: We've implemented all 12 ToolCard. 
 
 ### Networking:  
